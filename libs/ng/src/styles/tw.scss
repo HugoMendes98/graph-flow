@@ -1,0 +1,21 @@
+// This is highly inspired by tailwind
+
+@mixin base {
+	.flex {
+		display: flex;
+	}
+
+	.flex-1 {
+		flex: 1;
+	}
+
+	.flex-col {
+		flex-direction: column;
+	}
+
+	.flex-row {
+		flex-direction: row;
+	}
+}
+
+// TODO: a folder with files with each a "category" (e.g.: positions, spacing, ...)

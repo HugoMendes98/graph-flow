@@ -1,0 +1,46 @@
+{
+	"extends": ["../../.eslintrc.json"],
+	"overrides": [
+		{
+			"files": ["*.spec.ts", "*.test.ts"],
+			"parserOptions": {
+				"project": "./libs/common/tsconfig.spec.json",
+				"sourceType": "module"
+			}
+		},
+		{
+			"files": ["*.ts"],
+			"rules": {
+				"@typescript-eslint/no-restricted-imports": [
+					"warn",
+					{
+						"patterns": [
+							{
+								"allowTypeImports": true,
+								"group": ["@angular/*", "@nestjs/*", "!@nestjs/mapped-types"],
+								"message": "Avoid import `backend` or `frontend` package."
+							}
+						]
+					}
+				]
+			}
+		}
+	],
+	"rules": {
+		"no-restricted-imports": [
+			"error",
+			{
+				"patterns": [
+					{
+						"group": ["*.spec"],
+						"message": "Test files must not be imported in other files (at least not app code)."
+					},
+					{
+						"group": ["~/app/ng/*"],
+						"message": "Do not import 'ng' lib into 'lib'."
+					}
+				]
+			}
+		]
+	}
+}

@@ -1,0 +1,75 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"name": "backend",
+	"projectType": "application",
+	"sourceRoot": "apps/backend/src",
+	"tags": [],
+	"targets": {
+		"build": {
+			"configurations": {
+				"production": {
+					"extractLicenses": true,
+					"inspect": false,
+					"optimization": true
+				}
+			},
+			"executor": "@nx/webpack:webpack",
+			"options": {
+				"assets": [],
+				"babelUpwardRootMode": true,
+				"compiler": "tsc",
+				"main": "apps/backend/src/main.ts",
+				"outputPath": "dist/apps/backend",
+				"target": "node",
+				"tsConfig": "apps/backend/tsconfig.app.json",
+				"tsPlugins": [
+					{
+						"name": "@nestjs/swagger/plugin",
+						"options": {
+							"classValidatorShim": true,
+							"controllerFileNameSuffix": [".controller.ts"],
+							"controllerKeyOfComment": "description",
+							"dtoFileNameSuffix": [".entity.ts", ".dto.ts"],
+							"dtoKeyOfComment": "description",
+							"introspectComments": true
+						}
+					}
+				],
+				"webpackConfig": "apps/backend/webpack.config.ts"
+			},
+			"outputs": ["{options.outputPath}"]
+		},
+		"lint": {
+			"executor": "@nx/linter:eslint",
+			"options": {
+				"lintFilePatterns": ["apps/backend/**/*.{ts,js,md,json,yml}"]
+			},
+			"outputs": ["{options.outputFile}"]
+		},
+		"serve": {
+			"configurations": {
+				"production": {
+					"buildTarget": "backend:build:production"
+				}
+			},
+			"executor": "@nx/js:node",
+			"options": {
+				"buildTarget": "backend:build"
+			}
+		},
+		"test": {
+			"configurations": {
+				"ci": {
+					"ci": true,
+					"codeCoverage": true
+				}
+			},
+			"executor": "@nx/jest:jest",
+			"options": {
+				"jestConfig": "apps/backend/jest.config.ts",
+				"passWithNoTests": true
+			},
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
+		}
+	}
+}

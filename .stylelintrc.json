@@ -1,0 +1,44 @@
+{
+	"extends": ["stylelint-config-standard", "stylelint-config-standard-scss"],
+	"plugins": ["stylelint-prettier", "stylelint-order"],
+	"rules": {
+		"color-function-notation": null,
+		"declaration-empty-line-before": null,
+		"no-empty-source": null,
+		"order/properties-order": [
+			[
+				{
+					"emptyLineBefore": "always",
+					"groupName": "dimensions",
+					"noEmptyLineBetween": true,
+					"properties": ["height", "width"]
+				},
+				{
+					"emptyLineBefore": "always",
+					"groupName": "position",
+					"noEmptyLineBetween": true,
+					"properties": ["bottom", "left", "right", "top"]
+				}
+			],
+			{
+				"emptyLineBeforeUnspecified": "always",
+				"unspecified": "bottomAlphabetical"
+			}
+		],
+		"prettier/prettier": true,
+		"property-no-unknown": true,
+		"scss/at-mixin-argumentless-call-parentheses": null,
+		"selector-pseudo-element-no-unknown": [
+			true,
+			{
+				"ignorePseudoElements": ["ng-deep"]
+			}
+		],
+		"value-keyword-case": [
+			"lower",
+			{
+				"ignoreFunctions": ["mat.define-palette"]
+			}
+		]
+	}
+}

@@ -1,0 +1,30 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"baseUrl": ".",
+		"declaration": false,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"lib": ["es2022", "dom"],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitAny": false,
+		"noImplicitOverride": true,
+		"paths": {
+			"@nna/plugin": ["libs/plugin/src/*"],
+			"~/app/common/*": ["libs/common/src/*"],
+			"~/app/ng/*": ["libs/ng/src/*"]
+		},
+		"removeComments": true,
+		"resolveJsonModule": true,
+		"rootDir": ".",
+		"skipDefaultLibCheck": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		"target": "es2022"
+	},
+	"exclude": ["dist", "node_modules", "tmp"]
+}

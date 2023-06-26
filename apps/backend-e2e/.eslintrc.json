@@ -1,0 +1,22 @@
+{
+	"extends": ["../../.eslintrc.json"],
+	"overrides": [
+		{
+			"files": ["*.ts"],
+			"parserOptions": {
+				"project": "./apps/backend-e2e/tsconfig.spec.json",
+				"sourceType": "module"
+			},
+			"rules": {
+				"etc/no-implicit-any-catch": "off"
+			}
+		},
+		{
+			"files": ["./src/support/global/setup.ts", "./src/support/global/teardown.ts"],
+			"rules": {
+				"import/no-default-export": "off",
+				"jsdoc/require-jsdoc": "off"
+			}
+		}
+	]
+}

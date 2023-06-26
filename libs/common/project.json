@@ -1,0 +1,30 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"name": "common",
+	"projectType": "library",
+	"sourceRoot": "libs/common/src",
+	"tags": [],
+	"targets": {
+		"lint": {
+			"executor": "@nx/linter:eslint",
+			"options": {
+				"lintFilePatterns": ["libs/common/**/*.{ts,js,md,json,yml}"]
+			},
+			"outputs": ["{options.outputFile}"]
+		},
+		"test": {
+			"configurations": {
+				"ci": {
+					"ci": true,
+					"codeCoverage": true
+				}
+			},
+			"executor": "@nx/jest:jest",
+			"options": {
+				"jestConfig": "libs/common/jest.config.ts",
+				"passWithNoTests": true
+			},
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
+		}
+	}
+}

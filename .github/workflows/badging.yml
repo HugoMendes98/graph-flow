@@ -1,0 +1,80 @@
+name: Badging
+
+# Only run when the a PR is merged to master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  badging:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Test coverage
+        run: npm run test -- --ci --code-coverage
+
+      - name: Generating `common` lib coverage badges
+        uses: jpb06/jest-badges-action@latest
+        with:
+          branches: ci-status
+          coverage-summary-path: ./coverage/libs/common/coverage-summary.json
+          no-commit: true
+          output-folder: ./.badges/libs/common
+      - name: Generating `ng` lib coverage badges
+        uses: jpb06/jest-badges-action@latest
+        with:
+          branches: ci-status
+          coverage-summary-path: ./coverage/libs/ng/coverage-summary.json
+          no-commit: true
+          output-folder: ./.badges/libs/ng
+
+      - name: Generating `backend` app coverage badges
+        uses: jpb06/jest-badges-action@latest
+        with:
+          branches: ci-status
+          coverage-summary-path: ./coverage/apps/backend/coverage-summary.json
+          no-commit: true
+          output-folder: ./.badges/apps/backend
+      - name: Generating `frontend` app coverage badges
+        uses: jpb06/jest-badges-action@latest
+        with:
+          branches: ci-status
+          coverage-summary-path: ./coverage/apps/frontend/coverage-summary.json
+          no-commit: true
+          output-folder: ./.badges/apps/frontend
+      - name: Generating `office` app coverage badges
+        uses: jpb06/jest-badges-action@latest
+        with:
+          branches: ci-status
+          coverage-summary-path: ./coverage/apps/office/coverage-summary.json
+          no-commit: true
+          output-folder: ./.badges/apps/office
+
+      - name: Generating `backend` app comment coverage badges
+        run: npm run backend:compodoc:build && cp dist/documenation/backend/images/coverage-badge-documentation.svg .badges/apps/backend/
+      - name: Generating `frontend` app comment coverage badges
+        run: npm run frontend:compodoc:build && cp dist/documenation/frontend/images/coverage-badge-documentation.svg .badges/apps/frontend/
+      - name: Generating `office` app comment coverage badges
+        run: npm run office:compodoc:build && cp dist/documenation/office/images/coverage-badge-documentation.svg .badges/apps/office/
+
+      - name: Commit and push coverage badges
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: ./.badges
+          default_author: github_actions
+          message: "[GITHUB ACTION] Coverage badges generated"

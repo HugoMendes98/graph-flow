@@ -1,0 +1,166 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"name": "frontend",
+	"prefix": "app",
+	"projectType": "application",
+	"sourceRoot": "apps/frontend/src",
+	"tags": ["frontend"],
+	"targets": {
+		"build": {
+			"configurations": {
+				"development": {
+					"buildOptimizer": false,
+					"extractLicenses": false,
+					"fileReplacements": [
+						{
+							"replace": "apps/frontend/src/app/router/app-router.module.ts",
+							"with": "apps/frontend/src/app/router/app-router.module.dev.ts"
+						}
+					],
+					"namedChunks": true,
+					"optimization": false,
+					"sourceMap": true,
+					"vendorChunk": true
+				},
+				"production": {
+					"budgets": [
+						{
+							"maximumError": "1mb",
+							"maximumWarning": "500kb",
+							"type": "initial"
+						},
+						{
+							"maximumError": "4kb",
+							"maximumWarning": "2kb",
+							"type": "anyComponentStyle"
+						}
+					],
+					"outputHashing": "all"
+				},
+				"test-e2e": {
+					"buildOptimizer": false,
+					"extractLicenses": false,
+					"fileReplacements": [
+						{
+							"replace": "libs/ng/src/environments/environment.ts",
+							"with": "libs/ng/src/environments/environment.e2e.ts"
+						}
+					],
+					"namedChunks": true,
+					"optimization": false,
+					"sourceMap": true,
+					"vendorChunk": true
+				}
+			},
+			"defaultConfiguration": "production",
+			"executor": "@angular-devkit/build-angular:browser",
+			"options": {
+				"assets": ["apps/frontend/src/favicon.ico", "apps/frontend/src/assets"],
+				"index": "apps/frontend/src/index.html",
+				"inlineStyleLanguage": "scss",
+				"main": "apps/frontend/src/main.ts",
+				"outputPath": "dist/apps/frontend",
+				"polyfills": ["zone.js"],
+				"scripts": [],
+				"styles": ["apps/frontend/src/styles.scss"],
+				"tsConfig": "apps/frontend/tsconfig.app.json"
+			},
+			"outputs": ["{options.outputPath}"]
+		},
+		"lint": {
+			"executor": "@nx/linter:eslint",
+			"options": {
+				"lintFilePatterns": ["apps/frontend/**/*.{ts,js,html,md,json,yml}"]
+			},
+			"outputs": ["{options.outputFile}"]
+		},
+		"serve": {
+			"configurations": {
+				"development": {
+					"browserTarget": "frontend:build:development",
+					"port": 4200
+				},
+				"production": {
+					"browserTarget": "frontend:build:production",
+					"port": 4200
+				},
+				"test-e2e": {
+					"browserTarget": "frontend:build:test-e2e",
+					"port": 32380
+				}
+			},
+			"defaultConfiguration": "development",
+			"executor": "@angular-devkit/build-angular:dev-server",
+			"options": {
+				"proxyConfig": "apps/frontend/proxy.conf.json"
+			}
+		},
+		"storybook": {
+			"configurations": {
+				"ci": {
+					"quiet": true
+				}
+			},
+			"executor": "@storybook/angular:start-storybook",
+			"options": {
+				"browserTarget": "frontend:build",
+				"compodoc": true,
+				"compodocArgs": [
+					"-e",
+					"json",
+					"-p",
+					"apps/frontend/tsconfig.doc.json",
+					"-d",
+					"apps/frontend/.storybook"
+				],
+				"configDir": "apps/frontend/.storybook",
+				"port": 4040
+			}
+		},
+		"storybook-build": {
+			"configurations": {
+				"ci": {
+					"quiet": true
+				}
+			},
+			"executor": "@storybook/angular:build-storybook",
+			"options": {
+				"browserTarget": "frontend:build",
+				"compodoc": true,
+				"compodocArgs": [
+					"-e",
+					"json",
+					"-p",
+					"apps/frontend/tsconfig.doc.json",
+					"-d",
+					"apps/frontend/.storybook"
+				],
+				"configDir": "apps/frontend/.storybook",
+				"outputDir": "dist/storybook/frontend"
+			},
+			"outputs": ["{options.outputDir}"]
+		},
+		"stylelint": {
+			"executor": "nx-stylelint:lint",
+			"options": {
+				"formatter": "string",
+				"lintFilePatterns": ["apps/frontend/**/*.{css,scss}"]
+			},
+			"outputs": ["{options.outputFile}"]
+		},
+		"test": {
+			"configurations": {
+				"ci": {
+					"ci": true,
+					"codeCoverage": true
+				}
+			},
+			"executor": "@nx/jest:jest",
+			"options": {
+				"jestConfig": "apps/frontend/jest.config.ts",
+				"passWithNoTests": true
+			},
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
+		}
+	}
+}

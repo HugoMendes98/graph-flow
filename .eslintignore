@@ -1,0 +1,25 @@
+coverage/
+dist/
+node_modules/
+package-lock.json
+
+# Do not ignore the rule configuration files
+!.*rc.json
+
+!.github/
+!.github/workflows/ci.yml
+
+!.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# auto-generated folder
+.badges/
+
+# As said here: https://eslint.org/docs/latest/use/configure/ignore#the-eslintignore-file
+# "eslintignore files other than the one in the current working directory are not used."
+!apps/*/.storybook/
+apps/*/.storybook/documentation.json

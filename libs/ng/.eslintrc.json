@@ -1,0 +1,94 @@
+{
+	"extends": ["../../.eslintrc.json"],
+	"overrides": [
+		{
+			"extends": [
+				"plugin:@nx/angular",
+				"plugin:@angular-eslint/recommended",
+				"plugin:@angular-eslint/template/process-inline-templates"
+			],
+			"files": ["*.ts"],
+			"parserOptions": {
+				"project": "./libs/ng/tsconfig.lint.json",
+				"sourceType": "module"
+			},
+			"rules": {
+				"@angular-eslint/component-class-suffix": [
+					"error",
+					{
+						"suffixes": ["Component", "View"]
+					}
+				],
+				"@angular-eslint/component-selector": [
+					"error",
+					{
+						"prefix": "ui",
+						"style": "kebab-case",
+						"type": "element"
+					}
+				],
+				"@angular-eslint/directive-selector": [
+					"error",
+					{
+						"prefix": "ui",
+						"style": "camelCase",
+						"type": "attribute"
+					}
+				],
+				"@angular-eslint/no-attribute-decorator": "error",
+				"@angular-eslint/no-conflicting-lifecycle": "error",
+				"@angular-eslint/no-empty-lifecycle-method": "error",
+				"@angular-eslint/no-input-prefix": "error",
+				"@angular-eslint/no-input-rename": "error",
+				"@angular-eslint/no-pipe-impure": "error",
+				"@angular-eslint/prefer-output-readonly": "error",
+				"@angular-eslint/relative-url-prefix": "error",
+				"@angular-eslint/sort-ngmodule-metadata-arrays": "error",
+				"@angular-eslint/use-component-selector": "error",
+				"@angular-eslint/use-lifecycle-interface": "error",
+				"@angular-eslint/use-pipe-transform-interface": "error"
+			}
+		},
+		{
+			"files": ["*.view.ts"],
+			"rules": {
+				"@angular-eslint/use-component-selector": "off"
+			}
+		},
+		{
+			"extends": [
+				"plugin:@nx/angular-template",
+				"plugin:@angular-eslint/template/accessibility",
+				"plugin:@angular-eslint/template/recommended"
+			],
+			"files": ["*.html"],
+			"plugins": ["prettier"],
+			"rules": {
+				"@angular-eslint/template/attributes-order": [
+					"warn",
+					{
+						"alphabetical": true
+					}
+				],
+				"@angular-eslint/template/button-has-type": "error",
+				"@angular-eslint/template/eqeqeq": "error",
+				"@angular-eslint/template/no-autofocus": "error",
+				"@angular-eslint/template/no-distracting-elements": "error",
+				"@angular-eslint/template/no-interpolation-in-attributes": "error",
+				"prettier/prettier": [
+					"error",
+					{
+						"parser": "angular"
+					}
+				],
+				"spaced-comment": "off"
+			}
+		},
+		{
+			"files": ["*.stories.ts"],
+			"rules": {
+				"import/no-default-export": "off"
+			}
+		}
+	]
+}

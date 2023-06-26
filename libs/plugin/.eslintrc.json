@@ -1,0 +1,18 @@
+{
+	"extends": ["../../.eslintrc.json"],
+	"overrides": [
+		{
+			"files": ["./package.json", "./generators.json", "./executors.json"],
+			"parser": "jsonc-eslint-parser",
+			"rules": {
+				"@nx/nx-plugin-checks": "error"
+			}
+		},
+		{
+			"files": ["generator.ts"],
+			"rules": {
+				"import/no-default-export": "off"
+			}
+		}
+	]
+}

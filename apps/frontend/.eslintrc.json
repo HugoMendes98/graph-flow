@@ -1,0 +1,54 @@
+{
+	"extends": ["../../libs/ng/.eslintrc.json"],
+	"overrides": [
+		{
+			"files": ["*.ts"],
+			"parserOptions": {
+				"project": [
+					"./apps/frontend/tsconfig.lint.json",
+					"./apps/frontend/.storybook/tsconfig.json"
+				],
+				"sourceType": "module"
+			},
+			"rules": {
+				"@angular-eslint/component-selector": [
+					"error",
+					{
+						"prefix": "app",
+						"style": "kebab-case",
+						"type": "element"
+					}
+				],
+				"@angular-eslint/directive-selector": [
+					"error",
+					{
+						"prefix": "app",
+						"style": "camelCase",
+						"type": "attribute"
+					}
+				]
+			}
+		},
+		{
+			"files": ["src/dev/**/*.ts"],
+			"rules": {
+				"@angular-eslint/component-selector": [
+					"error",
+					{
+						"prefix": "app-dev",
+						"style": "kebab-case",
+						"type": "element"
+					}
+				],
+				"@angular-eslint/directive-selector": [
+					"error",
+					{
+						"prefix": "appDev",
+						"style": "camelCase",
+						"type": "attribute"
+					}
+				]
+			}
+		}
+	]
+}

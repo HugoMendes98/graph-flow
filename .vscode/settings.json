@@ -1,0 +1,17 @@
+{
+	"editor.codeActionsOnSave": {
+		"source.fixAll": true
+	},
+	"emeraldwalk.runonsave": {
+		"commands": [
+			{
+				"cmd": "npx eslint --fix ${file}",
+				"match": ".*\\.[ts|js|json|md|html|yml|sql]"
+			},
+			{
+				"cmd": "npx stylelint --fix ${file}",
+				"match": ".*\\.[css|scss]"
+			}
+		]
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"extends": ["../../.eslintrc.json"],
+	"overrides": [
+		{
+			"files": ["*.sql"],
+			"parser": "yaml-eslint-parser",
+			"rules": {
+				/* Only prettier*/
+			}
+		},
+		{
+			"files": ["*.ts"],
+			"parserOptions": {
+				"project": "./apps/backend/tsconfig.lint.json",
+				"sourceType": "module"
+			}
+		},
+		{
+			"files": ["./test/support/global/setup.ts", "./test/support/global/teardown.ts"],
+			"rules": {
+				"import/no-default-export": "off",
+				"jsdoc/require-jsdoc": "off"
+			}
+		}
+	]
+}

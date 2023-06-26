@@ -1,0 +1,12 @@
+{
+	"$schema": "http://json-schema.org/schema",
+	"generators": {
+		"view": {
+			"description": "view generator",
+			"factory": "./src/generators/view/generator",
+			"schema": "./src/generators/view/schema.json"
+		}
+	},
+	"name": "plugins",
+	"version": "0.0.1"
+}

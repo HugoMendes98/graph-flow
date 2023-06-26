@@ -1,0 +1,12 @@
+{
+	"extends": ["plugin:cypress/recommended", "../../.eslintrc.json"],
+	"overrides": [
+		{
+			"files": ["*.ts"],
+			"parserOptions": {
+				"project": "./apps/frontend-e2e/tsconfig.json",
+				"sourceType": "module"
+			}
+		}
+	]
+}

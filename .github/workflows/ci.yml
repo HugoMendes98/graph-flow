@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+      - master
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Tests
+        run: npm run test -- --ci --code-coverage
+
+      - name: Tests e2e
+        run: npm run test:e2e -- --no-video
+
+      # TODO: set in Nx
+      - name: Comments coverage
+        run: npm run backend:compodoc:coverage && npm run frontend:compodoc:coverage && npm run office:compodoc:coverage

@@ -1,0 +1,9 @@
+import { ConfigurationPartial } from "./configuration";
+
+/**
+ * This is your configuration.
+ * You only need to set what you need
+ *
+ * The default values can be seen at [config.default.ts](./configuration/config.default.ts)
+ */
+export const config: ConfigurationPartial = {};

@@ -1,0 +1,22 @@
+#root {
+	height: 50px;
+	width: 250px;
+
+	background-color: yellow;
+
+	&.left {
+		text-align: left;
+	}
+
+	&.middle {
+		text-align: center;
+	}
+
+	&.right {
+		text-align: right;
+	}
+
+	&.reverse {
+		transform: rotateY(180deg);
+	}
+}

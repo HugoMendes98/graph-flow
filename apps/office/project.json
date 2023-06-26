@@ -1,0 +1,166 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"name": "office",
+	"prefix": "office",
+	"projectType": "application",
+	"sourceRoot": "apps/office/src",
+	"tags": [],
+	"targets": {
+		"build": {
+			"configurations": {
+				"development": {
+					"buildOptimizer": false,
+					"extractLicenses": false,
+					"fileReplacements": [
+						{
+							"replace": "apps/office/src/app/router/app-router.module.ts",
+							"with": "apps/office/src/app/router/app-router.module.dev.ts"
+						}
+					],
+					"namedChunks": true,
+					"optimization": false,
+					"sourceMap": true,
+					"vendorChunk": true
+				},
+				"production": {
+					"budgets": [
+						{
+							"maximumError": "1mb",
+							"maximumWarning": "500kb",
+							"type": "initial"
+						},
+						{
+							"maximumError": "4kb",
+							"maximumWarning": "2kb",
+							"type": "anyComponentStyle"
+						}
+					],
+					"outputHashing": "all"
+				},
+				"test-e2e": {
+					"buildOptimizer": false,
+					"extractLicenses": false,
+					"fileReplacements": [
+						{
+							"replace": "libs/ng/src/environments/environment.ts",
+							"with": "libs/ng/src/environments/environment.e2e.ts"
+						}
+					],
+					"namedChunks": true,
+					"optimization": false,
+					"sourceMap": true,
+					"vendorChunk": true
+				}
+			},
+			"defaultConfiguration": "production",
+			"executor": "@angular-devkit/build-angular:browser",
+			"options": {
+				"assets": ["apps/office/src/favicon.ico", "apps/office/src/assets"],
+				"index": "apps/office/src/index.html",
+				"inlineStyleLanguage": "scss",
+				"main": "apps/office/src/main.ts",
+				"outputPath": "dist/apps/office",
+				"polyfills": ["zone.js"],
+				"scripts": [],
+				"styles": ["apps/office/src/styles.scss"],
+				"tsConfig": "apps/office/tsconfig.app.json"
+			},
+			"outputs": ["{options.outputPath}"]
+		},
+		"lint": {
+			"executor": "@nx/linter:eslint",
+			"options": {
+				"lintFilePatterns": ["apps/office/**/*.{ts,js,html,md,json,yml}"]
+			},
+			"outputs": ["{options.outputFile}"]
+		},
+		"serve": {
+			"configurations": {
+				"development": {
+					"browserTarget": "office:build:development",
+					"port": 5200
+				},
+				"production": {
+					"browserTarget": "office:build:production",
+					"port": 5200
+				},
+				"test-e2e": {
+					"browserTarget": "office:build:test-e2e",
+					"port": 32381
+				}
+			},
+			"defaultConfiguration": "development",
+			"executor": "@angular-devkit/build-angular:dev-server",
+			"options": {
+				"proxyConfig": "apps/office/proxy.conf.json"
+			}
+		},
+		"storybook": {
+			"configurations": {
+				"ci": {
+					"quiet": true
+				}
+			},
+			"executor": "@storybook/angular:start-storybook",
+			"options": {
+				"browserTarget": "office:build",
+				"compodoc": true,
+				"compodocArgs": [
+					"-e",
+					"json",
+					"-p",
+					"apps/office/tsconfig.doc.json",
+					"-d",
+					"apps/office/.storybook"
+				],
+				"configDir": "apps/office/.storybook",
+				"port": 5040
+			}
+		},
+		"storybook-build": {
+			"configurations": {
+				"ci": {
+					"quiet": true
+				}
+			},
+			"executor": "@storybook/angular:build-storybook",
+			"options": {
+				"browserTarget": "office:build",
+				"compodoc": true,
+				"compodocArgs": [
+					"-e",
+					"json",
+					"-p",
+					"apps/office/tsconfig.doc.json",
+					"-d",
+					"apps/office/.storybook"
+				],
+				"configDir": "apps/office/.storybook",
+				"outputDir": "dist/storybook/office"
+			},
+			"outputs": ["{options.outputDir}"]
+		},
+		"stylelint": {
+			"executor": "nx-stylelint:lint",
+			"options": {
+				"formatter": "string",
+				"lintFilePatterns": ["apps/office/**/*.{css,scss}"]
+			},
+			"outputs": ["{options.outputFile}"]
+		},
+		"test": {
+			"configurations": {
+				"ci": {
+					"ci": true,
+					"codeCoverage": true
+				}
+			},
+			"executor": "@nx/jest:jest",
+			"options": {
+				"jestConfig": "apps/office/jest.config.ts",
+				"passWithNoTests": true
+			},
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
+		}
+	}
+}

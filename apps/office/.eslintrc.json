@@ -1,0 +1,54 @@
+{
+	"extends": ["../../libs/ng/.eslintrc.json"],
+	"overrides": [
+		{
+			"files": ["*.ts"],
+			"parserOptions": {
+				"project": [
+					"./apps/office/tsconfig.lint.json",
+					"./apps/office/.storybook/tsconfig.json"
+				],
+				"sourceType": "module"
+			},
+			"rules": {
+				"@angular-eslint/component-selector": [
+					"error",
+					{
+						"prefix": "office",
+						"style": "kebab-case",
+						"type": "element"
+					}
+				],
+				"@angular-eslint/directive-selector": [
+					"error",
+					{
+						"prefix": "office",
+						"style": "camelCase",
+						"type": "attribute"
+					}
+				]
+			}
+		},
+		{
+			"files": ["src/dev/**/*.ts"],
+			"rules": {
+				"@angular-eslint/component-selector": [
+					"error",
+					{
+						"prefix": "office-dev",
+						"style": "kebab-case",
+						"type": "element"
+					}
+				],
+				"@angular-eslint/directive-selector": [
+					"error",
+					{
+						"prefix": "officeDev",
+						"style": "camelCase",
+						"type": "attribute"
+					}
+				]
+			}
+		}
+	]
+}
