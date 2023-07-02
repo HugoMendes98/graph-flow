@@ -2,7 +2,6 @@ import { JestConfigWithTsJest } from "ts-jest";
 
 export default {
 	coverageDirectory: "../../coverage/apps/office",
-	coverageReporters: ["json-summary"],
 	displayName: "office",
 	preset: "../../jest.preset.js",
 	setupFilesAfterEnv: ["<rootDir>/test/setup.ts"],

@@ -120,20 +120,13 @@ Except for the previous reserved names feel free to use other names for other ki
 
 ## Commit message
 
-A commit message should look like this: `(?[<STATE>]) <summary>`
+Use commitizen:
 
-* With **summary** being a short text describing what has been done.
-  * use the imperative, present tense: "change" not "changed" nor "changes"
-  * don't capitalize first letter
-  * no dot (.) at the end
-* With **STATE** being an optional status of the commit.  
-     The statuses are used for the person(s) working in the same branch. Here's some examples:
-  * `[FIX] <summary>`: The current implementation used to have a bug.
-  * `[WIP] <summary>`: Not finished, but pushed because it's friday night :).
+```bash
+git cz
+```
 
-> There's no need to use the `[FIX]` state on a `fix` branch.
->
-> > The meaning of a branch **>** commit status
+<!-- TODO: complete -->
 
 ## Merge/Pull Request
 

@@ -6,8 +6,10 @@ package-lock.json
 # Do not ignore the rule configuration files
 !.*rc.json
 
+!.release-it.json
+
 !.github/
-!.github/workflows/ci.yml
+!.github/workflows/*.yml
 
 !.vscode/
 .vscode/*
@@ -23,3 +25,6 @@ package-lock.json
 # "eslintignore files other than the one in the current working directory are not used."
 !apps/*/.storybook/
 apps/*/.storybook/documentation.json
+
+# Generated files
+CHANGELOG.md

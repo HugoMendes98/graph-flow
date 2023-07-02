@@ -2,7 +2,6 @@ import { JestConfigWithTsJest } from "ts-jest";
 
 export default {
 	coverageDirectory: "../../coverage/libs/common",
-	coverageReporters: ["json-summary"],
 	displayName: "lib",
 	moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
 	preset: "../../jest.preset.js",

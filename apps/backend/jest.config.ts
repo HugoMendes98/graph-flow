@@ -2,7 +2,6 @@ import { JestConfigWithTsJest } from "ts-jest";
 
 export default {
 	coverageDirectory: "../../coverage/apps/backend",
-	coverageReporters: ["json-summary"],
 	displayName: "backend",
 	globalSetup: "<rootDir>/test/support/global/setup.ts",
 	globalTeardown: "<rootDir>/test/support/global/teardown.ts",

@@ -1,4 +1,4 @@
-name: Badging
+name: Release & Publish
 
 # Only run when the a PR is merged to master
 
@@ -8,11 +8,14 @@ on:
       - master
 
 jobs:
-  badging:
+  job:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [18.x]
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +29,7 @@ jobs:
         run: npm ci
 
       - name: Test coverage
-        run: npm run test -- --ci --code-coverage
+        run: npm run test -- --ci --code-coverage --coverageReporters json-summary
 
       - name: Generating `common` lib coverage badges
         uses: jpb06/jest-badges-action@latest
@@ -72,9 +75,10 @@ jobs:
       - name: Generating `office` app comment coverage badges
         run: npm run office:compodoc:build && cp dist/documenation/office/images/coverage-badge-documentation.svg .badges/apps/office/
 
-      - name: Commit and push coverage badges
-        uses: EndBug/add-and-commit@v9
-        with:
-          add: ./.badges
-          default_author: github_actions
-          message: "[GITHUB ACTION] Coverage badges generated"
+      - name: Set git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Release and publish
+        run: npx release-it --ci --no-git.requireCleanWorkingDir
