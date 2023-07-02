@@ -60,20 +60,11 @@ jobs:
           coverage-summary-path: ./coverage/apps/frontend/coverage-summary.json
           no-commit: true
           output-folder: ./.badges/apps/frontend
-      - name: Generating `office` app coverage badges
-        uses: jpb06/jest-badges-action@latest
-        with:
-          branches: ci-status
-          coverage-summary-path: ./coverage/apps/office/coverage-summary.json
-          no-commit: true
-          output-folder: ./.badges/apps/office
 
       - name: Generating `backend` app comment coverage badges
         run: npm run backend:compodoc:build && cp dist/documenation/backend/images/coverage-badge-documentation.svg .badges/apps/backend/
       - name: Generating `frontend` app comment coverage badges
         run: npm run frontend:compodoc:build && cp dist/documenation/frontend/images/coverage-badge-documentation.svg .badges/apps/frontend/
-      - name: Generating `office` app comment coverage badges
-        run: npm run office:compodoc:build && cp dist/documenation/office/images/coverage-badge-documentation.svg .badges/apps/office/
 
       - name: Set git config
         run: |

@@ -1,5 +1,6 @@
 {
 	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"defaultBase": "master",
 	"generators": {
 		"@nx/angular:application": {
 			"e2eTestRunner": "cypress",
@@ -54,7 +55,7 @@
 	"tasksRunnerOptions": {
 		"default": {
 			"options": {
-				"accessToken": "ZGQ0YjNjN2QtOTdkYS00YWZkLTg5ZjgtMjJjZmNjMzc0NGJjfHJlYWQtd3JpdGU=",
+				"accessToken": "MzU2NDY1NjYtMmYxOC00MDdmLWEyZjItMWVjMGU5MjVkZWE0fHJlYWQtd3JpdGU=",
 				"cacheableOperations": [
 					"build",
 					"lint",

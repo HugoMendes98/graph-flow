@@ -239,7 +239,6 @@ Check the following files for their specific styleguide.
 * Application
   * `backend`: see [styleguide](../apps/backend/docs/styleguide.md).
   * `frontend`: see [styleguide](../apps/frontend/docs/styleguide.md).
-  * `office`: see [styleguide](../apps/office/docs/styleguide.md).
 
 ### Hierarchy
 

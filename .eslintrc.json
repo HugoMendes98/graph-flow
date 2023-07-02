@@ -88,7 +88,7 @@
 					}
 				],
 				"jsdoc/no-undefined-types": "off",
-				/* Hyphen is considerd as a bullet point in compodoc */
+				/* Hyphen is considered as a bullet point in compodoc */
 				"jsdoc/require-hyphen-before-param-description": ["error", "never"],
 				"jsdoc/require-throws": "warn",
 				"jsdoc/tag-lines": [
@@ -334,7 +334,8 @@
 		"@cspell/spellchecker": [
 			"warn",
 			{
-				"autoFix": true
+				"autoFix": true,
+				"customWordListFile": "./tools/cspell/words.txt"
 			}
 		],
 		"@shopify/no-useless-computed-properties": "error",

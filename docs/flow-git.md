@@ -59,7 +59,6 @@ There's also some reserved names as 2nd level directory, such as:
 * Application
   * `back`
   * `front`
-  * `office`
 
 Use theses when a modification concerns only one of the previous.
 Use none if it uses many of them.

@@ -42,4 +42,4 @@ jobs:
 
       # TODO: set in Nx
       - name: Comments coverage
-        run: npm run backend:compodoc:coverage && npm run frontend:compodoc:coverage && npm run office:compodoc:coverage
+        run: npm run backend:compodoc:coverage && npm run frontend:compodoc:coverage

@@ -10,13 +10,11 @@ A boilerplate structure for a backend, frontend and back-office applications.
 | `libs/ng`       | ![ng-jest coverage](./.badges/libs/ng/coverage-jest%20coverage.svg)             |
 | `apps/backend`  | ![backend-jest coverage](./.badges/apps/backend/coverage-jest%20coverage.svg)   |
 | `apps/frontend` | ![frontend-jest coverage](./.badges/apps/frontend/coverage-jest%20coverage.svg) |
-| `apps/office`   | ![office-jest coverage](./.badges/apps/office/coverage-jest%20coverage.svg)     |
 
 | App             | Comment coverage                                                           |
 |-----------------|----------------------------------------------------------------------------|
 | `apps/backend`  | ![backend docs](./.badges/apps/backend/coverage-badge-documentation.svg)   |
 | `apps/frontend` | ![frontend docs](./.badges/apps/frontend/coverage-badge-documentation.svg) |
-| `apps/office`   | ![office docs](./.badges/apps/office/coverage-badge-documentation.svg)     |
 
 ## Description
 
@@ -89,14 +87,6 @@ npm run frontend:start
 ```
 
 > See more `frontend` [commands](./apps/frontend/docs/commands.md).
-
-### Run the `office`
-
-```bash
-npm run office:start
-```
-
-> See more `office` [commands](./apps/office/docs/commands.md).
 
 ### Tests
 

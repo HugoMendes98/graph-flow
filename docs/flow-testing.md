@@ -12,7 +12,6 @@ This file describes what are the tests purpose and what they test.
   * [E2E testing](#e2e-testing)
     * [E2E Backend](#e2e-backend)
     * [E2E Frontend](#e2e-frontend)
-    * [E2E Office](#e2e-office)
   * [Post-development](#post-development)
 <!-- TOC -->
 
@@ -54,17 +53,6 @@ It tests its parent shared code and indirectly the `backend`:
 ![e2e-frontend](./flow-testing/images/testing-hierarchy.e2e-frontend.drawio.svg)
 
 > The commands can be seen [here](../apps/frontend-e2e/docs/commands.md).
-
-### E2E Office
-
-The E2E testing of the `office` confirms that the back-office application works as expected.
-
-The code is available [here](../apps/office-e2e).  
-It tests its parent shared code and indirectly the `backend`:
-
-![e2e-office](./flow-testing/images/testing-hierarchy.e2e-office.drawio.svg)
-
-> The commands can be seen [here](../apps/office-e2e/docs/commands.md).
 
 ## Post-development
 

@@ -155,4 +155,3 @@ Check the following files for their specific commands.
 * Application
   * `backend`: see [commands](../apps/backend/docs/commands.md).
   * `frontend`: see [commands](../apps/frontend/docs/commands.md).
-  * `office`: see [commands](../apps/office/docs/commands.md).

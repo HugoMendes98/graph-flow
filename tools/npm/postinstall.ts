@@ -9,7 +9,6 @@ function bootstrap() {
 	const pathApps = path.join(pathRoot, "apps");
 	const pathBack = path.join(pathApps, "backend");
 	const pathFront = path.join(pathApps, "frontend");
-	const pathOffice = path.join(pathApps, "office");
 
 	// Copy the config template for the backend
 	const configPath = path.join(pathBack, "src/config.ts");
@@ -19,9 +18,8 @@ function bootstrap() {
 	}
 
 	const frontDocPath = path.join(pathFront, ".storybook/documentation.json");
-	const officeDocPath = path.join(pathOffice, ".storybook/documentation.json");
 
-	for (const docPath of [frontDocPath, officeDocPath]) {
+	for (const docPath of [frontDocPath]) {
 		if (!fs.existsSync(docPath)) {
 			fs.writeFileSync(
 				docPath,
