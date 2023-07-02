@@ -316,6 +316,7 @@
 		}
 	],
 	"plugins": [
+		"@cspell",
 		"@nx",
 		"@shopify",
 		"eslint-plugin-import",
@@ -330,6 +331,12 @@
 	],
 	"root": true,
 	"rules": {
+		"@cspell/spellchecker": [
+			"warn",
+			{
+				"autoFix": true
+			}
+		],
 		"@shopify/no-useless-computed-properties": "error",
 		"@shopify/prefer-early-return": "error",
 		"arrow-parens": "off",
