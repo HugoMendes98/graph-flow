@@ -2,21 +2,15 @@ import { EntityManager } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 import { ReadonlyDeep } from "type-fest";
 import { EntityDto } from "~/app/common/dtos/_lib/entity";
-import { GroupDto } from "~/app/common/dtos/group";
 import { UserDto } from "~/app/common/dtos/user";
 
 import { EntityBase } from "../../../app/_lib/entity";
-import { Group } from "../../../app/group/group.entity";
 import { User } from "../../../app/user/user.entity";
 
 /**
  * The values for a DB which all data is mocked
  */
 export interface MockedDb {
-	/**
-	 * Represents the [group]{@link GroupDto} table
-	 */
-	groups: readonly GroupDto[];
 	/**
 	 * Represents the [user]{@link UserDto} table
 	 */
@@ -58,12 +52,9 @@ export abstract class MockedDbSeeder extends Seeder {
 			mocks: readonly EntityDto[];
 		}
 
-		const { groups, users } = this.db;
+		const { users } = this.db;
 
-		for (const { entity, mocks } of [
-			{ entity: User, mocks: users },
-			{ entity: Group, mocks: groups }
-		] satisfies MockEntity[]) {
+		for (const { entity, mocks } of [{ entity: User, mocks: users }] satisfies MockEntity[]) {
 			for (const mock of mocks) {
 				em.create<EntityBase>(entity, mock);
 			}

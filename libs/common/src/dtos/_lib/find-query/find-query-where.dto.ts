@@ -25,19 +25,19 @@ export function FindQueryWhereDtoOf<T extends object>(dto: Type<T>): Type<Entity
 	class WhereDto implements EntityFilterLogicalOperators<T> {
 		@IsArray()
 		@IsOptional()
-		@ValidateNested({ each: true })
 		@TypeTransformer(() => WhereDto)
+		@ValidateNested({ each: true })
 		public $and?;
 
 		@IsOptional()
-		@ValidateNested()
 		@TypeTransformer(() => WhereDto)
+		@ValidateNested()
 		public $not?;
 
 		@IsArray()
 		@IsOptional()
-		@ValidateNested({ each: true })
 		@TypeTransformer(() => WhereDto)
+		@ValidateNested({ each: true })
 		public $or?;
 	}
 

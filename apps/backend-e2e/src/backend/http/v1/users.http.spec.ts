@@ -171,18 +171,6 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 
 				expect(actual).toStrictEqual(expected);
 			});
-
-			it("should filter with relation", async () => {
-				const [group] = db.groups;
-				const expected = sorted.filter(({ _id }) => _id === group.__creator);
-				const { data: actuel } = await client.findMany({
-					params: {
-						where: { creations: { _name: group._name } }
-					} satisfies UserQueryDto
-				});
-
-				expect(actuel).toStrictEqual(expected);
-			});
 		});
 	});
 

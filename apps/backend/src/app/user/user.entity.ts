@@ -1,9 +1,8 @@
-import { Collection, Entity, EntityRepositoryType, OneToMany, Property } from "@mikro-orm/core";
+import { Entity, EntityRepositoryType, Property } from "@mikro-orm/core";
 import { UserRelationsDto } from "~/app/common/dtos/user/user.relations.dto";
 
 import { UserRepository } from "./user.repository";
 import { EntityBase, EntityWithRelations } from "../_lib/entity";
-import { Group } from "../group/group.entity";
 
 /**
  * The entity class to manage users
@@ -21,7 +20,4 @@ export class User extends EntityBase implements EntityWithRelations<UserRelation
 
 	@Property({ nullable: true, type: String })
 	public lastname: string | null = null;
-
-	@OneToMany(() => Group, group => group.creator, { hidden: true })
-	public creations? = new Collection<Group>(this);
 }

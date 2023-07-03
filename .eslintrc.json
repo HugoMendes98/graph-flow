@@ -3,6 +3,7 @@
 		"eslint:recommended",
 		"plugin:eslint-comments/recommended",
 		"plugin:storybook/recommended",
+		"plugin:sort-decorators/strict",
 		"plugin:typescript-sort-keys/recommended"
 	],
 	"overrides": [

@@ -50,12 +50,12 @@ export function FindQueryDtoOf<T extends object>(dto: Type<T>): Type<EntityFindQ
 	class FindDto extends FindQueryDto<T> {
 		@IsArray()
 		@IsOptional()
-		@ValidateNested({ each: true })
 		@TypeTransformer(() => OrderDto)
+		@ValidateNested({ each: true })
 		public override order?;
 
-		@ValidateNested()
 		@TypeTransformer(() => WhereDto)
+		@ValidateNested()
 		public override where?;
 	}
 

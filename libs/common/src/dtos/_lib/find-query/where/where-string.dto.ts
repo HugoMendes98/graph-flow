@@ -12,15 +12,15 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	 * Search for records whose value is equal to the given one.
 	 */
 	@CanBeNull()
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public $eq?: string | null;
 	/**
 	 * Search for records whose value is **not** equal to the given one.
 	 */
 	@CanBeNull()
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public $ne?: string | null;
 
 	/**
@@ -35,35 +35,35 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	/**
 	 * Search for records whose value is greater than the given one.
 	 */
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public $gt?: string;
 	/**
 	 * Search for records whose value is greater than or equal to the given one.
 	 */
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public $gte?: string;
 
 	/**
 	 * Search for records whose value is less than the given one.
 	 */
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public $lt?: string;
 	/**
 	 * Search for records whose value is less than or equal to the given one.
 	 */
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public $lte?: string;
 
 	/**
 	 * Search for records whose value is included in the given list.
 	 */
 	@IsArray()
-	@IsString({ each: true })
 	@IsOptional()
+	@IsString({ each: true })
 	@Type(() => String)
 	public $in?: string[];
 
@@ -71,23 +71,23 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	 * Search for records whose value is **not** included in the given list.
 	 */
 	@IsArray()
-	@IsString({ each: true })
 	@IsOptional()
+	@IsString({ each: true })
 	@Type(() => String)
 	public $nin?: string[];
 
 	/**
 	 * Search for records whose value match the given regex string.
 	 */
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public $re?: string;
 
 	/**
 	 * Search for records whose value looks like the given one (~SQL Like operator).
 	 */
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public $like?: string;
 
 	/**
@@ -95,8 +95,8 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	 *
 	 * It works correctly only to indexed properties.
 	 */
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public fulltext?: string;
 }
 
@@ -107,13 +107,13 @@ export class WhereStringDto extends WhereStringNullableDto {
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public declare $eq?: string;
 	/**
 	 * Search for records whose value is **not** equal to the given one.
 	 */
-	@IsString()
 	@IsOptional()
+	@IsString()
 	public declare $ne?: string;
 }
