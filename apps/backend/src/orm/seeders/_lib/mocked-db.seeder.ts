@@ -2,19 +2,31 @@ import { EntityManager } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 import { ReadonlyDeep } from "type-fest";
 import { EntityDto } from "~/app/common/dtos/_lib/entity";
+import { CategoryDto } from "~/app/common/dtos/category";
 import { UserDto } from "~/app/common/dtos/user";
+import { WorkflowDto } from "~/app/common/dtos/workflow";
 
 import { EntityBase } from "../../../app/_lib/entity";
+import { Category } from "../../../app/category/category.entity";
 import { User } from "../../../app/user/user.entity";
+import { Workflow } from "../../../app/workflow/workflow.entity";
 
 /**
  * The values for a DB which all data is mocked
  */
 export interface MockedDb {
 	/**
+	 * Represents the [category]{@link CategoryDto} table
+	 */
+	categories: readonly CategoryDto[];
+	/**
 	 * Represents the [user]{@link UserDto} table
 	 */
 	users: readonly UserDto[];
+	/**
+	 * Represents the [workflow]{@link WorkflowDto} table
+	 */
+	workflows: readonly WorkflowDto[];
 }
 
 /**
@@ -52,9 +64,13 @@ export abstract class MockedDbSeeder extends Seeder {
 			mocks: readonly EntityDto[];
 		}
 
-		const { users } = this.db;
+		const { categories, users, workflows } = this.db;
 
-		for (const { entity, mocks } of [{ entity: User, mocks: users }] satisfies MockEntity[]) {
+		for (const { entity, mocks } of [
+			{ entity: Category, mocks: categories },
+			{ entity: User, mocks: users },
+			{ entity: Workflow, mocks: workflows }
+		] satisfies MockEntity[]) {
 			for (const mock of mocks) {
 				em.create<EntityBase>(entity, mock);
 			}

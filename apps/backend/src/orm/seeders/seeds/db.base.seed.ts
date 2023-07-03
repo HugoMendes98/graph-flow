@@ -13,6 +13,7 @@ const date3 = new Date(2020, 4, 10);
  * The base sample for Seeding the DB.
  */
 export const DB_BASE_SEED: MockedDb = {
+	categories: [],
 	users: [
 		{
 			_id: 1,
@@ -44,5 +45,6 @@ export const DB_BASE_SEED: MockedDb = {
 			firstname: "Jane",
 			lastname: "Doe"
 		}
-	]
+	],
+	workflows: []
 };

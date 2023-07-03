@@ -5,7 +5,7 @@ import { User, UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/app/common/endpoint
 import { EntityApiService } from "../_lib/entity-api";
 
 /**
- * Service to communicate with the user APi.
+ * Service to communicate with the user API.
  */
 @Injectable({
 	providedIn: "root"

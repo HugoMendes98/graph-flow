@@ -4,7 +4,10 @@ import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 import { kebabCase } from "eslint-plugin-yml/lib/utils/casing";
 import * as path from "path";
 
+import { Category } from "./app/category/category.entity";
+import { Node } from "./app/node/node.entity";
 import { User } from "./app/user/user.entity";
+import { Workflow } from "./app/workflow/workflow.entity";
 import { getConfiguration } from "./configuration";
 import { migrations } from "./orm/migrations";
 
@@ -34,7 +37,7 @@ const ormConfig = defineConfig({
 
 	// For app code
 	discovery: { disableDynamicFileAccess: true },
-	entities: [User],
+	entities: [Category, Node, User, Workflow],
 	forceUndefined: false,
 	metadataProvider: TsMorphMetadataProvider,
 	strict: true,
