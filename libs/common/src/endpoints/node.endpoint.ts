@@ -1,7 +1,7 @@
 import { Jsonify } from "type-fest";
-import { NodeCreateDto, NodeDto, NodeUpdateDto } from "~/app/common/dtos/node";
 
 import { EntityEndpoint } from "./_lib";
+import { NodeCreateDto, NodeDto, NodeUpdateDto } from "../dtos/node";
 
 /**
  * Endpoint path for [nodes]{@link NodeDto} (without global prefix).

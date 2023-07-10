@@ -47,7 +47,7 @@ describe("HTTP Query transformer", () => {
 				expect(queryPrefixes.includes(prefix)).toBeTruthy();
 
 				// Ok, but ant i-pattern
-				// expect(quer yPrefixes).toContain(prefix)
+				// expect(queryPrefixes).toContain(prefix)
 			}
 		});
 

@@ -1,8 +1,5 @@
 import { Embeddable } from "@mikro-orm/core";
-import {
-	NodeBehaviorVariableDto as DTO,
-	NodeBehaviorType
-} from "~/app/common/dtos/node/node-behaviors";
+import { NodeBehaviorVariableDto as DTO, NodeBehaviorType } from "~/app/common/dtos/node/behaviors";
 
 import { NodeBehaviorBase } from "./node-behavior.base";
 

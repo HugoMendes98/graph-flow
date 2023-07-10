@@ -3,8 +3,8 @@ import { IsEnum } from "class-validator";
 import { NodeBehaviorType } from "./node-behavior.type";
 import { DtoProperty } from "../../_lib/dto";
 
-export abstract class NodeBehaviorBase {
-	public static get TYPE() {
+export abstract class NodeBehaviorBaseDto {
+	public static get TYPE(): NodeBehaviorType {
 		return this.prototype.type;
 	}
 
@@ -18,4 +18,4 @@ export abstract class NodeBehaviorBase {
 	public abstract readonly type: NodeBehaviorType;
 }
 
-export type NodeBehaviorDiscriminatorKey = keyof Pick<NodeBehaviorBase, "type">;
+export type NodeBehaviorDiscriminatorKey = keyof Pick<NodeBehaviorBaseDto, "type">;

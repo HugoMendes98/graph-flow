@@ -3,11 +3,13 @@ import { Type } from "@nestjs/common";
 import { NodeBehaviorBase } from "./node-behavior.base";
 import { NodeBehaviorCode } from "./node-behavior.code";
 import { NodeBehaviorFunction } from "./node-behavior.function";
+import { NodeBehaviorTrigger } from "./node-behavior.trigger";
 import { NodeBehaviorVariable } from "./node-behavior.variable";
 
 export const NODE_BEHAVIORS_ENTITIES = [
 	NodeBehaviorCode,
 	NodeBehaviorFunction,
+	NodeBehaviorTrigger,
 	NodeBehaviorVariable
 ] as const satisfies ReadonlyArray<Type<NodeBehaviorBase>>;
 

@@ -1,9 +1,9 @@
 import { Embeddable, Enum } from "@mikro-orm/core";
 import {
-	NodeBehaviorBase as NodeBehaviorBaseDto,
+	NodeBehaviorBaseDto,
 	NodeBehaviorDiscriminatorKey,
 	NodeBehaviorType
-} from "~/app/common/dtos/node/node-behaviors";
+} from "~/app/common/dtos/node/behaviors";
 
 @Embeddable({
 	abstract: true,
@@ -11,5 +11,5 @@ import {
 })
 export abstract class NodeBehaviorBase implements NodeBehaviorBaseDto {
 	@Enum({ items: () => NodeBehaviorType })
-	public readonly type!: NodeBehaviorType;
+	public abstract readonly type: NodeBehaviorType;
 }

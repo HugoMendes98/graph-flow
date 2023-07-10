@@ -13,7 +13,8 @@ export class FindResultsRange {
 	/**
 	 * Position of the last result returned from the whole filtered data (not included)
 	 *
-	 * @example ```
+	 * @example
+	 * ```
 	 * for (let i = range.start; i < range.end; ++i);
 	 * ```
 	 */
