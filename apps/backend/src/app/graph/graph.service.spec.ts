@@ -1,21 +1,21 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { NodeModule } from "./node.module";
-import { NodeService } from "./node.service";
+import { GraphModule } from "./graph.module";
+import { GraphService } from "./graph.service";
 import { DbTestHelper } from "../../../test/db-test";
 import { OrmModule } from "../../orm/orm.module";
 
-describe("NodeService", () => {
+describe("GraphService", () => {
 	let dbTest: DbTestHelper;
-	let service: NodeService;
+	let service: GraphService;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
-			imports: [OrmModule, NodeModule]
+			imports: [OrmModule, GraphModule]
 		}).compile();
 
 		dbTest = new DbTestHelper(module);
-		service = module.get(NodeService);
+		service = module.get(GraphService);
 	});
 
 	it("should be defined", () => {

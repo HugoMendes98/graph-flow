@@ -11,3 +11,6 @@ trim_trailing_whitespace = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.ts]
+ij_typescript_use_path_mapping = different_paths

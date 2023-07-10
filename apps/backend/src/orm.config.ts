@@ -5,6 +5,7 @@ import { kebabCase } from "eslint-plugin-yml/lib/utils/casing";
 import * as path from "path";
 
 import { Category } from "./app/category/category.entity";
+import { GRAPH_ENTITIES } from "./app/graph/graph.entities";
 import { Node } from "./app/node/node.entity";
 import { User } from "./app/user/user.entity";
 import { Workflow } from "./app/workflow/workflow.entity";
@@ -37,7 +38,7 @@ const ormConfig = defineConfig({
 
 	// For app code
 	discovery: { disableDynamicFileAccess: true },
-	entities: [Category, Node, User, Workflow],
+	entities: [Category, ...GRAPH_ENTITIES, Node, User, Workflow],
 	forceUndefined: false,
 	metadataProvider: TsMorphMetadataProvider,
 	strict: true,
