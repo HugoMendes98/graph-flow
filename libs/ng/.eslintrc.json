@@ -62,7 +62,7 @@
 				"plugin:@angular-eslint/template/recommended"
 			],
 			"files": ["*.html"],
-			"plugins": ["prettier"],
+			"plugins": ["prettier", "sort-attribute-content"],
 			"rules": {
 				"@angular-eslint/template/attributes-order": [
 					"warn",
@@ -80,6 +80,14 @@
 					{
 						"parser": "angular"
 					}
+				],
+				"sort-attribute-content/sort-attribute-content": [
+					"warn",
+					[
+						{
+							"attributes": "class"
+						}
+					]
 				],
 				"spaced-comment": "off"
 			}
