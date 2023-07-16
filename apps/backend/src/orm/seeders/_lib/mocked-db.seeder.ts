@@ -2,12 +2,17 @@ import { EntityManager } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 import { ReadonlyDeep } from "type-fest";
 import { EntityDto } from "~/app/common/dtos/_lib/entity";
-import { CategoryDto } from "~/app/common/dtos/category";
-import { UserDto } from "~/app/common/dtos/user";
-import { WorkflowDto } from "~/app/common/dtos/workflow";
 
 import { EntityBase } from "../../../app/_lib/entity";
 import { Category } from "../../../app/category/category.entity";
+import { GraphArc } from "../../../app/graph/arc/graph-arc.entity";
+import { Graph } from "../../../app/graph/graph.entity";
+import { GraphNode } from "../../../app/graph/node/graph-node.entity";
+import { GraphNodeInput } from "../../../app/graph/node/input";
+import { GraphNodeOutput } from "../../../app/graph/node/output";
+import { NodeInput } from "../../../app/node/input";
+import { Node } from "../../../app/node/node.entity";
+import { NodeOutput } from "../../../app/node/output";
 import { User } from "../../../app/user/user.entity";
 import { Workflow } from "../../../app/workflow/workflow.entity";
 
@@ -16,17 +21,49 @@ import { Workflow } from "../../../app/workflow/workflow.entity";
  */
 export interface MockedDb {
 	/**
-	 * Represents the [category]{@link CategoryDto} table
+	 * Represents the [category]{@link Category} table
 	 */
-	categories: readonly CategoryDto[];
+	categories: readonly Category[];
 	/**
-	 * Represents the [user]{@link UserDto} table
+	 * Represents the [graph-arc]{@link GraphArc} table
 	 */
-	users: readonly UserDto[];
+	graphArcs: readonly GraphArc[];
 	/**
-	 * Represents the [workflow]{@link WorkflowDto} table
+	 * Represents the [graph-node-input]{@link GraphNodeInput} table
 	 */
-	workflows: readonly WorkflowDto[];
+	graphNodeInputs: readonly GraphNodeInput[];
+	/**
+	 * Represents the [graph-node-output]{@link GraphNodeOutput} table
+	 */
+	graphNodeOutputs: readonly GraphNodeOutput[];
+	/**
+	 * Represents the [graph-node]{@link GraphNode} table
+	 */
+	graphNodes: readonly GraphNode[];
+	/**
+	 * Represents the [graph]{@link Graph} table
+	 */
+	graphs: readonly Graph[];
+	/**
+	 * Represents the [node-input]{@link NodeInput} table
+	 */
+	nodeInputs: readonly NodeInput[];
+	/**
+	 * Represents the [node-output]{@link NodeOutput} table
+	 */
+	nodeOutputs: readonly NodeOutput[];
+	/**
+	 * Represents the [node]{@link Node} table
+	 */
+	nodes: readonly Node[];
+	/**
+	 * Represents the [user]{@link User} table
+	 */
+	users: readonly User[];
+	/**
+	 * Represents the [workflow]{@link Workflow} table
+	 */
+	workflows: readonly Workflow[];
 }
 
 /**

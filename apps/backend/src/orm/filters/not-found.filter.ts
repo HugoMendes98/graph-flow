@@ -17,8 +17,8 @@ export class NotFoundFilter extends BaseExceptionFilter {
 		super.catch(
 			new NotFoundException(
 				message.match(/\({ _id: '?\d+'? }\)$/)
-					? `The ressource ('${message}') was not found.`
-					: "A ressource was not found.",
+					? `The resource ('${message}') was not found.`
+					: "A resource was not found.",
 				{
 					cause: exception,
 					description: (exception as unknown as { detail: string }).detail

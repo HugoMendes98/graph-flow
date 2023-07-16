@@ -2,9 +2,29 @@ import { EntityFindQuery, EntityFindResult } from "./entity-find.interfaces";
 import { EntityId } from "../../dtos/_lib/entity";
 
 /**
- * CRUD for basic entity endpoints
+ * Endpoints for entities with only read methods
  */
-export interface EntityEndpoint<T, ToCreate, ToUpdate, Q extends T = T> {
+export interface EntityReadEndpoint<T, Q extends T = T> {
+	/**
+	 * Find entities with the given query.
+	 *
+	 * @param query The query url used to filter/paginate the results
+	 */
+	findAndCount(query?: EntityFindQuery<Q>): Promise<EntityFindResult<T>>;
+	/**
+	 * Find an entity given its ID.
+	 *
+	 * @throws An error when the element to delete is not found
+	 * @returns The entity found
+	 */
+	findById(id: EntityId): Promise<T>;
+}
+
+/**
+ * CRUD for regular entity endpoints
+ */
+export interface EntityEndpoint<T, ToCreate, ToUpdate, Q extends T = T>
+	extends EntityReadEndpoint<T, Q> {
 	/**
 	 * Creates an entity with the given body.
 	 *
@@ -19,19 +39,6 @@ export interface EntityEndpoint<T, ToCreate, ToUpdate, Q extends T = T> {
 	 * @returns The just deleted entity
 	 */
 	delete(id: EntityId): Promise<T>;
-	/**
-	 * Find entities with the given parameters.
-	 *
-	 * @param query The query url used to filter/paginate the results
-	 */
-	findAndCount(query?: EntityFindQuery<Q>): Promise<EntityFindResult<T>>;
-	/**
-	 * Find an entity given its ID.
-	 *
-	 * @throws An error when the element to delete is not found
-	 * @returns The entity found
-	 */
-	findById(id: EntityId): Promise<T>;
 	/**
 	 * Updates an entity, which id is set, with the given body.
 	 *

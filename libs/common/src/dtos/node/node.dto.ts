@@ -35,7 +35,7 @@ export class NodeDto extends EntityDto {
 	 */
 	// FIXME: Find query with anything that is not in the base type will probably fail
 	//	`type(): DtoType` should have a parameter of the raw data
-	@DtoProperty() // TODO: APIProperty with `anyOf`?
+	// @DtoProperty() // TODO: APIProperty with `anyOf`?
 	@TypeTransformer(() => NodeBehaviorBaseDto, {
 		discriminator: {
 			property: "type" satisfies NodeBehaviorDiscriminatorKey,

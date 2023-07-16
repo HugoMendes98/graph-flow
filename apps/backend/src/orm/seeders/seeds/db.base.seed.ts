@@ -14,6 +14,14 @@ const date3 = new Date(2020, 4, 10);
  */
 export const DB_BASE_SEED: MockedDb = {
 	categories: [],
+	graphArcs: [],
+	graphNodeInputs: [],
+	graphNodeOutputs: [],
+	graphNodes: [],
+	graphs: [],
+	nodeInputs: [],
+	nodeOutputs: [],
+	nodes: [],
 	users: [
 		{
 			_id: 1,
@@ -39,7 +47,7 @@ export const DB_BASE_SEED: MockedDb = {
 			_id: 3,
 
 			_created_at: date2,
-			_updated_at: date2,
+			_updated_at: date3,
 
 			email: "jane.doe@host.local",
 			firstname: "Jane",

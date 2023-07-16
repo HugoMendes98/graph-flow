@@ -8,7 +8,7 @@ import { EntityService } from "../_lib/entity";
  * Service to manages [graphs]{@link Graph}.
  */
 @Injectable()
-export class GraphService extends EntityService<Graph, void, void> {
+export class GraphService extends EntityService<Graph, object, void> {
 	// TODO: create and update types
 
 	public constructor(repository: GraphRepository) {

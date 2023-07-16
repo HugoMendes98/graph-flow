@@ -43,6 +43,10 @@ class DtoStorage {
 	 * @returns The know properties of the given class
 	 */
 	public getPropertyKeys(source: Type<unknown>): Set<DtoPropertyKey> {
+		if (source === null || source === undefined) {
+			throw new DtoError("Can not get the property of an `null` or `undefined` source");
+		}
+
 		// The current one is the newest ancestor
 		let ancestor: unknown = source;
 		const ancestors: Array<Type<unknown>> = [];

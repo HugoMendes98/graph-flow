@@ -1,9 +1,9 @@
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Module } from "@nestjs/common";
 
-import { GraphNodeService } from "./graph-node/graph-node.service";
 import { GRAPH_ENTITIES } from "./graph.entities";
 import { GraphService } from "./graph.service";
+import { GraphNodeService } from "./node/graph-node.service";
 
 @Module({
 	exports: [GraphService, GraphNodeService],

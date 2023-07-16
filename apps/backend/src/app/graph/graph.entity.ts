@@ -2,8 +2,8 @@ import { Collection, Entity, OneToMany } from "@mikro-orm/core";
 import { GraphRelationsDto } from "~/app/common/dtos/graph";
 import { GraphNodeRelationsDto } from "~/app/common/dtos/graph/node";
 
-import { GraphNode } from "./graph-node/graph-node.entity";
 import { GraphRepository } from "./graph.repository";
+import { GraphNode } from "./node/graph-node.entity";
 import { EntityBase, EntityWithRelations } from "../_lib/entity";
 
 @Entity({ customRepository: () => GraphRepository })

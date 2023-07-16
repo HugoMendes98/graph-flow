@@ -1,8 +1,16 @@
 import { Entity, EntityRepositoryType, Property } from "@mikro-orm/core";
+import { GraphRelationsDto } from "~/app/common/dtos/graph";
 import { WorkflowRelationsDto } from "~/app/common/dtos/workflow";
 
 import { WorkflowRepository } from "./workflow.repository";
 import { EntityBase, EntityWithRelations } from "../_lib/entity";
+import { ManyToOneFactory } from "../_lib/entity/decorators";
+import { Graph } from "../graph/graph.entity";
+
+const GraphProperty = ManyToOneFactory(() => Graph, {
+	fieldName: "__graph" satisfies keyof WorkflowRelationsDto,
+	onUpdateIntegrity: "cascade"
+});
 
 /**
  * The entity class to manage workflows
@@ -11,6 +19,11 @@ import { EntityBase, EntityWithRelations } from "../_lib/entity";
 export class Workflow extends EntityBase implements EntityWithRelations<WorkflowRelationsDto> {
 	// With this, we can reuse the repository from an entity already loaded
 	public readonly [EntityRepositoryType]?: WorkflowRepository;
+
+	@GraphProperty({ foreign: false })
+	public readonly __graph!: number;
+	@GraphProperty({ foreign: true })
+	public graph?: GraphRelationsDto;
 
 	@Property({ unique: true })
 	public name!: string;

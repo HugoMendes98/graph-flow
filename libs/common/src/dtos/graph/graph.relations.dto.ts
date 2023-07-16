@@ -1,6 +1,6 @@
 import { GraphDto } from "./graph.dto";
 import { DtoProperty } from "../_lib/dto";
-import { GraphNodeRelationsDto } from "../graph/node";
+import { GraphNodeRelationsDto } from "../graph/node/graph-node.relations.dto";
 
 /**
  * The class representing a [graph]{@link GraphDto} with its relations.

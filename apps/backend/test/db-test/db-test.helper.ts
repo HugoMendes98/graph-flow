@@ -40,7 +40,7 @@ export class DbTestHelper {
 	}
 
 	/**
-	 * Closes the connexion to the DB.
+	 * Closes the connection to the DB.
 	 *
 	 * @returns nothing
 	 */

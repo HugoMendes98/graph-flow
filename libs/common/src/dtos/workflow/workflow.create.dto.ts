@@ -11,10 +11,21 @@ export const WORKFLOW_CREATE_KEYS_MANDATORY = ["name"] as const satisfies Readon
 >;
 
 /**
+ * The keys that can not be set
+ */
+export const WORKFLOW_KEYS_READONLY = ["__graph"] as const satisfies ReadonlyArray<
+	keyof WorkflowDto
+>;
+
+/**
  * DTO used to create [workflow]{@link WorkflowDto}
  * in its {@link WorkflowEndpoint endpoint}.
  */
 export class WorkflowCreateDto extends IntersectionType(
 	PickType(WorkflowDto, WORKFLOW_CREATE_KEYS_MANDATORY),
-	OmitType(WorkflowDto, [...ENTITY_BASE_KEYS, ...WORKFLOW_CREATE_KEYS_MANDATORY])
+	OmitType(WorkflowDto, [
+		...ENTITY_BASE_KEYS,
+		...WORKFLOW_CREATE_KEYS_MANDATORY,
+		...WORKFLOW_KEYS_READONLY
+	])
 ) {}
