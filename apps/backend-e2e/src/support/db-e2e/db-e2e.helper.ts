@@ -1,9 +1,9 @@
+import { Singleton } from "@heap-code/singleton";
 import axios from "axios";
 import { MockedDb } from "~/app/backend/app/orm/seeders/_lib/mocked-db.seeder";
 import { DB_BASE_SEED } from "~/app/backend/app/orm/seeders/seeds";
 import { DbTestHelper, DbTestSample } from "~/app/backend/test/db-test";
 import { configTest } from "~/app/backend/test/support/config.test";
-import { Singleton } from "~/lib/common/utils/singleton";
 
 import { E2E_ENDPOINT_DB_SEEDING, E2eEndpointDbSeedingBody } from "../e2e.endpoints";
 

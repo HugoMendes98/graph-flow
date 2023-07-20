@@ -1,3 +1,4 @@
+import { Singleton } from "@heap-code/singleton";
 import type { Type } from "@nestjs/common";
 import { plainToInstance, Transform, Type as TypeTransformer } from "class-transformer";
 import { IsArray, isDateString, isObject, IsOptional, ValidateNested } from "class-validator";
@@ -11,7 +12,6 @@ import {
 	WhereStringNullableDto
 } from "./where";
 import { EntityFilter, EntityFilterLogicalOperators } from "../../../endpoints/_lib";
-import { Singleton } from "../../../utils/singleton";
 import { dtoStorage } from "../dto";
 
 /**

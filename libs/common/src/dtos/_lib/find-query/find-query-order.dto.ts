@@ -1,9 +1,9 @@
+import { Singleton } from "@heap-code/singleton";
 import type { Type } from "@nestjs/common";
 import { Type as TypeTransformer } from "class-transformer";
 import { IsIn, IsOptional, ValidateNested } from "class-validator";
 
 import { EntityOrder, OrderValues } from "../../../endpoints/_lib";
-import { Singleton } from "../../../utils/singleton";
 import { dtoStorage } from "../dto";
 
 /**
