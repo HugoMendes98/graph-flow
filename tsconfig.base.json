@@ -14,8 +14,8 @@
 		"noImplicitOverride": true,
 		"paths": {
 			"@nna/plugin": ["libs/plugin/src/*"],
-			"~/app/common/*": ["libs/common/src/*"],
-			"~/app/ng/*": ["libs/ng/src/*"]
+			"~/lib/common/*": ["libs/common/src/*"],
+			"~/lib/ng/*": ["libs/ng/src/*"]
 		},
 		"removeComments": true,
 		"resolveJsonModule": true,

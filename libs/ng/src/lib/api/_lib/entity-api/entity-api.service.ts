@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import * as qs from "qs/lib/stringify";
-import { EntityId } from "~/app/common/dtos/_lib/entity";
-import { EntityFilter } from "~/app/common/endpoints/_lib";
+import { EntityId } from "~/lib/common/dtos/_lib/entity";
+import { EntityFilter } from "~/lib/common/endpoints/_lib";
 import {
 	EntityFindQuery,
 	EntityFindResult
-} from "~/app/common/endpoints/_lib/entity-find.interfaces";
-import { EntityEndpoint } from "~/app/common/endpoints/_lib/entity.endpoint";
+} from "~/lib/common/endpoints/_lib/entity-find.interfaces";
+import { EntityEndpoint } from "~/lib/common/endpoints/_lib/entity.endpoint";
 
 import { ApiClient } from "../../api.client";
 

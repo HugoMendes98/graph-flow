@@ -3,7 +3,7 @@ import {
 	NodeBehaviorBaseDto,
 	NodeBehaviorDiscriminatorKey,
 	NodeBehaviorType
-} from "~/app/common/dtos/node/behaviors";
+} from "~/lib/common/dtos/node/behaviors";
 
 @Entity({
 	abstract: true,

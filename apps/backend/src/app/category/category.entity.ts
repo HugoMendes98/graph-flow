@@ -1,6 +1,6 @@
 import { Collection, Entity, EntityRepositoryType, ManyToMany, Property } from "@mikro-orm/core";
-import { CategoryRelationsDto } from "~/app/common/dtos/category";
-import { NodeRelationsDto } from "~/app/common/dtos/node";
+import { CategoryRelationsDto } from "~/lib/common/dtos/category";
+import { NodeRelationsDto } from "~/lib/common/dtos/node";
 
 import { CategoryRepository } from "./category.repository";
 import { EntityBase, EntityWithRelations } from "../_lib/entity";

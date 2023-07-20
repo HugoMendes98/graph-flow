@@ -8,7 +8,7 @@ import {
 } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { lastValueFrom, tap } from "rxjs";
-import { HttpMethod } from "~/app/common/http";
+import { HttpMethod } from "~/lib/common/http";
 
 import { environment } from "../../environments/environment";
 

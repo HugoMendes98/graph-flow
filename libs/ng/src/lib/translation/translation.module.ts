@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
-import { TranslationLanguage } from "~/app/common/dtos/_lib/translation";
+import { TranslationLanguage } from "~/lib/common/dtos/_lib/translation";
 
 import { TranslationLoader, TranslationLocales } from "./translation.loader";
 

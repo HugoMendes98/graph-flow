@@ -1,8 +1,8 @@
 import { Embedded, Entity, Property } from "@mikro-orm/core";
-import { EntityId } from "~/app/common/dtos/_lib/entity";
-import { GraphRelationsDto } from "~/app/common/dtos/graph";
-import { GraphNodeDto, GraphNodeRelationsDto } from "~/app/common/dtos/graph/node";
-import { NodeRelationsDto } from "~/app/common/dtos/node";
+import { EntityId } from "~/lib/common/dtos/_lib/entity";
+import { GraphRelationsDto } from "~/lib/common/dtos/graph";
+import { GraphNodeDto, GraphNodeRelationsDto } from "~/lib/common/dtos/graph/node";
+import { NodeRelationsDto } from "~/lib/common/dtos/node";
 
 import { GraphNodeRepository } from "./graph-node.repository";
 import { PositionEmbeddable } from "./position.embeddable";

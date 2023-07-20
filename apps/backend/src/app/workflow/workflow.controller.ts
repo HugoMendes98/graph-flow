@@ -6,8 +6,8 @@ import {
 	WorkflowQueryDto,
 	WorkflowResultsDto,
 	WorkflowUpdateDto
-} from "~/app/common/dtos/workflow";
-import { WorkflowEndpoint, WORKFLOWS_ENDPOINT_PREFIX } from "~/app/common/endpoints";
+} from "~/lib/common/dtos/workflow";
+import { WorkflowEndpoint, WORKFLOWS_ENDPOINT_PREFIX } from "~/lib/common/endpoints";
 
 import { WorkflowService } from "./workflow.service";
 

@@ -1,4 +1,4 @@
-import { TranslationModule as NgTranslationModule } from "~/app/ng/lib/translation";
+import { TranslationModule as NgTranslationModule } from "~/lib/ng/lib/translation";
 
 import { LOCALE_EN, LOCALE_FR } from "../../locale";
 

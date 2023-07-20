@@ -2,7 +2,7 @@ import { TranslateLoader } from "@ngx-translate/core";
 import { deepmerge } from "deepmerge-ts";
 import { of } from "rxjs";
 import { JsonObject } from "type-fest/source/basic";
-import { TranslationLanguage } from "~/app/common/dtos/_lib/translation";
+import { TranslationLanguage } from "~/lib/common/dtos/_lib/translation";
 
 import { LOCALE_LIB_EN, LOCALE_LIB_FR } from "./locale";
 

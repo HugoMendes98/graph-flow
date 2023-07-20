@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { WorkflowCreateDto, WorkflowUpdateDto } from "~/app/common/dtos/workflow";
+import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/dtos/workflow";
 
 import { Workflow } from "./workflow.entity";
 import { WorkflowRepository } from "./workflow.repository";

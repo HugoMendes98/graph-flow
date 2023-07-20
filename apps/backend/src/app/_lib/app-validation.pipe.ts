@@ -2,7 +2,7 @@ import { ArgumentMetadata, Injectable, ValidationPipe } from "@nestjs/common";
 import { ValidationPipeOptions } from "@nestjs/common/pipes/validation.pipe";
 import { plainToInstance } from "class-transformer";
 import { deepmerge } from "deepmerge-ts";
-import { transformOptions, validatorOptions } from "~/app/common/options";
+import { transformOptions, validatorOptions } from "~/lib/common/options";
 
 /**
  * The validation pipe for the application.

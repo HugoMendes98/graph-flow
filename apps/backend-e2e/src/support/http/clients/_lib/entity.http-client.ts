@@ -1,8 +1,8 @@
 import axios, { Axios } from "axios";
 import { Jsonify } from "type-fest";
-import { EntityId } from "~/app/common/dtos/_lib/entity";
-import { FindResultsDto } from "~/app/common/dtos/_lib/find-results.dto";
-import { DropFirst } from "~/app/common/types";
+import { EntityId } from "~/lib/common/dtos/_lib/entity";
+import { FindResultsDto } from "~/lib/common/dtos/_lib/find-results.dto";
+import { DropFirst } from "~/lib/common/types";
 
 /**
  * This is (almost) only a helper for the entrypoint string.

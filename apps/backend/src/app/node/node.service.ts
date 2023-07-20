@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { NodeCreateDto, NodeUpdateDto } from "~/app/common/dtos/node";
+import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/dtos/node";
 
 import { Node } from "./node.entity";
 import { NodeRepository } from "./node.repository";

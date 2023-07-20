@@ -6,8 +6,8 @@ import {
 	CategoryQueryDto,
 	CategoryResultsDto,
 	CategoryUpdateDto
-} from "~/app/common/dtos/category";
-import { CATEGORIES_ENDPOINT_PREFIX, CategoryEndpoint } from "~/app/common/endpoints";
+} from "~/lib/common/dtos/category";
+import { CATEGORIES_ENDPOINT_PREFIX, CategoryEndpoint } from "~/lib/common/endpoints";
 
 import { CategoryService } from "./category.service";
 

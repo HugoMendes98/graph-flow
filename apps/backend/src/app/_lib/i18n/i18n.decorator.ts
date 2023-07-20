@@ -1,5 +1,5 @@
 import { JsonType, Property } from "@mikro-orm/core";
-import { TranslationDto } from "~/app/common/dtos/_lib/translation";
+import { TranslationDto } from "~/lib/common/dtos/_lib/translation";
 
 /**
  * @returns a Mikro-orm decorator for a `I18n` property

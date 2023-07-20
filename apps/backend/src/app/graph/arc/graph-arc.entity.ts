@@ -1,7 +1,7 @@
 import { Entity } from "@mikro-orm/core";
-import { GraphArcRelationsDto } from "~/app/common/dtos/graph/arc";
-import { GraphNodeInputRelationsDto } from "~/app/common/dtos/graph/node/input";
-import { GraphNodeOutputRelationsDto } from "~/app/common/dtos/graph/node/output";
+import { GraphArcRelationsDto } from "~/lib/common/dtos/graph/arc";
+import { GraphNodeInputRelationsDto } from "~/lib/common/dtos/graph/node/input";
+import { GraphNodeOutputRelationsDto } from "~/lib/common/dtos/graph/node/output";
 
 import { GraphArcRepository } from "./graph-arc.repository";
 import { EntityBase, EntityWithRelations } from "../../_lib/entity";

@@ -1,5 +1,5 @@
 import { Collection } from "@mikro-orm/core";
-import { EntityDto } from "~/app/common/dtos/_lib/entity";
+import { EntityDto } from "~/lib/common/dtos/_lib/entity";
 
 /**
  * Transforms entity with array relations to Mikro-orm collection,

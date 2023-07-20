@@ -6,8 +6,8 @@ import {
 	OneToOne,
 	Property
 } from "@mikro-orm/core";
-import { CategoryRelationsDto } from "~/app/common/dtos/category";
-import { NodeRelationsDto } from "~/app/common/dtos/node";
+import { CategoryRelationsDto } from "~/lib/common/dtos/category";
+import { NodeRelationsDto } from "~/lib/common/dtos/node";
 
 import { NodeBehavior, NodeBehaviorBase } from "./behaviors";
 import { NodeRepository } from "./node.repository";

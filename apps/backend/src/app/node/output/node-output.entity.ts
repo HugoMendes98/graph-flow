@@ -1,6 +1,6 @@
 import { Entity, EntityRepositoryType, Property } from "@mikro-orm/core";
-import { NodeRelationsDto } from "~/app/common/dtos/node";
-import { NodeOutputRelationsDto } from "~/app/common/dtos/node/output";
+import { NodeRelationsDto } from "~/lib/common/dtos/node";
+import { NodeOutputRelationsDto } from "~/lib/common/dtos/node/output";
 
 import { NodeOutputRepository } from "./node-output.repository";
 import { EntityBase, EntityWithRelations } from "../../_lib/entity";

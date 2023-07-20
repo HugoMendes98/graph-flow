@@ -1,5 +1,5 @@
 import { Injectable, MethodNotAllowedException } from "@nestjs/common";
-import { GraphArcCreateDto, GraphArcUpdateDto } from "~/app/common/dtos/graph/arc";
+import { GraphArcCreateDto, GraphArcUpdateDto } from "~/lib/common/dtos/graph/arc";
 
 import { GraphArc } from "./graph-arc.entity";
 import { GraphArcRepository } from "./graph-arc.repository";

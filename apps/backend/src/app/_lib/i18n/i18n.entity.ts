@@ -1,6 +1,6 @@
 import { Property } from "@mikro-orm/core";
-import { I18nDto } from "~/app/common/dtos/_lib/i18n";
-import { type TranslationDto } from "~/app/common/dtos/_lib/translation";
+import { I18nDto } from "~/lib/common/dtos/_lib/i18n";
+import { type TranslationDto } from "~/lib/common/dtos/_lib/translation";
 
 import { I18nProperty } from "./i18n.decorator";
 import { EntityBase } from "../entity";

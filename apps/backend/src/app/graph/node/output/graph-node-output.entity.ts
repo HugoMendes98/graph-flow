@@ -1,7 +1,7 @@
 import { Entity } from "@mikro-orm/core";
-import { GraphNodeRelationsDto } from "~/app/common/dtos/graph/node";
-import { GraphNodeOutputRelationsDto } from "~/app/common/dtos/graph/node/output";
-import { NodeOutputRelationsDto } from "~/app/common/dtos/node/output";
+import { GraphNodeRelationsDto } from "~/lib/common/dtos/graph/node";
+import { GraphNodeOutputRelationsDto } from "~/lib/common/dtos/graph/node/output";
+import { NodeOutputRelationsDto } from "~/lib/common/dtos/node/output";
 
 import { GraphNodeOutputRepository } from "./graph-node-output.repository";
 import { EntityBase, EntityWithRelations } from "../../../_lib/entity";

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CategoryCreateDto, CategoryUpdateDto } from "~/app/common/dtos/category";
+import { CategoryCreateDto, CategoryUpdateDto } from "~/lib/common/dtos/category";
 
 import { Category } from "./category.entity";
 import { CategoryRepository } from "./category.repository";

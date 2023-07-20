@@ -36,7 +36,7 @@
 						"message": "Test files must not be imported in other files (at least not app code)."
 					},
 					{
-						"group": ["~/app/ng/*"],
+						"group": ["~/lib/ng/*"],
 						"message": "Do not import 'ng' lib into 'lib'."
 					}
 				]

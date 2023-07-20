@@ -1,9 +1,9 @@
 import { EntityRepository, FilterQuery, wrap } from "@mikro-orm/core";
 import { instanceToPlain } from "class-transformer";
-import { EntityId } from "~/app/common/dtos/_lib/entity";
-import { FindResultsDto } from "~/app/common/dtos/_lib/find-results.dto";
-import { EntityFindParams, EntityFilter } from "~/app/common/endpoints/_lib";
-import { transformOptions } from "~/app/common/options";
+import { EntityId } from "~/lib/common/dtos/_lib/entity";
+import { FindResultsDto } from "~/lib/common/dtos/_lib/find-results.dto";
+import { EntityFindParams, EntityFilter } from "~/lib/common/endpoints/_lib";
+import { transformOptions } from "~/lib/common/options";
 
 import { EntityBase } from "./entity-base.entity";
 import { entityOrderToQueryOrder } from "./entity-order.converter";

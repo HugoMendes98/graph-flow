@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { WorkflowCreateDto, WorkflowUpdateDto } from "~/app/common/dtos/workflow";
-import { Workflow, WorkflowEndpoint, WORKFLOWS_ENDPOINT_PREFIX } from "~/app/common/endpoints";
+import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/dtos/workflow";
+import { Workflow, WorkflowEndpoint, WORKFLOWS_ENDPOINT_PREFIX } from "~/lib/common/endpoints";
 
 import { EntityApiService } from "../_lib/entity-api";
 

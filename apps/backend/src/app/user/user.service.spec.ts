@@ -1,6 +1,6 @@
 import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { UserCreateDto, UserUpdateDto } from "~/app/common/dtos/user";
+import { UserCreateDto, UserUpdateDto } from "~/lib/common/dtos/user";
 
 import { UserModule } from "./user.module";
 import { UserService } from "./user.service";

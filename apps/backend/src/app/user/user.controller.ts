@@ -6,8 +6,8 @@ import {
 	UserQueryDto,
 	UserResultsDto,
 	UserUpdateDto
-} from "~/app/common/dtos/user";
-import { UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/app/common/endpoints";
+} from "~/lib/common/dtos/user";
+import { UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/lib/common/endpoints";
 
 import { UserService } from "./user.service";
 
