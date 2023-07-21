@@ -1,7 +1,5 @@
 name: Release & Publish
 
-# Only run when the a PR is merged to master
-
 on:
   push:
     branches:
@@ -10,26 +8,25 @@ on:
 jobs:
   job:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
           cache: "npm"
+          node-version: 18.x
 
       - name: Install packages
         run: npm ci
 
-      - name: Test coverage
-        run: npm run test -- --ci --code-coverage --coverageReporters json-summary
+      - name: Generate code coverage summary
+        run: npm run test:coverage -- --ci --coverageReporters json-summary
 
       - name: Generating `common` lib coverage badges
         uses: jpb06/jest-badges-action@latest
@@ -37,14 +34,14 @@ jobs:
           branches: ci-status
           coverage-summary-path: ./coverage/libs/common/coverage-summary.json
           no-commit: true
-          output-folder: ./.badges/libs/common
+          output-folder: ./.badges/libs/common/code
       - name: Generating `ng` lib coverage badges
         uses: jpb06/jest-badges-action@latest
         with:
           branches: ci-status
           coverage-summary-path: ./coverage/libs/ng/coverage-summary.json
           no-commit: true
-          output-folder: ./.badges/libs/ng
+          output-folder: ./.badges/libs/ng/code
 
       - name: Generating `backend` app coverage badges
         uses: jpb06/jest-badges-action@latest
@@ -52,24 +49,30 @@ jobs:
           branches: ci-status
           coverage-summary-path: ./coverage/apps/backend/coverage-summary.json
           no-commit: true
-          output-folder: ./.badges/apps/backend
+          output-folder: ./.badges/apps/backend/code
       - name: Generating `frontend` app coverage badges
         uses: jpb06/jest-badges-action@latest
         with:
           branches: ci-status
           coverage-summary-path: ./coverage/apps/frontend/coverage-summary.json
           no-commit: true
-          output-folder: ./.badges/apps/frontend
+          output-folder: ./.badges/apps/frontend/code
+
+      - name: Set default code coverage badges
+        run: for path in .badges/*/*/code; do cp $path/coverage-jest\ coverage.svg $path/coverage.svg; done
 
       - name: Generating `backend` app comment coverage badges
-        run: npm run backend:compodoc:build && cp dist/documenation/backend/images/coverage-badge-documentation.svg .badges/apps/backend/
+        run: npm run backend:compodoc:build && cp dist/documentation/backend/images/coverage-badge-documentation.svg .badges/apps/backend/comment/coverage.svg
       - name: Generating `frontend` app comment coverage badges
-        run: npm run frontend:compodoc:build && cp dist/documenation/frontend/images/coverage-badge-documentation.svg .badges/apps/frontend/
+        run: npm run frontend:compodoc:build && cp dist/documentation/frontend/images/coverage-badge-documentation.svg .badges/apps/frontend/comment/coverage.svg
 
       - name: Set git config
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add badges
+        run: git add .badges
 
       - name: Release and publish
         run: npx release-it --ci --no-git.requireCleanWorkingDir

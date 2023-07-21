@@ -144,7 +144,7 @@
 	"scripts": {
 		"backend:build": "nx build backend",
 		"backend:compodoc": "npm run backend:compodoc:build -- -r 3080 -s",
-		"backend:compodoc:build": "npx @compodoc/compodoc -p ./apps/backend/tsconfig.doc.json -a .badges/ -d ./dist/documenation/backend",
+		"backend:compodoc:build": "npx @compodoc/compodoc -p ./apps/backend/tsconfig.doc.json -a .badges/ -d ./dist/documentation/backend",
 		"backend:compodoc:coverage": "npm run backend:compodoc:build -- --coverageTest 75 --silent",
 		"backend:e2e": "nx e2e backend-e2e --runInBand",
 		"backend:e2e:lint": "nx lint backend-e2e",
@@ -159,7 +159,7 @@
 		"compodoc:coverage": "npm run backend:compodoc:coverage && npm run frontend:compodoc:coverage",
 		"frontend:build": "nx build frontend",
 		"frontend:compodoc": "npm run frontend:compodoc:build -- -r 4080 -s",
-		"frontend:compodoc:build": "npx @compodoc/compodoc -p ./apps/frontend/tsconfig.doc.json -a .badges/ -d ./dist/documenation/frontend",
+		"frontend:compodoc:build": "npx @compodoc/compodoc -p ./apps/frontend/tsconfig.doc.json -a .badges/ -d ./dist/documentation/frontend",
 		"frontend:compodoc:coverage": "npm run frontend:compodoc:build -- --coverageTest 75 --silent",
 		"frontend:e2e": "nx e2e frontend-e2e",
 		"frontend:e2e:lint": "nx lint frontend-e2e",
@@ -198,6 +198,7 @@
 		"lint:style:fix": "npm run lint:style -- --fix",
 		"postinstall": "ts-node tools/npm/postinstall.ts",
 		"test": "nx run-many --target=test --parallel=3 --runInBand",
+		"test:coverage": "npm run test -- --coverage",
 		"test:e2e": "nx run-many --target=e2e --parallel=false --runInBand"
 	},
 	"version": "0.0.1"

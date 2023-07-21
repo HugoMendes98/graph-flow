@@ -1,10 +1,10 @@
 # Ng
 
-![coverage-branches](../../.badges/libs/ng/coverage-branches.svg)
-![coverage-functions](../../.badges/libs/ng/coverage-functions.svg)
-![coverage-jest coverage](../../.badges/libs/ng/coverage-jest coverage.svg)
-![coverage-lines](../../.badges/libs/ng/coverage-lines.svg)
-![coverage-statements](../../.badges/libs/ng/coverage-statements.svg)
+![coverage-branches](../../.badges/libs/ng/code/coverage-branches.svg)
+![coverage-functions](../../.badges/libs/ng/code/coverage-functions.svg)
+![coverage-jest coverage](../../.badges/libs/ng/code/coverage-jest coverage.svg)
+![coverage-lines](../../.badges/libs/ng/code/coverage-lines.svg)
+![coverage-statements](../../.badges/libs/ng/code/coverage-statements.svg)
 
 ## Description
 

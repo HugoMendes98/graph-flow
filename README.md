@@ -4,17 +4,17 @@ A boilerplate structure for a backend, frontend and back-office applications.
 
 [![CI](https://github.com/HugoMendes98/Nx-NestJS-Angular/actions/workflows/ci.yml/badge.svg)](https://github.com/HugoMendes98/Nx-NestJS-Angular/actions/workflows/ci.yml)
 
-| Code            | Jest coverage                                                                   |
-|-----------------|---------------------------------------------------------------------------------|
-| `libs/common`   | ![common-jest coverage](./.badges/libs/common/coverage-jest%20coverage.svg)     |
-| `libs/ng`       | ![ng-jest coverage](./.badges/libs/ng/coverage-jest%20coverage.svg)             |
-| `apps/backend`  | ![backend-jest coverage](./.badges/apps/backend/coverage-jest%20coverage.svg)   |
-| `apps/frontend` | ![frontend-jest coverage](./.badges/apps/frontend/coverage-jest%20coverage.svg) |
+| Code            | Jest coverage                                                            |
+|-----------------|--------------------------------------------------------------------------|
+| `libs/common`       | ![common-jest coverage](./.badges/libs/common/code/coverage.svg)     |
+| `libs/ng`           | ![ng-jest coverage](./.badges/libs/ng/code/coverage.svg)             |
+| `apps/backend`      | ![backend-jest coverage](./.badges/apps/backend/code/coverage.svg)   |
+| `apps/frontend`     | ![frontend-jest coverage](./.badges/apps/frontend/code/coverage.svg) |
 
-| App             | Comment coverage                                                           |
-|-----------------|----------------------------------------------------------------------------|
-| `apps/backend`  | ![backend docs](./.badges/apps/backend/coverage-badge-documentation.svg)   |
-| `apps/frontend` | ![frontend docs](./.badges/apps/frontend/coverage-badge-documentation.svg) |
+| App             | Comment coverage                                               |
+|-----------------|----------------------------------------------------------------|
+| `apps/backend`  | ![backend docs](./.badges/apps/backend/comment/coverage.svg)   |
+| `apps/frontend` | ![frontend docs](./.badges/apps/frontend/comment/coverage.svg) |
 
 ## Description
 

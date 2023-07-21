@@ -3,7 +3,6 @@ name: CI
 on:
   push:
     branches:
-      - develop
       - master
   pull_request:
     branches:
@@ -35,7 +34,7 @@ jobs:
         run: npm run build
 
       - name: Tests
-        run: npm run test -- --ci --code-coverage
+        run: npm run test:coverage -- --ci
 
       - name: Tests e2e
         run: npm run test:e2e -- --no-video
