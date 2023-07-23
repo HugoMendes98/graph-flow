@@ -1,5 +1,4 @@
 import { Entity, EntityRepositoryType, Property } from "@mikro-orm/core";
-import { NodeRelationsDto } from "~/lib/common/dtos/node";
 import { NodeOutputRelationsDto } from "~/lib/common/dtos/node/output";
 
 import { NodeOutputRepository } from "./node-output.repository";
@@ -13,7 +12,10 @@ const NodeProperty = ManyToOneFactory(() => Node, {
 });
 
 @Entity({ customRepository: () => NodeOutputRepository })
-export class NodeOutput extends EntityBase implements EntityWithRelations<NodeOutputRelationsDto> {
+export class NodeOutput
+	extends EntityBase
+	implements EntityWithRelations<NodeOutputRelationsDto, { node: Node }>
+{
 	// With this, we can reuse the repository from an entity already loaded
 	public readonly [EntityRepositoryType]?: NodeOutputRepository;
 
@@ -21,7 +23,7 @@ export class NodeOutput extends EntityBase implements EntityWithRelations<NodeOu
 	public __node!: number;
 
 	@NodeProperty({ foreign: true })
-	public node?: NodeRelationsDto;
+	public node?: Node;
 
 	@Property()
 	public name!: string;

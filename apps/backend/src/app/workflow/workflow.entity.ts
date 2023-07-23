@@ -1,5 +1,4 @@
 import { Entity, EntityRepositoryType, Property } from "@mikro-orm/core";
-import { GraphRelationsDto } from "~/lib/common/dtos/graph";
 import { WorkflowRelationsDto } from "~/lib/common/dtos/workflow";
 
 import { WorkflowRepository } from "./workflow.repository";
@@ -16,14 +15,17 @@ const GraphProperty = ManyToOneFactory(() => Graph, {
  * The entity class to manage workflows
  */
 @Entity({ customRepository: () => WorkflowRepository })
-export class Workflow extends EntityBase implements EntityWithRelations<WorkflowRelationsDto> {
+export class Workflow
+	extends EntityBase
+	implements EntityWithRelations<WorkflowRelationsDto, { graph: Graph }>
+{
 	// With this, we can reuse the repository from an entity already loaded
 	public readonly [EntityRepositoryType]?: WorkflowRepository;
 
 	@GraphProperty({ foreign: false })
 	public readonly __graph!: number;
 	@GraphProperty({ foreign: true })
-	public graph?: GraphRelationsDto;
+	public graph?: Graph;
 
 	@Property({ unique: true })
 	public name!: string;

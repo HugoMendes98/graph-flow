@@ -1,8 +1,6 @@
 import { Embedded, Entity, Property } from "@mikro-orm/core";
 import { EntityId } from "~/lib/common/dtos/_lib/entity";
-import { GraphRelationsDto } from "~/lib/common/dtos/graph";
 import { GraphNodeDto, GraphNodeRelationsDto } from "~/lib/common/dtos/graph/node";
-import { NodeRelationsDto } from "~/lib/common/dtos/node";
 
 import { GraphNodeRepository } from "./graph-node.repository";
 import { PositionEmbeddable } from "./position.embeddable";
@@ -22,16 +20,19 @@ const NodeProperty = ManyToOneFactory(() => Node, {
 });
 
 @Entity({ customRepository: () => GraphNodeRepository })
-export class GraphNode extends EntityBase implements EntityWithRelations<GraphNodeRelationsDto> {
+export class GraphNode
+	extends EntityBase
+	implements EntityWithRelations<GraphNodeRelationsDto, { graph: Graph; node: Node }>
+{
 	@GraphProperty({ foreign: false })
 	public __graph!: EntityId;
 	@GraphProperty({ foreign: true })
-	public graph?: GraphRelationsDto;
+	public graph?: Graph;
 
 	@NodeProperty({ foreign: false })
 	public __node!: EntityId;
 	@NodeProperty({ foreign: true })
-	public node?: NodeRelationsDto;
+	public node?: Node;
 
 	@Property()
 	public name!: string;

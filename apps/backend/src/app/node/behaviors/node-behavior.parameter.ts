@@ -1,42 +1,16 @@
-import { Entity } from "@mikro-orm/core";
+import { Type } from "@nestjs/common";
+
 import {
-	NodeBehaviorVariableDto,
-	NodeBehaviorType,
-	NodeBehaviorParameterBaseDto,
-	NodeBehaviorParameterInputDto,
-	NodeBehaviorParameterOutputDto
-} from "~/lib/common/dtos/node/behaviors";
+	NodeBehaviorParameterBase,
+	NodeBehaviorParameterInput,
+	NodeBehaviorParameterOutput,
+	NodeBehaviorVariable
+} from "./parameters";
 
-import { NodeBehaviorBase } from "./node-behavior.base";
+export const NODE_BEHAVIOR_PARAMETER_ENTITIES = [
+	NodeBehaviorParameterInput,
+	NodeBehaviorParameterOutput,
+	NodeBehaviorVariable
+] as const satisfies ReadonlyArray<Type<NodeBehaviorParameterBase>>;
 
-const type = NodeBehaviorType.VARIABLE;
-
-export abstract class NodeBehaviorParameterBase<
-		T extends
-			| NodeBehaviorType.PARAMETER_IN
-			| NodeBehaviorType.PARAMETER_OUT
-			| NodeBehaviorType.VARIABLE
-	>
-	extends NodeBehaviorBase<T>
-	implements NodeBehaviorParameterBaseDto {}
-
-@Entity({ discriminatorValue: NodeBehaviorType.VARIABLE })
-export class NodeBehaviorVariable
-	extends NodeBehaviorParameterBase<NodeBehaviorType.VARIABLE>
-	implements NodeBehaviorVariableDto {}
-
-@Entity({ discriminatorValue: NodeBehaviorType.PARAMETER_IN })
-export class NodeBehaviorParameterInput
-	extends NodeBehaviorParameterBase<NodeBehaviorType.PARAMETER_IN>
-	implements NodeBehaviorParameterInputDto
-{
-	public __input!: number;
-}
-
-@Entity({ discriminatorValue: NodeBehaviorType.PARAMETER_OUT })
-export class NodeBehaviorParameterOutput
-	extends NodeBehaviorParameterBase<NodeBehaviorType.PARAMETER_OUT>
-	implements NodeBehaviorParameterOutputDto
-{
-	public __output!: number;
-}
+export type NodeBehaviorParameter = InstanceType<(typeof NODE_BEHAVIOR_PARAMETER_ENTITIES)[number]>;

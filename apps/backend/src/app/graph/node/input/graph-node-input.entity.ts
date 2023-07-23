@@ -1,7 +1,5 @@
 import { Entity } from "@mikro-orm/core";
-import { GraphNodeRelationsDto } from "~/lib/common/dtos/graph/node";
 import { GraphNodeInputDto, GraphNodeInputRelationsDto } from "~/lib/common/dtos/graph/node/input";
-import { NodeInputRelationsDto } from "~/lib/common/dtos/node/input";
 
 import { GraphNodeInputRepository } from "./graph-node-input.repository";
 import { EntityBase, EntityWithRelations } from "../../../_lib/entity";
@@ -22,15 +20,19 @@ const NodeInputProperty = ManyToOneFactory(() => NodeInput, {
 @Entity({ customRepository: () => GraphNodeInputRepository })
 export class GraphNodeInput
 	extends EntityBase
-	implements EntityWithRelations<GraphNodeInputRelationsDto>
+	implements
+		EntityWithRelations<
+			GraphNodeInputRelationsDto,
+			{ graphNode: GraphNode; nodeInput: NodeInput }
+		>
 {
 	@GraphNodeProperty({ foreign: false })
 	public __graph_node!: number;
 	@GraphNodeProperty({ foreign: true })
-	public graphNode?: GraphNodeRelationsDto;
+	public graphNode?: GraphNode;
 
 	@NodeInputProperty({ foreign: false })
 	public __node_input!: number;
 	@NodeInputProperty({ foreign: true })
-	public nodeInput?: NodeInputRelationsDto;
+	public nodeInput?: NodeInput;
 }

@@ -10,11 +10,21 @@ import { EntityBase } from "./entity-base.entity";
  */
 export type EntityWithRelations<
 	T extends EntityDto,
-	K extends Partial<Record<keyof T, EntityBase>> = never
+	Relations extends Partial<Record<keyof T, EntityBase>> = never
 > = {
+	/* eslint-disable no-mixed-spaces-and-tabs -- For the prettier format */
+	// If the property is an array of entity -> convert to Mikro-orm collection
 	[P in keyof T]: NonNullable<T[P]> extends EntityDto[]
-		? Collection<K[P] extends EntityBase ? K[P] : EntityBase>
+		? // Allow to override the type with the given options
+		  Collection<Relations[P] extends EntityBase ? Relations[P] : EntityBase>
+		: // Else if the property is an entity
+		NonNullable<T[P]> extends EntityDto
+		? // Allow to override the type with the given options
+		  Relations[P] extends EntityBase
+			? Relations[P]
+			: EntityBase
 		: T[P];
+	/* eslint-enable */
 };
 
 /**

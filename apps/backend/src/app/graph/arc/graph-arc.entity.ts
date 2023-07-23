@@ -1,7 +1,5 @@
 import { Entity } from "@mikro-orm/core";
 import { GraphArcRelationsDto } from "~/lib/common/dtos/graph/arc";
-import { GraphNodeInputRelationsDto } from "~/lib/common/dtos/graph/node/input";
-import { GraphNodeOutputRelationsDto } from "~/lib/common/dtos/graph/node/output";
 
 import { GraphArcRepository } from "./graph-arc.repository";
 import { EntityBase, EntityWithRelations } from "../../_lib/entity";
@@ -20,14 +18,18 @@ const ToProperty = ManyToOneFactory(() => GraphNodeInput, {
 });
 
 @Entity({ customRepository: () => GraphArcRepository })
-export class GraphArc extends EntityBase implements EntityWithRelations<GraphArcRelationsDto> {
+export class GraphArc
+	extends EntityBase
+	implements
+		EntityWithRelations<GraphArcRelationsDto, { from: GraphNodeOutput; to: GraphNodeInput }>
+{
 	@FromProperty({ foreign: false })
 	public readonly __from!: number;
 	@FromProperty({ foreign: true })
-	public readonly from!: GraphNodeOutputRelationsDto;
+	public readonly from!: GraphNodeOutput;
 
 	@ToProperty({ foreign: false })
 	public readonly __to!: number;
 	@ToProperty({ foreign: true })
-	public readonly to!: GraphNodeInputRelationsDto;
+	public readonly to!: GraphNodeInput;
 }
