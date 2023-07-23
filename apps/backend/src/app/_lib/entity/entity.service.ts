@@ -7,6 +7,17 @@ import { transformOptions } from "~/lib/common/options";
 
 import { EntityBase } from "./entity-base.entity";
 import { entityOrderToQueryOrder } from "./entity-order.converter";
+import { EntityRelationsKeys } from "./entity.types";
+
+/**
+ * Some options when finding entities
+ */
+export interface EntityServiceFindOptions<T extends EntityBase, P extends EntityRelationsKeys<T>> {
+	/**
+	 * Populate the given relation keys
+	 */
+	populate?: P[];
+}
 
 /**
  * The options when creating an entity
@@ -45,12 +56,14 @@ export abstract class EntityService<
 	 *
 	 * @param where Filter to apply
 	 * @param params Additional parameters to sort and/or paginate
+	 * @param options Some options when loading an entities
 	 * @returns All entities found with its pagination
 	 */
-	public findAndCount(
+	public findAndCount<P extends EntityRelationsKeys<T>>(
 		where: EntityFilter<T> = {},
-		params: EntityFindParams<T> = {}
-	): Promise<FindResultsDto<T>> {
+		params: EntityFindParams<T> = {},
+		options?: EntityServiceFindOptions<T, P>
+	): Promise<FindResultsDto<Required<Pick<T, P>> & T>> {
 		// TODO: fix order by foreign of foreign id
 		const offset = params.skip ?? 0;
 		return (
@@ -60,10 +73,11 @@ export abstract class EntityService<
 				.findAndCount(instanceToPlain(where, transformOptions), {
 					limit: params.limit,
 					offset,
-					orderBy: params.order?.map(entityOrderToQueryOrder)
+					orderBy: params.order?.map(entityOrderToQueryOrder),
+					populate: options?.populate as never
 				})
 				.then(([data, total]) => ({
-					data,
+					data: data as Array<Required<Pick<T, P>> & T>,
 					pagination: { range: { end: offset + data.length, start: offset }, total }
 				}))
 		);
@@ -83,13 +97,20 @@ export abstract class EntityService<
 	 * Find one entity by its id
 	 *
 	 * @param id Entity id to find
+	 * @param options Some options when loading an entity
 	 * @returns The found entity
 	 */
-	public findById(id: EntityId): Promise<T> {
-		return this.repository.findOneOrFail({
-			_id: id
-			// It seems there's an error when using calculated generic type
-		} satisfies FilterQuery<EntityBase> as FilterQuery<T>);
+	public findById<P extends EntityRelationsKeys<T>>(
+		id: EntityId,
+		options?: EntityServiceFindOptions<T, P>
+	) {
+		return this.repository.findOneOrFail(
+			{
+				_id: { $eq: id }
+				// It seems there's an error when using calculated generic type
+			} satisfies FilterQuery<EntityBase> as FilterQuery<T>,
+			{ populate: options?.populate as never }
+		) as Promise<Required<Pick<T, P>> & T>;
 	}
 
 	/**

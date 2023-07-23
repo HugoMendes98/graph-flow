@@ -6,7 +6,6 @@ import {
 	OneToOne,
 	Property
 } from "@mikro-orm/core";
-import { CategoryRelationsDto } from "~/lib/common/dtos/category";
 import { NodeRelationsDto } from "~/lib/common/dtos/node";
 
 import { NodeBehavior, NodeBehaviorBase } from "./behaviors";
@@ -18,7 +17,10 @@ import { Category } from "../category/category.entity";
  * The entity class to manage nodes
  */
 @Entity({ customRepository: () => NodeRepository })
-export class Node extends EntityBase implements EntityWithRelations<NodeRelationsDto> {
+export class Node
+	extends EntityBase
+	implements EntityWithRelations<NodeRelationsDto, { categories: Category }>
+{
 	// With this, we can reuse the repository from an entity already loaded
 	public readonly [EntityRepositoryType]?: NodeRepository;
 
@@ -29,7 +31,7 @@ export class Node extends EntityBase implements EntityWithRelations<NodeRelation
 	public readonly behavior!: NodeBehavior;
 
 	@ManyToMany(() => Category, category => category.nodes, { owner: true })
-	public categories? = new Collection<CategoryRelationsDto>(this);
+	public categories? = new Collection<Category>(this);
 
 	public override toJSON?(): this {
 		if (super.toJSON) {
