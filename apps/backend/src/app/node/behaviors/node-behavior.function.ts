@@ -21,5 +21,5 @@ export class NodeBehaviorFunction extends NodeBehaviorBase<typeof type> implemen
 	public readonly __graph!: number;
 
 	@GraphProperty({ foreign: true })
-	public readonly graph!: Graph;
+	public readonly graph?: Graph;
 }

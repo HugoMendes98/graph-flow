@@ -13,7 +13,7 @@ const GraphNodeProperty = ManyToOneFactory(() => GraphNode, {
 });
 
 const NodeInputProperty = ManyToOneFactory(() => NodeInput, {
-	fieldName: "__graph_node" satisfies keyof GraphNodeInputDto,
+	fieldName: "__node_input" satisfies keyof GraphNodeInputDto,
 	onUpdateIntegrity: "cascade"
 });
 

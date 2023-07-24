@@ -5,6 +5,7 @@ import { INestApplicationContext } from "@nestjs/common";
 import { DbTestSample } from "./db-test.sample";
 import { MockedDbSeeder } from "../../src/orm/seeders/_lib/mocked-db.seeder";
 import { DbBaseSeeder } from "../../src/orm/seeders/db.base.seeder";
+import { DbEmptySeeder } from "../../src/orm/seeders/db.empty.seeder";
 
 export interface DbTestHelperParams {
 	/**
@@ -32,6 +33,9 @@ export class DbTestHelper {
 		switch (params?.sample ?? "base") {
 			case "base":
 				this.seeder = DbBaseSeeder;
+				break;
+			case "empty":
+				this.seeder = DbEmptySeeder;
 				break;
 
 			default:

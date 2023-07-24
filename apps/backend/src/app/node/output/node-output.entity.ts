@@ -1,4 +1,4 @@
-import { Entity, EntityRepositoryType, Property } from "@mikro-orm/core";
+import { Entity, EntityRepositoryType, LoadStrategy, Property } from "@mikro-orm/core";
 import { NodeOutputRelationsDto } from "~/lib/common/dtos/node/output";
 
 import { NodeOutputRepository } from "./node-output.repository";
@@ -8,7 +8,9 @@ import { Node } from "../node.entity";
 
 const NodeProperty = ManyToOneFactory(() => Node, {
 	fieldName: "__node" satisfies keyof NodeOutputRelationsDto,
-	onUpdateIntegrity: "cascade"
+	onDelete: "cascade",
+	onUpdateIntegrity: "cascade",
+	strategy: LoadStrategy.JOINED
 });
 
 @Entity({ customRepository: () => NodeOutputRepository })

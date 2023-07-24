@@ -1,7 +1,7 @@
 import { Singleton } from "@heap-code/singleton";
 import axios from "axios";
 import { MockedDb } from "~/app/backend/app/orm/seeders/_lib/mocked-db.seeder";
-import { DB_BASE_SEED } from "~/app/backend/app/orm/seeders/seeds";
+import { DB_BASE_SEED, DB_EMPTY_SEED } from "~/app/backend/app/orm/seeders/seeds";
 import { DbTestHelper, DbTestSample } from "~/app/backend/test/db-test";
 import { configTest } from "~/app/backend/test/support/config.test";
 
@@ -11,7 +11,8 @@ const { name, port } = configTest.host;
 const baseURL = `http://${name}:${port}`;
 
 const dbSamples: Record<DbTestSample, MockedDb> = {
-	base: DB_BASE_SEED
+	base: DB_BASE_SEED,
+	empty: DB_EMPTY_SEED
 };
 
 export class DbE2eHelper implements Omit<DbTestHelper, "close"> {

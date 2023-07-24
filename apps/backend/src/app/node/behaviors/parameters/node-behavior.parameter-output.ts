@@ -20,5 +20,5 @@ export class NodeBehaviorParameterOutput
 	public readonly __node_output!: number;
 
 	@OutputProperty({ foreign: true })
-	public readonly nodeOutput!: GraphNodeOutput;
+	public readonly nodeOutput?: GraphNodeOutput;
 }

@@ -12,7 +12,6 @@ export type EntityWithRelations<
 	T extends EntityDto,
 	Relations extends Partial<Record<keyof T, EntityBase>> = never
 > = {
-	/* eslint-disable no-mixed-spaces-and-tabs -- For the prettier format */
 	// If the property is an array of entity -> convert to Mikro-orm collection
 	[P in keyof T]: NonNullable<T[P]> extends EntityDto[]
 		? // Allow to override the type with the given options

@@ -26,10 +26,10 @@ export class GraphArc
 	@FromProperty({ foreign: false })
 	public readonly __from!: number;
 	@FromProperty({ foreign: true })
-	public readonly from!: GraphNodeOutput;
+	public readonly from?: GraphNodeOutput;
 
 	@ToProperty({ foreign: false })
 	public readonly __to!: number;
 	@ToProperty({ foreign: true })
-	public readonly to!: GraphNodeInput;
+	public readonly to?: GraphNodeInput;
 }

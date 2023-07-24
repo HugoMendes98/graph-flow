@@ -17,7 +17,7 @@ import { EntityDto } from "../_lib/entity";
  */
 export class NodeDto extends EntityDto {
 	/**
-	 * The unique name of a node
+	 * The name of a node
 	 */
 	@DtoProperty()
 	@IsString()

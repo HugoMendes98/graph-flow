@@ -1,9 +1,11 @@
-import { Entity, EntityOptions, Enum, PrimaryKey } from "@mikro-orm/core";
+import { Entity, EntityOptions, Enum, OneToOne } from "@mikro-orm/core";
 import {
 	NodeBehaviorBaseDto,
 	NodeBehaviorDiscriminatorKey,
 	NodeBehaviorType
 } from "~/lib/common/dtos/node/behaviors";
+
+import { Node } from "../node.entity";
 
 export const NODE_BEHAVIOR_ENTITY_OPTIONS = {
 	discriminatorColumn: "type" satisfies NodeBehaviorDiscriminatorKey,
@@ -18,9 +20,17 @@ export const NODE_BEHAVIOR_ENTITY_OPTIONS = {
 export abstract class NodeBehaviorBase<Type extends NodeBehaviorType = NodeBehaviorType>
 	implements NodeBehaviorBaseDto
 {
-	@PrimaryKey({ autoincrement: true, hidden: true })
-	protected readonly _id!: number;
-
 	@Enum({ items: () => NodeBehaviorType, type: () => NodeBehaviorType })
 	public readonly type!: Type;
+
+	// The owing side is here, so the primary key is also the foreign key
+	@OneToOne(() => Node, {
+		eager: false,
+		hidden: true,
+		onDelete: "cascade",
+		onUpdateIntegrity: "cascade",
+		owner: true,
+		primary: true
+	})
+	public readonly node?: Node;
 }

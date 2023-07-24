@@ -2,6 +2,7 @@ import {
 	Collection,
 	Entity,
 	EntityRepositoryType,
+	LoadStrategy,
 	ManyToMany,
 	OneToOne,
 	Property
@@ -24,13 +25,16 @@ export class Node
 	// With this, we can reuse the repository from an entity already loaded
 	public readonly [EntityRepositoryType]?: NodeRepository;
 
-	@Property({ unique: true })
+	@Property()
 	public name!: string;
 
-	@OneToOne(() => NodeBehaviorBase, { eager: true, owner: true })
+	@OneToOne(() => NodeBehaviorBase, ({ node }) => node, {
+		owner: false,
+		strategy: LoadStrategy.JOINED
+	})
 	public readonly behavior!: NodeBehavior;
 
-	@ManyToMany(() => Category, category => category.nodes, { owner: true })
+	@ManyToMany(() => Category, ({ nodes }) => nodes, { owner: true })
 	public categories? = new Collection<Category>(this);
 
 	public override toJSON?(): this {

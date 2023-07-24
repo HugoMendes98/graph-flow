@@ -13,7 +13,7 @@ const GraphNodeProperty = ManyToOneFactory(() => GraphNode, {
 });
 
 const NodeOutputProperty = ManyToOneFactory(() => NodeOutput, {
-	fieldName: "__graph_node" satisfies keyof GraphNodeOutputRelationsDto,
+	fieldName: "__node_output" satisfies keyof GraphNodeOutputRelationsDto,
 	onUpdateIntegrity: "cascade"
 });
 

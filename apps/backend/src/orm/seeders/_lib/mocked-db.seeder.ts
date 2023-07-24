@@ -1,4 +1,4 @@
-import { EntityManager } from "@mikro-orm/core";
+import { EntityManager, Reference } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 import { ReadonlyDeep } from "type-fest";
 import { EntityDto } from "~/lib/common/dtos/_lib/entity";
@@ -25,37 +25,47 @@ export interface MockedDb {
 	 */
 	categories: readonly Category[];
 	/**
-	 * Represents the [graph-arc]{@link GraphArc} table
+	 * Graph domain related
 	 */
-	graphArcs: readonly GraphArc[];
+	graph: {
+		/**
+		 * Represents the [graph-arc]{@link GraphArc} table
+		 */
+		graphArcs: readonly GraphArc[];
+		/**
+		 * Represents the [graph-node-input]{@link GraphNodeInput} table
+		 */
+		graphNodeInputs: readonly GraphNodeInput[];
+		/**
+		 * Represents the [graph-node-output]{@link GraphNodeOutput} table
+		 */
+		graphNodeOutputs: readonly GraphNodeOutput[];
+		/**
+		 * Represents the [graph-node]{@link GraphNode} table
+		 */
+		graphNodes: readonly GraphNode[];
+		/**
+		 * Represents the [graph]{@link Graph} table
+		 */
+		graphs: readonly Graph[];
+	};
 	/**
-	 * Represents the [graph-node-input]{@link GraphNodeInput} table
+	 * Node domain related
 	 */
-	graphNodeInputs: readonly GraphNodeInput[];
-	/**
-	 * Represents the [graph-node-output]{@link GraphNodeOutput} table
-	 */
-	graphNodeOutputs: readonly GraphNodeOutput[];
-	/**
-	 * Represents the [graph-node]{@link GraphNode} table
-	 */
-	graphNodes: readonly GraphNode[];
-	/**
-	 * Represents the [graph]{@link Graph} table
-	 */
-	graphs: readonly Graph[];
-	/**
-	 * Represents the [node-input]{@link NodeInput} table
-	 */
-	nodeInputs: readonly NodeInput[];
-	/**
-	 * Represents the [node-output]{@link NodeOutput} table
-	 */
-	nodeOutputs: readonly NodeOutput[];
-	/**
-	 * Represents the [node]{@link Node} table
-	 */
-	nodes: readonly Node[];
+	node: {
+		/**
+		 * Represents the [node-input]{@link NodeInput} table
+		 */
+		nodeInputs: readonly NodeInput[];
+		/**
+		 * Represents the [node-output]{@link NodeOutput} table
+		 */
+		nodeOutputs: readonly NodeOutput[];
+		/**
+		 * Represents the [node]{@link Node} table
+		 */
+		nodes: ReadonlyArray<Node & { __categories: number[] }>;
+	};
 	/**
 	 * Represents the [user]{@link User} table
 	 */
@@ -101,11 +111,32 @@ export abstract class MockedDbSeeder extends Seeder {
 			mocks: readonly EntityDto[];
 		}
 
-		const { categories, users, workflows } = this.db;
+		// FIXME: Remove this (with another order or inserts ?)
+		// Disable FK checks
+		await em.getConnection().execute("SET session_replication_role = 'replica';");
+
+		const {
+			categories,
+			graph: { graphArcs, graphNodeInputs, graphNodeOutputs, graphNodes, graphs },
+			node: { nodeInputs, nodeOutputs, nodes },
+			users,
+			workflows
+		} = this.db;
 
 		for (const { entity, mocks } of [
 			{ entity: Category, mocks: categories },
 			{ entity: User, mocks: users },
+			// Nodes
+			{ entity: Node, mocks: nodes },
+			{ entity: NodeInput, mocks: nodeInputs },
+			{ entity: NodeOutput, mocks: nodeOutputs },
+			// Graphs
+			{ entity: Graph, mocks: graphs },
+			{ entity: GraphNode, mocks: graphNodes },
+			{ entity: GraphNodeInput, mocks: graphNodeInputs },
+			{ entity: GraphNodeOutput, mocks: graphNodeOutputs },
+			{ entity: GraphArc, mocks: graphArcs },
+
 			{ entity: Workflow, mocks: workflows }
 		] satisfies MockEntity[]) {
 			for (const mock of mocks) {
@@ -117,7 +148,7 @@ export abstract class MockedDbSeeder extends Seeder {
 
 			// Need to update the sequence when entities are added manually
 			const primaryKey: keyof EntityBase = "_id";
-			// TODO: better (if the table name is set manually)
+			// // TODO: better (if the table name is set manually)
 			const tblName = em.config.getNamingStrategy().classToTableName(entity.name);
 			await em
 				.getConnection()
@@ -128,5 +159,16 @@ export abstract class MockedDbSeeder extends Seeder {
 			// Confirm sequence update
 			await em.flush();
 		}
+
+		// Enable FK checks
+		await em.getConnection().execute("SET session_replication_role = 'origin';");
+
+		for (const { __categories, _id } of nodes) {
+			const node = await em.findOneOrFail(Node, _id, { populate: ["categories"] });
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Does exist with the `populate` option
+			node.categories!.add(__categories.map(id => Reference.createFromPK(Category, id)));
+		}
+
+		// Seeder always flush at the end
 	}
 }
