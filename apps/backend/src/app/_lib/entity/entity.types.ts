@@ -12,8 +12,11 @@ export type EntityWithRelations<
 	T extends EntityDto,
 	Relations extends Partial<Record<keyof T, EntityBase>> = never
 > = {
+	/* eslint-disable no-mixed-spaces-and-tabs -- prettier format */
 	// If the property is an array of entity -> convert to Mikro-orm collection
-	[P in keyof T]: NonNullable<T[P]> extends EntityDto[]
+	[P in keyof T]: NonNullable<T[P]> extends Collection<infer U>
+		? Collection<Relations[P] extends EntityBase ? Relations[P] : U>
+		: NonNullable<T[P]> extends EntityDto[]
 		? // Allow to override the type with the given options
 		  Collection<Relations[P] extends EntityBase ? Relations[P] : EntityBase>
 		: // Else if the property is an entity
@@ -24,6 +27,21 @@ export type EntityWithRelations<
 			: EntityBase
 		: T[P];
 	/* eslint-enable */
+};
+
+// TODO: the 2 following types are incomplete (and might be wrong).
+/**
+ * Transforms a backend entity to its Dto form
+ */
+export type EntityToDto<T extends EntityBase> = {
+	[K in keyof T]: T[K] extends Collection<infer U> ? U[] : T[K];
+};
+
+/**
+ * Transforms a dto to its Entity form
+ */
+export type DtoToEntity<T extends EntityBase> = {
+	[K in keyof T]: T[K] extends Array<infer U extends EntityDto> ? Collection<U> : T[K];
 };
 
 /**

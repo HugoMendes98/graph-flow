@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { GraphDto } from "~/lib/common/dtos/graph";
 import {
 	WorkflowCreateDto,
 	WorkflowDto,
@@ -7,9 +8,14 @@ import {
 	WorkflowResultsDto,
 	WorkflowUpdateDto
 } from "~/lib/common/dtos/workflow";
-import { WorkflowEndpoint, WORKFLOWS_ENDPOINT_PREFIX } from "~/lib/common/endpoints";
+import {
+	WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT,
+	WorkflowEndpoint,
+	WORKFLOWS_ENDPOINT_PREFIX
+} from "~/lib/common/endpoints";
 
 import { WorkflowService } from "./workflow.service";
+import { GraphService } from "../graph/graph.service";
 
 /**
  * The main controller for [workflows]{@link WorkflowDto}.
@@ -17,7 +23,10 @@ import { WorkflowService } from "./workflow.service";
 @ApiTags("Workflows")
 @Controller(WORKFLOWS_ENDPOINT_PREFIX)
 export class WorkflowController implements WorkflowEndpoint {
-	public constructor(private readonly service: WorkflowService) {}
+	public constructor(
+		private readonly service: WorkflowService,
+		private readonly graphService: GraphService
+	) {}
 
 	@ApiOkResponse({ type: WorkflowResultsDto })
 	@Get()
@@ -47,5 +56,18 @@ export class WorkflowController implements WorkflowEndpoint {
 	@Delete("/:id")
 	public delete(@Param("id") id: number) {
 		return this.service.delete(id);
+	}
+
+	/**
+	 * Loads the graph of the given workflow.
+	 * This is equivalent to loading directly the graph.
+	 *
+	 * @param id the workflow id
+	 * @returns the graph
+	 */
+	@ApiOkResponse({ type: GraphDto })
+	@Get(`/:id${WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT}`)
+	public lookForGraph(@Param("id") id: number): Promise<GraphDto> {
+		return this.findById(id).then(({ __graph }) => this.graphService.findById(__graph));
 	}
 }

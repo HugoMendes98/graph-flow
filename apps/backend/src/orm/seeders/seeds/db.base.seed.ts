@@ -286,6 +286,44 @@ export const DB_BASE_SEED: MockedDb = {
 	},
 	node: {
 		nodeInputs: [
+			// Variables inputs
+			{
+				_id: 101,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 1,
+				name: "DB_HOST in"
+			},
+			{
+				_id: 201,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 2,
+				name: "DB_PORT in"
+			},
+			{
+				_id: 301,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 3,
+				name: "DB_USER in"
+			},
+			{
+				_id: 401,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 4,
+				name: "DB_PASS in"
+			},
+
 			// Inputs for code 10
 			{
 				_id: 1001,
@@ -367,6 +405,44 @@ export const DB_BASE_SEED: MockedDb = {
 			}
 		],
 		nodeOutputs: [
+			// Variables outputs
+			{
+				_id: 101,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 1,
+				name: "DB_HOST out"
+			},
+			{
+				_id: 201,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 2,
+				name: "DB_PORT out"
+			},
+			{
+				_id: 301,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 3,
+				name: "DB_USER out"
+			},
+			{
+				_id: 401,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 4,
+				name: "DB_PASS out"
+			},
+
 			{
 				// Output for code 10
 				_id: 1001,
@@ -437,6 +513,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [1],
+
 				behavior: { type: NodeBehaviorType.VARIABLE },
 				name: "DB_HOST"
 			},
@@ -447,6 +524,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [1],
+
 				behavior: { type: NodeBehaviorType.VARIABLE },
 				name: "DB_PORT"
 			},
@@ -457,6 +535,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [1],
+
 				behavior: { type: NodeBehaviorType.VARIABLE },
 				name: "DB_USER"
 			},
@@ -467,6 +546,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [1],
+
 				behavior: { type: NodeBehaviorType.VARIABLE },
 				name: "DB_PASS"
 			},
@@ -482,6 +562,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [2],
+
 				behavior: { type: NodeBehaviorType.CODE },
 				name: "Calculate quotient"
 			},
@@ -493,6 +574,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [2],
+
 				behavior: { type: NodeBehaviorType.CODE },
 				name: "Calculate remainder"
 			},
@@ -508,6 +590,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [2],
+
 				behavior: { __graph: 1, type: NodeBehaviorType.FUNCTION },
 				name: "Integer division"
 			}, // parameters start with id 20
@@ -518,6 +601,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [],
+
 				behavior: { __node_input: 2001, type: NodeBehaviorType.PARAMETER_IN },
 				name: "Dividend"
 			},
@@ -528,6 +612,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [],
+
 				behavior: { __node_input: 2002, type: NodeBehaviorType.PARAMETER_IN },
 				name: "Divisor"
 			},
@@ -538,6 +623,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [],
+
 				behavior: { __node_output: 2003, type: NodeBehaviorType.PARAMETER_OUT },
 				name: "Quotient"
 			},
@@ -548,6 +634,7 @@ export const DB_BASE_SEED: MockedDb = {
 				_updated_at: date1,
 
 				__categories: [],
+
 				behavior: { __node_output: 2004, type: NodeBehaviorType.PARAMETER_OUT },
 				name: "Remainder"
 			},
