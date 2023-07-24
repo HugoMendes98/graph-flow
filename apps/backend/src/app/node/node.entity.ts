@@ -1,30 +1,17 @@
-import {
-	Collection,
-	Entity,
-	EntityRepositoryType,
-	LoadStrategy,
-	ManyToMany,
-	OneToOne,
-	Property
-} from "@mikro-orm/core";
-import { NodeRelationsDto } from "~/lib/common/dtos/node";
+import { Collection, Entity, LoadStrategy, ManyToMany, OneToOne, Property } from "@mikro-orm/core";
+import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
+import { NodeDto } from "~/lib/common/dtos/node";
 
 import { NodeBehavior, NodeBehaviorBase } from "./behaviors";
 import { NodeRepository } from "./node.repository";
-import { EntityBase, EntityWithRelations } from "../_lib/entity";
+import { EntityBase } from "../_lib/entity";
 import { Category } from "../category/category.entity";
 
 /**
  * The entity class to manage nodes
  */
 @Entity({ customRepository: () => NodeRepository })
-export class Node
-	extends EntityBase
-	implements EntityWithRelations<NodeRelationsDto, { categories: Category }>
-{
-	// With this, we can reuse the repository from an entity already loaded
-	public readonly [EntityRepositoryType]?: NodeRepository;
-
+export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 	@Property()
 	public name!: string;
 
@@ -34,8 +21,10 @@ export class Node
 	})
 	public readonly behavior!: NodeBehavior;
 
+	// ------- Relations -------
+
 	@ManyToMany(() => Category, ({ nodes }) => nodes, { owner: true })
-	public categories? = new Collection<Category>(this);
+	public readonly categories? = new Collection<Category>(this);
 
 	public override toJSON?(): this {
 		if (super.toJSON) {

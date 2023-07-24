@@ -12,7 +12,7 @@ import { EntityApiService } from "../_lib/entity-api";
 })
 export class NodeApiService
 	extends EntityApiService<Node, NodeCreateDto, NodeUpdateDto>
-	implements NodeEndpoint<true>
+	implements NodeEndpoint
 {
 	public override getEntrypoint(): string {
 		return NODES_ENDPOINT_PREFIX;

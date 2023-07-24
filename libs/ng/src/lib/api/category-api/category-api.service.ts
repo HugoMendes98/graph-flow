@@ -12,7 +12,7 @@ import { EntityApiService } from "../_lib/entity-api";
 })
 export class CategoryApiService
 	extends EntityApiService<Category, CategoryCreateDto, CategoryUpdateDto>
-	implements CategoryEndpoint<true>
+	implements CategoryEndpoint
 {
 	public override getEntrypoint(): string {
 		return CATEGORIES_ENDPOINT_PREFIX;

@@ -2,6 +2,8 @@ import { IsNumber, Min } from "class-validator";
 
 import { DtoProperty } from "../../_lib/dto";
 import { EntityDto } from "../../_lib/entity";
+import { GraphNodeInputDto } from "../node/input/graph-node-input.dto";
+import { GraphNodeOutputDto } from "../node/output/graph-node-output.dto";
 
 export class GraphArcDto extends EntityDto {
 	/**
@@ -19,4 +21,18 @@ export class GraphArcDto extends EntityDto {
 	@IsNumber()
 	@Min(0)
 	public readonly __to!: number;
+
+	// ------- Relations -------
+
+	/**
+	 * The [graph-node-output]{@link GraphNodeOutputDto} linked to this arc
+	 */
+	@DtoProperty({ forwardRef: true, type: () => GraphNodeOutputDto })
+	public readonly from?: GraphNodeOutputDto;
+
+	/**
+	 * The [graph-node-input]{@link GraphNodeInputDto} linked to this arc
+	 */
+	@DtoProperty({ forwardRef: true, type: () => GraphNodeInputDto })
+	public readonly to?: GraphNodeInputDto;
 }

@@ -1,6 +1,7 @@
 import { Jsonify } from "type-fest";
 
 import { EntityEndpoint } from "./_lib";
+import { DtoToEntity } from "../dtos/_lib/entity/entity.types";
 import { UserCreateDto, UserDto, UserUpdateDto } from "../dtos/user";
 
 /**
@@ -9,8 +10,8 @@ import { UserCreateDto, UserDto, UserUpdateDto } from "../dtos/user";
 export const USERS_ENDPOINT_PREFIX = "/v1/users";
 
 export type User = Jsonify<UserDto>;
-export type UserEndpoint<Serialized extends boolean = false> = EntityEndpoint<
-	Serialized extends true ? User : UserDto,
+export type UserEndpoint<T extends DtoToEntity<UserDto> | User = User> = EntityEndpoint<
+	T,
 	UserCreateDto,
 	UserUpdateDto
 >;

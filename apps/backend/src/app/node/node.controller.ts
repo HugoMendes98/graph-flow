@@ -9,6 +9,7 @@ import {
 } from "~/lib/common/dtos/node";
 import { NodeEndpoint, NODES_ENDPOINT_PREFIX } from "~/lib/common/endpoints";
 
+import { Node } from "./node.entity";
 import { NodeService } from "./node.service";
 
 /**
@@ -16,7 +17,7 @@ import { NodeService } from "./node.service";
  */
 @ApiTags("Nodes")
 @Controller(NODES_ENDPOINT_PREFIX)
-export class NodeController implements NodeEndpoint {
+export class NodeController implements NodeEndpoint<Node> {
 	public constructor(private readonly service: NodeService) {}
 
 	@ApiOkResponse({ type: NodeResultsDto })

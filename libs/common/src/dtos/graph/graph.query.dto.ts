@@ -1,7 +1,7 @@
-import { GraphRelationsDto } from "./graph.relations.dto";
+import { GraphDto } from "./graph.dto";
 import { FindQueryDtoOf } from "../_lib/find-query.dto";
 
 /**
- * DTO Query used to filter [graphs]{@link GraphRelationsDto}.
+ * DTO Query used to filter [graphs]{@link GraphDto}.
  */
-export class GraphQueryDto extends FindQueryDtoOf(GraphRelationsDto) {}
+export class GraphQueryDto extends FindQueryDtoOf(GraphDto) {}

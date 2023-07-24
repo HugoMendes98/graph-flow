@@ -9,6 +9,8 @@ import {
 } from "./behaviors";
 import { DtoProperty } from "../_lib/dto";
 import { EntityDto } from "../_lib/entity";
+import { CategoryDto } from "../category/category.dto";
+import { GraphNodeDto } from "../graph/node/graph-node.dto";
 
 /**
  * DTO for node entities.
@@ -48,4 +50,28 @@ export class NodeDto extends EntityDto {
 	})
 	@ValidateNested()
 	public readonly behavior!: NodeBehaviorDto;
+
+	// ------- Relations -------
+
+	/**
+	 * All [categories]{@link CategoryDto} linked to this node
+	 *
+	 * Note: Node is the owning side
+	 */
+	@DtoProperty({
+		array: true,
+		forwardRef: true,
+		type: () => CategoryDto
+	})
+	public readonly categories?: CategoryDto[];
+
+	/**
+	 * All [graph-nodes]{@link GraphNodeDto} linked to this node
+	 */
+	@DtoProperty({
+		array: true,
+		forwardRef: true,
+		type: () => GraphNodeDto
+	})
+	public readonly graphNodes?: GraphNodeDto[];
 }

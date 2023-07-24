@@ -9,6 +9,7 @@ import {
 } from "~/lib/common/dtos/category";
 import { CATEGORIES_ENDPOINT_PREFIX, CategoryEndpoint } from "~/lib/common/endpoints";
 
+import { Category } from "./category.entity";
 import { CategoryService } from "./category.service";
 
 /**
@@ -16,7 +17,7 @@ import { CategoryService } from "./category.service";
  */
 @ApiTags("Categories")
 @Controller(CATEGORIES_ENDPOINT_PREFIX)
-export class CategoryController implements CategoryEndpoint {
+export class CategoryController implements CategoryEndpoint<Category> {
 	public constructor(private readonly service: CategoryService) {}
 
 	@ApiOkResponse({ type: CategoryResultsDto })

@@ -1,35 +1,34 @@
 import { Entity } from "@mikro-orm/core";
-import { GraphArcRelationsDto } from "~/lib/common/dtos/graph/arc";
+import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
+import { GraphArcDto } from "~/lib/common/dtos/graph/arc";
 
 import { GraphArcRepository } from "./graph-arc.repository";
-import { EntityBase, EntityWithRelations } from "../../_lib/entity";
+import { EntityBase } from "../../_lib/entity";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
 import { GraphNodeInput } from "../node/input";
 import { GraphNodeOutput } from "../node/output";
 
 const FromProperty = ManyToOneFactory(() => GraphNodeOutput, {
-	fieldName: "__from" satisfies keyof GraphArcRelationsDto,
+	fieldName: "__from" satisfies keyof GraphArcDto,
 	onUpdateIntegrity: "cascade"
 });
 
 const ToProperty = ManyToOneFactory(() => GraphNodeInput, {
-	fieldName: "__to" satisfies keyof GraphArcRelationsDto,
+	fieldName: "__to" satisfies keyof GraphArcDto,
 	onUpdateIntegrity: "cascade"
 });
 
 @Entity({ customRepository: () => GraphArcRepository })
-export class GraphArc
-	extends EntityBase
-	implements
-		EntityWithRelations<GraphArcRelationsDto, { from: GraphNodeOutput; to: GraphNodeInput }>
-{
+export class GraphArc extends EntityBase implements DtoToEntity<GraphArcDto> {
 	@FromProperty({ foreign: false })
 	public readonly __from!: number;
-	@FromProperty({ foreign: true })
-	public readonly from?: GraphNodeOutput;
-
 	@ToProperty({ foreign: false })
 	public readonly __to!: number;
+
+	// ------- Relations -------
+
+	@FromProperty({ foreign: true })
+	public readonly from?: GraphNodeOutput;
 	@ToProperty({ foreign: true })
 	public readonly to?: GraphNodeInput;
 }

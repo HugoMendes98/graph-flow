@@ -2,6 +2,7 @@ import { Jsonify } from "type-fest";
 
 import { EntityEndpoint } from "./_lib";
 import { EntityId } from "../dtos/_lib/entity";
+import { DtoToEntity } from "../dtos/_lib/entity/entity.types";
 import { GraphDto } from "../dtos/graph";
 import { WorkflowCreateDto, WorkflowDto, WorkflowUpdateDto } from "../dtos/workflow";
 
@@ -11,12 +12,8 @@ import { WorkflowCreateDto, WorkflowDto, WorkflowUpdateDto } from "../dtos/workf
 export const WORKFLOWS_ENDPOINT_PREFIX = "/v1/workflows";
 
 export type Workflow = Jsonify<WorkflowDto>;
-export interface WorkflowEndpoint<Serialized extends boolean = false>
-	extends EntityEndpoint<
-		Serialized extends true ? Workflow : WorkflowDto,
-		WorkflowCreateDto,
-		WorkflowUpdateDto
-	> {
+export interface WorkflowEndpoint<T extends DtoToEntity<WorkflowDto> | Workflow = Workflow>
+	extends EntityEndpoint<T, WorkflowCreateDto, WorkflowUpdateDto> {
 	/**
 	 * Loads the graph of the given workflow.
 	 * This is equivalent to loading directly the graph.
@@ -24,7 +21,9 @@ export interface WorkflowEndpoint<Serialized extends boolean = false>
 	 * @param id the workflow id
 	 * @returns the graph
 	 */
-	lookForGraph(id: EntityId): Promise<Serialized extends true ? Jsonify<GraphDto> : GraphDto>;
+	lookForGraph(
+		id: EntityId
+	): Promise<T extends Workflow ? Jsonify<GraphDto> : DtoToEntity<GraphDto>>;
 }
 
 /**

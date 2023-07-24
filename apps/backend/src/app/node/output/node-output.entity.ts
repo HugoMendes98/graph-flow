@@ -1,32 +1,29 @@
-import { Entity, EntityRepositoryType, LoadStrategy, Property } from "@mikro-orm/core";
-import { NodeOutputRelationsDto } from "~/lib/common/dtos/node/output";
+import { Entity, LoadStrategy, Property } from "@mikro-orm/core";
+import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
+import { NodeOutputDto } from "~/lib/common/dtos/node/output";
 
 import { NodeOutputRepository } from "./node-output.repository";
-import { EntityBase, EntityWithRelations } from "../../_lib/entity";
+import { EntityBase } from "../../_lib/entity";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
 import { Node } from "../node.entity";
 
 const NodeProperty = ManyToOneFactory(() => Node, {
-	fieldName: "__node" satisfies keyof NodeOutputRelationsDto,
+	fieldName: "__node" satisfies keyof NodeOutputDto,
 	onDelete: "cascade",
 	onUpdateIntegrity: "cascade",
 	strategy: LoadStrategy.JOINED
 });
 
 @Entity({ customRepository: () => NodeOutputRepository })
-export class NodeOutput
-	extends EntityBase
-	implements EntityWithRelations<NodeOutputRelationsDto, { node: Node }>
-{
-	// With this, we can reuse the repository from an entity already loaded
-	public readonly [EntityRepositoryType]?: NodeOutputRepository;
-
+export class NodeOutput extends EntityBase implements DtoToEntity<NodeOutputDto> {
 	@NodeProperty({ foreign: false })
 	public __node!: number;
 
-	@NodeProperty({ foreign: true })
-	public node?: Node;
-
 	@Property()
 	public name!: string;
+
+	// ------- Relations -------
+
+	@NodeProperty({ foreign: true })
+	public readonly node?: Node;
 }

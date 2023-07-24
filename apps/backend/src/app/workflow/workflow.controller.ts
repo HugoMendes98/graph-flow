@@ -14,6 +14,7 @@ import {
 	WORKFLOWS_ENDPOINT_PREFIX
 } from "~/lib/common/endpoints";
 
+import { Workflow } from "./workflow.entity";
 import { WorkflowService } from "./workflow.service";
 import { GraphService } from "../graph/graph.service";
 
@@ -22,7 +23,7 @@ import { GraphService } from "../graph/graph.service";
  */
 @ApiTags("Workflows")
 @Controller(WORKFLOWS_ENDPOINT_PREFIX)
-export class WorkflowController implements WorkflowEndpoint {
+export class WorkflowController implements WorkflowEndpoint<Workflow> {
 	public constructor(
 		private readonly service: WorkflowService,
 		private readonly graphService: GraphService
@@ -67,7 +68,7 @@ export class WorkflowController implements WorkflowEndpoint {
 	 */
 	@ApiOkResponse({ type: GraphDto })
 	@Get(`/:id${WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT}`)
-	public lookForGraph(@Param("id") id: number): Promise<GraphDto> {
+	public lookForGraph(@Param("id") id: number) {
 		return this.findById(id).then(({ __graph }) => this.graphService.findById(__graph));
 	}
 }

@@ -4,6 +4,8 @@ import { IsNumber, IsOptional, IsString, Min, MinLength, ValidateNested } from "
 import { PositionDto } from "./position.dto";
 import { DtoProperty } from "../../_lib/dto";
 import { EntityDto, EntityId } from "../../_lib/entity";
+import { NodeDto } from "../../node/node.dto";
+import { GraphDto } from "../graph.dto";
 
 /**
  * A [GraphNode]{@link GraphNodeDto} represents the membership of a [Node]{@link NodeDto} to a [Graph]{@link GraphDto}.
@@ -48,4 +50,12 @@ export class GraphNodeDto extends EntityDto {
 	@Type(() => PositionDto)
 	@ValidateNested()
 	public position!: PositionDto;
+
+	// ------- Relations -------
+
+	@DtoProperty({ forwardRef: true, type: () => GraphDto })
+	public readonly graph?: GraphDto;
+
+	@DtoProperty({ forwardRef: true, type: () => NodeDto })
+	public readonly node?: NodeDto;
 }

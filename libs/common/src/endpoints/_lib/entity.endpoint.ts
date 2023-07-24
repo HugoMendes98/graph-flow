@@ -1,16 +1,22 @@
+import { Jsonify } from "type-fest";
+
 import { EntityFindQuery, EntityFindResult } from "./entity-find.interfaces";
-import { EntityId } from "../../dtos/_lib/entity";
+import { EntityDto, EntityId } from "../../dtos/_lib/entity";
+import { DtoToEntity } from "../../dtos/_lib/entity/entity.types";
 
 /**
  * Endpoints for entities with only read methods
  */
-export interface EntityReadEndpoint<T, Q extends T = T> {
+export interface EntityReadEndpoint<
+	T extends DtoToEntity<EntityDto> | Jsonify<EntityDto>,
+	Q extends EntityFindQuery<T> = EntityFindQuery<T>
+> {
 	/**
 	 * Find entities with the given query.
 	 *
 	 * @param query The query url used to filter/paginate the results
 	 */
-	findAndCount(query?: EntityFindQuery<Q>): Promise<EntityFindResult<T>>;
+	findAndCount(query?: Q): Promise<EntityFindResult<T>>;
 	/**
 	 * Find an entity given its ID.
 	 *
@@ -23,8 +29,12 @@ export interface EntityReadEndpoint<T, Q extends T = T> {
 /**
  * CRUD for regular entity endpoints
  */
-export interface EntityEndpoint<T, ToCreate, ToUpdate, Q extends T = T>
-	extends EntityReadEndpoint<T, Q> {
+export interface EntityEndpoint<
+	T extends DtoToEntity<EntityDto> | Jsonify<EntityDto>,
+	ToCreate,
+	ToUpdate,
+	Q extends EntityFindQuery<T> = EntityFindQuery<T>
+> extends EntityReadEndpoint<T, Q> {
 	/**
 	 * Creates an entity with the given body.
 	 *

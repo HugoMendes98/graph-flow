@@ -20,7 +20,7 @@ import { EntityApiService } from "../_lib/entity-api";
 })
 export class WorkflowApiService
 	extends EntityApiService<Workflow, WorkflowCreateDto, WorkflowUpdateDto>
-	implements WorkflowEndpoint<true>
+	implements WorkflowEndpoint
 {
 	public override getEntrypoint(): string {
 		return WORKFLOWS_ENDPOINT_PREFIX;

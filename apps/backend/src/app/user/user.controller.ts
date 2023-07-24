@@ -9,6 +9,7 @@ import {
 } from "~/lib/common/dtos/user";
 import { UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/lib/common/endpoints";
 
+import { User } from "./user.entity";
 import { UserService } from "./user.service";
 
 /**
@@ -16,7 +17,7 @@ import { UserService } from "./user.service";
  */
 @ApiTags("Users")
 @Controller(USERS_ENDPOINT_PREFIX)
-export class UserController implements UserEndpoint {
+export class UserController implements UserEndpoint<User> {
 	public constructor(private readonly service: UserService) {}
 
 	@ApiOkResponse({ type: UserResultsDto })

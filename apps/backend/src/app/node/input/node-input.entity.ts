@@ -1,8 +1,9 @@
-import { Entity, EntityRepositoryType, LoadStrategy, Property } from "@mikro-orm/core";
-import { NodeInputDto, NodeInputRelationsDto } from "~/lib/common/dtos/node/input";
+import { Entity, LoadStrategy, Property } from "@mikro-orm/core";
+import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
+import { NodeInputDto } from "~/lib/common/dtos/node/input";
 
 import { NodeInputRepository } from "./node-input.repository";
-import { EntityBase, EntityWithRelations } from "../../_lib/entity";
+import { EntityBase } from "../../_lib/entity";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
 import { Node } from "../node.entity";
 
@@ -14,19 +15,15 @@ const NodeProperty = ManyToOneFactory(() => Node, {
 });
 
 @Entity({ customRepository: () => NodeInputRepository })
-export class NodeInput
-	extends EntityBase
-	implements EntityWithRelations<NodeInputRelationsDto, { node: Node }>
-{
-	// With this, we can reuse the repository from an entity already loaded
-	public readonly [EntityRepositoryType]?: NodeInputRepository;
-
+export class NodeInput extends EntityBase implements DtoToEntity<NodeInputDto> {
 	@NodeProperty({ foreign: false })
 	public __node!: number;
 
-	@NodeProperty({ foreign: true })
-	public node?: Node;
-
 	@Property()
 	public name!: string;
+
+	// ------- Relations -------
+
+	@NodeProperty({ foreign: true })
+	public node?: Node;
 }

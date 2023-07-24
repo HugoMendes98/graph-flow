@@ -12,7 +12,7 @@ import { EntityApiService } from "../_lib/entity-api";
 })
 export class UserApiService
 	extends EntityApiService<User, UserCreateDto, UserUpdateDto>
-	implements UserEndpoint<true>
+	implements UserEndpoint
 {
 	public override getEntrypoint(): string {
 		return USERS_ENDPOINT_PREFIX;
