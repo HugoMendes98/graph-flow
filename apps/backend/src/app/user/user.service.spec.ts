@@ -33,7 +33,7 @@ describe("UserService", () => {
 			it("should get one", async () => {
 				for (const user of dbTest.db.users) {
 					const row = await service.findById(user._id);
-					expect(row.toJSON!()).toStrictEqual(user);
+					expect(row.toJSON()).toStrictEqual(user);
 				}
 			});
 
@@ -52,7 +52,7 @@ describe("UserService", () => {
 
 					expect(data).toHaveLength(total);
 					expect(data).toHaveLength(users.length);
-					expect(data.map(d => d.toJSON!())).toStrictEqual(users);
+					expect(data.map(d => d.toJSON())).toStrictEqual(users);
 				});
 
 				it("should count", async () => {
@@ -95,7 +95,7 @@ describe("UserService", () => {
 
 					expect(data).toHaveLength(total);
 					expect(data).toHaveLength(users.length);
-					expect(data.map(d => d.toJSON!())).toStrictEqual(users);
+					expect(data.map(d => d.toJSON())).toStrictEqual(users);
 				});
 			});
 		});
@@ -120,7 +120,7 @@ describe("UserService", () => {
 				// Check that the value returned in the list is equal to the one just created
 				const found = after.find(({ _id }) => _id === created._id);
 				expect(found).toBeDefined();
-				expect(created.toJSON!()).toStrictEqual(found!.toJSON!());
+				expect(created.toJSON!()).toStrictEqual(found!.toJSON());
 			});
 
 			it("should fail when a uniqueness constraint is not respected", async () => {
@@ -151,7 +151,7 @@ describe("UserService", () => {
 				// Check that the value returned in the list is equal to the one just updated
 				const found = after.find(({ _id }) => _id === user._id);
 				expect(found).toBeDefined();
-				expect(updated.toJSON!()).toStrictEqual(found!.toJSON!());
+				expect(updated.toJSON!()).toStrictEqual(found!.toJSON());
 			});
 
 			it("should not update the date if there's no change", async () => {

@@ -63,7 +63,7 @@ export abstract class EntityService<
 		where: EntityFilter<T> = {},
 		params: EntityFindParams<T> = {},
 		options?: EntityServiceFindOptions<T, P>
-	): Promise<FindResultsDto<Required<Pick<T, P>> & T>> {
+	): Promise<FindResultsDto<Required<Pick<T, P | "toJSON">> & T>> {
 		// TODO: fix order by foreign of foreign id
 		const offset = params.skip ?? 0;
 		return (
@@ -77,7 +77,7 @@ export abstract class EntityService<
 					populate: options?.populate as never
 				})
 				.then(([data, total]) => ({
-					data: data as Array<Required<Pick<T, P>> & T>,
+					data: data as Array<Required<Pick<T, P | "toJSON">> & T>,
 					pagination: { range: { end: offset + data.length, start: offset }, total }
 				}))
 		);
@@ -110,7 +110,7 @@ export abstract class EntityService<
 				// It seems there's an error when using calculated generic type
 			} satisfies FilterQuery<EntityBase> as FilterQuery<T>,
 			{ populate: options?.populate as never }
-		) as Promise<Required<Pick<T, P>> & T>;
+		) as Promise<Required<Pick<T, P | "toJSON">> & T>;
 	}
 
 	/**
@@ -192,10 +192,14 @@ export abstract class EntityService<
 	 */
 	public delete(id: EntityId, options?: EntityServiceDeleteOptions): Promise<T> {
 		return this.findById(id).then(async entity => {
-			this.repository.getEntityManager().remove(entity);
+			const em = this.repository.getEntityManager().remove(entity);
 
 			if (options?.flush ?? true) {
-				await this.repository.getEntityManager().flush();
+				await em.removeAndFlush(entity);
+				// FIXME: a way to propagate the change to already managed collections:
+				//   Load an entity with manyToMany relation and delete one value.
+				//   Load an entity that was linked to the deleted entity -> the collection is still full
+				em.clear();
 			}
 
 			return entity;

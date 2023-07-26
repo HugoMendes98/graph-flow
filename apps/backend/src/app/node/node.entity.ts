@@ -16,6 +16,7 @@ export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 	public name!: string;
 
 	@OneToOne(() => NodeBehaviorBase, ({ node }) => node, {
+		eager: true,
 		owner: false,
 		strategy: LoadStrategy.JOINED
 	})
@@ -23,7 +24,7 @@ export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 
 	// ------- Relations -------
 
-	@ManyToMany(() => Category, ({ nodes }) => nodes, { owner: true })
+	@ManyToMany(() => Category, ({ nodes }) => nodes, { hidden: true, owner: true })
 	public readonly categories? = new Collection<Category>(this);
 
 	public override toJSON?(): this {

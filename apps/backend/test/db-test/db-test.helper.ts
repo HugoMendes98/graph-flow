@@ -17,6 +17,11 @@ export interface DbTestHelperParams {
 }
 
 export class DbTestHelper {
+	/**
+	 * The number of DbHelper "opened"
+	 */
+	private static connection = 0;
+
 	private readonly orm: MikroORM;
 	private readonly seeder: typeof MockedDbSeeder;
 
@@ -27,9 +32,10 @@ export class DbTestHelper {
 		return this.seeder.GetMockedDb();
 	}
 
-	public constructor(module: INestApplicationContext, params?: DbTestHelperParams) {
-		this.orm = module.get(MikroORM);
-
+	public constructor(
+		private readonly module: INestApplicationContext,
+		params?: DbTestHelperParams
+	) {
 		switch (params?.sample ?? "base") {
 			case "base":
 				this.seeder = DbBaseSeeder;
@@ -41,21 +47,36 @@ export class DbTestHelper {
 			default:
 				throw new Error(`No sample found for ${params?.sample ?? "base"}`);
 		}
+
+		this.orm = module.get(MikroORM);
+		// Increase the number of "active" connection
+		++DbTestHelper.connection;
+	}
+
+	/**
+	 * @param sample the sample to use
+	 * @returns A new transformed DbHelper (do not forget to close it)
+	 */
+	public transformTo(sample: DbTestSample) {
+		return new DbTestHelper(this.module, { sample });
 	}
 
 	/**
 	 * Closes the connection to the DB.
-	 *
-	 * @returns nothing
 	 */
-	public close() {
-		return this.orm.close(true);
+	public async close() {
+		this.orm.em.clear();
+
+		if (--DbTestHelper.connection === 0) {
+			await this.orm.close(true);
+		}
 	}
 
 	/**
 	 * Drops the DB and seeds with the `db`
 	 */
 	public async refresh() {
+		this.orm.em.clear();
 		await this.orm.getSchemaGenerator().refreshDatabase();
 		await this.orm.getSeeder().seed(this.seeder as typeof MockedDbSeeder & (new () => Seeder));
 		this.orm.em.clear();
