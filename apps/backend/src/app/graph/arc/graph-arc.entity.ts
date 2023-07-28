@@ -10,12 +10,17 @@ import { GraphNodeOutput } from "../node/output";
 
 const FromProperty = ManyToOneFactory(() => GraphNodeOutput, {
 	fieldName: "__from" satisfies keyof GraphArcDto,
+	// Deleting a GraphNodeOutput deletes its arcs
+	onDelete: "cascade",
 	onUpdateIntegrity: "cascade"
 });
 
 const ToProperty = ManyToOneFactory(() => GraphNodeInput, {
 	fieldName: "__to" satisfies keyof GraphArcDto,
-	onUpdateIntegrity: "cascade"
+	// Deleting a GraphNodeInput deletes its arcs
+	onDelete: "cascade",
+	onUpdateIntegrity: "cascade",
+	unique: true
 });
 
 @Entity({ customRepository: () => GraphArcRepository })

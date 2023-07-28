@@ -1,16 +1,28 @@
-import { Entity, Property } from "@mikro-orm/core";
+import { Entity, OneToOne, Property } from "@mikro-orm/core";
+import { applyDecorators } from "@nestjs/common";
 import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
 import { WorkflowDto } from "~/lib/common/dtos/workflow";
 
 import { WorkflowRepository } from "./workflow.repository";
 import { EntityBase } from "../_lib/entity";
-import { ManyToOneFactory } from "../_lib/entity/decorators";
+import { ManyToOneParams } from "../_lib/entity/decorators";
 import { Graph } from "../graph/graph.entity";
 
-const GraphProperty = ManyToOneFactory(() => Graph, {
-	fieldName: "__graph" satisfies keyof WorkflowDto,
-	onUpdateIntegrity: "cascade"
-});
+const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) => {
+	return applyDecorators(
+		OneToOne(() => Graph, {
+			fieldName: "__graph" satisfies keyof WorkflowDto,
+			hidden: foreign,
+			mapToPk: !foreign,
+			nullable: false,
+			onDelete: "cascade",
+			onUpdateIntegrity: "cascade",
+			owner: true,
+			persist: foreign,
+			unique: true
+		}) as never
+	);
+};
 
 /**
  * The entity class to manage workflows

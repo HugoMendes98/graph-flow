@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import * as qs from "qs/lib/stringify";
-import { EntityId } from "~/lib/common/dtos/_lib/entity";
-import { EntityFilter } from "~/lib/common/endpoints/_lib";
+import { Jsonify } from "type-fest";
+import { EntityDto, EntityId } from "~/lib/common/dtos/_lib/entity";
+import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
 import {
 	EntityFindQuery,
 	EntityFindResult
@@ -13,8 +14,12 @@ import { ApiClient } from "../../api.client";
 @Injectable({
 	providedIn: "root"
 })
-export abstract class EntityApiService<T, ToCreate, ToUpdate, Q extends T = T>
-	implements EntityEndpoint<T, ToCreate, ToUpdate, Q>
+export abstract class EntityApiService<
+	T extends DtoToEntity<EntityDto> | Jsonify<EntityDto>,
+	ToCreate,
+	ToUpdate,
+	Q extends EntityFindQuery<T> = EntityFindQuery<T>
+> implements EntityEndpoint<T, ToCreate, ToUpdate, Q>
 {
 	public constructor(protected readonly client: ApiClient) {}
 
@@ -32,8 +37,11 @@ export abstract class EntityApiService<T, ToCreate, ToUpdate, Q extends T = T>
 	 * @param where The filter to apply
 	 * @returns The number of entities found
 	 */
-	public count(where?: EntityFilter<Q>): Promise<number> {
-		return this.findAndCount({ limit: 0, where }).then(({ pagination: { total } }) => total);
+	public count(where?: Q["where"]): Promise<number> {
+		// eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- Subtype constraint
+		return this.findAndCount({ limit: 0, where } as Q).then(
+			({ pagination: { total } }) => total
+		);
 	}
 
 	/**
@@ -42,7 +50,7 @@ export abstract class EntityApiService<T, ToCreate, ToUpdate, Q extends T = T>
 	 * @param query Filter, sort and/or paginate the results
 	 * @returns The results of the request
 	 */
-	public findAndCount(query?: EntityFindQuery<Q>): Promise<EntityFindResult<T>> {
+	public findAndCount(query?: Q): Promise<EntityFindResult<T>> {
 		let url = this.getEntrypoint();
 		if (query) {
 			const queryString = qs.stringify(query);

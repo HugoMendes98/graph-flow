@@ -164,6 +164,7 @@ describe("NodeService", () => {
 			beforeEach(() => dbTest.refresh());
 
 			it("should get one", async () => {
+				// eslint-disable-next-line unused-imports/no-unused-vars -- to remove from object
 				for (const { __categories: _, ...node } of dbTest.db.node.nodes) {
 					const row = await service.findById(node._id);
 					expect(row.toJSON()).toStrictEqual(node);
@@ -197,7 +198,7 @@ describe("NodeService", () => {
 				// Check that the value returned in the list is equal to the one just created
 				const found = after.find(({ _id }) => _id === created._id);
 				expect(found).toBeDefined();
-				expect(created.toJSON!()).toStrictEqual(found!.toJSON());
+				expect(created.toJSON()).toStrictEqual(found!.toJSON());
 			});
 		});
 
@@ -221,7 +222,7 @@ describe("NodeService", () => {
 				// Check that the value returned in the list is equal to the one just updated
 				const found = after.find(({ _id }) => _id === node._id);
 				expect(found).toBeDefined();
-				expect(updated.toJSON!()).toStrictEqual(found!.toJSON());
+				expect(updated.toJSON()).toStrictEqual(found!.toJSON());
 			});
 		});
 

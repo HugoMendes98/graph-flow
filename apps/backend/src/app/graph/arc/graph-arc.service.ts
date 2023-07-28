@@ -1,5 +1,6 @@
 import { Injectable, MethodNotAllowedException } from "@nestjs/common";
-import { GraphArcCreateDto, GraphArcUpdateDto } from "~/lib/common/dtos/graph/arc";
+import { EntityId } from "~/lib/common/dtos/_lib/entity";
+import { GraphArcCreateDto } from "~/lib/common/dtos/graph/arc";
 
 import { GraphArc } from "./graph-arc.entity";
 import { GraphArcRepository } from "./graph-arc.repository";
@@ -9,7 +10,11 @@ import { EntityService } from "../../_lib/entity";
  * Service to manages [graph-arcs]{@link GraphArc}.
  */
 @Injectable()
-export class GraphArcService extends EntityService<GraphArc, GraphArcCreateDto, GraphArcUpdateDto> {
+export class GraphArcService extends EntityService<
+	GraphArc,
+	GraphArcCreateDto,
+	Record<string, never>
+> {
 	public constructor(repository: GraphArcRepository) {
 		super(repository);
 	}
@@ -17,9 +22,11 @@ export class GraphArcService extends EntityService<GraphArc, GraphArcCreateDto, 
 	/**
 	 * Can not update an arc.
 	 *
+	 * @param _id ignored
+	 * @param _toUpdate ignored
 	 * @returns a Promise that rejects
 	 */
-	public override update(): Promise<GraphArc> {
-		return Promise.reject(new MethodNotAllowedException());
+	public override update(_id: EntityId, _toUpdate: Record<string, never>) {
+		return Promise.reject(new MethodNotAllowedException("An arc can not be updated"));
 	}
 }

@@ -44,7 +44,7 @@ describe("entityOrderToQueryOrder", () => {
 
 	it("should thrown and error", () => {
 		const tests: Array<EntityOrder<ITest>> = [
-			{ a: "asc", nested: { c: "desce" as never } },
+			{ a: "asc", nested: { c: "dec" as never } },
 			{ b: 2 as never },
 			{ a: false as never },
 			{ nested: { d: null as never } }

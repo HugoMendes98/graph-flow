@@ -10,6 +10,8 @@ import { GraphNode } from "../graph-node.entity";
 
 const GraphNodeProperty = ManyToOneFactory(() => GraphNode, {
 	fieldName: "__graph_node" satisfies keyof GraphNodeOutputDto,
+	// Deleting a GraphNode deletes its outputs
+	onDelete: "cascade",
 	onUpdateIntegrity: "cascade"
 });
 

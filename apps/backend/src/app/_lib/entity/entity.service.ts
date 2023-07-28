@@ -1,4 +1,4 @@
-import { EntityRepository, FilterQuery, wrap } from "@mikro-orm/core";
+import { EntityRepository, FilterQuery } from "@mikro-orm/core";
 import { instanceToPlain } from "class-transformer";
 import { EntityId } from "~/lib/common/dtos/_lib/entity";
 import { FindResultsDto } from "~/lib/common/dtos/_lib/find-results.dto";
@@ -22,21 +22,20 @@ export interface EntityServiceFindOptions<T extends EntityBase, P extends Entity
 /**
  * The options when creating an entity
  */
-export interface EntityServiceCreateOptions {
+export interface EntityServiceCreateOptions<
+	T extends EntityBase,
+	P extends EntityRelationsKeys<T>
+> {
 	/**
-	 * Disable this when doing multiple operations,
-	 * so all of them are on 1 transaction
-	 *
-	 * @default true
+	 * The options when returning the data
 	 */
-	flush?: boolean;
+	findOptions?: EntityServiceFindOptions<T, P>;
 }
 
-type EntityServiceCreateOptionsNoFlush = EntityServiceCreateOptions &
-	Record<keyof Pick<EntityServiceCreateOptions, "flush">, false>;
-
-export type EntityServiceUpdateOptions = EntityServiceCreateOptions;
-export type EntityServiceDeleteOptions = EntityServiceCreateOptions;
+export type EntityServiceUpdateOptions<
+	T extends EntityBase,
+	P extends EntityRelationsKeys<T>
+> = EntityServiceCreateOptions<T, P>;
 
 export abstract class EntityService<
 	T extends EntityBase,
@@ -118,40 +117,25 @@ export abstract class EntityService<
 	 *
 	 * @param toCreate Object to create
 	 * @param options Additional options when creating an entity
-	 * @returns The created entity not persisted in the Database
+	 * @returns The created entity persisted in the database
 	 */
-	public create(
+	public async create<P extends EntityRelationsKeys<T>>(
 		toCreate: ToCreate,
-		options: EntityServiceCreateOptionsNoFlush
-	): Promise<ToCreate>;
-	/**
-	 * Creates a new entity
-	 *
-	 * @param toCreate Object to create
-	 * @param options Additional options when creating an entity
-	 * @returns The created entity
-	 */
-	public create(toCreate: ToCreate, options?: EntityServiceCreateOptions): Promise<T>;
-
-	/**
-	 * Creates a new entity
-	 *
-	 * @param toCreate Object to create
-	 * @param options Additional options when creating an entity
-	 * @returns The created entity not persisted in the Database or the persisted one
-	 */
-	public async create(
-		toCreate: ToCreate,
-		options?: EntityServiceCreateOptions
-	): Promise<T | ToCreate> {
+		options?: EntityServiceCreateOptions<T, P>
+	) {
 		// Why as never? Mikro-orm detect optional props by `?`
 		//	But it does take account of SQL default value
 		const created = this.repository.create(toCreate as never, { persist: true });
-		if (options?.flush ?? true) {
-			await this.repository.getEntityManager().flush();
-		}
 
-		return created;
+		const em = this.repository.getEntityManager();
+		await em.flush();
+
+		// FIXME: a way to propagate the change to already managed collections:
+		//   Load an entity with manyToMany relation and delete one value.
+		//   Load an entity that was linked to the deleted entity -> the collection is still full
+		em.clear();
+
+		return this.findById<P>(created._id, options?.findOptions);
 	}
 
 	/**
@@ -162,24 +146,22 @@ export abstract class EntityService<
 	 * @param options Additional options when updating an entity
 	 * @returns The updated entity
 	 */
-	public async update(
+	public async update<P extends EntityRelationsKeys<T>>(
 		id: EntityId,
 		toUpdate: ToUpdate,
-		options?: EntityServiceUpdateOptions
-	): Promise<T> {
+		options?: EntityServiceUpdateOptions<T, P>
+	) {
 		return this.findById(id).then(async entity => {
 			// TODO: remove the `instanceToPlain`
 			//	https://mikro-orm.io/docs/entity-helper#using-class-based-data
-			wrap(entity).assign(instanceToPlain(toUpdate), {
-				mergeObjects: true
-			});
+			await this.repository.getEntityManager().persistAndFlush(
+				this.repository.assign(entity, instanceToPlain(toUpdate), {
+					mergeObjects: true
+				})
+			);
 
-			if (options?.flush ?? true) {
-				await this.repository.getEntityManager().flush();
-			}
-
-			// The return value will be up-to-date if flushed
-			return entity;
+			// The return value will be up-to-date when flushed
+			return this.findById<P>(id, options?.findOptions);
 		});
 	}
 
@@ -187,22 +169,29 @@ export abstract class EntityService<
 	 * Deletes an existing entity
 	 *
 	 * @param id Entity id to delete
-	 * @param options Additional options when deleting an entity
-	 * @returns The deleted entity
+	 * @returns The deleted entity (before deletion)
 	 */
-	public delete(id: EntityId, options?: EntityServiceDeleteOptions): Promise<T> {
+	public delete(id: EntityId): Promise<T> {
 		return this.findById(id).then(async entity => {
-			const em = this.repository.getEntityManager().remove(entity);
-
-			if (options?.flush ?? true) {
-				await em.removeAndFlush(entity);
-				// FIXME: a way to propagate the change to already managed collections:
-				//   Load an entity with manyToMany relation and delete one value.
-				//   Load an entity that was linked to the deleted entity -> the collection is still full
-				em.clear();
-			}
-
-			return entity;
+			return this.deleteEntity(entity);
 		});
+	}
+
+	/**
+	 * Deletes an existing entity
+	 *
+	 * @param entity The entity to delete
+	 * @returns The given entity
+	 */
+	protected async deleteEntity(entity: T) {
+		const em = this.repository.getEntityManager();
+		await em.removeAndFlush(entity);
+
+		// FIXME: a way to propagate the change to already managed collections:
+		//   Load an entity with manyToMany relation and delete one value.
+		//   Load an entity that was linked to the deleted entity -> the collection is still full
+		em.clear();
+
+		return entity;
 	}
 }

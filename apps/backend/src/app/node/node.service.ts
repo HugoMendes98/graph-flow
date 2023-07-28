@@ -5,7 +5,7 @@ import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/dtos/node";
 
 import { Node } from "./node.entity";
 import { NodeRepository } from "./node.repository";
-import { EntityService, EntityServiceUpdateOptions } from "../_lib/entity";
+import { EntityService } from "../_lib/entity";
 import { Category } from "../category/category.entity";
 
 /**
@@ -23,20 +23,13 @@ export class NodeService extends EntityService<Node, NodeCreateDto, NodeUpdateDt
 	 *
 	 * @param nodeId The id of the node to add the category to
 	 * @param categoryId The id of the category to add
-	 * @param options The options when doing the update
 	 * @returns The updated node
 	 */
-	public addCategory(
-		nodeId: EntityId,
-		categoryId: EntityId,
-		options?: Pick<EntityServiceUpdateOptions, "flush">
-	) {
+	public addCategory(nodeId: EntityId, categoryId: EntityId) {
 		return this.findById(nodeId, { populate: ["categories"] }).then(async node => {
 			node.categories.add(Reference.createFromPK(Category, categoryId));
 
-			if (options?.flush ?? true) {
-				await this.repository.getEntityManager().persistAndFlush(node);
-			}
+			await this.repository.getEntityManager().persistAndFlush(node);
 			return node;
 		});
 	}
@@ -47,14 +40,9 @@ export class NodeService extends EntityService<Node, NodeCreateDto, NodeUpdateDt
 	 *
 	 * @param nodeId The id of the node to remove the category from
 	 * @param categoryId The id of the category to remove
-	 * @param options The options when doing the update
 	 * @returns The updated node
 	 */
-	public removeCategory(
-		nodeId: EntityId,
-		categoryId: EntityId,
-		options?: Pick<EntityServiceUpdateOptions, "flush">
-	) {
+	public removeCategory(nodeId: EntityId, categoryId: EntityId) {
 		return this.findById(nodeId, { populate: ["categories"] }).then(async node => {
 			const categories = await node.categories.matching({
 				where: { _id: { $eq: categoryId } }
@@ -65,10 +53,8 @@ export class NodeService extends EntityService<Node, NodeCreateDto, NodeUpdateDt
 			}
 
 			node.categories.remove(categories[0]);
-			if (options?.flush ?? true) {
-				await this.repository.getEntityManager().persistAndFlush(node);
-			}
 
+			await this.repository.getEntityManager().persistAndFlush(node);
 			return node;
 		});
 	}

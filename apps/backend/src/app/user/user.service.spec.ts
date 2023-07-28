@@ -120,7 +120,7 @@ describe("UserService", () => {
 				// Check that the value returned in the list is equal to the one just created
 				const found = after.find(({ _id }) => _id === created._id);
 				expect(found).toBeDefined();
-				expect(created.toJSON!()).toStrictEqual(found!.toJSON());
+				expect(created.toJSON()).toStrictEqual(found!.toJSON());
 			});
 
 			it("should fail when a uniqueness constraint is not respected", async () => {
@@ -151,14 +151,14 @@ describe("UserService", () => {
 				// Check that the value returned in the list is equal to the one just updated
 				const found = after.find(({ _id }) => _id === user._id);
 				expect(found).toBeDefined();
-				expect(updated.toJSON!()).toStrictEqual(found!.toJSON());
+				expect(updated.toJSON()).toStrictEqual(found!.toJSON());
 			});
 
 			it("should not update the date if there's no change", async () => {
 				const [, user] = dbTest.db.users;
 				const toUpdate: UserUpdateDto = { email: user.email };
 				const updated = await service.update(user._id, toUpdate);
-				expect(updated.toJSON!()).toStrictEqual(user);
+				expect(updated.toJSON()).toStrictEqual(user);
 			});
 
 			it("should fail when a uniqueness constraint is not respected", async () => {
@@ -193,6 +193,4 @@ describe("UserService", () => {
 			});
 		});
 	});
-
-	// More specific tests
 });

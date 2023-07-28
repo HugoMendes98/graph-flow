@@ -281,6 +281,13 @@ export const DB_BASE_SEED: MockedDb = {
 
 				_created_at: date1,
 				_updated_at: date1
+			},
+			{
+				// empty workflow 2
+				_id: 3,
+
+				_created_at: date1,
+				_updated_at: date1
 			}
 		]
 	},
@@ -699,6 +706,15 @@ export const DB_BASE_SEED: MockedDb = {
 
 			__graph: 2,
 			name: "Divide and store in DB"
+		},
+		{
+			_id: 2,
+
+			_created_at: date1,
+			_updated_at: date1,
+
+			__graph: 3,
+			name: "Empty graph"
 		}
 	]
 };

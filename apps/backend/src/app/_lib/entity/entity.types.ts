@@ -1,5 +1,5 @@
 import { Collection } from "@mikro-orm/core";
-import { ConditionalKeys, ConditionalPick } from "type-fest";
+import { ConditionalKeys } from "type-fest";
 
 import { EntityBase } from "./entity-base.entity";
 
@@ -14,9 +14,10 @@ export type EntityToDto<T extends EntityBase> = {
 /**
  * Extract the keys for relations from the given entity
  */
-export type EntityRelationsKeys<T extends EntityBase> = ConditionalKeys<
-	Required<T>,
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Anything other than `any` fails the condition
-	Collection<any>
-> &
-	ConditionalPick<Required<T>, EntityBase>;
+export type EntityRelationsKeys<T extends EntityBase> =
+	| ConditionalKeys<
+			Required<T>,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Anything other than `any` fails the condition
+			Collection<any>
+	  >
+	| ConditionalKeys<Required<T>, EntityBase>;

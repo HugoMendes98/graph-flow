@@ -13,7 +13,7 @@ export const WORKFLOW_CREATE_KEYS_MANDATORY = ["name"] as const satisfies Readon
 /**
  * The keys that can not be set
  */
-export const WORKFLOW_KEYS_READONLY = ["__graph"] as const satisfies ReadonlyArray<
+export const WORKFLOW_KEYS_READONLY = ["__graph", "graph"] as const satisfies ReadonlyArray<
 	keyof WorkflowDto
 >;
 

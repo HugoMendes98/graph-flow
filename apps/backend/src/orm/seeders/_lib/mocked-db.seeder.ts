@@ -140,7 +140,7 @@ export abstract class MockedDbSeeder extends Seeder {
 			{ entity: Workflow, mocks: workflows }
 		] satisfies MockEntity[]) {
 			for (const mock of mocks) {
-				em.create<EntityBase>(entity, mock);
+				em.getRepository<EntityBase>(entity).create(mock);
 			}
 
 			// Confirm new rows
