@@ -9,7 +9,7 @@ const date1 = new Date(2020, 1, 1);
 /**
  * The base sample for Seeding the DB.
  */
-export const DB_BASE_SEED: MockedDb = {
+export const DB_BASE_SEED = {
 	categories: [
 		{
 			_id: 1,
@@ -30,7 +30,7 @@ export const DB_BASE_SEED: MockedDb = {
 	],
 	graph: {
 		graphArcs: [
-			// Arcs for Node-function 20 - graph1
+			// region - Arcs for Node-function 20 - graph1
 			{
 				// "Calculate quotient" -> "Quotient"
 				_id: 2001,
@@ -91,9 +91,10 @@ export const DB_BASE_SEED: MockedDb = {
 				__from: 100401,
 				__to: 100202
 			}
+			// endregion
 		],
 		graphNodeInputs: [
-			// Node outputs for Node-function 20 - graph1
+			// region - Node outputs for Node-function 20 - graph1
 			{
 				// "Calculate quotient" dividend input
 				_id: 100101,
@@ -153,10 +154,54 @@ export const DB_BASE_SEED: MockedDb = {
 
 				__graph_node: 1006,
 				__node_input: 200401
+			},
+			// endregion
+
+			// region - Node inputs for workflow 1 - graph2
+			{
+				// Variable void input "DB_HOST"
+				_id: 200101,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2001,
+				__node_input: 101
+			},
+			{
+				// Variable void input "DB_PORT"
+				_id: 200201,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2002,
+				__node_input: 201
+			},
+			{
+				// Variable void input "DB_USER"
+				_id: 200301,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2003,
+				__node_input: 301
+			},
+			{
+				// Variable void input "DB_PASS"
+				_id: 200401,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2004,
+				__node_input: 401
 			}
+			// endregion
 		],
 		graphNodeOutputs: [
-			// Node outputs for Node-function 20 - graph1
+			// region - Node outputs for Node-function 20 - graph1
 			{
 				// "Calculate quotient" output
 				_id: 100101,
@@ -196,10 +241,54 @@ export const DB_BASE_SEED: MockedDb = {
 
 				__graph_node: 1004,
 				__node_output: 200201
+			},
+			// endregion
+
+			// region - Node outputs for workflow 1 - graph2
+			{
+				// Variable output "DB_HOST"
+				_id: 200101,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2001,
+				__node_output: 101
+			},
+			{
+				// Variable output "DB_PORT"
+				_id: 200201,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2002,
+				__node_output: 201
+			},
+			{
+				// Variable output "DB_USER"
+				_id: 200301,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2003,
+				__node_output: 301
+			},
+			{
+				// Variable output "DB_PASS"
+				_id: 200401,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2004,
+				__node_output: 401
 			}
+			// endregion
 		],
 		graphNodes: [
-			// Graph 1
+			// region - Graph 1 (node-function)
 			{
 				_id: 1001,
 
@@ -265,7 +354,57 @@ export const DB_BASE_SEED: MockedDb = {
 				__node: 2004,
 				name: "Remainder (input)",
 				position: { x: 3000, y: 150 }
+			},
+
+			// endregion:
+
+			// region - Workflow 1
+			{
+				_id: 2001,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph: 2,
+				__node: 1,
+				name: "DB_HOST",
+				position: { x: 0, y: 0 }
+			},
+			{
+				_id: 2002,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph: 2,
+				__node: 2,
+				name: "DB_PORT",
+				position: { x: 50, y: 0 }
+			},
+			{
+				_id: 2003,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph: 2,
+				__node: 3,
+				name: "DB_USER",
+				position: { x: 100, y: 0 }
+			},
+			{
+				_id: 2004,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph: 2,
+				__node: 4,
+				name: "DB_PASS",
+				position: { x: 150, y: 0 }
 			}
+
+			// endregion
 		],
 		graphs: [
 			{
@@ -293,7 +432,7 @@ export const DB_BASE_SEED: MockedDb = {
 	},
 	node: {
 		nodeInputs: [
-			// Variables inputs
+			// region Variables dummy inputs
 			{
 				_id: 101,
 
@@ -330,6 +469,7 @@ export const DB_BASE_SEED: MockedDb = {
 				__node: 4,
 				name: "DB_PASS in"
 			},
+			// endregion
 
 			// Inputs for code 10
 			{
@@ -717,4 +857,4 @@ export const DB_BASE_SEED: MockedDb = {
 			name: "Empty graph"
 		}
 	]
-};
+} as const satisfies MockedDb;

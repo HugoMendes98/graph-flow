@@ -7,6 +7,4 @@ import { GraphNodeCreateDto } from "./graph-node.create.dto";
  *
  * Can not change the node foreign key
  */
-export class GraphNodeUpdateDto extends PartialType(
-	OmitType(GraphNodeCreateDto, ["__node", "__graph"])
-) {}
+export class GraphNodeUpdateDto extends PartialType(OmitType(GraphNodeCreateDto, ["__node"])) {}

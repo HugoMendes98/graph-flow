@@ -64,7 +64,7 @@ export interface MockedDb {
 		/**
 		 * Represents the [node]{@link Node} table
 		 */
-		nodes: ReadonlyArray<Node & { __categories: number[] }>;
+		nodes: ReadonlyArray<Node & { __categories: readonly number[] }>;
 	};
 	/**
 	 * Represents the [user]{@link User} table

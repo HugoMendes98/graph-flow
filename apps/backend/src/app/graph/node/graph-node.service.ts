@@ -5,13 +5,15 @@ import { GraphNode } from "./graph-node.entity";
 import { GraphNodeRepository } from "./graph-node.repository";
 import { EntityService } from "../../_lib/entity";
 
+export type GraphNodeCreate = GraphNodeCreateDto & Pick<GraphNode, "__graph">;
+
 /**
  * Service to manages [graph-nodes]{@link GraphNode}.
  */
 @Injectable()
 export class GraphNodeService extends EntityService<
 	GraphNode,
-	GraphNodeCreateDto,
+	GraphNodeCreate,
 	GraphNodeUpdateDto
 > {
 	public constructor(repository: GraphNodeRepository) {

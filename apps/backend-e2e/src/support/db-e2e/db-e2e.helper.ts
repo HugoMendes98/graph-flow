@@ -15,7 +15,7 @@ const dbSamples: Record<DbTestSample, MockedDb> = {
 	empty: DB_EMPTY_SEED
 };
 
-export class DbE2eHelper implements Omit<DbTestHelper, "close"> {
+export class DbE2eHelper implements Omit<DbTestHelper, "close" | "transformTo"> {
 	private static readonly helpers = new Map(
 		Object.entries(dbSamples).map(([sample, db]) => [
 			sample,

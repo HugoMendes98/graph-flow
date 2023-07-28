@@ -6,6 +6,7 @@ import { WorkflowModule } from "./workflow.module";
 import { WorkflowService } from "./workflow.service";
 import { DbTestHelper } from "../../../test/db-test";
 import { OrmModule } from "../../orm/orm.module";
+import { DB_BASE_SEED } from "../../orm/seeders/seeds";
 import { GraphService } from "../graph/graph.service";
 
 describe("WorkflowService", () => {
@@ -13,12 +14,15 @@ describe("WorkflowService", () => {
 	let graphService: GraphService;
 	let service: WorkflowService;
 
+	let db: typeof DB_BASE_SEED;
+
 	beforeAll(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			imports: [OrmModule, WorkflowModule]
 		}).compile();
 
 		dbTest = new DbTestHelper(module);
+		db = dbTest.db as never;
 		service = module.get<WorkflowService>(WorkflowService);
 		graphService = module.get(GraphService);
 	});
@@ -43,7 +47,7 @@ describe("WorkflowService", () => {
 		});
 
 		it("should delete the graph when a workflow is deleted", async () => {
-			const [workflow] = dbTest.db.workflows;
+			const [, workflow] = db.workflows;
 
 			const {
 				pagination: { total: before }
@@ -64,20 +68,20 @@ describe("WorkflowService", () => {
 			beforeAll(() => dbTest.refresh());
 
 			it("should get one", async () => {
-				for (const workflow of dbTest.db.workflows) {
+				for (const workflow of db.workflows) {
 					const row = await service.findById(workflow._id);
 					expect(row.toJSON()).toStrictEqual(workflow);
 				}
 			});
 
 			it("should fail when getting one by an unknown id", async () => {
-				const id = Math.max(...dbTest.db.workflows.map(({ _id }) => _id)) + 1;
+				const id = Math.max(...db.workflows.map(({ _id }) => _id)) + 1;
 				await expect(service.findById(id)).rejects.toThrow(NotFoundError);
 			});
 
 			describe("Find many", () => {
 				it("should return all", async () => {
-					const { workflows } = dbTest.db;
+					const { workflows } = db;
 					const {
 						data,
 						pagination: { total }
@@ -91,7 +95,7 @@ describe("WorkflowService", () => {
 				it("should count", async () => {
 					const {
 						workflows: { length }
-					} = dbTest.db;
+					} = db;
 					const count = await service.count();
 
 					expect(count).toBe(length);
@@ -120,7 +124,7 @@ describe("WorkflowService", () => {
 			});
 
 			it("should fail when a uniqueness constraint is not respected", async () => {
-				const toCreate: WorkflowCreateDto = { name: dbTest.db.workflows[0].name };
+				const toCreate: WorkflowCreateDto = { name: db.workflows[0].name };
 				await expect(service.create(toCreate)).rejects.toThrow(
 					UniqueConstraintViolationException
 				);
@@ -135,7 +139,7 @@ describe("WorkflowService", () => {
 				const { data: before } = await service.findAndCount();
 
 				// Update an entity and check its content
-				const [workflow] = dbTest.db.workflows;
+				const [workflow] = db.workflows;
 				const toUpdate: WorkflowUpdateDto = { name: `${workflow.name}-${workflow.name}` };
 				const updated = await service.update(workflow._id, toUpdate);
 				expect(updated.name).toBe(toUpdate.name);
@@ -151,7 +155,7 @@ describe("WorkflowService", () => {
 			});
 
 			it("should fail when a uniqueness constraint is not respected", async () => {
-				const [workflow1, workflow2] = dbTest.db.workflows;
+				const [workflow1, workflow2] = db.workflows;
 
 				const toUpdate: WorkflowUpdateDto = { name: workflow1.name };
 				await expect(service.update(workflow2._id, toUpdate)).rejects.toThrow(
@@ -168,7 +172,7 @@ describe("WorkflowService", () => {
 				const { data: before } = await service.findAndCount();
 
 				// Delete an entity
-				const [workflow] = dbTest.db.workflows;
+				const [, workflow] = db.workflows;
 				const deleted = await service.delete(workflow._id);
 				expect(deleted.toJSON!()).toStrictEqual(workflow);
 
@@ -179,7 +183,7 @@ describe("WorkflowService", () => {
 			});
 
 			it("should not delete an unknown id", async () => {
-				const id = Math.max(...dbTest.db.workflows.map(({ _id }) => _id)) + 1;
+				const id = Math.max(...db.workflows.map(({ _id }) => _id)) + 1;
 				await expect(service.delete(id)).rejects.toThrow(NotFoundError);
 			});
 		});

@@ -11,6 +11,13 @@ import { EntityEndpoint } from "~/lib/common/endpoints/_lib/entity.endpoint";
 
 import { ApiClient } from "../../api.client";
 
+export interface FindAndCountParams {
+	/**
+	 * The uri where the find request should be done
+	 */
+	uri: string;
+}
+
 @Injectable({
 	providedIn: "root"
 })
@@ -51,15 +58,7 @@ export abstract class EntityApiService<
 	 * @returns The results of the request
 	 */
 	public findAndCount(query?: Q): Promise<EntityFindResult<T>> {
-		let url = this.getEntrypoint();
-		if (query) {
-			const queryString = qs.stringify(query);
-			if (queryString) {
-				url += `?${queryString}`;
-			}
-		}
-
-		return this.client.get(url);
+		return this.findAndCountFromParams({ uri: this.getEntrypoint() }, query);
 	}
 
 	/**
@@ -102,5 +101,30 @@ export abstract class EntityApiService<
 	 */
 	public delete(id: EntityId): Promise<T> {
 		return this.client.delete(`${this.getEntrypoint()}/${id}`);
+	}
+
+	/**
+	 * Does 'find' request.
+	 * The url can be different, but the filter are the same:
+	 * ex: '/users' and '/group/1/users'
+	 *
+	 * @param params specific parameters
+	 * @param query to request
+	 * @returns the data found and its total
+	 */
+	protected findAndCountFromParams<T2 = T, Q2 extends EntityFindQuery<T2> = EntityFindQuery<T2>>(
+		params: FindAndCountParams,
+		query?: Q2
+	): Promise<EntityFindResult<T2>> {
+		let { uri } = params;
+
+		if (query) {
+			const queryString = qs.stringify(query);
+			if (queryString) {
+				uri += `?${queryString}`;
+			}
+		}
+
+		return this.client.get(uri);
 	}
 }

@@ -1,8 +1,8 @@
 import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { GraphNodeCreateDto, GraphNodeUpdateDto } from "~/lib/common/dtos/graph/node";
+import { GraphNodeUpdateDto } from "~/lib/common/dtos/graph/node";
 
-import { GraphNodeService } from "./graph-node.service";
+import { GraphNodeCreate, GraphNodeService } from "./graph-node.service";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
 import { GraphModule } from "../graph.module";
@@ -68,7 +68,7 @@ describe("GraphNodeService", () => {
 					__node: node._id,
 					name: `graph-${node.name}`,
 					position: { x: 123, y: 456 }
-				} as const satisfies GraphNodeCreateDto;
+				} as const satisfies GraphNodeCreate;
 				const created = await service.create(toCreate);
 				expect(created.__graph).toBe(toCreate.__graph);
 				expect(created.__node).toBe(toCreate.__node);
