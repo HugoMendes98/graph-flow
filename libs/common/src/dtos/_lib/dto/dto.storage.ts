@@ -1,10 +1,18 @@
 import type { Type } from "@nestjs/common";
-import { isFunction } from "rxjs/internal/util/isFunction";
 
 import { DtoError } from "./dto.error";
 import { DtoPropertyKey, DtoPropertyOptions, DtoType } from "./dto.types";
 
 import "reflect-metadata";
+
+/**
+ * Returns true if the object is a function.
+ *
+ * @param value The value to check
+ */
+function isFunction(value: unknown): value is (...args: unknown[]) => unknown {
+	return typeof value === "function";
+}
 
 /**
  * This class stores the data about the DTO properties.
