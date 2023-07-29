@@ -7,12 +7,12 @@ import { transformOptions } from "~/lib/common/options";
 
 import { EntityBase } from "./entity-base.entity";
 import { entityOrderToQueryOrder } from "./entity-order.converter";
-import { EntityRelationsKeys } from "./entity.types";
+import { EntityRelationKeys } from "./entity.types";
 
 /**
  * Some options when finding entities
  */
-export interface EntityServiceFindOptions<T extends EntityBase, P extends EntityRelationsKeys<T>> {
+export interface EntityServiceFindOptions<T extends EntityBase, P extends EntityRelationKeys<T>> {
 	/**
 	 * Populate the given relation keys
 	 */
@@ -22,10 +22,7 @@ export interface EntityServiceFindOptions<T extends EntityBase, P extends Entity
 /**
  * The options when creating an entity
  */
-export interface EntityServiceCreateOptions<
-	T extends EntityBase,
-	P extends EntityRelationsKeys<T>
-> {
+export interface EntityServiceCreateOptions<T extends EntityBase, P extends EntityRelationKeys<T>> {
 	/**
 	 * The options when returning the data
 	 */
@@ -34,7 +31,7 @@ export interface EntityServiceCreateOptions<
 
 export type EntityServiceUpdateOptions<
 	T extends EntityBase,
-	P extends EntityRelationsKeys<T>
+	P extends EntityRelationKeys<T>
 > = EntityServiceCreateOptions<T, P>;
 
 export abstract class EntityService<
@@ -58,7 +55,7 @@ export abstract class EntityService<
 	 * @param options Some options when loading an entities
 	 * @returns All entities found with its pagination
 	 */
-	public findAndCount<P extends EntityRelationsKeys<T>>(
+	public findAndCount<P extends EntityRelationKeys<T>>(
 		where: EntityFilter<T> = {},
 		params: EntityFindParams<T> = {},
 		options?: EntityServiceFindOptions<T, P>
@@ -99,7 +96,7 @@ export abstract class EntityService<
 	 * @param options Some options when loading an entity
 	 * @returns The found entity
 	 */
-	public findById<P extends EntityRelationsKeys<T>>(
+	public findById<P extends EntityRelationKeys<T>>(
 		id: EntityId,
 		options?: EntityServiceFindOptions<T, P>
 	) {
@@ -119,7 +116,7 @@ export abstract class EntityService<
 	 * @param options Additional options when creating an entity
 	 * @returns The created entity persisted in the database
 	 */
-	public async create<P extends EntityRelationsKeys<T>>(
+	public async create<P extends EntityRelationKeys<T>>(
 		toCreate: ToCreate,
 		options?: EntityServiceCreateOptions<T, P>
 	) {
@@ -146,7 +143,7 @@ export abstract class EntityService<
 	 * @param options Additional options when updating an entity
 	 * @returns The updated entity
 	 */
-	public async update<P extends EntityRelationsKeys<T>>(
+	public async update<P extends EntityRelationKeys<T>>(
 		id: EntityId,
 		toUpdate: ToUpdate,
 		options?: EntityServiceUpdateOptions<T, P>
@@ -172,9 +169,7 @@ export abstract class EntityService<
 	 * @returns The deleted entity (before deletion)
 	 */
 	public delete(id: EntityId): Promise<T> {
-		return this.findById(id).then(async entity => {
-			return this.deleteEntity(entity);
-		});
+		return this.findById(id).then(async entity => this.deleteEntity(entity));
 	}
 
 	/**

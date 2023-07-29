@@ -33,7 +33,7 @@ export const DB_BASE_SEED = {
 			// region - Arcs for Node-function 20 - graph1
 			{
 				// "Calculate quotient" -> "Quotient"
-				_id: 2001,
+				_id: 101,
 
 				_created_at: date1,
 				_updated_at: date1,
@@ -43,7 +43,7 @@ export const DB_BASE_SEED = {
 			},
 			{
 				// "Calculate remainder" -> "Remainder"
-				_id: 2002,
+				_id: 102,
 
 				_created_at: date1,
 				_updated_at: date1,
@@ -53,7 +53,7 @@ export const DB_BASE_SEED = {
 			},
 			{
 				// "Dividend" -> "Calculate quotient"
-				_id: 2003,
+				_id: 103,
 
 				_created_at: date1,
 				_updated_at: date1,
@@ -63,7 +63,7 @@ export const DB_BASE_SEED = {
 			},
 			{
 				// "Dividend" -> "Calculate remainder"
-				_id: 2004,
+				_id: 104,
 
 				_created_at: date1,
 				_updated_at: date1,
@@ -73,7 +73,7 @@ export const DB_BASE_SEED = {
 			},
 			{
 				// "Divisor" -> "Calculate quotient"
-				_id: 2005,
+				_id: 105,
 
 				_created_at: date1,
 				_updated_at: date1,
@@ -83,13 +83,56 @@ export const DB_BASE_SEED = {
 			},
 			{
 				// "Divisor" -> "Calculate remainder"
-				_id: 2006,
+				_id: 106,
 
 				_created_at: date1,
 				_updated_at: date1,
 
 				__from: 100401,
 				__to: 100202
+			},
+			// endregion
+
+			// region - Arcs for workflow 1 - graph2
+			{
+				// Variable output "DB_HOST" -> Code "SQL Query" input "DB Host"
+				_id: 201,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__from: 200101,
+				__to: 200501
+			},
+			{
+				// Variable output "DB_HOST" -> Code "SQL Query" input "DB Host"
+				_id: 202,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__from: 200201,
+				__to: 200502
+			},
+			{
+				// Variable output "DB_HOST" -> Code "SQL Query" input "DB Host"
+				_id: 203,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__from: 200301,
+				__to: 200503
+			},
+			{
+				// Variable output "DB_HOST" -> Code "SQL Query" input "DB Host"
+				_id: 204,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__from: 200401,
+				__to: 200504
 			}
 			// endregion
 		],
@@ -197,7 +240,59 @@ export const DB_BASE_SEED = {
 
 				__graph_node: 2004,
 				__node_input: 401
+			},
+
+			{
+				// Input "DB Host" of Code "SQL Query"
+				_id: 200501,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2005,
+				__node_input: 501
+			},
+			{
+				// Input "DB Port" of Code "SQL Query"
+				_id: 200502,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2005,
+				__node_input: 502
+			},
+			{
+				// Input "DB User" of Code "SQL Query"
+				_id: 200503,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2005,
+				__node_input: 503
+			},
+			{
+				// Input "DB Pass" of Code "SQL Query"
+				_id: 200504,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2005,
+				__node_input: 504
+			},
+			{
+				// Input "SQL stmt" of Code "SQL Query"
+				_id: 200505,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2005,
+				__node_input: 505
 			}
+
 			// endregion
 		],
 		graphNodeOutputs: [
@@ -284,6 +379,17 @@ export const DB_BASE_SEED = {
 
 				__graph_node: 2004,
 				__node_output: 401
+			},
+
+			{
+				// Output of "SQL Query"
+				_id: 200501,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph_node: 2005,
+				__node_output: 501
 			}
 			// endregion
 		],
@@ -379,7 +485,7 @@ export const DB_BASE_SEED = {
 				__graph: 2,
 				__node: 2,
 				name: "DB_PORT",
-				position: { x: 50, y: 0 }
+				position: { x: 0, y: 50 }
 			},
 			{
 				_id: 2003,
@@ -390,7 +496,7 @@ export const DB_BASE_SEED = {
 				__graph: 2,
 				__node: 3,
 				name: "DB_USER",
-				position: { x: 100, y: 0 }
+				position: { x: 0, y: 100 }
 			},
 			{
 				_id: 2004,
@@ -401,7 +507,19 @@ export const DB_BASE_SEED = {
 				__graph: 2,
 				__node: 4,
 				name: "DB_PASS",
-				position: { x: 150, y: 0 }
+				position: { x: 0, y: 150 }
+			},
+
+			{
+				_id: 2005,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph: 2,
+				__node: 5,
+				name: "Make SQL query",
+				position: { x: 150, y: 80 }
 			}
 
 			// endregion
@@ -471,6 +589,55 @@ export const DB_BASE_SEED = {
 			},
 			// endregion
 
+			// region inputs for code 5 (SQL request)
+			{
+				_id: 501,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 5,
+				name: "DB Host"
+			},
+			{
+				_id: 502,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 5,
+				name: "DB Port"
+			},
+			{
+				_id: 503,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 5,
+				name: "DB User"
+			},
+			{
+				_id: 504,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 5,
+				name: "DB Pass"
+			},
+			{
+				_id: 505,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 5,
+				name: "SQL stmt"
+			},
+
+			// endregion
+
 			// Inputs for code 10
 			{
 				_id: 1001,
@@ -491,7 +658,7 @@ export const DB_BASE_SEED = {
 				name: "Divisor"
 			},
 
-			// Inputs for code 10
+			// Inputs for code 11
 			{
 				_id: 1101,
 
@@ -588,6 +755,17 @@ export const DB_BASE_SEED = {
 
 				__node: 4,
 				name: "DB_PASS out"
+			},
+
+			{
+				// Output for code 10 (SQL request)
+				_id: 501,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__node: 5,
+				name: "SQL Output"
 			},
 
 			{
@@ -701,6 +879,17 @@ export const DB_BASE_SEED = {
 			// ----------------------------------------------------------
 
 			// Some codes
+			{
+				_id: 5,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__categories: [1, 2],
+
+				behavior: { type: NodeBehaviorType.CODE },
+				name: "Make SQL query"
+			},
 			{
 				// Do: Math.floor(a / b)
 				_id: 10,
@@ -845,7 +1034,7 @@ export const DB_BASE_SEED = {
 			_updated_at: date1,
 
 			__graph: 2,
-			name: "Divide and store in DB"
+			name: "Do a SQL request"
 		},
 		{
 			_id: 2,
