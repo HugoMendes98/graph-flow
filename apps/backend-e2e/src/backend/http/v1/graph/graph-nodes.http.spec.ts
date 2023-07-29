@@ -51,7 +51,7 @@ describe("Backend HTTP GraphNodes", () => {
 		});
 
 		it("should fail when getting one by an unknown id", async () => {
-			const id = Math.max(...db.users.map(({ _id }) => _id)) + 1;
+			const id = Math.max(...graphNodes.map(({ _id }) => _id)) + 1;
 			const response = await client
 				.findOneResponse(id)
 				.catch(({ response }: AxiosError) => response!);

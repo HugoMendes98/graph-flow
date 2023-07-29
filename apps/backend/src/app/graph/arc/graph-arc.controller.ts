@@ -76,7 +76,7 @@ export class GraphArcController implements EndpointTransformed {
 	}
 
 	@ApiExcludeEndpoint()
-	@Patch()
+	@Patch("/:id")
 	public update(@GraphInterceptedParam() _: Graph, @Param("id") id: number) {
 		return this.service.update(id, {});
 	}
