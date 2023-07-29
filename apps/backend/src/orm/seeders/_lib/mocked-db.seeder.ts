@@ -43,7 +43,7 @@ export interface MockedDb {
 		/**
 		 * Represents the [graph-node]{@link GraphNode} table
 		 */
-		graphNodes: readonly GraphNode[];
+		graphNodes: ReadonlyArray<Omit<GraphNode, "inputs" | "outputs">>;
 		/**
 		 * Represents the [graph]{@link Graph} table
 		 */

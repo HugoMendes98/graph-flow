@@ -1,3 +1,4 @@
+import { type Collection } from "@mikro-orm/core";
 import { type ExcludeFunctions } from "@mikro-orm/core/typings";
 
 import { Primitive } from "../../types";
@@ -19,8 +20,11 @@ export const OrderValues: readonly OrderValue[] = [
 	"desc"
 ];
 
+// For array and Mikro-orm compatible
+export type EntityFlat<T> = T extends Array<infer U> ? U : T extends Collection<infer U> ? U : T;
+
 export type EntityOrder<T> = {
 	[K in keyof T as ExcludeFunctions<T, K>]?: T[K] extends Date | Primitive
 		? OrderValue
-		: EntityOrder<NonNullable<T[K] extends Array<infer U> ? U : T[K]>>;
+		: EntityOrder<NonNullable<EntityFlat<T[K]>>>;
 };

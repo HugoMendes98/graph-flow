@@ -1,6 +1,8 @@
 import { Type } from "class-transformer";
 import { IsNumber, IsOptional, IsString, Min, MinLength, ValidateNested } from "class-validator";
 
+import { GraphNodeInputDto } from "./input";
+import { GraphNodeOutputDto } from "./output";
 import { PositionDto } from "./position.dto";
 import { DtoProperty } from "../../_lib/dto";
 import { EntityDto, EntityId } from "../../_lib/entity";
@@ -52,6 +54,11 @@ export class GraphNodeDto extends EntityDto {
 	public position!: PositionDto;
 
 	// ------- Relations -------
+
+	@DtoProperty({ array: true, forwardRef: true, type: () => GraphNodeInputDto })
+	public readonly inputs!: GraphNodeInputDto[];
+	@DtoProperty({ array: true, forwardRef: true, type: () => GraphNodeOutputDto })
+	public readonly outputs!: GraphNodeOutputDto[];
 
 	@DtoProperty({ forwardRef: true, type: () => GraphDto })
 	public readonly graph?: GraphDto;

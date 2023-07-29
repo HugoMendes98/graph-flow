@@ -1,4 +1,4 @@
-import { Entity, LoadStrategy, Property } from "@mikro-orm/core";
+import { Entity, Property } from "@mikro-orm/core";
 import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
 import { NodeInputDto } from "~/lib/common/dtos/node/input";
 
@@ -10,8 +10,7 @@ import { Node } from "../node.entity";
 const NodeProperty = ManyToOneFactory(() => Node, {
 	fieldName: "__node" satisfies keyof NodeInputDto,
 	onDelete: "cascade",
-	onUpdateIntegrity: "cascade",
-	strategy: LoadStrategy.JOINED
+	onUpdateIntegrity: "cascade"
 });
 
 @Entity({ customRepository: () => NodeInputRepository })

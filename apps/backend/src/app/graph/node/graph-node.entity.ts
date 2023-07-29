@@ -1,11 +1,13 @@
-import { Embedded, Entity, Property } from "@mikro-orm/core";
+import { Collection, Embedded, Entity, OneToMany, Property } from "@mikro-orm/core";
 import { EntityId } from "~/lib/common/dtos/_lib/entity";
 import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
 import { GraphNodeDto } from "~/lib/common/dtos/graph/node";
 
 import { GraphNodeRepository } from "./graph-node.repository";
+import { GraphNodeInput } from "./input";
+import { GraphNodeOutput } from "./output";
 import { PositionEmbeddable } from "./position.embeddable";
-import { EntityBase } from "../../_lib/entity";
+import { EntityBase, EntityToDto } from "../../_lib/entity";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
 import { Node } from "../../node/node.entity";
 import { Graph } from "../graph.entity";
@@ -36,9 +38,22 @@ export class GraphNode extends EntityBase implements DtoToEntity<GraphNodeDto> {
 
 	// ------- Relations -------
 
+	@OneToMany(() => GraphNodeInput, ({ graphNode }) => graphNode, { eager: true })
+	public readonly inputs = new Collection<GraphNodeInput>(this);
+	@OneToMany(() => GraphNodeOutput, ({ graphNode }) => graphNode, { eager: true })
+	public readonly outputs = new Collection<GraphNodeOutput>(this);
+
 	@GraphProperty({ foreign: true })
 	public readonly graph?: Graph;
 
 	@NodeProperty({ foreign: true })
 	public readonly node?: Node;
+
+	public override toJSON?(): EntityToDto<this> {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Override only applied if the parent function exists
+		const json = super.toJSON!();
+
+		// Override the inputs and outputs
+		return { ...json, inputs: this.inputs.toJSON(), outputs: this.outputs.toJSON() };
+	}
 }

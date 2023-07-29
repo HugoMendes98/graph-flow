@@ -11,9 +11,20 @@ export const GRAPH_NODE_KEYS_MANDATORY = ["__node", "position"] as const satisfi
 >;
 
 /**
+ * The keys that can not be updated to a [graph-node]{@link GraphNodeDto}.
+ */
+export const GRAPH_NODE_KEYS_READONLY = ["inputs", "outputs"] as const satisfies ReadonlyArray<
+	keyof GraphNodeDto
+>;
+
+/**
  * DTO used to create [graph-nodes]{@link GraphNodeDto}.
  */
 export class GraphNodeCreateDto extends IntersectionType(
 	PickType(GraphNodeDto, GRAPH_NODE_KEYS_MANDATORY),
-	OmitType(GraphNodeDto, [...ENTITY_BASE_KEYS, ...GRAPH_NODE_KEYS_MANDATORY])
+	OmitType(GraphNodeDto, [
+		...ENTITY_BASE_KEYS,
+		...GRAPH_NODE_KEYS_MANDATORY,
+		...GRAPH_NODE_KEYS_READONLY
+	])
 ) {}

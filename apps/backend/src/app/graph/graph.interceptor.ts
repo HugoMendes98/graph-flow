@@ -53,6 +53,8 @@ export class GraphInterceptor implements NestInterceptor {
 		}
 
 		return this.service.findById(id).then(graph => {
+			this.service.clearEM();
+
 			request.params[GraphInterceptor.GRAPH_TOKEN] = graph;
 			return next.handle();
 		});

@@ -1,15 +1,18 @@
 import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GraphNodeUpdateDto } from "~/lib/common/dtos/graph/node";
+import { omit } from "~/lib/common/utils/object-fns";
 
 import { GraphNodeCreate, GraphNodeService } from "./graph-node.service";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
+import { DB_BASE_SEED } from "../../../orm/seeders/seeds";
 import { GraphModule } from "../graph.module";
 
 describe("GraphNodeService", () => {
 	let dbTest: DbTestHelper;
 	let service: GraphNodeService;
+	let db: typeof DB_BASE_SEED;
 
 	beforeAll(async () => {
 		const module: TestingModule = await Test.createTestingModule({
@@ -17,6 +20,7 @@ describe("GraphNodeService", () => {
 		}).compile();
 
 		dbTest = new DbTestHelper(module);
+		db = dbTest.db as never;
 		service = module.get(GraphNodeService);
 	});
 
@@ -24,6 +28,19 @@ describe("GraphNodeService", () => {
 
 	it("should be defined", () => {
 		expect(service).toBeDefined();
+	});
+
+	describe("With Input/Outputs", () => {
+		beforeEach(() => dbTest.db);
+
+		it("should remove inputs and arcs when deleting a graph-node", async () => {
+			const graphNode = await service.findById(db.graph.graphNodes[10]._id);
+			// For test only; do not use a possibly used node if it is "locked"
+			expect(graphNode.__graph).toBe(2);
+
+			await service.delete(graphNode._id);
+			//
+		});
 	});
 
 	describe("CRUD basic", () => {
@@ -39,7 +56,7 @@ describe("GraphNodeService", () => {
 			it("should get one", async () => {
 				for (const node of graphNodes) {
 					const row = await service.findById(node._id);
-					expect(row.toJSON()).toStrictEqual(node);
+					expect(omit(row.toJSON(), ["inputs", "outputs"])).toStrictEqual(node);
 				}
 			});
 

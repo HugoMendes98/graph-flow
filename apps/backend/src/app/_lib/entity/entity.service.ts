@@ -48,6 +48,15 @@ export abstract class EntityService<
 	protected constructor(protected readonly repository: Repository) {}
 
 	/**
+	 * Clears the EntityManager ang the Unit of work
+	 */
+	public clearEM() {
+		const em = this.repository.getEntityManager();
+		em.clear();
+		em.getUnitOfWork().clear();
+	}
+
+	/**
 	 * Find many entities and count them
 	 *
 	 * @param where Filter to apply

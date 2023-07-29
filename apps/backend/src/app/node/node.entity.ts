@@ -4,7 +4,7 @@ import { NodeDto } from "~/lib/common/dtos/node";
 
 import { NodeBehavior, NodeBehaviorBase } from "./behaviors";
 import { NodeRepository } from "./node.repository";
-import { EntityBase } from "../_lib/entity";
+import { EntityBase, EntityToDto } from "../_lib/entity";
 import { Category } from "../category/category.entity";
 
 /**
@@ -27,11 +27,8 @@ export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 	@ManyToMany(() => Category, ({ nodes }) => nodes, { hidden: true, owner: true })
 	public readonly categories? = new Collection<Category>(this);
 
-	public override toJSON?(): this {
-		if (super.toJSON) {
-			return { ...super.toJSON(), behavior: super.toJSON.call(this.behavior) };
-		}
-
-		return this;
+	public override toJSON?(): EntityToDto<this> {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Override only applied if the parent function exists
+		return { ...super.toJSON!(), behavior: super.toJSON!.call(this.behavior) };
 	}
 }

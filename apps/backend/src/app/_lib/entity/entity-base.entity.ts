@@ -1,6 +1,8 @@
 import { PrimaryKey, Property, wrap } from "@mikro-orm/core";
 import { EntityDto } from "~/lib/common/dtos/_lib/entity";
 
+import { EntityToDto } from "./entity.types";
+
 /**
  * Base entity for Mikro-orm
  */
@@ -37,7 +39,7 @@ export abstract class EntityBase implements EntityDto {
 	 *
 	 * @returns The entity as supposed to be from the DTO
 	 */
-	public toJSON?(): this {
+	public toJSON?(): EntityToDto<this> {
 		const wrapped = wrap(this, true);
 		const toHide: string[] = Object.values(wrapped.__meta.properties)
 			.filter(({ hidden }) => hidden)
@@ -49,6 +51,6 @@ export abstract class EntityBase implements EntityDto {
 
 		return Object.fromEntries(
 			Object.entries(pojo).filter(([key]) => !toHide.includes(key))
-		) as unknown as this;
+		) as unknown as EntityToDto<this>;
 	}
 }
