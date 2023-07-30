@@ -1,8 +1,10 @@
 import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GraphNodeUpdateDto } from "~/lib/common/app/graph/dtos/node";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 import { omit } from "~/lib/common/utils/object-fns";
 
+import { GraphNodeInFunctionException, GraphNodeInWorkflowException } from "./exceptions";
 import { GraphNodeCreate, GraphNodeService } from "./graph-node.service";
 import { GraphNodeInputRepository } from "./input";
 import { GraphNodeOutputRepository } from "./output";
@@ -15,10 +17,12 @@ import { GraphArcService } from "../arc/graph-arc.service";
 import { GraphModule } from "../graph.module";
 
 describe("GraphNodeService", () => {
-	let dbTest: DbTestHelper;
 	let service: GraphNodeService;
 	let graphArcService: GraphArcService;
 	let nodeService: NodeService;
+
+	let dbTest: DbTestHelper;
+	let db: typeof DB_BASE_SEED;
 
 	let repositories: { input: GraphNodeInputRepository; output: GraphNodeOutputRepository };
 
@@ -28,6 +32,7 @@ describe("GraphNodeService", () => {
 		}).compile();
 
 		dbTest = new DbTestHelper(module);
+		db = dbTest.db as never;
 
 		service = module.get(GraphNodeService);
 		graphArcService = module.get(GraphArcService);
@@ -48,12 +53,7 @@ describe("GraphNodeService", () => {
 	});
 
 	describe("With Input/Outputs and Arcs", () => {
-		let db: typeof DB_BASE_SEED;
-
-		beforeEach(() => {
-			db = dbTest.db as never;
-			return dbTest.refresh();
-		});
+		beforeEach(() => dbTest.refresh());
 
 		it("should copy the name of the node when the name of graph-node is not defined", async () => {
 			const node = await nodeService.findById(db.node.nodes[4]._id);
@@ -146,6 +146,44 @@ describe("GraphNodeService", () => {
 				});
 				expect(total).toBe(0);
 			}
+		});
+	});
+
+	describe("With Graph", () => {
+		beforeEach(() => dbTest.refresh());
+
+		it("should fail when adding more that one 'trigger' node in a `workflow`", async () => {
+			// The 3rd graph is empty and linked to a 'workflow'
+			const [, , graph] = db.graph.graphs;
+			const trigger = db.node.nodes.find(
+				({ behavior: { type } }) => type === NodeBehaviorType.TRIGGER
+			);
+
+			expect(trigger).toBeDefined();
+			await expect(() =>
+				service.create({
+					__graph: graph._id,
+					__node: trigger!._id,
+					position: { x: 0, y: 0 }
+				})
+			).rejects.toThrow(GraphNodeInWorkflowException);
+		});
+
+		it("should fail when adding any 'trigger' node in a `node-function`", async () => {
+			// The first graph is linked to a 'node-function'
+			const [graph] = db.graph.graphs;
+			const trigger = db.node.nodes.find(
+				({ behavior: { type } }) => type === NodeBehaviorType.TRIGGER
+			);
+
+			expect(trigger).toBeDefined();
+			await expect(() =>
+				service.create({
+					__graph: graph._id,
+					__node: trigger!._id,
+					position: { x: 0, y: 0 }
+				})
+			).rejects.toThrow(GraphNodeInFunctionException);
 		});
 	});
 
