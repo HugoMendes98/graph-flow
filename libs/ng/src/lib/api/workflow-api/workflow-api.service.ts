@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Jsonify } from "type-fest";
-import { EntityId } from "~/lib/common/dtos/_lib/entity";
-import { GraphDto } from "~/lib/common/dtos/graph";
-import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/dtos/workflow";
+import { GraphDto } from "~/lib/common/app/graph/dtos";
+import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
 import {
 	Workflow,
 	WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT,
 	WorkflowEndpoint,
 	WORKFLOWS_ENDPOINT_PREFIX
-} from "~/lib/common/endpoints";
+} from "~/lib/common/app/workflow/endpoints";
+import { EntityId } from "~/lib/common/dtos/entity";
 
 import { EntityApiService } from "../_lib/entity-api";
 

@@ -2,7 +2,7 @@ import { QueryOrder } from "@mikro-orm/core";
 import { ExcludeFunctions } from "@mikro-orm/core/typings";
 import { BadRequestException } from "@nestjs/common";
 import { ReadonlyDeep } from "type-fest";
-import { EntityOrder, OrderValue } from "~/lib/common/endpoints/_lib";
+import { EntityOrder, OrderValue } from "~/lib/common/endpoints";
 import { Primitive } from "~/lib/common/types";
 
 /**

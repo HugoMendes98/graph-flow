@@ -2,8 +2,8 @@ import { AxiosError, HttpStatusCode } from "axios";
 import { Jsonify } from "type-fest";
 import { DbE2eHelper } from "~/app/backend/e2e/db-e2e/db-e2e.helper";
 import { GraphHttpClient } from "~/app/backend/e2e/http/clients";
-import { GraphArcQueryDto } from "~/lib/common/dtos/graph/arc";
-import { generateGraphArcsEndpoint } from "~/lib/common/endpoints/gaph";
+import { GraphArcQueryDto } from "~/lib/common/app/graph/dtos/arc";
+import { generateGraphArcsEndpoint } from "~/lib/common/app/graph/endpoints";
 
 describe("Backend HTTP GraphArcs", () => {
 	const graphClient = new GraphHttpClient();

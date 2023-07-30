@@ -1,7 +1,7 @@
 import axios, { Axios } from "axios";
 import { Jsonify } from "type-fest";
-import { EntityId } from "~/lib/common/dtos/_lib/entity";
-import { FindResultsDto } from "~/lib/common/dtos/_lib/find-results.dto";
+import { EntityId } from "~/lib/common/dtos/entity";
+import { FindResultsDto } from "~/lib/common/dtos/find-results.dto";
 import { DropFirst } from "~/lib/common/types";
 
 /**

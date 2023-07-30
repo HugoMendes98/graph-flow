@@ -1,6 +1,6 @@
 import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/dtos/workflow";
+import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
 
 import { WorkflowModule } from "./workflow.module";
 import { WorkflowService } from "./workflow.service";

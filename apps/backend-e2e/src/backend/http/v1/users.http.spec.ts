@@ -1,9 +1,9 @@
 import { AxiosError, HttpStatusCode } from "axios";
 import { Jsonify } from "type-fest";
 import { UserHttpClient } from "~/app/backend/e2e/http/clients";
-import { UserCreateDto, UserDto, UserQueryDto, UserUpdateDto } from "~/lib/common/dtos/user";
-import { USERS_ENDPOINT_PREFIX } from "~/lib/common/endpoints";
-import { EntityOrder } from "~/lib/common/endpoints/_lib";
+import { UserCreateDto, UserDto, UserQueryDto, UserUpdateDto } from "~/lib/common/app/user/dtos";
+import { USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpoints";
+import { EntityOrder } from "~/lib/common/endpoints";
 
 import { DbE2eHelper } from "../../../support/db-e2e/db-e2e.helper";
 

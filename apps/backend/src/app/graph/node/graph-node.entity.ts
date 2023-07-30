@@ -1,7 +1,7 @@
 import { Collection, Embedded, Entity, OneToMany, Property } from "@mikro-orm/core";
-import { EntityId } from "~/lib/common/dtos/_lib/entity";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import { GraphNodeDto } from "~/lib/common/dtos/graph/node";
+import { GraphNodeDto } from "~/lib/common/app/graph/dtos/node";
+import { EntityId } from "~/lib/common/dtos/entity";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { GraphNodeRepository } from "./graph-node.repository";
 import { GraphNodeInput } from "./input";

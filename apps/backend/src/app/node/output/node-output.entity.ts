@@ -1,6 +1,6 @@
 import { Entity, LoadStrategy, Property } from "@mikro-orm/core";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import { NodeOutputDto } from "~/lib/common/dtos/node/output";
+import { NodeOutputDto } from "~/lib/common/app/node/dtos/output";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { NodeOutputRepository } from "./node-output.repository";
 import { EntityBase } from "../../_lib/entity";

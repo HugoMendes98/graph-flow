@@ -1,7 +1,10 @@
-import { EntityId } from "~/lib/common/dtos/_lib/entity";
-import { GraphDto } from "~/lib/common/dtos/graph";
-import { generateGraphArcsEndpoint, generateGraphNodesEndpoint } from "~/lib/common/endpoints/gaph";
-import { GRAPHS_ENDPOINT_PREFIX } from "~/lib/common/endpoints/gaph/graph.endpoint";
+import { GraphDto } from "~/lib/common/app/graph/dtos";
+import {
+	generateGraphArcsEndpoint,
+	generateGraphNodesEndpoint
+} from "~/lib/common/app/graph/endpoints";
+import { GRAPHS_ENDPOINT_PREFIX } from "~/lib/common/app/graph/endpoints/graph.endpoint";
+import { EntityId } from "~/lib/common/dtos/entity";
 
 import { EntityHttpClient } from "./_lib/entity.http-client";
 import { GraphArcHttpClient, GraphNodeHttpClient } from "./graph";

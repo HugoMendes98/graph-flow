@@ -1,13 +1,10 @@
 import { Injectable } from "@angular/core";
 import * as qs from "qs/lib/stringify";
 import { Jsonify } from "type-fest";
-import { EntityDto, EntityId } from "~/lib/common/dtos/_lib/entity";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import {
-	EntityFindQuery,
-	EntityFindResult
-} from "~/lib/common/endpoints/_lib/entity-find.interfaces";
-import { EntityEndpoint } from "~/lib/common/endpoints/_lib/entity.endpoint";
+import { EntityDto, EntityId } from "~/lib/common/dtos/entity";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
+import { EntityFindQuery, EntityFindResult } from "~/lib/common/endpoints/entity-find.interfaces";
+import { EntityEndpoint } from "~/lib/common/endpoints/entity.endpoint";
 
 import { ApiClient } from "../../api.client";
 

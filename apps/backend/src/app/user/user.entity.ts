@@ -1,6 +1,6 @@
 import { Entity, Property } from "@mikro-orm/core";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import { UserDto } from "~/lib/common/dtos/user";
+import { UserDto } from "~/lib/common/app/user/dtos";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { UserRepository } from "./user.repository";
 import { EntityBase } from "../_lib/entity";

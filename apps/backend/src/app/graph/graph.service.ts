@@ -1,5 +1,5 @@
 import { Injectable, MethodNotAllowedException } from "@nestjs/common";
-import { EntityId } from "~/lib/common/dtos/_lib/entity";
+import { EntityId } from "~/lib/common/dtos/entity";
 
 import { Graph } from "./graph.entity";
 import { GraphRepository } from "./graph.repository";

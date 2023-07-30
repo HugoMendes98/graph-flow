@@ -1,7 +1,10 @@
 import { Controller, Delete, Get, Param, Post, Query } from "@nestjs/common";
 import { ApiExcludeEndpoint, ApiOkResponse, ApiTags } from "@nestjs/swagger";
-import { GraphDto, GraphQueryDto, GraphResultsDto } from "~/lib/common/dtos/graph";
-import { GraphEndpoint, GRAPHS_ENDPOINT_PREFIX } from "~/lib/common/endpoints/gaph/graph.endpoint";
+import { GraphDto, GraphQueryDto, GraphResultsDto } from "~/lib/common/app/graph/dtos";
+import {
+	GraphEndpoint,
+	GRAPHS_ENDPOINT_PREFIX
+} from "~/lib/common/app/graph/endpoints/graph.endpoint";
 
 import { Graph } from "./graph.entity";
 import { GraphService } from "./graph.service";

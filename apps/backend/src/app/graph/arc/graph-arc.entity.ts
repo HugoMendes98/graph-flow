@@ -1,6 +1,6 @@
 import { Entity } from "@mikro-orm/core";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import { GraphArcDto } from "~/lib/common/dtos/graph/arc";
+import { GraphArcDto } from "~/lib/common/app/graph/dtos/arc";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { GraphArcRepository } from "./graph-arc.repository";
 import { EntityBase } from "../../_lib/entity";

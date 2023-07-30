@@ -11,15 +11,15 @@ import {
 	UseInterceptors
 } from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
-import { EntityId } from "~/lib/common/dtos/_lib/entity";
 import {
 	GraphNodeCreateDto,
 	GraphNodeDto,
 	GraphNodeQueryDto,
 	GraphNodeResultsDto,
 	GraphNodeUpdateDto
-} from "~/lib/common/dtos/graph/node";
-import { generateGraphNodesEndpoint, GraphNodeEndpoint } from "~/lib/common/endpoints/gaph";
+} from "~/lib/common/app/graph/dtos/node";
+import { generateGraphNodesEndpoint, GraphNodeEndpoint } from "~/lib/common/app/graph/endpoints";
+import { EntityId } from "~/lib/common/dtos/entity";
 import { UnshiftParameters } from "~/lib/common/types";
 
 import { GraphNode } from "./graph-node.entity";

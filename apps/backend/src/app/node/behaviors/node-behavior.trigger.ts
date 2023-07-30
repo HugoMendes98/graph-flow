@@ -1,5 +1,8 @@
 import { Embedded, Entity } from "@mikro-orm/core";
-import { NodeBehaviorTriggerDto as DTO, NodeBehaviorType } from "~/lib/common/dtos/node/behaviors";
+import {
+	NodeBehaviorTriggerDto as DTO,
+	NodeBehaviorType
+} from "~/lib/common/app/node/dtos/behaviors";
 
 import { NodeBehaviorBase } from "./node-behavior.base";
 import { NODE_TRIGGER_ENTITIES, NodeTrigger } from "./triggers";

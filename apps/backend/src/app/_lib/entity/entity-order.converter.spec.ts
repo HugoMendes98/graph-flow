@@ -1,6 +1,6 @@
 import { QueryOrder } from "@mikro-orm/core";
 import { BadRequestException } from "@nestjs/common";
-import { EntityOrder } from "~/lib/common/endpoints/_lib";
+import { EntityOrder } from "~/lib/common/endpoints";
 
 import { entityOrderToQueryOrder } from "./entity-order.converter";
 

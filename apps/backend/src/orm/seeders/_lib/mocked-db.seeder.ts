@@ -1,7 +1,7 @@
 import { EntityManager, Reference } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 import { ReadonlyDeep } from "type-fest";
-import { EntityDto } from "~/lib/common/dtos/_lib/entity";
+import { EntityDto } from "~/lib/common/dtos/entity";
 
 import { EntityBase } from "../../../app/_lib/entity";
 import { Category } from "../../../app/category/category.entity";

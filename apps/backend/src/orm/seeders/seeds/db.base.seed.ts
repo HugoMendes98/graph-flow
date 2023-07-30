@@ -1,5 +1,5 @@
-import { NodeBehaviorType } from "~/lib/common/dtos/node/behaviors";
-import { NodeTriggerType } from "~/lib/common/dtos/node/behaviors/triggers";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
 
 import { MockedDb } from "../_lib/mocked-db.seeder";
 

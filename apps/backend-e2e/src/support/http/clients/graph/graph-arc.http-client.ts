@@ -1,4 +1,4 @@
-import { GraphArcDto } from "~/lib/common/dtos/graph/arc";
+import { GraphArcDto } from "~/lib/common/app/graph/dtos/arc";
 
 import { EntityHttpClient } from "../_lib/entity.http-client";
 

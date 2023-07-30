@@ -1,6 +1,6 @@
 import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { CategoryCreateDto, CategoryUpdateDto } from "~/lib/common/dtos/category";
+import { CategoryCreateDto, CategoryUpdateDto } from "~/lib/common/app/category/dtos";
 
 import { CategoryModule } from "./category.module";
 import { CategoryService } from "./category.service";

@@ -1,5 +1,5 @@
-import { UserDto } from "~/lib/common/dtos/user";
-import { USERS_ENDPOINT_PREFIX } from "~/lib/common/endpoints";
+import { UserDto } from "~/lib/common/app/user/dtos";
+import { USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpoints";
 
 import { EntityHttpClient } from "./_lib/entity.http-client";
 

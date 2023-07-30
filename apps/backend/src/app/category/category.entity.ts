@@ -1,6 +1,6 @@
 import { Collection, Entity, ManyToMany, Property } from "@mikro-orm/core";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import { CategoryDto } from "~/lib/common/dtos/category";
+import { CategoryDto } from "~/lib/common/app/category/dtos";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { CategoryRepository } from "./category.repository";
 import { EntityBase } from "../_lib/entity";

@@ -1,6 +1,6 @@
 import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { GraphNodeUpdateDto } from "~/lib/common/dtos/graph/node";
+import { GraphNodeUpdateDto } from "~/lib/common/app/graph/dtos/node";
 import { omit } from "~/lib/common/utils/object-fns";
 
 import { GraphNodeCreate, GraphNodeService } from "./graph-node.service";
@@ -19,7 +19,6 @@ describe("GraphNodeService", () => {
 	let service: GraphNodeService;
 	let graphArcService: GraphArcService;
 	let nodeService: NodeService;
-	let db: typeof DB_BASE_SEED;
 
 	let repositories: { input: GraphNodeInputRepository; output: GraphNodeOutputRepository };
 
@@ -29,7 +28,6 @@ describe("GraphNodeService", () => {
 		}).compile();
 
 		dbTest = new DbTestHelper(module);
-		db = dbTest.db as never;
 
 		service = module.get(GraphNodeService);
 		graphArcService = module.get(GraphArcService);
@@ -50,7 +48,12 @@ describe("GraphNodeService", () => {
 	});
 
 	describe("With Input/Outputs and Arcs", () => {
-		beforeEach(() => dbTest.refresh());
+		let db: typeof DB_BASE_SEED;
+
+		beforeEach(() => {
+			db = dbTest.db as never;
+			return dbTest.refresh();
+		});
 
 		it("should copy the name of the node when the name of graph-node is not defined", async () => {
 			const node = await nodeService.findById(db.node.nodes[4]._id);

@@ -2,8 +2,8 @@ import { AxiosError, HttpStatusCode } from "axios";
 import { Jsonify } from "type-fest";
 import { DbE2eHelper } from "~/app/backend/e2e/db-e2e/db-e2e.helper";
 import { GraphHttpClient } from "~/app/backend/e2e/http/clients";
-import { GraphQueryDto } from "~/lib/common/dtos/graph";
-import { GRAPHS_ENDPOINT_PREFIX } from "~/lib/common/endpoints/gaph";
+import { GraphQueryDto } from "~/lib/common/app/graph/dtos";
+import { GRAPHS_ENDPOINT_PREFIX } from "~/lib/common/app/graph/endpoints";
 
 describe("Backend HTTP Graphs", () => {
 	const client = new GraphHttpClient();

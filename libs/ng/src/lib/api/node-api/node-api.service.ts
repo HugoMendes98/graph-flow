@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/dtos/node";
-import { Node, NodeEndpoint, NODES_ENDPOINT_PREFIX } from "~/lib/common/endpoints";
+import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
+import { Node, NodeEndpoint, NODES_ENDPOINT_PREFIX } from "~/lib/common/app/node/endpoints";
 
 import { EntityApiService } from "../_lib/entity-api";
 

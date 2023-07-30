@@ -1,6 +1,6 @@
 import { Collection, Entity, OneToMany } from "@mikro-orm/core";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import { GraphDto } from "~/lib/common/dtos/graph";
+import { GraphDto } from "~/lib/common/app/graph/dtos";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { GraphRepository } from "./graph.repository";
 import { GraphNode } from "./node/graph-node.entity";

@@ -1,7 +1,7 @@
 import { Reference } from "@mikro-orm/core";
 import { Injectable } from "@nestjs/common";
-import { EntityId } from "~/lib/common/dtos/_lib/entity";
-import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/dtos/node";
+import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
+import { EntityId } from "~/lib/common/dtos/entity";
 
 import { Node } from "./node.entity";
 import { NodeRepository } from "./node.repository";

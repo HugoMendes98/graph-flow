@@ -1,6 +1,6 @@
 import { Entity } from "@mikro-orm/core";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import { GraphNodeOutputDto } from "~/lib/common/dtos/graph/node/output";
+import { GraphNodeOutputDto } from "~/lib/common/app/graph/dtos/node/output";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { GraphNodeOutputRepository } from "./graph-node-output.repository";
 import { EntityBase } from "../../../_lib/entity";

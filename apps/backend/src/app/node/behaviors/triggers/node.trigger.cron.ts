@@ -2,7 +2,7 @@ import { Embeddable } from "@mikro-orm/core";
 import {
 	NodeTriggerCronDto as DTO,
 	NodeTriggerType
-} from "~/lib/common/dtos/node/behaviors/triggers";
+} from "~/lib/common/app/node/dtos/behaviors/triggers";
 
 import { NodeTriggerBase } from "./node.trigger.base";
 

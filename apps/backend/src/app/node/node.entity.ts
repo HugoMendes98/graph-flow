@@ -7,8 +7,8 @@ import {
 	OneToOne,
 	Property
 } from "@mikro-orm/core";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import { NodeDto } from "~/lib/common/dtos/node";
+import { NodeDto } from "~/lib/common/app/node/dtos";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { NodeBehavior, NodeBehaviorBase } from "./behaviors";
 import { NodeInput } from "./input/node-input.entity";

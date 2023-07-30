@@ -1,5 +1,5 @@
 import { PrimaryKey, Property, wrap } from "@mikro-orm/core";
-import { EntityDto } from "~/lib/common/dtos/_lib/entity";
+import { EntityDto } from "~/lib/common/dtos/entity";
 
 import { EntityToDto } from "./entity.types";
 

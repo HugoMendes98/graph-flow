@@ -1,7 +1,7 @@
 import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
 import { MethodNotAllowedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { GraphArcCreateDto } from "~/lib/common/dtos/graph/arc";
+import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
 
 import { GraphArcService } from "./graph-arc.service";
 import { DbTestHelper } from "../../../../test/db-test";

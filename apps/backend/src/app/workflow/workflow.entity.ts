@@ -1,7 +1,7 @@
 import { Entity, OneToOne, Property } from "@mikro-orm/core";
 import { applyDecorators } from "@nestjs/common";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import { WorkflowDto } from "~/lib/common/dtos/workflow";
+import { WorkflowDto } from "~/lib/common/app/workflow/dtos";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { WorkflowRepository } from "./workflow.repository";
 import { EntityBase } from "../_lib/entity";

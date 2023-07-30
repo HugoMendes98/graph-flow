@@ -12,14 +12,14 @@ import {
 	UseInterceptors
 } from "@nestjs/common";
 import { ApiCreatedResponse, ApiExcludeEndpoint, ApiOkResponse, ApiTags } from "@nestjs/swagger";
-import { EntityId } from "~/lib/common/dtos/_lib/entity";
 import {
 	GraphArcCreateDto,
 	GraphArcDto,
 	GraphArcQueryDto,
 	GraphArcResultsDto
-} from "~/lib/common/dtos/graph/arc";
-import { generateGraphArcsEndpoint, GraphArcEndpoint } from "~/lib/common/endpoints/gaph";
+} from "~/lib/common/app/graph/dtos/arc";
+import { generateGraphArcsEndpoint, GraphArcEndpoint } from "~/lib/common/app/graph/endpoints";
+import { EntityId } from "~/lib/common/dtos/entity";
 import { UnshiftParameters } from "~/lib/common/types";
 
 import { GraphArc } from "./graph-arc.entity";

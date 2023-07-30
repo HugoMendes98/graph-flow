@@ -1,7 +1,7 @@
 import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/dtos/node";
-import { NodeBehaviorType } from "~/lib/common/dtos/node/behaviors";
+import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 
 import { NodeModule } from "./node.module";
 import { NodeService } from "./node.service";

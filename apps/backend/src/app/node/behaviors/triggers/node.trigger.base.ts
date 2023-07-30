@@ -3,7 +3,7 @@ import {
 	NodeTriggerBaseDto,
 	NodeTriggerDiscriminatorKey,
 	NodeTriggerType
-} from "~/lib/common/dtos/node/behaviors/triggers";
+} from "~/lib/common/app/node/dtos/behaviors/triggers";
 
 @Embeddable({
 	abstract: true,

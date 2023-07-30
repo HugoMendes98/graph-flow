@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { GraphNodeCreateDto, GraphNodeUpdateDto } from "~/lib/common/dtos/graph/node";
-import { GraphNodeInputCreateDto } from "~/lib/common/dtos/graph/node/input";
-import { GraphNodeOutputCreateDto } from "~/lib/common/dtos/graph/node/output";
+import { GraphNodeCreateDto, GraphNodeUpdateDto } from "~/lib/common/app/graph/dtos/node";
+import { GraphNodeInputCreateDto } from "~/lib/common/app/graph/dtos/node/input";
+import { GraphNodeOutputCreateDto } from "~/lib/common/app/graph/dtos/node/output";
 
 import { GraphNode } from "./graph-node.entity";
 import { GraphNodeRepository } from "./graph-node.repository";

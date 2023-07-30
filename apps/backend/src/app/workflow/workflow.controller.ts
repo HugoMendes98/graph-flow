@@ -1,18 +1,18 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
-import { GraphDto } from "~/lib/common/dtos/graph";
+import { GraphDto } from "~/lib/common/app/graph/dtos";
 import {
 	WorkflowCreateDto,
 	WorkflowDto,
 	WorkflowQueryDto,
 	WorkflowResultsDto,
 	WorkflowUpdateDto
-} from "~/lib/common/dtos/workflow";
+} from "~/lib/common/app/workflow/dtos";
 import {
 	WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT,
 	WorkflowEndpoint,
 	WORKFLOWS_ENDPOINT_PREFIX
-} from "~/lib/common/endpoints";
+} from "~/lib/common/app/workflow/endpoints";
 
 import { Workflow } from "./workflow.entity";
 import { WorkflowService } from "./workflow.service";

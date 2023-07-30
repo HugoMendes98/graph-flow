@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { EntityId } from "~/lib/common/dtos/_lib/entity";
-import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/dtos/workflow";
+import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
+import { EntityId } from "~/lib/common/dtos/entity";
 
 import { Workflow } from "./workflow.entity";
 import { WorkflowRepository } from "./workflow.repository";

@@ -6,8 +6,8 @@ import {
 	NodeQueryDto,
 	NodeResultsDto,
 	NodeUpdateDto
-} from "~/lib/common/dtos/node";
-import { NodeEndpoint, NODES_ENDPOINT_PREFIX } from "~/lib/common/endpoints";
+} from "~/lib/common/app/node/dtos";
+import { NodeEndpoint, NODES_ENDPOINT_PREFIX } from "~/lib/common/app/node/endpoints";
 
 import { Node } from "./node.entity";
 import { NodeService } from "./node.service";

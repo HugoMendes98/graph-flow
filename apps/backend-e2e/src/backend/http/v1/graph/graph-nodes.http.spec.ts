@@ -2,8 +2,9 @@ import { AxiosError, HttpStatusCode } from "axios";
 import { Jsonify } from "type-fest";
 import { DbE2eHelper } from "~/app/backend/e2e/db-e2e/db-e2e.helper";
 import { GraphHttpClient } from "~/app/backend/e2e/http/clients";
-import { GraphNodeQueryDto } from "~/lib/common/dtos/graph/node";
-import { generateGraphNodesEndpoint } from "~/lib/common/endpoints/gaph";
+import { GraphNodeQueryDto } from "~/lib/common/app/graph/dtos/node";
+import { generateGraphNodesEndpoint } from "~/lib/common/app/graph/endpoints";
+import { omit } from "~/lib/common/utils/object-fns";
 
 describe("Backend HTTP GraphNodes", () => {
 	const graphClient = new GraphHttpClient();
@@ -36,7 +37,9 @@ describe("Backend HTTP GraphNodes", () => {
 			expect(data).toHaveLength(limit);
 			expect(total).toBe(sorted.length);
 
-			expect(data).toStrictEqual(sorted.slice(0, limit));
+			expect(data.map(item => omit(item, ["inputs", "outputs"]))).toStrictEqual(
+				sorted.slice(0, limit)
+			);
 		});
 	});
 
@@ -46,7 +49,7 @@ describe("Backend HTTP GraphNodes", () => {
 		it("should get one", async () => {
 			for (const node of graphRefNodes) {
 				const response = await client.findOne(node._id);
-				expect(response).toStrictEqual(node);
+				expect(omit(response, ["inputs", "outputs"])).toStrictEqual(node);
 			}
 		});
 

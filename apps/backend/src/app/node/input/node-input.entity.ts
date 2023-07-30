@@ -1,6 +1,6 @@
 import { Entity, Property } from "@mikro-orm/core";
-import { DtoToEntity } from "~/lib/common/dtos/_lib/entity/entity.types";
-import { NodeInputDto } from "~/lib/common/dtos/node/input";
+import { NodeInputDto } from "~/lib/common/app/node/dtos/input";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { NodeInputRepository } from "./node-input.repository";
 import { EntityBase } from "../../_lib/entity";

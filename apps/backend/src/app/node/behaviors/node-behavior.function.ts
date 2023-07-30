@@ -1,6 +1,9 @@
 import { Entity } from "@mikro-orm/core";
-import { GraphNodeDto } from "~/lib/common/dtos/graph/node";
-import { NodeBehaviorFunctionDto as DTO, NodeBehaviorType } from "~/lib/common/dtos/node/behaviors";
+import { GraphNodeDto } from "~/lib/common/app/graph/dtos/node";
+import {
+	NodeBehaviorFunctionDto as DTO,
+	NodeBehaviorType
+} from "~/lib/common/app/node/dtos/behaviors";
 
 import { NodeBehaviorBase } from "./node-behavior.base";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
