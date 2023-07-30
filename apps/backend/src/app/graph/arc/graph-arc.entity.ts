@@ -1,10 +1,11 @@
-import { Entity } from "@mikro-orm/core";
+import { Entity, OneToOne } from "@mikro-orm/core";
+import { applyDecorators } from "@nestjs/common";
 import { GraphArcDto } from "~/lib/common/app/graph/dtos/arc";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { GraphArcRepository } from "./graph-arc.repository";
 import { EntityBase } from "../../_lib/entity";
-import { ManyToOneFactory } from "../../_lib/entity/decorators";
+import { ManyToOneFactory, ManyToOneParams } from "../../_lib/entity/decorators";
 import { GraphNodeInput } from "../node/input";
 import { GraphNodeOutput } from "../node/output";
 
@@ -15,13 +16,20 @@ const FromProperty = ManyToOneFactory(() => GraphNodeOutput, {
 	onUpdateIntegrity: "cascade"
 });
 
-const ToProperty = ManyToOneFactory(() => GraphNodeInput, {
-	fieldName: "__to" satisfies keyof GraphArcDto,
-	// Deleting a GraphNodeInput deletes its arcs
-	onDelete: "cascade",
-	onUpdateIntegrity: "cascade",
-	unique: true
-});
+const ToProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) =>
+	applyDecorators(
+		OneToOne(() => GraphNodeInput, {
+			fieldName: "__to" satisfies keyof GraphArcDto,
+			hidden: foreign,
+			mapToPk: !foreign,
+			nullable: false,
+			onDelete: "cascade",
+			onUpdateIntegrity: "cascade",
+			owner: true,
+			persist: !foreign,
+			unique: true
+		}) as never
+	);
 
 @Entity({ customRepository: () => GraphArcRepository })
 export class GraphArc extends EntityBase implements DtoToEntity<GraphArcDto> {

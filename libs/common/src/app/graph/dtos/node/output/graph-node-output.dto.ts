@@ -3,6 +3,7 @@ import { IsNumber, Min } from "class-validator";
 import { DtoProperty } from "../../../../../dtos/dto";
 import { EntityDto } from "../../../../../dtos/entity";
 import { NodeOutputDto } from "../../../../node/dtos/output/node-output.dto";
+import { GraphArcDto } from "../../arc";
 import { GraphNodeDto } from "../graph-node.dto";
 
 export class GraphNodeOutputDto extends EntityDto {
@@ -23,6 +24,12 @@ export class GraphNodeOutputDto extends EntityDto {
 	public __node_output!: number;
 
 	// ------- Relations -------
+
+	/**
+	 * The [graph-arcs]{@link GraphArcDto} connected to this graph-node-output
+	 */
+	@DtoProperty({ array: true, forwardRef: true, type: () => GraphArcDto })
+	public readonly graphArcs?: GraphArcDto[];
 
 	/**
 	 * The [graph-node]{@link GraphNodeDto} linked to this graph-node-output

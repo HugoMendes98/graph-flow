@@ -8,8 +8,8 @@ import { EntityBase } from "../_lib/entity";
 import { ManyToOneParams } from "../_lib/entity/decorators";
 import { Graph } from "../graph/graph.entity";
 
-const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) => {
-	return applyDecorators(
+const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) =>
+	applyDecorators(
 		OneToOne(() => Graph, {
 			fieldName: "__graph" satisfies keyof WorkflowDto,
 			hidden: foreign,
@@ -22,8 +22,6 @@ const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) => {
 			unique: true
 		}) as never
 	);
-};
-
 /**
  * The entity class to manage workflows
  */

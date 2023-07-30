@@ -1,4 +1,4 @@
-import { Entity } from "@mikro-orm/core";
+import { Collection, Entity, OneToMany } from "@mikro-orm/core";
 import { GraphNodeOutputDto } from "~/lib/common/app/graph/dtos/node/output";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
@@ -6,6 +6,7 @@ import { GraphNodeOutputRepository } from "./graph-node-output.repository";
 import { EntityBase } from "../../../_lib/entity";
 import { ManyToOneFactory } from "../../../_lib/entity/decorators";
 import { NodeOutput } from "../../../node/output";
+import { GraphArc } from "../../arc/graph-arc.entity";
 import { GraphNode } from "../graph-node.entity";
 
 const GraphNodeProperty = ManyToOneFactory(() => GraphNode, {
@@ -28,6 +29,9 @@ export class GraphNodeOutput extends EntityBase implements DtoToEntity<GraphNode
 	public __node_output!: number;
 
 	// ------- Relations -------
+
+	@OneToMany(() => GraphArc, ({ from }) => from, { hidden: true })
+	public readonly graphArcs? = new Collection<GraphArc>(this);
 
 	@GraphNodeProperty({ foreign: true })
 	public readonly graphNode?: GraphNode;
