@@ -12,6 +12,7 @@ import { GraphArcService } from "./graph-arc.service";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
 import { DB_BASE_SEED } from "../../../orm/seeders/seeds";
+import { GraphCyclicException } from "../exceptions";
 import { GraphModule } from "../graph.module";
 import { GraphNodeService } from "../node/graph-node.service";
 
@@ -139,6 +140,41 @@ describe("GraphArcService", () => {
 			await expect(() =>
 				service.create({ __from: output._id, __to: input._id })
 			).rejects.toThrow(GraphArcDifferentGraphException);
+		});
+
+		it("should fail when it forms a cycle in the graph (same graph-node)", async () => {
+			const {
+				code: {
+					inputs: [cInput],
+					outputs: [cOutput]
+				}
+			} = await seed();
+
+			// code -> code
+			await expect(() =>
+				service.create({ __from: cOutput._id, __to: cInput._id })
+			).rejects.toThrow(GraphCyclicException);
+		});
+
+		it("should fail when it forms a cycle in the graph", async () => {
+			const {
+				code: {
+					inputs: [cInput],
+					outputs: [cOutput]
+				},
+				variable1: {
+					inputs: [vInput],
+					outputs: [vOutput]
+				}
+			} = await seed();
+
+			// variable -> code
+			await service.create({ __from: vOutput._id, __to: cInput._id });
+
+			// code -> variable => cyclic : variable -> code -> variable
+			await expect(() =>
+				service.create({ __from: cOutput._id, __to: vInput._id })
+			).rejects.toThrow(GraphCyclicException);
 		});
 	});
 
