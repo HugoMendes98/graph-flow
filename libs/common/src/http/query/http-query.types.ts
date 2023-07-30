@@ -3,17 +3,17 @@ import { Primitive } from "../../types";
 /**
  * Prefix identifier to encoded values.
  */
-export enum QUERY_PREFIX_IDENTIFIER {
+export enum QueryPrefixIdentifier {
 	DATE = "\x02",
 	NUMBER = "\x01",
 	PRIMITIVE = "\x00",
 	REG_EXP = "\x03"
 }
 
-type QueryEncodedDate = `${QUERY_PREFIX_IDENTIFIER.DATE}${string}`;
-type QueryEncodedNumber = `${QUERY_PREFIX_IDENTIFIER.NUMBER}${string}`;
-type QueryEncodedPrimitive = `${QUERY_PREFIX_IDENTIFIER.PRIMITIVE}${string}`;
-type QueryEncodedRegExp = `${QUERY_PREFIX_IDENTIFIER.REG_EXP}${string}`;
+type QueryEncodedDate = `${QueryPrefixIdentifier.DATE}${string}`;
+type QueryEncodedNumber = `${QueryPrefixIdentifier.NUMBER}${string}`;
+type QueryEncodedPrimitive = `${QueryPrefixIdentifier.PRIMITIVE}${string}`;
+type QueryEncodedRegExp = `${QueryPrefixIdentifier.REG_EXP}${string}`;
 
 /**
  * The possible types for a "query primitive" value.

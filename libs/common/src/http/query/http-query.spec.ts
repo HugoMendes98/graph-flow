@@ -1,10 +1,10 @@
 import { httpQueryDecode } from "./http-query.decode";
 import { httpQueryEncode } from "./http-query.encode";
-import { QUERY_PREFIX_IDENTIFIER, QueryValue } from "./http-query.types";
+import { QueryPrefixIdentifier, QueryValue } from "./http-query.types";
 
 describe("HTTP Query transformer", () => {
 	describe("Encode/decode query strings", () => {
-		const queryPrefixes = Object.values(QUERY_PREFIX_IDENTIFIER);
+		const queryPrefixes = Object.values(QueryPrefixIdentifier);
 
 		// The important test
 		it("should encode and decode to the same value", () => {
@@ -42,7 +42,7 @@ describe("HTTP Query transformer", () => {
 
 			for (const value of values) {
 				const encoded = httpQueryEncode(value);
-				const prefix = encoded.charAt(0) as QUERY_PREFIX_IDENTIFIER;
+				const prefix = encoded.charAt(0) as QueryPrefixIdentifier;
 
 				expect(queryPrefixes.includes(prefix)).toBeTruthy();
 
@@ -55,7 +55,7 @@ describe("HTTP Query transformer", () => {
 			const values: QueryValue[] = ["a string", "and", "another", "! :)"];
 			for (const value of values) {
 				const encoded = httpQueryEncode(value);
-				const prefix = encoded.charAt(0) as QUERY_PREFIX_IDENTIFIER;
+				const prefix = encoded.charAt(0) as QueryPrefixIdentifier;
 
 				expect(queryPrefixes.includes(prefix)).toBeFalsy();
 				expect(encoded.charAt(0)).toBe((value as string).charAt(0));

@@ -1,16 +1,24 @@
-import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
+import {
+	ForeignKeyConstraintViolationException,
+	NotFoundError,
+	UniqueConstraintViolationException
+} from "@mikro-orm/core";
 import { MethodNotAllowedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
 
+import { GraphArcDifferentGraphException } from "./exceptions";
 import { GraphArcService } from "./graph-arc.service";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
+import { DB_BASE_SEED } from "../../../orm/seeders/seeds";
 import { GraphModule } from "../graph.module";
+import { GraphNodeService } from "../node/graph-node.service";
 
 describe("GraphArcService", () => {
 	let dbTest: DbTestHelper;
 	let service: GraphArcService;
+	let graphNodeService: GraphNodeService;
 
 	beforeAll(async () => {
 		const module: TestingModule = await Test.createTestingModule({
@@ -20,12 +28,118 @@ describe("GraphArcService", () => {
 
 		dbTest = new DbTestHelper(module);
 		service = module.get(GraphArcService);
+		graphNodeService = module.get(GraphNodeService);
 	});
 
 	afterAll(() => dbTest.close());
 
 	it("should be defined", () => {
 		expect(service).toBeDefined();
+	});
+
+	describe("With Input/Outputs", () => {
+		let db: typeof DB_BASE_SEED;
+
+		// Small seed in the empty graph
+		const seed = async () => {
+			const graph = db.graph.graphs[2];
+			const [var1, var2, , , nCode] = db.node.nodes;
+
+			const variable1 = await graphNodeService.create(
+				{
+					__graph: graph._id,
+					__node: var1._id,
+					position: { x: 0, y: 0 }
+				},
+				{ findOptions: { populate: ["inputs", "outputs"] } }
+			);
+			const variable2 = await graphNodeService.create(
+				{
+					__graph: graph._id,
+					__node: var2._id,
+					position: { x: 0, y: 0 }
+				},
+				{ findOptions: { populate: ["inputs", "outputs"] } }
+			);
+			const code = await graphNodeService.create(
+				{
+					__graph: graph._id,
+					__node: nCode._id,
+					position: { x: 0, y: 0 }
+				},
+				{ findOptions: { populate: ["inputs", "outputs"] } }
+			);
+
+			return { code, variable1, variable2 };
+		};
+
+		beforeEach(() => {
+			db = dbTest.db as never;
+			return dbTest.refresh();
+		});
+
+		it("should fail when the input is unknown", async () => {
+			const {
+				code: {
+					outputs: [output]
+				}
+			} = await seed();
+
+			const __to = Math.max(...db.graph.graphNodeInputs.map(({ _id }) => _id)) * 2;
+			await expect(() => service.create({ __from: output._id, __to })).rejects.toThrow(
+				ForeignKeyConstraintViolationException
+			);
+		});
+
+		it("should fail when the output is unknown", async () => {
+			const {
+				code: {
+					inputs: [input]
+				}
+			} = await seed();
+
+			const __from = Math.max(...db.graph.graphNodeOutputs.map(({ _id }) => _id)) * 2;
+			await expect(() => service.create({ __from, __to: input._id })).rejects.toThrow(
+				ForeignKeyConstraintViolationException
+			);
+		});
+
+		it("should fail when the input is already used", async () => {
+			const {
+				code: {
+					inputs: [input]
+				},
+				variable1: {
+					outputs: [output1]
+				},
+				variable2: {
+					outputs: [output2]
+				}
+			} = await seed();
+
+			await service.create({ __from: output1._id, __to: input._id });
+			await expect(() =>
+				service.create({ __from: output2._id, __to: input._id })
+			).rejects.toThrow(UniqueConstraintViolationException);
+		});
+
+		it("should fail when the input and output are not from the same graph", async () => {
+			const {
+				code: {
+					inputs: [input]
+				}
+			} = await seed();
+
+			const {
+				outputs: [output]
+			} = await graphNodeService.findById(db.graph.graphNodes[0]._id, {
+				populate: ["outputs"]
+			});
+
+			await expect(() =>
+				service.create({ __from: output._id, __to: input._id })
+			).rejects.toThrow(GraphArcDifferentGraphException);
+		});
 	});
 
 	describe("CRUD basic", () => {

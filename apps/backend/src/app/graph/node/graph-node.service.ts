@@ -31,7 +31,7 @@ export class GraphNodeService extends EntityService<
 	public override async create<P extends EntityRelationKeys<GraphNode>>(
 		toCreate: GraphNodeCreate,
 		options?: EntityServiceCreateOptions<GraphNode, P>
-	): Promise<GraphNode & Required<Pick<GraphNode, P | "toJSON">>> {
+	) {
 		const { inputs, name, outputs } = await this.nodeService.findById(toCreate.__node, {
 			populate: ["inputs", "outputs"]
 		});

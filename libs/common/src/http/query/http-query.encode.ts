@@ -4,7 +4,7 @@ import { ReadonlyDeep } from "type-fest";
 import {
 	QueryValue,
 	QueryEncoded,
-	QUERY_PREFIX_IDENTIFIER,
+	QueryPrefixIdentifier,
 	QueryPrimitiveValue
 } from "./http-query.types";
 
@@ -65,16 +65,16 @@ export function httpQueryEncode<T>(
 	options?: ReadonlyDeep<HttpQueryEncodeOptions>
 ): QueryEncoded<QueryValue | object | []> {
 	if (([true, false, null, undefined] satisfies QueryPrimitiveValue[]).includes(query as never)) {
-		return `${QUERY_PREFIX_IDENTIFIER.PRIMITIVE}${query as string}`;
+		return `${QueryPrefixIdentifier.PRIMITIVE}${query as string}`;
 	}
 	if (typeof query === "number") {
-		return `${QUERY_PREFIX_IDENTIFIER.NUMBER}${query}`;
+		return `${QueryPrefixIdentifier.NUMBER}${query}`;
 	}
 	if (query instanceof Date) {
-		return `${QUERY_PREFIX_IDENTIFIER.DATE}${query.toISOString()}`;
+		return `${QueryPrefixIdentifier.DATE}${query.toISOString()}`;
 	}
 	if (query instanceof RegExp) {
-		return `${QUERY_PREFIX_IDENTIFIER.REG_EXP}${query.toString().slice(1, -1)}`;
+		return `${QueryPrefixIdentifier.REG_EXP}${query.toString().slice(1, -1)}`;
 	}
 
 	if (typeof query === "string") {

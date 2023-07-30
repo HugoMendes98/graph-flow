@@ -34,6 +34,11 @@ export type EntityServiceUpdateOptions<
 	P extends EntityRelationKeys<T>
 > = EntityServiceCreateOptions<T, P>;
 
+export type EntityLoaded<T extends EntityBase, P extends EntityRelationKeys<T> = never> = Required<
+	Pick<T, P | "toJSON">
+> &
+	T;
+
 export abstract class EntityService<
 	T extends EntityBase,
 	ToCreate,
@@ -68,7 +73,7 @@ export abstract class EntityService<
 		where: EntityFilter<T> = {},
 		params: EntityFindParams<T> = {},
 		options?: EntityServiceFindOptions<T, P>
-	): Promise<FindResultsDto<Required<Pick<T, P | "toJSON">> & T>> {
+	): Promise<FindResultsDto<EntityLoaded<T, P>>> {
 		// TODO: fix order by foreign of foreign id
 		const offset = params.skip ?? 0;
 		return (
@@ -82,7 +87,7 @@ export abstract class EntityService<
 					populate: options?.populate as never
 				})
 				.then(([data, total]) => ({
-					data: data as Array<Required<Pick<T, P | "toJSON">> & T>,
+					data: data as Array<EntityLoaded<T, P>>,
 					pagination: { range: { end: offset + data.length, start: offset }, total }
 				}))
 		);
@@ -115,7 +120,7 @@ export abstract class EntityService<
 				// It seems there's an error when using calculated generic type
 			} satisfies FilterQuery<EntityBase> as FilterQuery<T>,
 			{ populate: options?.populate as never }
-		) as Promise<Required<Pick<T, P | "toJSON">> & T>;
+		) as Promise<EntityLoaded<T, P>>;
 	}
 
 	/**

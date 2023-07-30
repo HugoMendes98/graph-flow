@@ -1,23 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { GraphArcController } from "./graph-arc.controller";
-import { GraphArcRepository } from "./graph-arc.repository";
-import { GraphArcService } from "./graph-arc.service";
-import { GraphRepository } from "../graph.repository";
-import { GraphService } from "../graph.service";
+import { OrmModule } from "../../../orm/orm.module";
+import { GraphModule } from "../graph.module";
 
 describe("GraphArcController", () => {
 	let controller: GraphArcController;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
-			controllers: [GraphArcController],
-			providers: [
-				{ provide: GraphRepository, useValue: {} },
-				GraphService,
-				{ provide: GraphArcRepository, useValue: {} },
-				GraphArcService
-			]
+			imports: [GraphModule, OrmModule]
 		}).compile();
 
 		controller = module.get<GraphArcController>(GraphArcController);
