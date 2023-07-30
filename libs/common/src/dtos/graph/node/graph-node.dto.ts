@@ -1,8 +1,8 @@
 import { Type } from "class-transformer";
 import { IsNumber, IsOptional, IsString, Min, MinLength, ValidateNested } from "class-validator";
 
-import { GraphNodeInputDto } from "./input";
-import { GraphNodeOutputDto } from "./output";
+import { GraphNodeInputDto } from "./input/graph-node-input.dto";
+import { GraphNodeOutputDto } from "./output/graph-node-output.dto";
 import { PositionDto } from "./position.dto";
 import { DtoProperty } from "../../_lib/dto";
 import { EntityDto, EntityId } from "../../_lib/entity";

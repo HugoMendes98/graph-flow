@@ -2,7 +2,7 @@ import { IsNumber, Min } from "class-validator";
 
 import { DtoProperty } from "../../../_lib/dto";
 import { EntityDto } from "../../../_lib/entity";
-import { NodeOutputDto } from "../../../node/output";
+import { NodeOutputDto } from "../../../node/output/node-output.dto";
 import { GraphNodeDto } from "../graph-node.dto";
 
 export class GraphNodeOutputDto extends EntityDto {

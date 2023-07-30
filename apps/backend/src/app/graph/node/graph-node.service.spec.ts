@@ -4,15 +4,24 @@ import { GraphNodeUpdateDto } from "~/lib/common/dtos/graph/node";
 import { omit } from "~/lib/common/utils/object-fns";
 
 import { GraphNodeCreate, GraphNodeService } from "./graph-node.service";
+import { GraphNodeInputRepository } from "./input";
+import { GraphNodeOutputRepository } from "./output";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
 import { DB_BASE_SEED } from "../../../orm/seeders/seeds";
+import { EntityBase } from "../../_lib/entity";
+import { NodeService } from "../../node/node.service";
+import { GraphArcService } from "../arc/graph-arc.service";
 import { GraphModule } from "../graph.module";
 
 describe("GraphNodeService", () => {
 	let dbTest: DbTestHelper;
 	let service: GraphNodeService;
+	let graphArcService: GraphArcService;
+	let nodeService: NodeService;
 	let db: typeof DB_BASE_SEED;
+
+	let repositories: { input: GraphNodeInputRepository; output: GraphNodeOutputRepository };
 
 	beforeAll(async () => {
 		const module: TestingModule = await Test.createTestingModule({
@@ -21,25 +30,119 @@ describe("GraphNodeService", () => {
 
 		dbTest = new DbTestHelper(module);
 		db = dbTest.db as never;
+
 		service = module.get(GraphNodeService);
+		graphArcService = module.get(GraphArcService);
+		nodeService = module.get(NodeService);
+
+		repositories = {
+			input: module.get(GraphNodeInputRepository),
+			output: module.get(GraphNodeOutputRepository)
+		};
 	});
 
 	afterAll(() => dbTest.close());
 
 	it("should be defined", () => {
 		expect(service).toBeDefined();
+		expect(repositories.input).toBeDefined();
+		expect(repositories.output).toBeDefined();
 	});
 
-	describe("With Input/Outputs", () => {
-		beforeEach(() => dbTest.db);
+	describe("With Input/Outputs and Arcs", () => {
+		beforeEach(() => dbTest.refresh());
+
+		it("should copy the name of the node when the name of graph-node is not defined", async () => {
+			const node = await nodeService.findById(db.node.nodes[4]._id);
+
+			const graphNode = await service.create({
+				__graph: db.graph.graphs[0]._id,
+				__node: node._id,
+				position: { x: 0, y: 0 }
+			});
+
+			expect(graphNode.name).toBe(node.name);
+		});
+
+		it("should copy the inputs and outputs of the added node", async () => {
+			const node = await nodeService.findById(db.node.nodes[4]._id, {
+				populate: ["inputs", "outputs"]
+			});
+
+			const graphNode = await service.create(
+				{
+					__graph: db.graph.graphs[0]._id,
+					__node: node._id,
+					name: "new graph-node",
+					position: { x: 0, y: 0 }
+				},
+				{ findOptions: { populate: ["inputs", "outputs"] } }
+			);
+
+			expect(graphNode.inputs).toHaveLength(node.inputs.length);
+			expect(graphNode.outputs).toHaveLength(node.outputs.length);
+
+			for (const io of [...graphNode.inputs, ...graphNode.outputs] as const) {
+				expect(io.__graph_node).toBe(graphNode._id);
+			}
+
+			const gInputs = graphNode.inputs
+				.getItems()
+				.map(({ __node_input }) => __node_input)
+				.sort();
+			const gOutputs = graphNode.outputs
+				.getItems()
+				.map(({ __node_output }) => __node_output)
+				.sort();
+
+			const nInputs = node.inputs
+				.getItems()
+				.map(({ _id }) => _id)
+				.sort();
+			const nOutputs = node.outputs
+				.getItems()
+				.map(({ _id }) => _id)
+				.sort();
+
+			expect(gInputs).toStrictEqual(nInputs);
+			expect(gOutputs).toStrictEqual(nOutputs);
+		});
 
 		it("should remove inputs and arcs when deleting a graph-node", async () => {
 			const graphNode = await service.findById(db.graph.graphNodes[10]._id);
-			// For test only; do not use a possibly used node if it is "locked"
+			// For test verification; do not use a possibly used node if it is "locked"
 			expect(graphNode.__graph).toBe(2);
 
+			const { inputs, outputs } = graphNode;
+			const { data: arcs } = await graphArcService.findAndCount({
+				$or: [
+					{ from: { __graph_node: graphNode._id } },
+					{ to: { __graph_node: graphNode._id } }
+				]
+			});
+
+			// Need to have some data before
+			expect(arcs).not.toHaveLength(0);
+			expect(inputs).not.toHaveLength(0);
+			expect(outputs).not.toHaveLength(0);
+
 			await service.delete(graphNode._id);
-			//
+
+			// search by ids so that is not linked with the foreign keys
+			const {
+				pagination: { total: totalArcs }
+			} = await graphArcService.findAndCount({ _id: { $in: arcs.map(({ _id }) => _id) } });
+			expect(totalArcs).toBe(0);
+
+			for (const [repository, entities] of [
+				[repositories.input, inputs],
+				[repositories.output, outputs]
+			] as const) {
+				const [, total] = await repository.findAndCount({
+					_id: { $in: entities.getItems().map(({ _id }: EntityBase) => _id) }
+				});
+				expect(total).toBe(0);
+			}
 		});
 	});
 

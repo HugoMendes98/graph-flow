@@ -8,11 +8,12 @@ import { GRAPH_ENTITIES } from "./graph.entities";
 import { GraphService } from "./graph.service";
 import { GraphNodeController } from "./node/graph-node.controller";
 import { GraphNodeService } from "./node/graph-node.service";
+import { NodeModule } from "../node/node.module";
 
 @Module({
 	controllers: [GraphArcController, GraphController, GraphNodeController],
 	exports: [GraphService],
-	imports: [MikroOrmModule.forFeature(GRAPH_ENTITIES)],
+	imports: [MikroOrmModule.forFeature(GRAPH_ENTITIES), NodeModule],
 	providers: [GraphArcService, GraphService, GraphNodeService]
 })
 export class GraphModule {}

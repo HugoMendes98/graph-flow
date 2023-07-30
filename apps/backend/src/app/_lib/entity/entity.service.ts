@@ -133,13 +133,12 @@ export abstract class EntityService<
 		//	But it does take account of SQL default value
 		const created = this.repository.create(toCreate as never, { persist: true });
 
-		const em = this.repository.getEntityManager();
-		await em.flush();
+		await this.repository.getEntityManager().flush();
 
 		// FIXME: a way to propagate the change to already managed collections:
 		//   Load an entity with manyToMany relation and delete one value.
 		//   Load an entity that was linked to the deleted entity -> the collection is still full
-		em.clear();
+		this.clearEM();
 
 		return this.findById<P>(created._id, options?.findOptions);
 	}
@@ -188,13 +187,12 @@ export abstract class EntityService<
 	 * @returns The given entity
 	 */
 	protected async deleteEntity(entity: T) {
-		const em = this.repository.getEntityManager();
-		await em.removeAndFlush(entity);
+		await this.repository.getEntityManager().removeAndFlush(entity);
 
 		// FIXME: a way to propagate the change to already managed collections:
 		//   Load an entity with manyToMany relation and delete one value.
 		//   Load an entity that was linked to the deleted entity -> the collection is still full
-		em.clear();
+		this.clearEM();
 
 		return entity;
 	}

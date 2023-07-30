@@ -7,6 +7,8 @@ import {
 	NodeBehaviorDiscriminatorKey,
 	NodeBehaviorDto
 } from "./behaviors";
+import { NodeInputDto } from "./input/node-input.dto";
+import { NodeOutputDto } from "./output/node-output.dto";
 import { DtoProperty } from "../_lib/dto";
 import { EntityDto } from "../_lib/entity";
 import { CategoryDto } from "../category/category.dto";
@@ -53,6 +55,25 @@ export class NodeDto extends EntityDto {
 
 	// ------- Relations -------
 
+	/**
+	 * All [inputs]{@link NodeInputDto} linked to this node
+	 */
+	@DtoProperty({
+		array: true,
+		forwardRef: true,
+		type: () => NodeInputDto
+	})
+	public readonly inputs?: NodeInputDto[];
+
+	/**
+	 * All [outputs]{@link NodeOutputDto} linked to this node
+	 */
+	@DtoProperty({
+		array: true,
+		forwardRef: true,
+		type: () => NodeOutputDto
+	})
+	public readonly outputs?: NodeOutputDto[];
 	/**
 	 * All [categories]{@link CategoryDto} linked to this node
 	 *
