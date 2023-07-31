@@ -50,6 +50,7 @@
 		"@bartholomej/ngx-translate-extract": "^8.0.2",
 		"@compodoc/compodoc": "^1.1.19",
 		"@cspell/eslint-plugin": "^6.31.2",
+		"@darraghor/eslint-plugin-nestjs-typed": "^3.22.6",
 		"@nestjs/cli": "^10.1.10",
 		"@nestjs/schematics": "10.0.1",
 		"@nestjs/testing": "10.1.2",

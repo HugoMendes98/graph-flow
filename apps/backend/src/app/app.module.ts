@@ -13,8 +13,8 @@ import { OrmModule } from "../orm/orm.module";
 	imports: [
 		AuthModule,
 		CategoryModule,
-		HealthModule,
 		GraphModule,
+		HealthModule,
 		NodeModule,
 		OrmModule,
 		UserModule,

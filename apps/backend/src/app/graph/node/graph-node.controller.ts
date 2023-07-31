@@ -65,7 +65,7 @@ export class GraphNodeController implements EndpointTransformed {
 
 	@ApiGraphParam()
 	@ApiOkResponse({ type: GraphNodeDto })
-	@Patch()
+	@Patch("/:id")
 	public update(
 		@GraphInterceptedParam() graph: Graph,
 		@Param("id") id: number,
@@ -76,7 +76,7 @@ export class GraphNodeController implements EndpointTransformed {
 
 	@ApiGraphParam()
 	@ApiOkResponse({ type: GraphNodeDto })
-	@Delete()
+	@Delete("/:id")
 	public delete(@GraphInterceptedParam() graph: Graph, @Param("id") id: number) {
 		return this.validateNodeId(graph, id).then(({ _id }) => this.service.delete(_id));
 	}

@@ -14,6 +14,6 @@ import { NodeModule } from "../node/node.module";
 	controllers: [GraphArcController, GraphController, GraphNodeController],
 	exports: [GraphService],
 	imports: [MikroOrmModule.forFeature(GRAPH_ENTITIES), NodeModule],
-	providers: [GraphArcService, GraphService, GraphNodeService]
+	providers: [GraphArcService, GraphNodeService, GraphService]
 })
 export class GraphModule {}

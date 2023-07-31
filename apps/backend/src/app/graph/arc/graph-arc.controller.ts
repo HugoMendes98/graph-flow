@@ -71,7 +71,7 @@ export class GraphArcController implements EndpointTransformed {
 	@ApiCreatedResponse({ type: GraphArcDto })
 	@ApiGraphParam()
 	@Post()
-	public create(@GraphInterceptedParam() graph: Graph, @Body() body: GraphArcCreateDto) {
+	public create(@GraphInterceptedParam() _graph: Graph, @Body() _body: GraphArcCreateDto) {
 		return Promise.reject(new NotImplementedException(`Can not create an arc yet.`));
 	}
 
@@ -83,7 +83,7 @@ export class GraphArcController implements EndpointTransformed {
 
 	@ApiGraphParam()
 	@ApiOkResponse({ type: GraphArcDto })
-	@Delete()
+	@Delete("/:id")
 	public delete(@GraphInterceptedParam() graph: Graph, @Param("id") id: number) {
 		return this.validateArcId(graph, id).then(({ _id }) => this.service.delete(_id));
 	}

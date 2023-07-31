@@ -28,6 +28,7 @@ export abstract class MockedDbSeeder extends Seeder {
 	public static GetMockedDb() {
 		const db = new (this.prototype.constructor as new () => MockedDbSeeder)().db;
 
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Could happen
 		if (!db) {
 			throw new Error(
 				"DB not set! Do not call this function from the `MockedDbSeeder` abstract class."
