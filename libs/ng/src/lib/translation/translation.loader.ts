@@ -4,7 +4,7 @@ import { of } from "rxjs";
 import { JsonObject } from "type-fest/source/basic";
 import { TranslationLanguage } from "~/lib/common/dtos/translation";
 
-import { LOCALE_LIB_EN, LOCALE_LIB_FR } from "./locale";
+import { LOCALE_LIB_EN } from "./locale";
 
 // TODO: move this to lib, so it can be used on backend too
 export type TranslationLocales = Record<TranslationLanguage, JsonObject>;
@@ -14,12 +14,9 @@ export class TranslationLoader implements TranslateLoader {
 
 	public constructor(
 		locales: TranslationLocales,
-		private readonly fallback: TranslationLanguage = "fr"
+		private readonly fallback: TranslationLanguage = "en"
 	) {
-		this.locales = {
-			en: deepmerge(LOCALE_LIB_EN, locales.en),
-			fr: deepmerge(LOCALE_LIB_FR, locales.fr)
-		};
+		this.locales = { en: deepmerge(LOCALE_LIB_EN, locales.en) };
 	}
 
 	public getTranslation(lang: string) {

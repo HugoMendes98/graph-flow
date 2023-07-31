@@ -1,0 +1,53 @@
+// https://m2.material.io/design/layout/responsive-layout-grid.html#breakpoints
+$breakpoints: (
+	"sm": 600px,
+	"md": 905px,
+	"lg": 1240px,
+	"xl": 1440px,
+	"xxl": 1920px
+);
+
+// "Normal" spacing
+$spacing: (
+	"0": 0,
+	"1\\/2": 0.125rem,
+	"1": 0.25rem,
+	"2": 0.5rem,
+	"4": 1rem,
+	"8": 2rem,
+	"16": 4rem,
+	"32": 8rem
+);
+$sidebar-width: 250px;
+
+// Get theses values from material
+$mat-toolbar-height-sm: 56px;
+$mat-toolbar-height: 64px;
+
+// Media query for a breakpoint
+@mixin screen-breakpoint($breakpoint, $less-than: false) {
+	@if map-has-key($breakpoints, $breakpoint) {
+		@if $less-than {
+			@media screen and (max-width: map-get($breakpoints, $breakpoint) - 1px) {
+				@content;
+			}
+		} @else {
+			@media screen and (min-width: map-get($breakpoints, $breakpoint)) {
+				@content;
+			}
+		}
+	} @else {
+		@error "Breakpoint `#{$breakpoint}` can not be found. Available breakpoints: #{map-keys($breakpoints)}.";
+	}
+}
+
+@mixin css-vars {
+	:root {
+		--toolbar-height: #{$mat-toolbar-height-sm};
+		--footer-height: var(--toolbar-height);
+
+		@include screen-breakpoint("sm") {
+			--toolbar-height: #{$mat-toolbar-height};
+		}
+	}
+}

@@ -16,7 +16,7 @@
 				"@angular-eslint/component-class-suffix": [
 					"error",
 					{
-						"suffixes": ["Component", "View"]
+						"suffixes": ["Component", "Dialog", "SnackBar", "View"]
 					}
 				],
 				"@angular-eslint/component-selector": [
@@ -46,11 +46,17 @@
 				"@angular-eslint/sort-ngmodule-metadata-arrays": "error",
 				"@angular-eslint/use-component-selector": "error",
 				"@angular-eslint/use-lifecycle-interface": "error",
-				"@angular-eslint/use-pipe-transform-interface": "error"
+				"@angular-eslint/use-pipe-transform-interface": "error",
+				"@typescript-eslint/unbound-method": [
+					"error",
+					{
+						"ignoreStatic": true
+					}
+				]
 			}
 		},
 		{
-			"files": ["*.view.ts"],
+			"files": ["*.dialog.ts", "*.snack-bar.ts", "*.view.ts"],
 			"rules": {
 				"@angular-eslint/use-component-selector": "off"
 			}
