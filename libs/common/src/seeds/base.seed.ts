@@ -1,7 +1,6 @@
-import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
-import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
-
-import { MockedDb } from "../_lib/mocked-db.seeder";
+import { MockSeed } from "./mock.seed";
+import { NodeBehaviorType } from "../app/node/dtos/behaviors";
+import { NodeTriggerType } from "../app/node/dtos/behaviors/triggers";
 
 /** Sample date1 */
 const date1 = new Date(2020, 1, 1);
@@ -9,7 +8,7 @@ const date1 = new Date(2020, 1, 1);
 /**
  * The base sample for Seeding the DB.
  */
-export const DB_BASE_SEED = {
+export const BASE_SEED = {
 	categories: [
 		{
 			_id: 1,
@@ -1046,4 +1045,4 @@ export const DB_BASE_SEED = {
 			name: "Empty graph"
 		}
 	]
-} as const satisfies MockedDb;
+} as const satisfies MockSeed;

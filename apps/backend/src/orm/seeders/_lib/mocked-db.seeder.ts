@@ -2,6 +2,7 @@ import { EntityManager, Reference } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 import { ReadonlyDeep } from "type-fest";
 import { EntityDto } from "~/lib/common/dtos/entity";
+import { MockSeed } from "~/lib/common/seeds";
 
 import { EntityBase } from "../../../app/_lib/entity";
 import { Category } from "../../../app/category/category.entity";
@@ -17,66 +18,6 @@ import { User } from "../../../app/user/user.entity";
 import { Workflow } from "../../../app/workflow/workflow.entity";
 
 /**
- * The values for a DB which all data is mocked
- */
-export interface MockedDb {
-	/**
-	 * Represents the [category]{@link Category} table
-	 */
-	categories: readonly Category[];
-	/**
-	 * Graph domain related
-	 */
-	graph: {
-		/**
-		 * Represents the [graph-arc]{@link GraphArc} table
-		 */
-		graphArcs: readonly GraphArc[];
-		/**
-		 * Represents the [graph-node-input]{@link GraphNodeInput} table
-		 */
-		graphNodeInputs: readonly GraphNodeInput[];
-		/**
-		 * Represents the [graph-node-output]{@link GraphNodeOutput} table
-		 */
-		graphNodeOutputs: readonly GraphNodeOutput[];
-		/**
-		 * Represents the [graph-node]{@link GraphNode} table
-		 */
-		graphNodes: ReadonlyArray<Omit<GraphNode, "inputs" | "outputs">>;
-		/**
-		 * Represents the [graph]{@link Graph} table
-		 */
-		graphs: readonly Graph[];
-	};
-	/**
-	 * Node domain related
-	 */
-	node: {
-		/**
-		 * Represents the [node-input]{@link NodeInput} table
-		 */
-		nodeInputs: readonly NodeInput[];
-		/**
-		 * Represents the [node-output]{@link NodeOutput} table
-		 */
-		nodeOutputs: readonly NodeOutput[];
-		/**
-		 * Represents the [node]{@link Node} table
-		 */
-		nodes: ReadonlyArray<Node & { __categories: readonly number[] }>;
-	};
-	/**
-	 * Represents the [user]{@link User} table
-	 */
-	users: readonly User[];
-	/**
-	 * Represents the [workflow]{@link Workflow} table
-	 */
-	workflows: readonly Workflow[];
-}
-
-/**
  * A seeder that seeds a full DB.
  */
 export abstract class MockedDbSeeder extends Seeder {
@@ -87,7 +28,6 @@ export abstract class MockedDbSeeder extends Seeder {
 	public static GetMockedDb() {
 		const db = new (this.prototype.constructor as new () => MockedDbSeeder)().db;
 
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- If the function is called
 		if (!db) {
 			throw new Error(
 				"DB not set! Do not call this function from the `MockedDbSeeder` abstract class."
@@ -100,7 +40,7 @@ export abstract class MockedDbSeeder extends Seeder {
 	/**
 	 * The sample DB to seed
 	 */
-	protected abstract readonly db: ReadonlyDeep<MockedDb>;
+	protected abstract readonly db: ReadonlyDeep<MockSeed>;
 
 	/**
 	 * @inheritDoc

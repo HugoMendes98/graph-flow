@@ -1,9 +1,9 @@
-import { MockedDb } from "../_lib/mocked-db.seeder";
+import { MockSeed } from "./mock.seed";
 
 /**
  * An empty db sample
  */
-export const DB_EMPTY_SEED: MockedDb = {
+export const EMPTY_SEED = {
 	categories: [],
 	graph: {
 		graphArcs: [],
@@ -19,4 +19,4 @@ export const DB_EMPTY_SEED: MockedDb = {
 	},
 	users: [],
 	workflows: []
-};
+} as const satisfies MockSeed;

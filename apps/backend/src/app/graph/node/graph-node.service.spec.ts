@@ -2,6 +2,7 @@ import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GraphNodeUpdateDto } from "~/lib/common/app/graph/dtos/node";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
+import { BASE_SEED } from "~/lib/common/seeds";
 import { omit } from "~/lib/common/utils/object-fns";
 
 import { GraphNodeInFunctionException, GraphNodeInWorkflowException } from "./exceptions";
@@ -10,7 +11,6 @@ import { GraphNodeInputRepository } from "./input";
 import { GraphNodeOutputRepository } from "./output";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
-import { DB_BASE_SEED } from "../../../orm/seeders/seeds";
 import { EntityBase } from "../../_lib/entity";
 import { NodeService } from "../../node/node.service";
 import { GraphArcService } from "../arc/graph-arc.service";
@@ -22,7 +22,7 @@ describe("GraphNodeService", () => {
 	let nodeService: NodeService;
 
 	let dbTest: DbTestHelper;
-	let db: typeof DB_BASE_SEED;
+	let db: typeof BASE_SEED;
 
 	let repositories: { input: GraphNodeInputRepository; output: GraphNodeOutputRepository };
 

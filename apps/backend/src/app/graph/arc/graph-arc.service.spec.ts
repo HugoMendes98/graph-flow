@@ -6,12 +6,12 @@ import {
 import { MethodNotAllowedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
+import { BASE_SEED } from "~/lib/common/seeds";
 
 import { GraphArcDifferentGraphException } from "./exceptions";
 import { GraphArcService } from "./graph-arc.service";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
-import { DB_BASE_SEED } from "../../../orm/seeders/seeds";
 import { GraphCyclicException } from "../exceptions";
 import { GraphModule } from "../graph.module";
 import { GraphNodeService } from "../node/graph-node.service";
@@ -39,7 +39,7 @@ describe("GraphArcService", () => {
 	});
 
 	describe("With Input/Outputs", () => {
-		let db: typeof DB_BASE_SEED;
+		let db: typeof BASE_SEED;
 
 		// Small seed in the empty graph
 		const seed = async () => {

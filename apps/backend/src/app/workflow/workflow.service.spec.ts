@@ -1,12 +1,12 @@
 import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
 import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
+import { BASE_SEED } from "~/lib/common/seeds";
 
 import { WorkflowModule } from "./workflow.module";
 import { WorkflowService } from "./workflow.service";
 import { DbTestHelper } from "../../../test/db-test";
 import { OrmModule } from "../../orm/orm.module";
-import { DB_BASE_SEED } from "../../orm/seeders/seeds";
 import { GraphService } from "../graph/graph.service";
 
 describe("WorkflowService", () => {
@@ -14,7 +14,7 @@ describe("WorkflowService", () => {
 	let graphService: GraphService;
 	let service: WorkflowService;
 
-	let db: typeof DB_BASE_SEED;
+	let db: typeof BASE_SEED;
 
 	beforeAll(async () => {
 		const module: TestingModule = await Test.createTestingModule({
