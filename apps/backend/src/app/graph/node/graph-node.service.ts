@@ -1,14 +1,19 @@
+import { EventArgs, EventSubscriber } from "@mikro-orm/core";
+import { EntityName } from "@mikro-orm/nestjs";
 import { Injectable } from "@nestjs/common";
 import { GraphNodeCreateDto, GraphNodeUpdateDto } from "~/lib/common/app/graph/dtos/node";
 import { GraphNodeInputCreateDto } from "~/lib/common/app/graph/dtos/node/input";
 import { GraphNodeOutputCreateDto } from "~/lib/common/app/graph/dtos/node/output";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 
+import { GraphNodeTriggerInWorkflowException } from "./exceptions";
 import { GraphNode } from "./graph-node.entity";
 import { GraphNodeRepository } from "./graph-node.repository";
 import { GraphNodeInput } from "./input";
 import { GraphNodeOutput } from "./output";
 import { EntityRelationKeys, EntityService, EntityServiceCreateOptions } from "../../_lib/entity";
 import { NodeService } from "../../node/node.service";
+import { GraphService } from "../graph.service";
 
 export type GraphNodeCreate = GraphNodeCreateDto & Pick<GraphNode, "__graph">;
 
@@ -16,13 +21,53 @@ export type GraphNodeCreate = GraphNodeCreateDto & Pick<GraphNode, "__graph">;
  * Service to manages [graph-nodes]{@link GraphNode}.
  */
 @Injectable()
-export class GraphNodeService extends EntityService<
-	GraphNode,
-	GraphNodeCreate,
-	GraphNodeUpdateDto
-> {
-	public constructor(repository: GraphNodeRepository, private readonly nodeService: NodeService) {
+export class GraphNodeService
+	extends EntityService<GraphNode, GraphNodeCreate, GraphNodeUpdateDto>
+	implements EventSubscriber<GraphNode>
+{
+	public constructor(
+		repository: GraphNodeRepository,
+		private readonly graphService: GraphService,
+		private readonly nodeService: NodeService
+	) {
 		super(repository);
+
+		repository.getEntityManager().getEventManager().registerSubscriber(this);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public getSubscribedEntities(): Array<EntityName<GraphNode>> {
+		return [GraphNode];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public async beforeCreate(event: EventArgs<GraphNode>) {
+		const {
+			entity: { __graph, __node }
+		} = event;
+
+		const {
+			behavior: { type }
+		} = await this.nodeService.findById(__node);
+		if (type !== NodeBehaviorType.TRIGGER) {
+			return;
+		}
+
+		// TODO: load 'node-function' if exists and verify
+		const { workflow } = await this.graphService.findById(__graph, { populate: ["workflow"] });
+		if (workflow) {
+			const {
+				pagination: { total }
+			} = await this.findAndCount({ __graph, node: { behavior: { type } } }, { limit: 0 });
+
+			if (total > 0) {
+				throw new GraphNodeTriggerInWorkflowException();
+			}
+		}
 	}
 
 	/**

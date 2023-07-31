@@ -9,6 +9,6 @@ export type DtoToEntity<T extends EntityDto> = {
 	[K in keyof T]: NonNullable<T[K]> extends Array<infer U extends EntityDto>
 		? Collection<DtoToEntity<U>>
 		: NonNullable<T[K]> extends EntityDto
-		? DtoToEntity<NonNullable<T[K]>>
+		? DtoToEntity<NonNullable<T[K]>> | Extract<T[K], null>
 		: T[K];
 };

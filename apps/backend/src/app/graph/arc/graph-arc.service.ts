@@ -37,7 +37,11 @@ export class GraphArcService
 	/**
 	 * @inheritDoc
 	 */
-	public async beforeCreate({ entity: { __from, __to } }: EventArgs<GraphArc>) {
+	public async beforeCreate(event: EventArgs<GraphArc>) {
+		const {
+			entity: { __from, __to }
+		} = event;
+
 		const { data: nodes } = await this.graphNodeService.findAndCount(
 			{ $or: [{ inputs: { _id: __to } }, { outputs: { _id: __from } }] },
 			{ limit: 2 }

@@ -5,7 +5,7 @@ import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 import { BASE_SEED } from "~/lib/common/seeds";
 import { omit } from "~/lib/common/utils/object-fns";
 
-import { GraphNodeInFunctionException, GraphNodeInWorkflowException } from "./exceptions";
+import { GraphNodeInFunctionException, GraphNodeTriggerInWorkflowException } from "./exceptions";
 import { GraphNodeCreate, GraphNodeService } from "./graph-node.service";
 import { GraphNodeInputRepository } from "./input";
 import { GraphNodeOutputRepository } from "./output";
@@ -154,7 +154,7 @@ describe("GraphNodeService", () => {
 
 		it("should fail when adding more that one 'trigger' node in a `workflow`", async () => {
 			// The 3rd graph is empty and linked to a 'workflow'
-			const [, , graph] = db.graph.graphs;
+			const [, graph] = db.graph.graphs;
 			const trigger = db.node.nodes.find(
 				({ behavior: { type } }) => type === NodeBehaviorType.TRIGGER
 			);
@@ -166,7 +166,7 @@ describe("GraphNodeService", () => {
 					__node: trigger!._id,
 					position: { x: 0, y: 0 }
 				})
-			).rejects.toThrow(GraphNodeInWorkflowException);
+			).rejects.toThrow(GraphNodeTriggerInWorkflowException);
 		});
 
 		it("should fail when adding any 'trigger' node in a `node-function`", async () => {

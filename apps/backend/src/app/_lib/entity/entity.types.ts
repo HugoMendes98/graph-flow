@@ -20,6 +20,7 @@ export type EntityRelationKeys<T extends EntityBase> = Exclude<
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Anything other than `any` fails the condition
 			Collection<any>
 	  >
+	| ConditionalKeys<Required<T>, EntityBase | null>
 	| ConditionalKeys<Required<T>, EntityBase>,
 	symbol
 >;

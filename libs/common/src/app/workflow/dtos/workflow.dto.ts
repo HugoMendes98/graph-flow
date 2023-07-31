@@ -2,7 +2,7 @@ import { IsNumber, IsString, MinLength } from "class-validator";
 
 import { DtoProperty } from "../../../dtos/dto";
 import { EntityDto } from "../../../dtos/entity";
-import { GraphDto } from "../../graph/dtos";
+import { GraphDto } from "../../graph/dtos/graph.dto";
 
 /**
  * DTO for workflow entities

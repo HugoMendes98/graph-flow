@@ -519,6 +519,19 @@ export const BASE_SEED = {
 				__node: 5,
 				name: "Make SQL query",
 				position: { x: 150, y: 80 }
+			},
+			{
+				// The trigger node
+				_id: 2006,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__graph: 2,
+				__node: 30,
+
+				name: "Cron",
+				position: { x: 25, y: 300 }
 			}
 
 			// endregion

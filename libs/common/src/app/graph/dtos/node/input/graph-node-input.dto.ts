@@ -3,7 +3,7 @@ import { IsNumber, Min } from "class-validator";
 import { DtoProperty } from "../../../../../dtos/dto";
 import { EntityDto } from "../../../../../dtos/entity";
 import { NodeInputDto } from "../../../../node/dtos/input/node-input.dto";
-import { GraphArcDto } from "../../arc";
+import { GraphArcDto } from "../../arc/graph-arc.dto";
 import { GraphNodeDto } from "../graph-node.dto";
 
 export class GraphNodeInputDto extends EntityDto {
