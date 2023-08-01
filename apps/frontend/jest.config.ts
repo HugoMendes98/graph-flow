@@ -3,6 +3,7 @@ import { JestConfigWithTsJest } from "ts-jest";
 export default {
 	coverageDirectory: "../../coverage/apps/frontend",
 	displayName: "frontend",
+	moduleNameMapper: { "rete-angular-plugin/16": "rete-angular-plugin" },
 	preset: "../../jest.preset.js",
 	setupFilesAfterEnv: ["<rootDir>/test/setup.ts"],
 	snapshotSerializers: [

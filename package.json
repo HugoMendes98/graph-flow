@@ -35,6 +35,11 @@
 		"deepmerge-ts": "^5.1.0",
 		"qs": "^6.11.0",
 		"reflect-metadata": "^0.1.13",
+		"rete": "^2.0.2",
+		"rete-angular-plugin": "^2.0.2",
+		"rete-area-plugin": "^2.0.0",
+		"rete-connection-plugin": "^2.0.0",
+		"rete-readonly-plugin": "^2.0.0",
 		"rxjs": "~7.8.1",
 		"tslib": "^2.3.0",
 		"zone.js": "~0.13.0"

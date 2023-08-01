@@ -1,0 +1,50 @@
+:host {
+	display: flex;
+	flex-direction: column;
+}
+
+:host::ng-deep {
+	#graph-grid {
+		// Size of the grid
+		$size-h: 500vh;
+		$size-w: 500vw;
+
+		// The number of "cells" in a major cell
+		$grid-cell: 5;
+
+		// Color of the major lines
+		$color-major: rgba(255, 255, 255, 20%);
+
+		// Color of the minor lines
+		$color-minor: rgba(255, 255, 255, 10%);
+
+		// The space between each "cell" of the grid
+		$grid-size: var(--grid-size);
+
+		// The major lines position
+		$grid-major: calc(($grid-cell - 1) * $grid-size);
+
+		// The width of the lines and its offset
+		$line-offset: calc(-1 * $grid-size / $grid-cell);
+		$line-width: calc($grid-size / $grid-cell);
+
+		// Take a lot of space to apply the grid everywhere (on zoom too)
+		height: $size-h * 10;
+		width: $size-w * 10;
+
+		inset: (-$size-h) (-$size-w);
+
+		background-image: linear-gradient($color-major $line-width, transparent $line-width),
+			linear-gradient(90deg, $color-major $line-width, transparent $line-width),
+			linear-gradient($color-minor $line-width, transparent $line-width),
+			linear-gradient(90deg, $color-minor $line-width, transparent $line-width);
+		background-position: 0 0, $line-offset $line-offset;
+		background-size: $grid-major $grid-major, $grid-major $grid-major, $grid-size $grid-size,
+			$grid-size $grid-size;
+
+		// Visible on light and dark mode
+		filter: invert(50%);
+		position: absolute;
+		z-index: -1;
+	}
+}
