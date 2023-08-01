@@ -4,8 +4,8 @@ import { EntityId } from "~/lib/common/dtos/entity";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { GraphNodeRepository } from "./graph-node.repository";
-import { GraphNodeInput } from "./input";
-import { GraphNodeOutput } from "./output";
+import { GraphNodeInput } from "./input/graph-node-input.entity";
+import { GraphNodeOutput } from "./output/graph-node-output.entity";
 import { PositionEmbeddable } from "./position.embeddable";
 import { EntityBase, EntityToDto } from "../../_lib/entity";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";

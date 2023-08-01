@@ -22,6 +22,7 @@ const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) =>
 			unique: true
 		}) as never
 	);
+
 /**
  * The entity class to manage workflows
  */
