@@ -15,8 +15,7 @@ import { AngularArea2D, AngularPlugin, Presets as AngularPresets } from "rete-an
 import { AreaExtensions, AreaPlugin } from "rete-area-plugin";
 import { ConnectionPlugin, Presets as ConnectionPresets } from "rete-connection-plugin";
 import { ReadonlyPlugin } from "rete-readonly-plugin";
-import { GraphArcDto } from "~/lib/common/app/graph/dtos/arc";
-import { GraphNodeDto } from "~/lib/common/app/graph/dtos/node";
+import { GraphArc, GraphNode } from "~/lib/common/app/graph/endpoints";
 
 // TODO: create classes that wrap the GraphNodeDto
 type Node = ClassicPreset.Node;
@@ -40,13 +39,13 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 	 * The arcs of the graphs
 	 */
 	@Input({ required: true })
-	public arcs!: readonly GraphArcDto[];
+	public arcs!: readonly GraphArc[];
 
 	/**
 	 * The nodes (with their inputs/outputs) of the graphs
 	 */
 	@Input({ required: true })
-	public nodes!: readonly GraphNodeDto[];
+	public nodes!: readonly GraphNode[];
 
 	/**
 	 * Is the graph on readonly mode?

@@ -1,4 +1,5 @@
 import { Meta, moduleMetadata } from "@storybook/angular";
+import { Jsonify } from "type-fest";
 import { GraphDto } from "~/lib/common/app/graph/dtos";
 import { GraphNodeDto } from "~/lib/common/app/graph/dtos/node";
 import { BASE_SEED } from "~/lib/common/seeds";
@@ -6,11 +7,13 @@ import { BASE_SEED } from "~/lib/common/seeds";
 import { GraphComponent } from "./graph.component";
 
 const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "arcs" | "nodes"> => {
-	const { graphArcs, graphNodeInputs, graphNodeOutputs, graphNodes } = BASE_SEED.graph;
+	const { graphArcs, graphNodeInputs, graphNodeOutputs, graphNodes } = JSON.parse(
+		JSON.stringify(BASE_SEED.graph)
+	) as Jsonify<typeof BASE_SEED.graph>;
 
 	const nodes = graphNodes
 		.filter(({ __graph }) => __graph === graph._id)
-		.map<GraphNodeDto>(node => ({
+		.map<Jsonify<GraphNodeDto>>(node => ({
 			...node,
 			inputs: graphNodeInputs.filter(({ __graph_node }) => __graph_node === node._id),
 			outputs: graphNodeOutputs.filter(({ __graph_node }) => __graph_node === node._id)

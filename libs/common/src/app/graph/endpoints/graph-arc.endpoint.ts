@@ -22,8 +22,5 @@ export function generateGraphArcsEndpoint(graphId: EntityId) {
 }
 
 export type GraphArc = Jsonify<GraphArcDto>;
-export type GraphArcEndpoint<T extends DtoToEntity<GraphArcDto> | GraphArc> = EntityEndpoint<
-	T,
-	GraphArcCreateDto,
-	GraphArcUpdateDto
->;
+export type GraphArcEndpoint<T extends DtoToEntity<GraphArcDto> | GraphArc = GraphArc> =
+	EntityEndpoint<T, GraphArcCreateDto, GraphArcUpdateDto>;

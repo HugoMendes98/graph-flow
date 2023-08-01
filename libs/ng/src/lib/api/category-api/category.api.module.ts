@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 
-import { CategoryApiService } from "./category-api.service";
+import { CategoryApiService } from "./category.api.service";
 
 @NgModule({
 	providers: [CategoryApiService]

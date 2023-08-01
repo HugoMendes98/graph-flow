@@ -1,17 +1,17 @@
 import { TestBed } from "@angular/core/testing";
 
-import { UserApiService } from "./user-api.service";
+import { GraphApiService } from "./graph.api.service";
 import { ApiClient } from "../api.client";
 
-describe("UserApiService", () => {
-	let service: UserApiService;
+describe("GraphApiService", () => {
+	let service: GraphApiService;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			imports: [ApiClient],
-			providers: [UserApiService]
+			providers: [GraphApiService]
 		});
-		service = TestBed.inject(UserApiService);
+		service = TestBed.inject(GraphApiService);
 	});
 
 	it("should be created", () => {

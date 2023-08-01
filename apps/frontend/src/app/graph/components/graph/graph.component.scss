@@ -6,8 +6,8 @@
 :host::ng-deep {
 	#graph-grid {
 		// Size of the grid
-		$size-h: 500vh;
-		$size-w: 500vw;
+		$size-h: 25px * 50;
+		$size-w: $size-h;
 
 		// The number of "cells" in a major cell
 		$grid-cell: 5;

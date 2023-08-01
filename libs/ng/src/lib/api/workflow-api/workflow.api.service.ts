@@ -26,6 +26,9 @@ export class WorkflowApiService
 		return WORKFLOWS_ENDPOINT_PREFIX;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public lookForGraph(id: EntityId): Promise<Jsonify<GraphDto>> {
 		return this.client.get(`${this.getEntrypoint()}/${id}${WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT}`);
 	}

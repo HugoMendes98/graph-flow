@@ -1,17 +1,17 @@
 import { TestBed } from "@angular/core/testing";
 
-import { CategoryApiService } from "./category-api.service";
+import { NodeApiService } from "./node.api.service";
 import { ApiClient } from "../api.client";
 
-describe("CategoryApiService", () => {
-	let service: CategoryApiService;
+describe("NodeApiService", () => {
+	let service: NodeApiService;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			imports: [ApiClient],
-			providers: [CategoryApiService]
+			providers: [NodeApiService]
 		});
-		service = TestBed.inject(CategoryApiService);
+		service = TestBed.inject(NodeApiService);
 	});
 
 	it("should be created", () => {
