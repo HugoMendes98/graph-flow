@@ -75,6 +75,16 @@ export interface AdjacencyListItem<Arc extends AdjacencyListArc, Node extends Ad
 }
 
 /**
+ * The final adjacency list.
+ *
+ * On a Map to access more simply the nodes.
+ */
+export type AdjacencyList<
+	Arc extends AdjacencyListArc = AdjacencyListArc,
+	Node extends AdjacencyListNode = AdjacencyListNode
+> = ReadonlyMap<Node, AdjacencyListItem<Arc, Node>>;
+
+/**
  * Gets the adjacency list from the arcs and the nodes of a graph
  *
  * @throws {AdjacencyListUnlinkedArcException}
@@ -83,7 +93,7 @@ export interface AdjacencyListItem<Arc extends AdjacencyListArc, Node extends Ad
  */
 export function getAdjacencyList<Arc extends AdjacencyListArc, Node extends AdjacencyListNode>(
 	params: AdjacencyListTransformationParams<Arc, Node>
-): ReadonlyMap<Node, AdjacencyListItem<Arc, Node>> {
+): AdjacencyList<Arc, Node> {
 	const { arcs, nodes } = params;
 
 	// TODO: If the data becomes too big, transform to a non-functional approach
