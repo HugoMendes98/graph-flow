@@ -36,6 +36,7 @@
 		"qs": "^6.11.0",
 		"reflect-metadata": "^0.1.13",
 		"rxjs": "~7.8.1",
+		"treeverse": "^3.0.0",
 		"tslib": "^2.3.0",
 		"zone.js": "~0.13.0"
 	},
@@ -78,6 +79,7 @@
 		"@types/dockerode": "^3.3.14",
 		"@types/jest": "29.5.1",
 		"@types/node": "18.13.0",
+		"@types/treeverse": "^3.0.0",
 		"@types/webpack-node-externals": "^3.0.0",
 		"@typescript-eslint/eslint-plugin": "5.62.0",
 		"@typescript-eslint/parser": "5.62.0",

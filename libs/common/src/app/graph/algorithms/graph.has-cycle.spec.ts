@@ -40,6 +40,45 @@ describe("graphHasCycle", () => {
 					{ inputs: [{ _id: 20 }, { _id: 21 }], outputs: [{ _id: 22 }] },
 					{ inputs: [{ _id: 30 }, { _id: 31 }], outputs: [] }
 				]
+			},
+			{
+				arcs: [
+					{ __from: 1, __to: 2 },
+
+					{ __from: 11, __to: 20 }
+				],
+				nodes: [
+					{ inputs: [], outputs: [{ _id: 1 }] },
+					{ inputs: [{ _id: 2 }], outputs: [] },
+
+					// Not connected to the previous nodes
+					{ inputs: [], outputs: [{ _id: 11 }] },
+					{ inputs: [{ _id: 20 }], outputs: [] }
+				]
+			},
+
+			{
+				arcs: [
+					{ __from: 10, __to: 10 },
+					{ __from: 20, __to: 20 }
+				],
+				nodes: [
+					{ inputs: [], outputs: [{ _id: 10 }] },
+					{ inputs: [], outputs: [{ _id: 20 }] },
+					{ inputs: [{ _id: 10 }, { _id: 20 }], outputs: [] }
+				]
+			},
+			{
+				arcs: [
+					{ __from: 10, __to: 21 },
+					{ __from: 10, __to: 10 },
+					{ __from: 20, __to: 20 }
+				],
+				nodes: [
+					{ inputs: [], outputs: [{ _id: 10 }] },
+					{ inputs: [{ _id: 10 }], outputs: [{ _id: 20 }] },
+					{ inputs: [{ _id: 20 }, { _id: 21 }], outputs: [] }
+				]
 			}
 		];
 
@@ -76,6 +115,22 @@ describe("graphHasCycle", () => {
 					{ inputs: [{ _id: 10 }], outputs: [{ _id: 11 }] },
 					{ inputs: [{ _id: 20 }], outputs: [{ _id: 22 }] },
 					{ inputs: [{ _id: 30 }, { _id: 31 }], outputs: [{ _id: 32 }] }
+				]
+			},
+			{
+				arcs: [
+					{ __from: 1, __to: 2 },
+
+					{ __from: 11, __to: 20 },
+					{ __from: 21, __to: 10 }
+				],
+				nodes: [
+					{ inputs: [], outputs: [{ _id: 1 }] },
+					{ inputs: [{ _id: 2 }], outputs: [] },
+
+					// Not connected to the previous nodes
+					{ inputs: [{ _id: 10 }], outputs: [{ _id: 11 }] },
+					{ inputs: [{ _id: 20 }], outputs: [{ _id: 21 }] }
 				]
 			}
 		];

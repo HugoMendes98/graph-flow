@@ -121,7 +121,7 @@ export function getAdjacencyList<Arc extends AdjacencyListArc, Node extends Adja
 
 		if (!from || !to) {
 			throw new AdjacencyListUnlinkedArcException(
-				`The arc [${__from} -> ${__to}] can not the 2 nodes`
+				`The arc [${__from} -> ${__to}] can not link the 2 nodes`
 			);
 		}
 
