@@ -23,8 +23,14 @@ const NodeInputProperty = ManyToOneFactory(() => NodeInput, {
 
 @Entity({ customRepository: () => GraphNodeInputRepository })
 export class GraphNodeInput extends EntityBase implements DtoToEntity<GraphNodeInputDto> {
+	/**
+	 * @inheritDoc
+	 */
 	@GraphNodeProperty({ foreign: false })
 	public __graph_node!: number;
+	/**
+	 * @inheritDoc
+	 */
 	@NodeInputProperty({ foreign: false })
 	public __node_input!: number;
 

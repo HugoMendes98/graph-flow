@@ -6,6 +6,9 @@ import { NodeBehaviorFunction } from "./node-behavior.function";
 import { NODE_BEHAVIOR_PARAMETER_ENTITIES } from "./node-behavior.parameter";
 import { NodeBehaviorTrigger } from "./node-behavior.trigger";
 
+/**
+ * All subtypes for node behaviors
+ */
 export const NODE_BEHAVIOR_ENTITIES = [
 	NodeBehaviorCode,
 	NodeBehaviorFunction,

@@ -61,7 +61,8 @@
 			"configurations": {
 				"ci": {
 					"ci": true,
-					"codeCoverage": true
+					"coverageDirectory": "./coverage/apps/backend",
+					"coverageReporters": ["text", "json-summary"]
 				}
 			},
 			"executor": "@nx/jest:jest",

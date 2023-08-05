@@ -24,15 +24,27 @@ const NodeProperty = ManyToOneFactory(() => Node, {
 
 @Entity({ customRepository: () => GraphNodeRepository })
 export class GraphNode extends EntityBase implements DtoToEntity<GraphNodeDto> {
+	/**
+	 * @inheritDoc
+	 */
 	@GraphProperty({ foreign: false })
 	public __graph!: EntityId;
 
+	/**
+	 * @inheritDoc
+	 */
 	@NodeProperty({ foreign: false })
 	public __node!: EntityId;
 
+	/**
+	 * @inheritDoc
+	 */
 	@Property()
 	public name!: string;
 
+	/**
+	 * @inheritDoc
+	 */
 	@Embedded(() => PositionEmbeddable)
 	public position!: PositionEmbeddable;
 

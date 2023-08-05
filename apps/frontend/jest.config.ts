@@ -1,7 +1,7 @@
 import { JestConfigWithTsJest } from "ts-jest";
 
 export default {
-	coverageDirectory: "../../coverage/apps/frontend",
+	collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts"],
 	displayName: "frontend",
 	preset: "../../jest.preset.js",
 	setupFilesAfterEnv: ["<rootDir>/test/setup.ts"],

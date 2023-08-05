@@ -28,9 +28,15 @@ const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) =>
  */
 @Entity({ customRepository: () => WorkflowRepository })
 export class Workflow extends EntityBase implements DtoToEntity<WorkflowDto> {
+	/**
+	 * @inheritDoc
+	 */
 	@GraphProperty({ foreign: false })
 	public readonly __graph!: number;
 
+	/**
+	 * @inheritDoc
+	 */
 	@Property({ unique: true })
 	public name!: string;
 

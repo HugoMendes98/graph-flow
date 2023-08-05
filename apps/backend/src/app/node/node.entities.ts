@@ -4,6 +4,9 @@ import { NodeInput } from "./input";
 import { Node } from "./node.entity";
 import { NodeOutput } from "./output";
 
+/**
+ * All entities (classes) linked to {@link Node}
+ */
 export const NODE_ENTITIES = [
 	Node,
 

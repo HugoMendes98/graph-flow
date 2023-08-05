@@ -11,7 +11,13 @@ import {
 } from "./triggers";
 import { DtoProperty } from "../../../../dtos/dto";
 
+/**
+ * Behavior of a node that is a trigger
+ */
 export class NodeBehaviorTriggerDto extends NodeBehaviorBaseDto {
+	/**
+	 * @inheritDoc
+	 */
 	public override readonly type = NodeBehaviorType.TRIGGER;
 
 	/**

@@ -13,6 +13,8 @@ import { GraphNodeCreateDto, GraphNodeDto, GraphNodeUpdateDto } from "../dtos/no
 export const GRAPH_NODES_ENDPOINT_PARTS = [GRAPHS_ENDPOINT_PREFIX, "/nodes"] as const;
 
 /**
+ * Generates the endpoint for `graph-node`s for a graph.
+ *
  * @param graphId the of the graph
  * @returns The endpoint prefix with the given graphId
  */

@@ -1,7 +1,7 @@
 import { JestConfigWithTsJest } from "ts-jest";
 
 export default {
-	coverageDirectory: "../../coverage/apps/backend",
+	collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts"],
 	displayName: "backend",
 	globalSetup: "<rootDir>/test/support/global/setup.ts",
 	globalTeardown: "<rootDir>/test/support/global/teardown.ts",

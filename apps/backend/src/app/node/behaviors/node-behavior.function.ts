@@ -28,6 +28,9 @@ const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) =>
 
 @Entity({ discriminatorValue: type })
 export class NodeBehaviorFunction extends NodeBehaviorBase<typeof type> implements DTO {
+	/**
+	 * @inheritDoc
+	 */
 	@GraphProperty({ foreign: false })
 	public readonly __graph!: number;
 

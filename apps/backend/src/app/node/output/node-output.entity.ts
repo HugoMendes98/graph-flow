@@ -16,9 +16,15 @@ const NodeProperty = ManyToOneFactory(() => Node, {
 
 @Entity({ customRepository: () => NodeOutputRepository })
 export class NodeOutput extends EntityBase implements DtoToEntity<NodeOutputDto> {
+	/**
+	 * @inheritDoc
+	 */
 	@NodeProperty({ foreign: false })
 	public __node!: number;
 
+	/**
+	 * @inheritDoc
+	 */
 	@Property()
 	public name!: string;
 

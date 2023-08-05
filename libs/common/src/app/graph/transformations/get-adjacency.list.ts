@@ -13,10 +13,19 @@ export type AdjacencyListArc = Pick<GraphArcDto, "__from" | "__to">;
  * The only necessary data from the {@link GraphArcDto} to get the adjacency list.
  */
 export interface AdjacencyListNode {
+	/**
+	 * The required inputs for a node
+	 */
 	inputs: ReadonlyArray<Pick<GraphNodeDto["inputs"][number], "_id">>;
+	/**
+	 * The required outputs for a node
+	 */
 	outputs: ReadonlyArray<Pick<GraphNodeDto["outputs"][number], "_id">>;
 }
 
+/**
+ * Parameters to transform the DTOs into an adjacency list
+ */
 export interface AdjacencyListTransformationParams<
 	Arc extends AdjacencyListArc = AdjacencyListArc,
 	Node extends AdjacencyListNode = AdjacencyListNode
