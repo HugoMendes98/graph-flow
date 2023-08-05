@@ -28,6 +28,9 @@ export class WorkflowDto extends EntityDto {
 
 	// ------- Relations -------
 
+	/**
+	 * The data to the {@link GraphDto}
+	 */
 	@DtoProperty({ forwardRef: true, type: () => GraphDto })
 	public readonly graph?: GraphDto;
 }

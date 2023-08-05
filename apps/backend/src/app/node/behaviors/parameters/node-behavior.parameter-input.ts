@@ -19,6 +19,9 @@ export class NodeBehaviorParameterInput
 	extends NodeBehaviorParameterBase<NodeBehaviorType.PARAMETER_IN>
 	implements NodeBehaviorParameterInputDto
 {
+	/**
+	 * @inheritDoc
+	 */
 	@InputProperty({ foreign: false })
 	public readonly __node_input!: number;
 

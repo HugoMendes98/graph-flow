@@ -20,6 +20,9 @@ export const NODE_BEHAVIOR_ENTITY_OPTIONS = {
 export abstract class NodeBehaviorBase<Type extends NodeBehaviorType = NodeBehaviorType>
 	implements NodeBehaviorBaseDto
 {
+	/**
+	 * @inheritDoc
+	 */
 	@Enum({ items: () => NodeBehaviorType, type: () => NodeBehaviorType })
 	public readonly type!: Type;
 

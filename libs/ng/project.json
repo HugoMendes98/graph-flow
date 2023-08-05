@@ -17,11 +17,14 @@
 			"configurations": {
 				"ci": {
 					"ci": true,
-					"codeCoverage": true
+					"codeCoverage": true,
+					"coverageDirectory": "./coverage/libs/ng",
+					"coverageReporters": ["text", "json-summary"]
 				}
 			},
 			"executor": "@nx/jest:jest",
 			"options": {
+				"codeCoverage": true,
 				"jestConfig": "libs/ng/jest.config.ts",
 				"passWithNoTests": true
 			},

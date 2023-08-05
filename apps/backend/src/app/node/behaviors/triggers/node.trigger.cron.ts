@@ -12,5 +12,8 @@ const type = NodeTriggerType.CRON;
 	discriminatorValue: type
 })
 export class NodeTriggerCron extends NodeTriggerBase implements DTO {
+	/**
+	 * @inheritDoc
+	 */
 	public override readonly type = NodeTriggerType.CRON;
 }

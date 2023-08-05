@@ -23,9 +23,15 @@ import { GraphNode } from "../graph/node/graph-node.entity";
  */
 @Entity({ customRepository: () => NodeRepository })
 export class Node extends EntityBase implements DtoToEntity<NodeDto> {
+	/**
+	 * @inheritDoc
+	 */
 	@Property()
 	public name!: string;
 
+	/**
+	 * @inheritDoc
+	 */
 	@OneToOne(() => NodeBehaviorBase, ({ node }) => node, {
 		eager: true,
 		owner: false,

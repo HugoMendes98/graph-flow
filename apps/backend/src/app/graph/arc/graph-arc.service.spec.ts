@@ -176,6 +176,28 @@ describe("GraphArcService", () => {
 				service.create({ __from: cOutput._id, __to: vInput._id })
 			).rejects.toThrow(GraphCyclicException);
 		});
+
+		it("should not detect a cycle in the graph", async () => {
+			const {
+				code: {
+					inputs: [cInput1, cInput2]
+				},
+				variable1: {
+					outputs: [v1Output]
+				},
+				variable2: {
+					inputs: [v2Input],
+					outputs: [v2Output]
+				}
+			} = await seed();
+
+			// variable1 -> variable2
+			await service.create({ __from: v1Output._id, __to: v2Input._id });
+			// variable2 -> code
+			await service.create({ __from: v2Output._id, __to: cInput1._id });
+			// variable1 -> code
+			await service.create({ __from: v1Output._id, __to: cInput2._id });
+		});
 	});
 
 	describe("CRUD basic", () => {

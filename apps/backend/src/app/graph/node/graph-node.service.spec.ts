@@ -5,7 +5,10 @@ import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 import { BASE_SEED } from "~/lib/common/seeds";
 import { omit } from "~/lib/common/utils/object-fns";
 
-import { GraphNodeInFunctionException, GraphNodeTriggerInWorkflowException } from "./exceptions";
+import {
+	GraphNodeTriggerInFunctionException,
+	GraphNodeTriggerInWorkflowException
+} from "./exceptions";
 import { GraphNodeCreate, GraphNodeService } from "./graph-node.service";
 import { GraphNodeInputRepository } from "./input";
 import { GraphNodeOutputRepository } from "./output";
@@ -183,8 +186,15 @@ describe("GraphNodeService", () => {
 					__node: trigger!._id,
 					position: { x: 0, y: 0 }
 				})
-			).rejects.toThrow(GraphNodeInFunctionException);
+			).rejects.toThrow(GraphNodeTriggerInFunctionException);
 		});
+
+		// TODO: Test that a node-function 'A' is not used in another function 'B'
+		//  if using itself the node-function 'B'.
+		//	B uses A, A uses B, B uses A, A uses B, ...
+
+		// This currently creates an infinite loop.
+		// With conditional nodes, it can work.
 	});
 
 	describe("CRUD basic", () => {

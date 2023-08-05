@@ -6,6 +6,9 @@ import { NodeInputDto } from "../../../../node/dtos/input/node-input.dto";
 import { GraphArcDto } from "../../arc/graph-arc.dto";
 import { GraphNodeDto } from "../graph-node.dto";
 
+/**
+ * DTO for the input of a node in the graph
+ */
 export class GraphNodeInputDto extends EntityDto {
 	/**
 	 * The foreign key to the graph-node this input is linked to

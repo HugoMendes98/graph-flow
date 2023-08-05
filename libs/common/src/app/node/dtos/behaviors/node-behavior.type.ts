@@ -10,6 +10,9 @@ export enum NodeBehaviorType {
 	VARIABLE = "variable"
 }
 
+/**
+ * Subtypes for parameters
+ */
 export type NodeBehaviorParameterType =
 	| NodeBehaviorType.PARAMETER_IN
 	| NodeBehaviorType.PARAMETER_OUT

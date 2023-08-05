@@ -19,6 +19,9 @@ export class NodeBehaviorParameterOutput
 	extends NodeBehaviorParameterBase<NodeBehaviorType.PARAMETER_OUT>
 	implements NodeBehaviorParameterOutputDto
 {
+	/**
+	 * @inheritDoc
+	 */
 	@OutputProperty({ foreign: false })
 	public readonly __node_output!: number;
 

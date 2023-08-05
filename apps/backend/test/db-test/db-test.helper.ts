@@ -16,6 +16,9 @@ export interface DbTestHelperParams {
 	sample?: DbTestSample;
 }
 
+/**
+ * Class that helps manage the database when testing
+ */
 export class DbTestHelper {
 	/**
 	 * The number of DbHelper "opened"

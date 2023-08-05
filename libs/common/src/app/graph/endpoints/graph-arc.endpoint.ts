@@ -13,6 +13,8 @@ import { GraphArcCreateDto, GraphArcDto, GraphArcUpdateDto } from "../dtos/arc";
 export const GRAPH_ARCS_ENDPOINT_PARTS = [GRAPHS_ENDPOINT_PREFIX, "/arcs"] as const;
 
 /**
+ * Generates the endpoint for `graph-arc`s for a graph.
+ *
  * @param graphId the of the graph
  * @returns The endpoint prefix with the given graphId
  */

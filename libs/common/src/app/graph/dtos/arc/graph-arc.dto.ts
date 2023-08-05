@@ -5,6 +5,9 @@ import { EntityDto } from "../../../../dtos/entity";
 import { GraphNodeInputDto } from "../node/input/graph-node-input.dto";
 import { GraphNodeOutputDto } from "../node/output/graph-node-output.dto";
 
+/**
+ * DTO for the arcs in the graph
+ */
 export class GraphArcDto extends EntityDto {
 	/**
 	 * The foreign key value to the [graph-node-output]{@link GraphNodeOutputDto}

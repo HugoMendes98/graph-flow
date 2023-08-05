@@ -33,8 +33,14 @@ const ToProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) =>
 
 @Entity({ customRepository: () => GraphArcRepository })
 export class GraphArc extends EntityBase implements DtoToEntity<GraphArcDto> {
+	/**
+	 * @inheritDoc
+	 */
 	@FromProperty({ foreign: false })
 	public readonly __from!: number;
+	/**
+	 * @inheritDoc
+	 */
 	@ToProperty({ foreign: false })
 	public readonly __to!: number;
 

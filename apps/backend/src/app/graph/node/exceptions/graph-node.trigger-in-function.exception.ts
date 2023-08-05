@@ -5,7 +5,7 @@ import { GraphException } from "../../exceptions";
 /**
  * An exception when a `node-trigger` is added to a `node-function
  */
-export class GraphNodeInFunctionException extends GraphException {
+export class GraphNodeTriggerInFunctionException extends GraphException {
 	public constructor() {
 		super(
 			GraphErrorCode.NODE_TRIGGER_IN_FUNCTION,

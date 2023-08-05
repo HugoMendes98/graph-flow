@@ -16,13 +16,15 @@
 			"configurations": {
 				"ci": {
 					"ci": true,
-					"codeCoverage": true
+					"coverageDirectory": "./coverage/libs/common",
+					"coverageReporters": ["text", "json-summary"]
 				}
 			},
 			"executor": "@nx/jest:jest",
 			"options": {
+				"codeCoverage": true,
 				"jestConfig": "libs/common/jest.config.ts",
-				"passWithNoTests": true
+				"passWithNoTests": false
 			},
 			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"]
 		}
