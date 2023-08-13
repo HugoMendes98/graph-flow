@@ -10,17 +10,19 @@ import {
 	SimpleChanges,
 	ViewChild
 } from "@angular/core";
-import { ClassicPreset, GetSchemes, NodeEditor } from "rete";
+import { GetSchemes, NodeEditor } from "rete";
 import { AngularArea2D, AngularPlugin, Presets as AngularPresets } from "rete-angular-plugin/16";
 import { AreaExtensions, AreaPlugin } from "rete-area-plugin";
 import { ConnectionPlugin, Presets as ConnectionPresets } from "rete-connection-plugin";
 import { ReadonlyPlugin } from "rete-readonly-plugin";
 import { GraphArc, GraphNode } from "~/lib/common/app/graph/endpoints";
+import { ReteConnection, ReteInput, ReteNode, ReteOutput } from "~/lib/ng/lib/rete";
 
-// TODO: create classes that wrap the GraphNodeDto
-type Node = ClassicPreset.Node;
+import { ReteConnectionComponent } from "../rete/connection/rete.connection.component";
+import { ReteNodeComponent } from "../rete/node/rete.node.component";
+import { ReteSocketComponent } from "../rete/socket/rete.socket.component";
 
-type Schemes = GetSchemes<Node, ClassicPreset.Connection<Node, Node>>;
+type Schemes = GetSchemes<ReteNode, ReteConnection>;
 type AreaExtra = AngularArea2D<Schemes>;
 
 /**
@@ -85,7 +87,15 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 		// Set editor
 		const render = new AngularPlugin<Schemes, AreaExtra>({ injector: this.injector });
 
-		render.addPreset(AngularPresets.classic.setup());
+		render.addPreset(
+			AngularPresets.classic.setup({
+				customize: {
+					connection: () => ReteConnectionComponent,
+					node: () => ReteNodeComponent,
+					socket: () => ReteSocketComponent
+				}
+			})
+		);
 		connection.addPreset(ConnectionPresets.classic.setup());
 
 		editor.use(readonlyPlugin.root);
@@ -102,43 +112,32 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 		background.style.setProperty("--grid-size", `${graphSize}px`);
 		area.area.content.add(background);
 
-		// Add nodes/arcs from inputs
-		const socket = new ClassicPreset.Socket("socket");
+		const inputsMap = new Map<number, ReteInput>();
+		const outputsMap = new Map<number, ReteOutput>();
 
-		const inputsToNode = new Map<number, ClassicPreset.Node>();
-		const outputsToNode = new Map<number, ClassicPreset.Node>();
+		for (const node of this.nodes) {
+			const { position } = node;
+			const reteNode = new ReteNode(node);
 
-		for (const { inputs, name, outputs, position } of this.nodes) {
-			const node = new ClassicPreset.Node(name);
-
-			for (const { _id } of inputs) {
-				node.addInput(_id.toString(), new ClassicPreset.Input(socket));
-				inputsToNode.set(_id, node);
+			for (const input of Object.values(reteNode.inputs) as ReteInput[]) {
+				inputsMap.set(input.input._id, input);
 			}
 
-			for (const { _id } of outputs) {
-				node.addOutput(_id.toString(), new ClassicPreset.Output(socket));
-				outputsToNode.set(_id, node);
+			for (const output of Object.values(reteNode.outputs) as ReteOutput[]) {
+				outputsMap.set(output.output._id, output);
 			}
 
 			// Always add the node first
-			await editor.addNode(node);
-			await area.translate(node.id, position);
+			await editor.addNode(reteNode);
+			await area.translate(reteNode.id, position);
 		}
 
 		for (const { __from, __to } of this.arcs) {
-			const output = outputsToNode.get(__from);
-			const input = inputsToNode.get(__to);
+			const output = outputsMap.get(__from);
+			const input = inputsMap.get(__to);
 
 			if (input && output) {
-				await editor.addConnection(
-					new ClassicPreset.Connection<Node, Node>(
-						output,
-						__from.toString(),
-						input,
-						__to.toString()
-					)
-				);
+				await editor.addConnection(new ReteConnection(output, input));
 			}
 		}
 

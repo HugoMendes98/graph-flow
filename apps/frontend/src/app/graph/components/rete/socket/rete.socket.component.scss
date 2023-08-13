@@ -1,0 +1,19 @@
+// From example (https://retejs.org/examples/customization/angular)
+:host {
+	$socket-size: 10px;
+	height: $socket-size * 2;
+	width: $socket-size;
+
+	background: #ffffff;
+	border: 1px solid grey;
+	box-sizing: border-box;
+	cursor: pointer;
+
+	display: inline-block;
+	vertical-align: middle;
+	z-index: 2;
+
+	&:hover {
+		background: #dddddd;
+	}
+}
