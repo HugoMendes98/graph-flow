@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
 import { ReteModule } from "rete-angular-plugin/16";
 import { ReteNode } from "~/lib/ng/lib/rete";
 
@@ -11,7 +11,7 @@ import { ReteNode } from "~/lib/ng/lib/rete";
 
 	imports: [CommonModule, ReteModule]
 })
-export class ReteNodeComponent {
+export class ReteNodeComponent implements OnChanges {
 	// TODO
 
 	@Input({ required: true })
@@ -26,4 +26,11 @@ export class ReteNodeComponent {
 	 */
 	@Input({ required: true })
 	public readonly rendered!: () => void;
+
+	protected seed = 0;
+
+	public ngOnChanges() {
+		// force render sockets
+		++this.seed;
+	}
 }

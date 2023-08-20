@@ -1,12 +1,17 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
+import { Workflow } from "~/lib/common/app/workflow/endpoints";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { ApiModule } from "~/lib/ng/lib/api";
 import { GraphApiService } from "~/lib/ng/lib/api/graph-api/graph.api.service";
 import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
 import { RequestStateSubject } from "~/lib/ng/lib/request-state/request.state.subject";
 
-import { GraphComponent } from "../../../graph/components/graph/graph.component";
+import {
+	GraphActions,
+	GraphComponent,
+	GraphNodeMoved
+} from "../../../graph/components/graph/graph.component";
 
 @Component({
 	standalone: true,
@@ -36,4 +41,24 @@ export class WorkflowView {
 		private readonly service: WorkflowApiService,
 		private readonly graphApi: GraphApiService
 	) {}
+
+	protected handleNodeMove(workflow: Workflow, nodeMoved: GraphNodeMoved) {
+		// TODO: this is temporary
+		void this.graphApi
+			.forNodes(workflow.__graph)
+			.update(nodeMoved.node._id, { position: nodeMoved.current });
+	}
+
+	protected getActions(workflow: Workflow): GraphActions {
+		// TODO: this is temporary
+		const { __graph } = workflow;
+		const arcApi = this.graphApi.forArcs(__graph);
+
+		return {
+			arc: {
+				create: toCreate => arcApi.create(toCreate),
+				remove: arc => arcApi.delete(arc._id).then(() => void 0)
+			}
+		};
+	}
 }

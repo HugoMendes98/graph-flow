@@ -22,7 +22,7 @@ export class ReteNode extends ClassicPreset.Node<
 	 */
 	public override outputs!: Partial<Record<string, ReteOutput>>;
 
-	public constructor(graphNode: GraphNode) {
+	public constructor(public readonly graphNode: GraphNode) {
 		const { inputs, name, outputs } = graphNode;
 		super(name);
 

@@ -8,8 +8,10 @@
 	<app-graph
 		*ngIf="state.state === 'success'"
 		class="flex-1"
+		[actions]="getActions(state.data.workflow)"
 		[arcs]="state.data.arcs"
 		[nodes]="state.data.nodes"
-		[readonly]="true"
+		[readonly]="false"
+		(nodeMoved)="handleNodeMove(state.data.workflow, $event)"
 	></app-graph>
 </div>

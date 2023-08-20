@@ -1,3 +1,4 @@
+import { action } from "@storybook/addon-actions";
 import { Meta, moduleMetadata } from "@storybook/angular";
 import { Jsonify } from "type-fest";
 import { GraphDto } from "~/lib/common/app/graph/dtos";
@@ -6,7 +7,7 @@ import { BASE_SEED } from "~/lib/common/seeds";
 
 import { GraphComponent } from "./graph.component";
 
-const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "arcs" | "nodes"> => {
+const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "actions" | "arcs" | "nodes"> => {
 	const { graphArcs, graphNodeInputs, graphNodeOutputs, graphNodes } = JSON.parse(
 		JSON.stringify(BASE_SEED.graph)
 	) as Jsonify<typeof BASE_SEED.graph>;
@@ -19,21 +20,37 @@ const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "arcs" | "nodes"
 			outputs: graphNodeOutputs.filter(({ __graph_node }) => __graph_node === node._id)
 		}));
 
+	const arcs = graphArcs.filter(({ __from, __to }) =>
+		nodes.some(
+			({ inputs, outputs }) =>
+				inputs.some(({ _id }) => _id === __to) || outputs.some(({ _id }) => _id === __from)
+		)
+	);
+
 	return {
-		arcs: graphArcs.filter(({ __from, __to }) =>
-			nodes.some(
-				({ inputs, outputs }) =>
-					inputs.some(({ _id }) => _id === __to) ||
-					outputs.some(({ _id }) => _id === __from)
-			)
-		),
+		actions: {
+			arc: {
+				create: toCreate => {
+					action("Arc to create")(toCreate);
+
+					const arc = arcs[arcs.length - 1];
+					return Promise.resolve({ ...arc, ...toCreate, _id: arc._id * 10 });
+				},
+				remove: arc =>
+					Promise.resolve().then(() => {
+						action("Arc to remove")(arc);
+					})
+			}
+		},
+		arcs,
 		nodes
 	};
 };
 
 export const NodeFunctionDivision = {
 	args: {
-		...getGraphContent(BASE_SEED.graph.graphs[0])
+		...getGraphContent(BASE_SEED.graph.graphs[0]),
+		readonly: false
 	} satisfies Partial<GraphComponent>
 } satisfies Meta<GraphComponent>;
 
