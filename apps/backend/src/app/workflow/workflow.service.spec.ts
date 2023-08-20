@@ -3,6 +3,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
 import { BASE_SEED } from "~/lib/common/seeds";
 
+import { WorkflowNoTriggerException } from "./exceptions";
 import { WorkflowModule } from "./workflow.module";
 import { WorkflowService } from "./workflow.service";
 import { DbTestHelper } from "../../../test/db-test";
@@ -31,6 +32,22 @@ describe("WorkflowService", () => {
 
 	it("should be defined", () => {
 		expect(service).toBeDefined();
+	});
+
+	describe("Activation", () => {
+		beforeAll(() => dbTest.refresh());
+
+		it("should activate a workflow", async () => {
+			const [{ _id }] = db.workflows;
+			await expect(service.update(_id, { active: true })).resolves.toBeDefined();
+		});
+
+		it("should not activate a workflow where there is no trigger", async () => {
+			const [, { _id }] = db.workflows;
+			await expect(service.update(_id, { active: true })).rejects.toThrow(
+				WorkflowNoTriggerException
+			);
+		});
 	});
 
 	describe("With Graph", () => {

@@ -37,6 +37,12 @@ export class Workflow extends EntityBase implements DtoToEntity<WorkflowDto> {
 	/**
 	 * @inheritDoc
 	 */
+	@Property({ default: false })
+	public active!: boolean;
+
+	/**
+	 * @inheritDoc
+	 */
 	@Property({ unique: true })
 	public name!: string;
 

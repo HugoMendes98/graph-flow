@@ -12,7 +12,7 @@ import { NodeModule } from "../node/node.module";
 
 @Module({
 	controllers: [GraphArcController, GraphController, GraphNodeController],
-	exports: [GraphService],
+	exports: [GraphNodeService, GraphService],
 	imports: [MikroOrmModule.forFeature(GRAPH_ENTITIES), NodeModule],
 	providers: [GraphArcService, GraphNodeService, GraphService]
 })

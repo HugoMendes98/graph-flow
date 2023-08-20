@@ -1,4 +1,4 @@
-import { Embeddable } from "@mikro-orm/core";
+import { Embeddable, Property } from "@mikro-orm/core";
 import {
 	NodeTriggerCronDto as DTO,
 	NodeTriggerType
@@ -16,4 +16,10 @@ export class NodeTriggerCron extends NodeTriggerBase implements DTO {
 	 * @inheritDoc
 	 */
 	public override readonly type = NodeTriggerType.CRON;
+
+	/**
+	 * @inheritDoc
+	 */
+	@Property({ nullable: false })
+	public cron!: string;
 }

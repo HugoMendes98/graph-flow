@@ -1,4 +1,4 @@
-import { IsNumber, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 
 import { DtoProperty } from "../../../dtos/dto";
 import { EntityDto } from "../../../dtos/entity";
@@ -15,6 +15,17 @@ export class WorkflowDto extends EntityDto {
 	@DtoProperty()
 	@IsNumber()
 	public readonly __graph!: number;
+
+	/**
+	 * Is the workflow active?
+	 * An active workflow can be executed, it is "registered" by the server (with CRON for example).
+	 *
+	 * @default false
+	 */
+	@DtoProperty()
+	@IsBoolean()
+	@IsOptional()
+	public readonly active!: boolean;
 
 	/**
 	 * The unique name of a workflow

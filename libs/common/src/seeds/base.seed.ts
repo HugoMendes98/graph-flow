@@ -1,6 +1,7 @@
 import { MockSeed } from "./mock.seed";
 import { NodeBehaviorType } from "../app/node/dtos/behaviors";
 import { NodeTriggerType } from "../app/node/dtos/behaviors/triggers";
+import { NodeIoType } from "../app/node/dtos/io";
 
 /** Sample date1 */
 const date1 = new Date(2020, 1, 1);
@@ -570,7 +571,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 1,
-				name: "DB_HOST in"
+				name: "DB_HOST in",
+				type: NodeIoType.VOID
 			},
 			{
 				_id: 201,
@@ -579,7 +581,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 2,
-				name: "DB_PORT in"
+				name: "DB_PORT in",
+				type: NodeIoType.VOID
 			},
 			{
 				_id: 301,
@@ -588,7 +591,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 3,
-				name: "DB_USER in"
+				name: "DB_USER in",
+				type: NodeIoType.VOID
 			},
 			{
 				_id: 401,
@@ -597,7 +601,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 4,
-				name: "DB_PASS in"
+				name: "DB_PASS in",
+				type: NodeIoType.VOID
 			},
 			// endregion
 
@@ -609,7 +614,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 5,
-				name: "DB Host"
+				name: "DB Host",
+				type: NodeIoType.STRING
 			},
 			{
 				_id: 502,
@@ -618,7 +624,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 5,
-				name: "DB Port"
+				name: "DB Port",
+				type: NodeIoType.STRING
 			},
 			{
 				_id: 503,
@@ -627,7 +634,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 5,
-				name: "DB User"
+				name: "DB User",
+				type: NodeIoType.STRING
 			},
 			{
 				_id: 504,
@@ -636,7 +644,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 5,
-				name: "DB Pass"
+				name: "DB Pass",
+				type: NodeIoType.STRING
 			},
 			{
 				_id: 505,
@@ -645,7 +654,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 5,
-				name: "SQL stmt"
+				name: "SQL stmt",
+				type: NodeIoType.STRING
 			},
 
 			// endregion
@@ -658,7 +668,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 10,
-				name: "Dividend"
+				name: "Dividend",
+				type: NodeIoType.NUMBER
 			},
 			{
 				_id: 1002,
@@ -667,7 +678,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 10,
-				name: "Divisor"
+				name: "Divisor",
+				type: NodeIoType.NUMBER
 			},
 
 			// Inputs for code 11
@@ -678,7 +690,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 11,
-				name: "Dividend"
+				name: "Dividend",
+				type: NodeIoType.NUMBER
 			},
 			{
 				_id: 1102,
@@ -687,7 +700,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 11,
-				name: "Divisor"
+				name: "Divisor",
+				type: NodeIoType.NUMBER
 			},
 
 			// ----------------------------------------------------------
@@ -700,7 +714,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 20,
-				name: "Dividend"
+				name: "Dividend",
+				type: NodeIoType.NUMBER
 			},
 			{
 				_id: 2002,
@@ -709,7 +724,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 20,
-				name: "Divisor"
+				name: "Divisor",
+				type: NodeIoType.NUMBER
 			},
 			{
 				_id: 200301,
@@ -718,7 +734,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 2003,
-				name: "Quotient (input of the output parameter node)"
+				name: "Quotient (input of the output parameter node)",
+				type: NodeIoType.NUMBER
 			},
 			{
 				_id: 200401,
@@ -727,7 +744,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 2004,
-				name: "Remainder (input of the output parameter node)"
+				name: "Remainder (input of the output parameter node)",
+				type: NodeIoType.NUMBER
 			}
 		],
 		nodeOutputs: [
@@ -739,7 +757,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 1,
-				name: "DB_HOST out"
+				name: "DB_HOST out",
+				type: NodeIoType.STRING
 			},
 			{
 				_id: 201,
@@ -748,7 +767,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 2,
-				name: "DB_PORT out"
+				name: "DB_PORT out",
+				type: NodeIoType.STRING
 			},
 			{
 				_id: 301,
@@ -757,7 +777,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 3,
-				name: "DB_USER out"
+				name: "DB_USER out",
+				type: NodeIoType.STRING
 			},
 			{
 				_id: 401,
@@ -766,7 +787,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 4,
-				name: "DB_PASS out"
+				name: "DB_PASS out",
+				type: NodeIoType.STRING
 			},
 
 			{
@@ -777,7 +799,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 5,
-				name: "SQL Output"
+				name: "SQL Output",
+				type: NodeIoType.STRING
 			},
 
 			{
@@ -788,7 +811,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 10,
-				name: "Quotient"
+				name: "Quotient",
+				type: NodeIoType.NUMBER
 			},
 			{
 				// Output for code 11
@@ -798,7 +822,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 11,
-				name: "Remainder"
+				name: "Remainder",
+				type: NodeIoType.NUMBER
 			},
 
 			// ----------------------------------------------------------
@@ -811,7 +836,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 20,
-				name: "Quotient"
+				name: "Quotient",
+				type: NodeIoType.NUMBER
 			},
 			{
 				_id: 2004,
@@ -820,7 +846,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 20,
-				name: "Remainder"
+				name: "Remainder",
+				type: NodeIoType.NUMBER
 			},
 			{
 				_id: 200101,
@@ -829,7 +856,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 2001,
-				name: "Dividend (output of the input parameter node)"
+				name: "Dividend (output of the input parameter node)",
+				type: NodeIoType.NUMBER
 			},
 			{
 				_id: 200201,
@@ -838,7 +866,8 @@ export const BASE_SEED = {
 				_updated_at: date1,
 
 				__node: 2002,
-				name: "Divisor (output of the input parameter node)"
+				name: "Divisor (output of the input parameter node)",
+				type: NodeIoType.NUMBER
 			}
 		],
 		nodes: [
@@ -851,7 +880,7 @@ export const BASE_SEED = {
 
 				__categories: [1],
 
-				behavior: { type: NodeBehaviorType.VARIABLE },
+				behavior: { type: NodeBehaviorType.VARIABLE, value: "host" },
 				name: "DB_HOST"
 			},
 			{
@@ -862,7 +891,7 @@ export const BASE_SEED = {
 
 				__categories: [1],
 
-				behavior: { type: NodeBehaviorType.VARIABLE },
+				behavior: { type: NodeBehaviorType.VARIABLE, value: "port" },
 				name: "DB_PORT"
 			},
 			{
@@ -873,7 +902,7 @@ export const BASE_SEED = {
 
 				__categories: [1],
 
-				behavior: { type: NodeBehaviorType.VARIABLE },
+				behavior: { type: NodeBehaviorType.VARIABLE, value: "user" },
 				name: "DB_USER"
 			},
 			{
@@ -884,7 +913,7 @@ export const BASE_SEED = {
 
 				__categories: [1],
 
-				behavior: { type: NodeBehaviorType.VARIABLE },
+				behavior: { type: NodeBehaviorType.VARIABLE, value: "pass" },
 				name: "DB_PASS"
 			},
 
@@ -899,7 +928,7 @@ export const BASE_SEED = {
 
 				__categories: [1, 2],
 
-				behavior: { type: NodeBehaviorType.CODE },
+				behavior: { code: "module.export = console.log", type: NodeBehaviorType.CODE },
 				name: "Make SQL query"
 			},
 			{
@@ -911,7 +940,10 @@ export const BASE_SEED = {
 
 				__categories: [2],
 
-				behavior: { type: NodeBehaviorType.CODE },
+				behavior: {
+					code: "module.export = (a, b) => b === 0 ? 0 : Math.floor(a / b);",
+					type: NodeBehaviorType.CODE
+				},
 				name: "Calculate quotient"
 			},
 			{
@@ -923,7 +955,10 @@ export const BASE_SEED = {
 
 				__categories: [2],
 
-				behavior: { type: NodeBehaviorType.CODE },
+				behavior: {
+					code: "module.export = (a, b) => a % b;",
+					type: NodeBehaviorType.CODE
+				},
 				name: "Calculate remainder"
 			},
 
@@ -999,7 +1034,7 @@ export const BASE_SEED = {
 				__categories: [],
 
 				behavior: {
-					trigger: { type: NodeTriggerType.CRON },
+					trigger: { cron: "1 * * * *", type: NodeTriggerType.CRON },
 					type: NodeBehaviorType.TRIGGER
 				},
 				name: "Cron"
@@ -1046,6 +1081,7 @@ export const BASE_SEED = {
 			_updated_at: date1,
 
 			__graph: 2,
+			active: false,
 			name: "Do a SQL request"
 		},
 		{
@@ -1055,6 +1091,7 @@ export const BASE_SEED = {
 			_updated_at: date1,
 
 			__graph: 3,
+			active: false,
 			name: "Empty graph"
 		}
 	]

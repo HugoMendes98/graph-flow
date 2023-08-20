@@ -48,11 +48,11 @@ describe("NodeService", () => {
 			const category2 = await categoryService.create({ name: "cat2" });
 
 			const node1 = await service.create({
-				behavior: { type: NodeBehaviorType.VARIABLE },
+				behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
 				name: "node1"
 			});
 			const node2 = await service.create({
-				behavior: { type: NodeBehaviorType.VARIABLE },
+				behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
 				name: "node2"
 			});
 
@@ -184,7 +184,7 @@ describe("NodeService", () => {
 				const { data: before } = await service.findAndCount();
 
 				const toCreate: NodeCreateDto = {
-					behavior: { type: NodeBehaviorType.VARIABLE },
+					behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
 					name: "new-node"
 				};
 				const created = await service.create(toCreate);
@@ -231,7 +231,7 @@ describe("NodeService", () => {
 
 			it("should delete an entity", async () => {
 				const { _id } = await service.create({
-					behavior: { type: NodeBehaviorType.VARIABLE },
+					behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
 					name: "__new__"
 				});
 				const {

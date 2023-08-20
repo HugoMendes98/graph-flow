@@ -1,7 +1,8 @@
-import { IsNumber, IsString, Min } from "class-validator";
+import { IsEnum, IsNumber, IsOptional, IsString, Min } from "class-validator";
 
 import { DtoProperty } from "../../../../dtos/dto";
 import { EntityDto } from "../../../../dtos/entity";
+import { NodeIoType } from "../io";
 import { NodeDto } from "../node.dto";
 
 export class NodeInputDto extends EntityDto {
@@ -19,6 +20,16 @@ export class NodeInputDto extends EntityDto {
 	@DtoProperty()
 	@IsString()
 	public name!: string;
+
+	/**
+	 * Type of the input
+	 *
+	 * @default NodeIoType.ANY
+	 */
+	@DtoProperty()
+	@IsEnum(NodeIoType)
+	@IsOptional()
+	public type!: NodeIoType;
 
 	// ------- Relations -------
 

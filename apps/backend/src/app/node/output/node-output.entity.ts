@@ -1,4 +1,5 @@
-import { Entity, LoadStrategy, Property } from "@mikro-orm/core";
+import { Entity, Enum, LoadStrategy, Property } from "@mikro-orm/core";
+import { NodeIoType } from "~/lib/common/app/node/dtos/io";
 import { NodeOutputDto } from "~/lib/common/app/node/dtos/output";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
@@ -27,6 +28,12 @@ export class NodeOutput extends EntityBase implements DtoToEntity<NodeOutputDto>
 	 */
 	@Property()
 	public name!: string;
+
+	/**
+	 * @inheritDoc
+	 */
+	@Enum({ items: () => NodeIoType, type: () => NodeIoType })
+	public type!: NodeIoType;
 
 	// ------- Relations -------
 
