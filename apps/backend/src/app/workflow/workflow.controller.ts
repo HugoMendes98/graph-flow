@@ -16,6 +16,7 @@ import {
 
 import { Workflow } from "./workflow.entity";
 import { WorkflowService } from "./workflow.service";
+import { UseAuth } from "../auth/auth.guard";
 import { GraphService } from "../graph/graph.service";
 
 /**
@@ -23,6 +24,7 @@ import { GraphService } from "../graph/graph.service";
  */
 @ApiTags("Workflows")
 @Controller(WORKFLOWS_ENDPOINT_PREFIX)
+@UseAuth()
 export class WorkflowController implements WorkflowEndpoint<Workflow> {
 	public constructor(
 		private readonly service: WorkflowService,

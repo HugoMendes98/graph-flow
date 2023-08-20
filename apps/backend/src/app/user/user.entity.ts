@@ -16,6 +16,9 @@ export class User extends EntityBase implements DtoToEntity<UserDto> {
 	@Property({ unique: true })
 	public email!: string;
 
+	@Property({ hidden: true, nullable: false })
+	public password?: string;
+
 	/**
 	 * @inheritDoc
 	 */

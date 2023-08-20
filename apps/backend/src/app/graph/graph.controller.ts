@@ -8,12 +8,14 @@ import {
 
 import { Graph } from "./graph.entity";
 import { GraphService } from "./graph.service";
+import { UseAuth } from "../auth/auth.guard";
 
 /**
  * The main controller for [graphs]{@link GraphDto}.
  */
 @ApiTags("Graphs")
 @Controller(GRAPHS_ENDPOINT_PREFIX)
+@UseAuth()
 export class GraphController implements GraphEndpoint<Graph> {
 	public constructor(private readonly service: GraphService) {}
 

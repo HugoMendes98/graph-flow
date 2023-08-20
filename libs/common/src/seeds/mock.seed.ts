@@ -63,7 +63,14 @@ export interface MockSeed {
 	/**
 	 * Represents the [user]{@link UserDto} table
 	 */
-	users: readonly UserDto[];
+	users: ReadonlyArray<
+		UserDto & {
+			/**
+			 * Clear password for seeding
+			 */
+			password: string;
+		}
+	>;
 	/**
 	 * Represents the [workflow]{@link WorkflowDto} table
 	 */

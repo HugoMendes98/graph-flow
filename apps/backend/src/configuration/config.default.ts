@@ -4,6 +4,10 @@ import { Configuration } from "./configuration.interface";
  * Theses are the default values for the configuration
  */
 export const configDefault: Configuration = {
+	authentication: {
+		secret: "Change Me",
+		timeout: 60 * 60 * 4 // 4 hours
+	},
 	db: {
 		debug: false,
 		host: "localhost",

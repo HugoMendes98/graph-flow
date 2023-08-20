@@ -25,6 +25,7 @@ import { UnshiftParameters } from "~/lib/common/types";
 import { GraphArc } from "./graph-arc.entity";
 import { GraphArcService } from "./graph-arc.service";
 import { EntityRelationKeysDeep } from "../../_lib/entity";
+import { UseAuth } from "../../auth/auth.guard";
 import { Graph } from "../graph.entity";
 import { ApiGraphParam, GraphInterceptedParam, GraphInterceptor } from "../graph.interceptor";
 
@@ -36,6 +37,7 @@ type EndpointTransformed = {
 
 @ApiTags("Graph arcs")
 @Controller(generateGraphArcsEndpoint(`:${GraphInterceptor.PATH_PARAM}` as unknown as EntityId))
+@UseAuth()
 @UseInterceptors(GraphInterceptor)
 export class GraphArcController implements EndpointTransformed {
 	public constructor(private readonly service: GraphArcService) {}

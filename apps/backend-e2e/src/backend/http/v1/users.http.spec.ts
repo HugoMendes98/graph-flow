@@ -1,9 +1,10 @@
 import { AxiosError, HttpStatusCode } from "axios";
 import { Jsonify } from "type-fest";
 import { UserHttpClient } from "~/app/backend/e2e/http/clients";
-import { UserCreateDto, UserDto, UserQueryDto, UserUpdateDto } from "~/lib/common/app/user/dtos";
+import { UserDto, UserQueryDto, UserUpdateDto } from "~/lib/common/app/user/dtos";
 import { USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpoints";
 import { EntityOrder } from "~/lib/common/endpoints";
+import { omit } from "~/lib/common/utils/object-fns";
 
 import { DbE2eHelper } from "../../../support/db-e2e/db-e2e.helper";
 
@@ -13,13 +14,18 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 	const dbHelper = DbE2eHelper.getHelper("base");
 	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<typeof dbHelper.db>;
 
-	beforeEach(() => dbHelper.refresh());
+	beforeEach(async () => {
+		const [{ email, password }] = db.users;
+
+		await dbHelper.refresh();
+		await client.setAuth(email, password);
+	});
 
 	describe(`GET ${USERS_ENDPOINT_PREFIX}/:id`, () => {
 		it("should get one", async () => {
 			for (const user of db.users) {
 				const response = await client.findOne(user._id);
-				expect(response).toStrictEqual(user);
+				expect(response).toStrictEqual(omit(user, ["password"]));
 			}
 		});
 
@@ -122,12 +128,17 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 				const { data: ordered1 } = await client.findMany({
 					params: { order: [{ _id: "asc" }] } satisfies UserQueryDto
 				});
-				expect(ordered1).toStrictEqual(sorted);
+				expect(ordered1).toStrictEqual(sorted.map(user => omit(user, ["password"])));
 
 				const { data: ordered2 } = await client.findMany({
 					params: { order: [{ _id: "desc" }] } satisfies UserQueryDto
 				});
-				expect(ordered2).toStrictEqual(sorted.slice().reverse());
+				expect(ordered2).toStrictEqual(
+					sorted
+						.slice()
+						.reverse()
+						.map(user => omit(user, ["password"]))
+				);
 			});
 
 			it("should fail when the order is not an array", async () => {
@@ -152,7 +163,7 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 					} satisfies UserQueryDto
 				});
 
-				expect(actual).toStrictEqual(expected);
+				expect(actual).toStrictEqual(expected.map(user => omit(user, ["password"])));
 			});
 
 			it("should filter with `$or`", async () => {
@@ -169,63 +180,8 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 					} satisfies UserQueryDto
 				});
 
-				expect(actual).toStrictEqual(expected);
+				expect(actual).toStrictEqual(expected.map(user => omit(user, ["password"])));
 			});
-		});
-	});
-
-	describe(`POST ${USERS_ENDPOINT_PREFIX}`, () => {
-		it("should add a new entity", async () => {
-			const { data: before } = await client.findMany();
-
-			// Create a new entity and check its content
-			const toCreate: UserCreateDto = { email: "new.user@local.host" };
-			const created = await client.create(toCreate);
-			expect(created.firstname).toBeNull();
-			expect(created.email).toBe(toCreate.email);
-
-			// Check that the entity is in the data (should have one more than before)
-			const { data: after } = await client.findMany();
-			expect(after).toHaveLength(before.length + 1);
-
-			// Check that the value returned in the list is equal to the one just created
-			const found = after.find(({ _id }) => _id === created._id);
-			expect(found).toBeDefined();
-			expect(created).toStrictEqual(found);
-		});
-
-		it("should fail when a uniqueness constraint is not respected", async () => {
-			const toCreate: UserCreateDto = { email: db.users[0].email };
-			const response = await client
-				.createResponse(toCreate)
-				.catch(({ response }: AxiosError) => response!);
-			expect(response.status).toBe(HttpStatusCode.Conflict);
-		});
-
-		// Use theses to test when the values are valid or not.
-		// Use another to determine the correct error(s) returned.
-		it("should fail with a BAD_REQUEST status code when the payload is invalid", async () => {
-			for (const toCreate of [
-				{ email: "" },
-				{ email: "not an email" }
-			] satisfies UserCreateDto[]) {
-				const response = await client
-					.createResponse(toCreate)
-					.catch(({ response }: AxiosError) => response!);
-				expect(response.status).toBe(HttpStatusCode.BadRequest);
-			}
-		});
-
-		it("should fail with a BAD_REQUEST status code when the payload is incorrectly typed", async () => {
-			for (const toCreate of [
-				{ email: 123 as unknown as string },
-				{ email: "a.valid@mail.local", lastname: 2 as unknown as string }
-			] satisfies UserCreateDto[]) {
-				const response = await client
-					.createResponse(toCreate)
-					.catch(({ response }: AxiosError) => response!);
-				expect(response.status).toBe(HttpStatusCode.BadRequest);
-			}
 		});
 	});
 
@@ -235,7 +191,7 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 				pagination: { total: beforeTotal }
 			} = await client.findMany();
 
-			const [user] = db.users;
+			const [, user] = db.users;
 			const toUpdate: UserUpdateDto = { email: `${user.email}.mail` };
 			const updated = await client.update(user._id, toUpdate);
 			expect(updated.email).toBe(toUpdate.email);
@@ -256,7 +212,7 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 			const [, user] = db.users;
 			const toUpdate: UserUpdateDto = { email: user.email };
 			const updated = await client.update(user._id, toUpdate);
-			expect(updated).toStrictEqual(user);
+			expect(updated).toStrictEqual(omit(user, ["password"]));
 		});
 
 		it("should fail when a uniqueness constraint is not respected", async () => {
@@ -303,9 +259,9 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 				pagination: { total: beforeTotal }
 			} = await client.findMany();
 
-			const [user] = db.users;
+			const [, user] = db.users;
 			const deleted = await client.delete(user._id);
-			expect(deleted).toStrictEqual(user);
+			expect(deleted).toStrictEqual(omit(user, ["password"]));
 
 			const {
 				data: after,

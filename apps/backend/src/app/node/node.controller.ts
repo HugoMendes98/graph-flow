@@ -11,12 +11,14 @@ import { NodeEndpoint, NODES_ENDPOINT_PREFIX } from "~/lib/common/app/node/endpo
 
 import { Node } from "./node.entity";
 import { NodeService } from "./node.service";
+import { UseAuth } from "../auth/auth.guard";
 
 /**
  * The main controller for [nodes]{@link NodeDto}.
  */
 @ApiTags("Nodes")
 @Controller(NODES_ENDPOINT_PREFIX)
+@UseAuth()
 export class NodeController implements NodeEndpoint<Node> {
 	public constructor(private readonly service: NodeService) {}
 

@@ -1,6 +1,8 @@
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import cookieParser from "cookie-parser";
 import { Writable } from "type-fest";
+import { authOptions } from "~/lib/common/options";
 
 import { AppValidationPipe } from "./app/_lib/app-validation.pipe";
 import { AppModule } from "./app/app.module";
@@ -23,10 +25,22 @@ export async function bootstrap() {
 	});
 
 	const { globalPrefix } = config.host;
-	app.useGlobalPipes(new AppValidationPipe()).setGlobalPrefix(globalPrefix).enableShutdownHooks();
+	app.use(cookieParser())
+		.useGlobalPipes(new AppValidationPipe())
+		.setGlobalPrefix(globalPrefix)
+		.enableShutdownHooks();
 
 	if (config.swagger) {
-		const options = new DocumentBuilder().build();
+		const options = new DocumentBuilder()
+			.addBearerAuth()
+			.addCookieAuth(authOptions.cookies.name, {
+				description:
+					"As described <a href='https://swagger.io/docs/specification/authentication/cookie-authentication/' target='_blank' >here</a>, it does not work with the Swagger UI." +
+					"<br>However, the <i>Curl</i> example works fine.",
+				type: "apiKey"
+			})
+			.build();
+
 		const document = SwaggerModule.createDocument(app, options);
 		SwaggerModule.setup(globalPrefix, app, document);
 	}

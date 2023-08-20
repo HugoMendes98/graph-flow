@@ -11,12 +11,14 @@ import { UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpo
 
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
+import { UseAuth } from "../auth/auth.guard";
 
 /**
  * The main controller for [users]{@link UserDto}.
  */
 @ApiTags("Users")
 @Controller(USERS_ENDPOINT_PREFIX)
+@UseAuth()
 export class UserController implements UserEndpoint<User> {
 	public constructor(private readonly service: UserService) {}
 

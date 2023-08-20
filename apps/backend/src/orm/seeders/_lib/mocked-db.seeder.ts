@@ -5,6 +5,7 @@ import { EntityDto } from "~/lib/common/dtos/entity";
 import { MockSeed } from "~/lib/common/seeds";
 
 import { EntityBase } from "../../../app/_lib/entity";
+import { AuthService } from "../../../app/auth/auth.service";
 import { Category } from "../../../app/category/category.entity";
 import { GraphArc } from "../../../app/graph/arc/graph-arc.entity";
 import { Graph } from "../../../app/graph/graph.entity";
@@ -66,7 +67,15 @@ export abstract class MockedDbSeeder extends Seeder {
 
 		for (const { entity, mocks } of [
 			{ entity: Category, mocks: categories },
-			{ entity: User, mocks: users },
+			{
+				entity: User,
+				mocks: await Promise.all(
+					users.map(async ({ password, ...user }) => ({
+						...user,
+						password: await AuthService.hash(password)
+					}))
+				)
+			},
 			// Nodes
 			{ entity: Node, mocks: nodes },
 			{ entity: NodeInput, mocks: nodeInputs },

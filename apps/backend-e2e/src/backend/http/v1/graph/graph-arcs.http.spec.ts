@@ -24,6 +24,13 @@ describe("Backend HTTP GraphArcs", () => {
 
 	const client = graphClient.forArcs(graphRef._id);
 
+	beforeAll(async () => {
+		const [{ email, password }] = db.users;
+
+		await dbHelper.refresh();
+		await client.setAuth(email, password);
+	});
+
 	describe(`GET ${generateGraphArcsEndpoint(graphRef._id)}`, () => {
 		beforeAll(() => dbHelper.refresh());
 
