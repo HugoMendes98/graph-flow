@@ -41,10 +41,10 @@ export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 
 	// ------- Relations -------
 
-	@OneToMany(() => NodeInput, ({ node }) => node, { lazy: true })
-	public readonly inputs? = new Collection<NodeInput>(this);
-	@OneToMany(() => NodeOutput, ({ node }) => node, { lazy: true })
-	public readonly outputs? = new Collection<NodeOutput>(this);
+	@OneToMany(() => NodeInput, ({ node }) => node, { eager: true })
+	public readonly inputs = new Collection<NodeInput>(this);
+	@OneToMany(() => NodeOutput, ({ node }) => node, { eager: true })
+	public readonly outputs = new Collection<NodeOutput>(this);
 
 	@ManyToMany(() => Category, ({ nodes }) => nodes, { hidden: true, owner: true })
 	public readonly categories? = new Collection<Category>(this);

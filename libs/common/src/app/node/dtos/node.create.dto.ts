@@ -14,5 +14,5 @@ export const NODE_CREATE_KEYS_MANDATORY = ["name"] as const satisfies ReadonlyAr
  */
 export class NodeCreateDto extends IntersectionType(
 	PickType(NodeDto, NODE_CREATE_KEYS_MANDATORY),
-	OmitType(NodeDto, [...ENTITY_BASE_KEYS, ...NODE_CREATE_KEYS_MANDATORY])
+	OmitType(NodeDto, [...ENTITY_BASE_KEYS, ...NODE_CREATE_KEYS_MANDATORY, "inputs", "outputs"])
 ) {}

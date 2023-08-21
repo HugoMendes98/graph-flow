@@ -36,7 +36,7 @@ export class NodeService extends EntityService<Node, NodeCreateDto, NodeUpdateDt
 
 	/**
 	 * Removes a category from a node.
-	 * Nothing happens if the category is does not exist or not linked
+	 * Nothing happens if the category does not exist or not linked
 	 *
 	 * @param nodeId The id of the node to remove the category from
 	 * @param categoryId The id of the category to remove

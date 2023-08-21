@@ -58,7 +58,9 @@ export interface MockSeed {
 		/**
 		 * Represents the [node]{@link NodeDto} table
 		 */
-		nodes: ReadonlyArray<NodeDto & { __categories: readonly number[] }>;
+		nodes: ReadonlyArray<
+			Omit<NodeDto, "inputs" | "outputs"> & { __categories: readonly number[] }
+		>;
 	};
 	/**
 	 * Represents the [user]{@link UserDto} table

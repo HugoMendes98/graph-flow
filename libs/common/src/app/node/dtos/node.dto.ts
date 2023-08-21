@@ -63,7 +63,7 @@ export class NodeDto extends EntityDto {
 		forwardRef: true,
 		type: () => NodeInputDto
 	})
-	public readonly inputs?: NodeInputDto[];
+	public readonly inputs!: NodeInputDto[];
 
 	/**
 	 * All [outputs]{@link NodeOutputDto} linked to this node
@@ -73,7 +73,7 @@ export class NodeDto extends EntityDto {
 		forwardRef: true,
 		type: () => NodeOutputDto
 	})
-	public readonly outputs?: NodeOutputDto[];
+	public readonly outputs!: NodeOutputDto[];
 	/**
 	 * All [categories]{@link CategoryDto} linked to this node
 	 *

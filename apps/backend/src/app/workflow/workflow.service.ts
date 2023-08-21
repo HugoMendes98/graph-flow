@@ -1,4 +1,4 @@
-import { EventArgs, EventSubscriber } from "@mikro-orm/core";
+import { EventArgs, EventSubscriber, MikroORM, UseRequestContext } from "@mikro-orm/core";
 import { Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
@@ -22,6 +22,8 @@ export class WorkflowService
 {
 	public constructor(
 		repository: WorkflowRepository,
+		// For `@UseRequestContext`
+		private readonly orm: MikroORM,
 		private readonly graphService: GraphService,
 		private readonly graphNodeService: GraphNodeService
 	) {
@@ -54,6 +56,10 @@ export class WorkflowService
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	@UseRequestContext()
 	public async onModuleInit() {
 		const { data: workflows } = await this.findAndCount({ active: true });
 

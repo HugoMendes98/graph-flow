@@ -2,6 +2,7 @@ import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
+import { omit } from "~/lib/common/utils/object-fns";
 
 import { NodeModule } from "./node.module";
 import { NodeService } from "./node.service";
@@ -167,7 +168,7 @@ describe("NodeService", () => {
 				// eslint-disable-next-line unused-imports/no-unused-vars -- to remove from object
 				for (const { __categories: _, ...node } of dbTest.db.node.nodes) {
 					const row = await service.findById(node._id);
-					expect(row.toJSON()).toStrictEqual(node);
+					expect(omit(row.toJSON(), ["inputs", "outputs"])).toStrictEqual(node);
 				}
 			});
 
