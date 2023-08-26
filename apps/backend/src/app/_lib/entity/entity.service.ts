@@ -2,27 +2,32 @@ import { EntityRepository, FilterQuery } from "@mikro-orm/core";
 import { instanceToPlain } from "class-transformer";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { FindResultsDto } from "~/lib/common/dtos/find-results.dto";
-import { EntityFindParams, EntityFilter } from "~/lib/common/endpoints";
+import {
+	EntityFindParams,
+	EntityFilter,
+	EntitiesToPopulate,
+	EntityPopulated
+} from "~/lib/common/endpoints";
 import { transformOptions } from "~/lib/common/options";
 
 import { EntityBase } from "./entity-base.entity";
 import { entityOrderToQueryOrder } from "./entity-order.converter";
-import { EntityRelationKeys } from "./entity.types";
+import { entityToPopulateToRelationsKeys } from "./entity-to-populate.coverter";
 
 /**
  * Some options when finding entities
  */
-export interface EntityServiceFindOptions<T extends EntityBase, P extends EntityRelationKeys<T>> {
+export interface EntityServiceFindOptions<T extends EntityBase, P extends EntitiesToPopulate<T>> {
 	/**
-	 * Populate the given relation keys
+	 * Populate the given relations
 	 */
-	populate?: P[];
+	populate?: P;
 }
 
 /**
  * The options when creating an entity
  */
-export interface EntityServiceCreateOptions<T extends EntityBase, P extends EntityRelationKeys<T>> {
+export interface EntityServiceCreateOptions<T extends EntityBase, P extends EntitiesToPopulate<T>> {
 	/**
 	 * The options when returning the data
 	 */
@@ -31,13 +36,13 @@ export interface EntityServiceCreateOptions<T extends EntityBase, P extends Enti
 
 export type EntityServiceUpdateOptions<
 	T extends EntityBase,
-	P extends EntityRelationKeys<T>
+	P extends EntitiesToPopulate<T>
 > = EntityServiceCreateOptions<T, P>;
 
-export type EntityLoaded<T extends EntityBase, P extends EntityRelationKeys<T> = never> = Required<
-	Pick<T, P | "toJSON">
-> &
-	T;
+export type EntityLoaded<
+	T extends EntityBase,
+	P extends EntitiesToPopulate<T> = never
+> = EntityPopulated<T, P> & Required<Pick<T, "toJSON">>;
 
 export abstract class EntityService<
 	T extends EntityBase,
@@ -69,7 +74,7 @@ export abstract class EntityService<
 	 * @param options Some options when loading an entities
 	 * @returns All entities found with its pagination
 	 */
-	public findAndCount<P extends EntityRelationKeys<T>>(
+	public findAndCount<P extends EntitiesToPopulate<T>>(
 		where: EntityFilter<T> = {},
 		params: EntityFindParams<T> = {},
 		options?: EntityServiceFindOptions<T, P>
@@ -84,7 +89,9 @@ export abstract class EntityService<
 					limit: params.limit,
 					offset,
 					orderBy: params.order?.map(entityOrderToQueryOrder),
-					populate: options?.populate as never
+					populate:
+						options?.populate &&
+						(entityToPopulateToRelationsKeys(options.populate) as never)
 				})
 				.then(([data, total]) => ({
 					data: data as Array<EntityLoaded<T, P>>,
@@ -110,7 +117,7 @@ export abstract class EntityService<
 	 * @param options Some options when loading an entity
 	 * @returns The found entity
 	 */
-	public findById<P extends EntityRelationKeys<T>>(
+	public findById<P extends EntitiesToPopulate<T>>(
 		id: EntityId,
 		options?: EntityServiceFindOptions<T, P>
 	) {
@@ -119,7 +126,11 @@ export abstract class EntityService<
 				_id: { $eq: id }
 				// It seems there's an error when using calculated generic type
 			} satisfies FilterQuery<EntityBase> as FilterQuery<T>,
-			{ populate: options?.populate as never }
+			{
+				populate:
+					options?.populate &&
+					(entityToPopulateToRelationsKeys(options.populate) as never)
+			}
 		) as Promise<EntityLoaded<T, P>>;
 	}
 
@@ -130,7 +141,7 @@ export abstract class EntityService<
 	 * @param options Additional options when creating an entity
 	 * @returns The created entity persisted in the database
 	 */
-	public async create<P extends EntityRelationKeys<T>>(
+	public async create<P extends EntitiesToPopulate<T>>(
 		toCreate: ToCreate,
 		options?: EntityServiceCreateOptions<T, P>
 	) {
@@ -156,7 +167,7 @@ export abstract class EntityService<
 	 * @param options Additional options when updating an entity
 	 * @returns The updated entity
 	 */
-	public async update<P extends EntityRelationKeys<T>>(
+	public async update<P extends EntitiesToPopulate<T>>(
 		id: EntityId,
 		toUpdate: ToUpdate,
 		options?: EntityServiceUpdateOptions<T, P>

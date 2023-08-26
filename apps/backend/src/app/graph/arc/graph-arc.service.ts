@@ -72,7 +72,7 @@ export class GraphArcService
 		const { data: arcs } = await this.findAndCount({
 			$or: [{ from: { graphNode: { __graph } } }, { to: { graphNode: { __graph } } }]
 		});
-		const { data: nodes } = await this.graphNodeService.findAndCount({ __graph, $or: [] });
+		const { data: nodes } = await this.graphNodeService.findAndCount({ __graph });
 
 		const adjacencyList = getAdjacencyList({
 			arcs: [{ __from, __to }, ...arcs],

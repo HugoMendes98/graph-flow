@@ -20,7 +20,7 @@ export class WorkflowService extends EntityService<Workflow, WorkflowCreateDto, 
 	}
 
 	public override delete(id: EntityId): Promise<Workflow> {
-		return this.findById(id, { populate: ["graph"] }).then(async entity => {
+		return this.findById(id, { populate: { graph: true } }).then(async entity => {
 			// Cascade integrity -> deleting the graph deletes the workflow
 			// TODO: Reverse the relation ? Remove the cascade and delete manually
 			await this.graphService._deleteFromParent(entity.graph);

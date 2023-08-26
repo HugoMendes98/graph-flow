@@ -1,5 +1,5 @@
 import { Collection } from "@mikro-orm/core";
-import { ConditionalKeys } from "type-fest";
+import { EntityRelationKeys } from "~/lib/common/endpoints";
 
 import { EntityBase } from "./entity-base.entity";
 
@@ -10,20 +10,6 @@ import { EntityBase } from "./entity-base.entity";
 export type EntityToDto<T extends EntityBase> = {
 	[K in keyof T]: T[K] extends Collection<infer U> ? U[] : T[K];
 };
-
-/**
- * Extract the keys for relations from the given entity
- */
-export type EntityRelationKeys<T extends EntityBase> = Exclude<
-	| ConditionalKeys<
-			Required<T>,
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Anything other than `any` fails the condition
-			Collection<any>
-	  >
-	| ConditionalKeys<Required<T>, EntityBase | null>
-	| ConditionalKeys<Required<T>, EntityBase>,
-	symbol
->;
 
 /**
  * The maximum depth of type.
@@ -41,9 +27,13 @@ export type EntityRelationKeysDeep<T extends EntityBase, D extends Depth[number]
 	| (D extends never
 			? never
 			: {
-					[K in EntityRelationKeys<T>]: Required<T>[K] extends EntityBase
-						? `${K}.${EntityRelationKeysDeep<Required<T>[K], Depth[D]>}`
-						: Required<T>[K] extends Collection<infer U extends EntityBase>
+					[K in EntityRelationKeys<T>]: NonNullable<
+						T[K]
+					> extends infer U extends EntityBase
+						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
+						: NonNullable<T[K]> extends Collection<infer U extends EntityBase>
+						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
+						: NonNullable<T[K]> extends Array<infer U extends EntityBase>
 						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
 						: never;
 			  }[EntityRelationKeys<T>]);

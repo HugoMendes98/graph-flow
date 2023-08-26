@@ -52,7 +52,7 @@ describe("GraphArcService", () => {
 					__node: var1._id,
 					position: { x: 0, y: 0 }
 				},
-				{ findOptions: { populate: ["inputs", "outputs"] } }
+				{ findOptions: { populate: { inputs: true, outputs: true } } }
 			);
 			const variable2 = await graphNodeService.create(
 				{
@@ -60,7 +60,7 @@ describe("GraphArcService", () => {
 					__node: var2._id,
 					position: { x: 0, y: 0 }
 				},
-				{ findOptions: { populate: ["inputs", "outputs"] } }
+				{ findOptions: { populate: { inputs: true, outputs: true } } }
 			);
 			const code = await graphNodeService.create(
 				{
@@ -68,7 +68,7 @@ describe("GraphArcService", () => {
 					__node: nCode._id,
 					position: { x: 0, y: 0 }
 				},
-				{ findOptions: { populate: ["inputs", "outputs"] } }
+				{ findOptions: { populate: { inputs: true, outputs: true } } }
 			);
 
 			return { code, variable1, variable2 };
@@ -134,7 +134,7 @@ describe("GraphArcService", () => {
 			const {
 				outputs: [output]
 			} = await graphNodeService.findById(db.graph.graphNodes[0]._id, {
-				populate: ["outputs"]
+				populate: { outputs: true }
 			});
 
 			await expect(() =>
