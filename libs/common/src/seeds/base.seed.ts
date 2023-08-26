@@ -768,7 +768,7 @@ export const BASE_SEED = {
 
 				__node: 2,
 				name: "DB_PORT out",
-				type: NodeIoType.STRING
+				type: NodeIoType.NUMBER
 			},
 			{
 				_id: 301,
@@ -891,7 +891,7 @@ export const BASE_SEED = {
 
 				__categories: [1],
 
-				behavior: { type: NodeBehaviorType.VARIABLE, value: "port" },
+				behavior: { type: NodeBehaviorType.VARIABLE, value: 1234 },
 				name: "DB_PORT"
 			},
 			{

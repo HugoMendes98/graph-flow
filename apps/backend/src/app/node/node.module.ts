@@ -1,6 +1,7 @@
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Module } from "@nestjs/common";
 
+import { NodeExecutor } from "./executor";
 import { NodeController } from "./node.controller";
 import { NODE_ENTITIES } from "./node.entities";
 import { NodeService } from "./node.service";
@@ -9,6 +10,6 @@ import { NodeService } from "./node.service";
 	controllers: [NodeController],
 	exports: [NodeService],
 	imports: [MikroOrmModule.forFeature(NODE_ENTITIES)],
-	providers: [NodeService]
+	providers: [NodeExecutor, NodeService]
 })
 export class NodeModule {}

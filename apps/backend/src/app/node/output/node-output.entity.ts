@@ -37,6 +37,9 @@ export class NodeOutput extends EntityBase implements DtoToEntity<NodeOutputDto>
 
 	// ------- Relations -------
 
+	/**
+	 * @inheritDoc
+	 */
 	@NodeProperty({ foreign: true })
 	public readonly node?: Node;
 }

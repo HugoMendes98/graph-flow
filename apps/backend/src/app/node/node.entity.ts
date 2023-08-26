@@ -41,9 +41,9 @@ export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 
 	// ------- Relations -------
 
-	@OneToMany(() => NodeInput, ({ node }) => node, { eager: true })
+	@OneToMany(() => NodeInput, ({ node }) => node, { eager: true, orderBy: { _id: "desc" } })
 	public readonly inputs = new Collection<NodeInput>(this);
-	@OneToMany(() => NodeOutput, ({ node }) => node, { eager: true })
+	@OneToMany(() => NodeOutput, ({ node }) => node, { eager: true, orderBy: { _id: "desc" } })
 	public readonly outputs = new Collection<NodeOutput>(this);
 
 	@ManyToMany(() => Category, ({ nodes }) => nodes, { hidden: true, owner: true })
@@ -52,6 +52,9 @@ export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 	@OneToMany(() => GraphNode, ({ node }) => node, { lazy: true })
 	public readonly graphNodes? = new Collection<GraphNode>(this);
 
+	/**
+	 * @inheritDoc
+	 */
 	public override toJSON?(): EntityToDto<this> {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Override only applied if the parent function exists
 		return { ...super.toJSON!(), behavior: super.toJSON!.call(this.behavior) };
