@@ -8,6 +8,9 @@ export class AuthHttpClient {
 	public getProfileResponse(...params: DropFirst<Parameters<Axios["get"]>>) {
 		return axios.get<UserDto>(`${AUTH_ENDPOINT_PREFIX}/${AuthEndpoints.PROFILE}`, ...params);
 	}
+	public getProfile(...params: DropFirst<Parameters<Axios["get"]>>) {
+		return this.getProfileResponse(...params).then(({ data }) => data);
+	}
 
 	public loginResponse(...params: DropFirst<Parameters<Axios["post"]>>) {
 		return axios.post<AuthSuccessDto>(

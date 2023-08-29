@@ -1,6 +1,7 @@
-import { ArgumentMetadata, Injectable, ValidationPipe } from "@nestjs/common";
+import { ArgumentMetadata, Injectable, ValidationError, ValidationPipe } from "@nestjs/common";
 import { ValidationPipeOptions } from "@nestjs/common/pipes/validation.pipe";
 import { plainToInstance } from "class-transformer";
+import { ValidatorOptions } from "class-validator";
 import { deepmerge } from "deepmerge-ts";
 import { transformOptions, validatorOptions } from "~/lib/common/options";
 
@@ -42,5 +43,15 @@ export class AppValidationPipe extends ValidationPipe {
 		}
 
 		return super.transform(value, metadata);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public override validate(
+		object: object,
+		validatorOptions?: ValidatorOptions
+	): Promise<ValidationError[]> | ValidationError[] {
+		return super.validate(object, validatorOptions);
 	}
 }

@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { AuthLoginDto, AuthRefreshDto } from "~/lib/common/app/auth/dtos";
@@ -9,8 +8,8 @@ import { UserDto } from "~/lib/common/app/user/dtos";
 import { authOptions } from "~/lib/common/options";
 
 import { UseAuth } from "./auth.guard";
+import { AuthLocalGuard } from "./auth.local-guard";
 import { AuthService } from "./auth.service";
-import { STRATEGY_LOCAL_NAME } from "./strategies";
 import { User as UserEntity, User } from "../user/user.entity";
 
 declare global {
@@ -45,7 +44,7 @@ export class AuthController implements AuthEndpoint {
 	 */
 	@ApiCreatedResponse({ type: AuthSuccessDto })
 	@Post(AuthEndpoints.LOGIN)
-	@UseGuards(AuthGuard(STRATEGY_LOCAL_NAME))
+	@UseGuards(AuthLocalGuard)
 	public login(
 		@Body() body: AuthLoginDto,
 		@Req() req?: Express.Request,
