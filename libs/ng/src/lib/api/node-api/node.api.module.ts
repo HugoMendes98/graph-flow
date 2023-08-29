@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 
-import { NodeApiService } from "./node-api.service";
+import { NodeApiService } from "./node.api.service";
 
 @NgModule({
 	providers: [NodeApiService]

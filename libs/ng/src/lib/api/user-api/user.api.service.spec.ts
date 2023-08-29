@@ -1,17 +1,17 @@
 import { TestBed } from "@angular/core/testing";
 
-import { WorkflowApiService } from "./workflow-api.service";
+import { UserApiService } from "./user.api.service";
 import { ApiClient } from "../api.client";
 
-describe("WorkflowApiService", () => {
-	let service: WorkflowApiService;
+describe("UserApiService", () => {
+	let service: UserApiService;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			imports: [ApiClient],
-			providers: [WorkflowApiService]
+			providers: [UserApiService]
 		});
-		service = TestBed.inject(WorkflowApiService);
+		service = TestBed.inject(UserApiService);
 	});
 
 	it("should be created", () => {

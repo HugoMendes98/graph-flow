@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import * as qs from "qs/lib/stringify";
+import stringify from "qs/lib/stringify";
 import { Jsonify } from "type-fest";
 import { EntityDto, EntityId } from "~/lib/common/dtos/entity";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
@@ -116,7 +116,7 @@ export abstract class EntityApiService<
 		let { uri } = params;
 
 		if (query) {
-			const queryString = qs.stringify(query);
+			const queryString = stringify(query);
 			if (queryString) {
 				uri += `?${queryString}`;
 			}

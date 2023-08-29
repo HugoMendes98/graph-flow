@@ -3,6 +3,7 @@ import { JestConfigWithTsJest } from "ts-jest";
 export default {
 	collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts"],
 	displayName: "frontend",
+	moduleNameMapper: { "rete-angular-plugin/16": "rete-angular-plugin" },
 	preset: "../../jest.preset.js",
 	setupFilesAfterEnv: ["<rootDir>/test/setup.ts"],
 	snapshotSerializers: [

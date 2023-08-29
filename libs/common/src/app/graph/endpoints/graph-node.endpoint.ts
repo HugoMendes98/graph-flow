@@ -24,8 +24,5 @@ export function generateGraphNodesEndpoint(graphId: EntityId) {
 }
 
 export type GraphNode = Jsonify<GraphNodeDto>;
-export type GraphNodeEndpoint<T extends DtoToEntity<GraphNodeDto> | GraphNode> = EntityEndpoint<
-	T,
-	GraphNodeCreateDto,
-	GraphNodeUpdateDto
->;
+export type GraphNodeEndpoint<T extends DtoToEntity<GraphNodeDto> | GraphNode = GraphNode> =
+	EntityEndpoint<T, GraphNodeCreateDto, GraphNodeUpdateDto>;
