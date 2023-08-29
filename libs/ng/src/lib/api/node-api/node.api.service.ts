@@ -7,9 +7,7 @@ import { EntityApiService } from "../_lib/entity-api";
 /**
  * Service to communicate with the node API.
  */
-@Injectable({
-	providedIn: "root"
-})
+@Injectable({ providedIn: "root" })
 export class NodeApiService
 	extends EntityApiService<Node, NodeCreateDto, NodeUpdateDto>
 	implements NodeEndpoint

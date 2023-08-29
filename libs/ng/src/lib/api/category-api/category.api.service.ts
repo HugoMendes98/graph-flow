@@ -11,9 +11,7 @@ import { EntityApiService } from "../_lib/entity-api";
 /**
  * Service to communicate with the category API.
  */
-@Injectable({
-	providedIn: "root"
-})
+@Injectable({ providedIn: "root" })
 export class CategoryApiService
 	extends EntityApiService<Category, CategoryCreateDto, CategoryUpdateDto>
 	implements CategoryEndpoint

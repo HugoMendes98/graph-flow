@@ -9,9 +9,7 @@ import { EntityApiService } from "../_lib/entity-api";
 /**
  * Service to communicate with the Graph API.
  */
-@Injectable({
-	providedIn: "root"
-})
+@Injectable({ providedIn: "root" })
 export class GraphApiService
 	extends EntityApiService<Graph, never, never>
 	implements GraphEndpoint

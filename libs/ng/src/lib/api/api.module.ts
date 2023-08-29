@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 
 import { API_CLIENT_CONFIG_TOKEN, ApiClient, ApiClientConfig } from "./api.client";
+import { AuthApiModule } from "./auth-api";
 import { CategoryApiModule } from "./category-api";
 import { GraphApiModule } from "./graph-api";
 import { NodeApiModule } from "./node-api";
@@ -17,6 +18,7 @@ export interface ApiModuleConfig {
 @NgModule({
 	imports: [
 		ApiClient,
+		AuthApiModule,
 		CategoryApiModule,
 		GraphApiModule,
 		NodeApiModule,

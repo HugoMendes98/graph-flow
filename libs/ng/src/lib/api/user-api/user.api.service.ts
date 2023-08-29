@@ -7,9 +7,7 @@ import { EntityApiService } from "../_lib/entity-api";
 /**
  * Service to communicate with the user API.
  */
-@Injectable({
-	providedIn: "root"
-})
+@Injectable({ providedIn: "root" })
 export class UserApiService
 	extends EntityApiService<User, UserCreateDto, UserUpdateDto>
 	implements UserEndpoint

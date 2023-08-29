@@ -15,9 +15,7 @@ import { EntityApiService } from "../_lib/entity-api";
 /**
  * Service to communicate with the workflow API.
  */
-@Injectable({
-	providedIn: "root"
-})
+@Injectable({ providedIn: "root" })
 export class WorkflowApiService
 	extends EntityApiService<Workflow, WorkflowCreateDto, WorkflowUpdateDto>
 	implements WorkflowEndpoint
