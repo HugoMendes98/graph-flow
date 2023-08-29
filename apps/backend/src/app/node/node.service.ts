@@ -26,7 +26,7 @@ export class NodeService extends EntityService<Node, NodeCreateDto, NodeUpdateDt
 	 * @returns The updated node
 	 */
 	public addCategory(nodeId: EntityId, categoryId: EntityId) {
-		return this.findById(nodeId, { populate: ["categories"] }).then(async node => {
+		return this.findById(nodeId, { populate: { categories: true } }).then(async node => {
 			node.categories.add(Reference.createFromPK(Category, categoryId));
 
 			await this.repository.getEntityManager().persistAndFlush(node);
@@ -43,7 +43,7 @@ export class NodeService extends EntityService<Node, NodeCreateDto, NodeUpdateDt
 	 * @returns The updated node
 	 */
 	public removeCategory(nodeId: EntityId, categoryId: EntityId) {
-		return this.findById(nodeId, { populate: ["categories"] }).then(async node => {
+		return this.findById(nodeId, { populate: { categories: true } }).then(async node => {
 			const categories = await node.categories.matching({
 				where: { _id: { $eq: categoryId } }
 			});

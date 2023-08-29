@@ -72,7 +72,7 @@ describe("GraphNodeService", () => {
 
 		it("should copy the inputs and outputs of the added node", async () => {
 			const node = await nodeService.findById(db.node.nodes[4]._id, {
-				populate: ["inputs", "outputs"]
+				populate: { inputs: true, outputs: true }
 			});
 
 			const graphNode = await service.create(
@@ -82,7 +82,7 @@ describe("GraphNodeService", () => {
 					name: "new graph-node",
 					position: { x: 0, y: 0 }
 				},
-				{ findOptions: { populate: ["inputs", "outputs"] } }
+				{ findOptions: { populate: { inputs: true, outputs: true } } }
 			);
 
 			expect(graphNode.inputs).toHaveLength(node.inputs.length);

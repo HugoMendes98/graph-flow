@@ -2,5 +2,6 @@ export * from "./entity-base.entity";
 export * from "./entity.service";
 export * from "./entity.types";
 
-// This file is not export to keep it more "private"
+// These files are not exported to keep it more "private"
 // export * from "./entity-order.converter";
+// export * from "./entity-to-populate.converter";
