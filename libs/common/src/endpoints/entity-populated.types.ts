@@ -25,7 +25,7 @@ export type EntitiesToPopulate<T extends EntityDto> = {
 	[K in EntityRelationKeys<T>]?:
 		| true // Set an entity relation to populate
 		// Set an entity to populate and some nested entities
-		| (Required<T[K]> extends infer U extends EntityDto | null
+		| (Required<T>[K] extends infer U extends EntityDto | null
 				? EntitiesToPopulate<NonNullable<U>>
 				: // Mikro-orm Collection
 				NonNullable<T[K]> extends Collection<infer U extends EntityDto>

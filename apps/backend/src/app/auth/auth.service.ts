@@ -72,7 +72,7 @@ export class AuthService {
 
 				throw new UnauthorizedException();
 			})
-			.catch(async (error: unknown) => {
+			.catch((error: unknown) => {
 				if (error instanceof NotFoundError) {
 					throw new UnauthorizedException();
 				}

@@ -21,10 +21,10 @@ export class AuthLocalGuard extends AuthGuard(STRATEGY_LOCAL_NAME) {
 	public override async canActivate(context: ExecutionContext) {
 		// To use the pipe before the guard
 		// https://github.com/nestjs/nest/issues/767
-		const body: AuthLoginDto = await this.pipe.transform(
+		const body = (await this.pipe.transform(
 			this.getRequest<import("express").Request>(context).body,
 			{ metatype: AuthLoginDto, type: "body" }
-		);
+		)) as AuthLoginDto;
 
 		const errors = await this.pipe.validate(body);
 		if (errors.length) {
