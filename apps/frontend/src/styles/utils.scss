@@ -28,10 +28,12 @@ $mat-toolbar-height: 64px;
 @mixin screen-breakpoint($breakpoint, $less-than: false) {
 	@if map-has-key($breakpoints, $breakpoint) {
 		@if $less-than {
+			// stylelint-disable-next-line media-query-no-invalid
 			@media screen and (max-width: map-get($breakpoints, $breakpoint) - 1px) {
 				@content;
 			}
 		} @else {
+			// stylelint-disable-next-line media-query-no-invalid
 			@media screen and (min-width: map-get($breakpoints, $breakpoint)) {
 				@content;
 			}
