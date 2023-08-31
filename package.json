@@ -1,4 +1,7 @@
 {
+	"bugs": {
+		"url": "https://github.com/HugoMendes98/graph-flow/issues"
+	},
 	"config": {
 		"commitizen": {
 			"path": "./node_modules/cz-conventional-changelog"
@@ -147,6 +150,7 @@
 		"typescript": "5.1.6",
 		"webpack": "5.88.2"
 	},
+	"homepage": "https://github.com/HugoMendes98/graph-flow",
 	"license": "MIT",
 	"mikro-orm": {
 		"configPaths": [
@@ -155,8 +159,12 @@
 		"tsConfigPath": "./apps/backend/tsconfig.json",
 		"useTsNode": true
 	},
-	"name": "nna",
+	"name": "graph-flow",
 	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HugoMendes98/graph-flow.git"
+	},
 	"scripts": {
 		"backend:build": "nx build backend",
 		"backend:compodoc": "npm run backend:compodoc:build -- -r 3080 -s",
