@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"esModuleInterop": true,
 		"lib": ["ES6"],
 		"outDir": "../../dist/out-tsc",
 		"sourceMap": false,
