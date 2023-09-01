@@ -1,16 +1,14 @@
-import { Meta, moduleMetadata } from "@storybook/angular";
+import type { Meta, StoryObj } from "@storybook/angular";
 
 import { HeaderComponent } from "./header.component";
 
-export const Primary = {
-	args: {},
-	render: (args: HeaderComponent) => ({
-		props: args
-	})
-};
-
-export default {
+const meta: Meta<HeaderComponent> = {
 	component: HeaderComponent,
-	decorators: [moduleMetadata({ imports: [HeaderComponent] })],
 	title: "HeaderComponent"
-} satisfies Meta<HeaderComponent>;
+};
+export default meta;
+type Story = StoryObj<HeaderComponent>;
+
+export const Primary: Story = {
+	args: {}
+};

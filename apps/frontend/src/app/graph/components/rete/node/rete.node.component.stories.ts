@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata } from "@storybook/angular";
+import type { Meta, StoryObj } from "@storybook/angular";
 import { Jsonify } from "type-fest";
 import { BASE_SEED } from "~/lib/common/seeds";
 import { ReteNode } from "~/lib/ng/lib/rete";
@@ -12,32 +12,36 @@ const { graphNodeInputs, graphNodeOutputs, graphNodes } = JSON.parse(
 const nodeCode = graphNodes[0];
 const nodeVariable = graphNodes[8];
 
-export const NodeCode = {
+const meta: Meta<ReteNodeComponent> = {
+	component: ReteNodeComponent,
+	title: "ReteNodeComponent"
+};
+export default meta;
+type Story = StoryObj<ReteNodeComponent>;
+
+export const NodeCode: Story = {
 	args: {
 		data: new ReteNode({
 			...nodeCode,
-			inputs: graphNodeInputs.filter(({ __graph_node }) => __graph_node === nodeCode._id),
-			outputs: graphNodeOutputs.filter(({ __graph_node }) => __graph_node === nodeCode._id)
+			// FIXME
+			inputs: [], // graphNodeInputs.filter(({ __graph_node }) => __graph_node === nodeCode._id),
+			outputs: [] // graphNodeOutputs.filter(({ __graph_node }) => __graph_node === nodeCode._id)
 		}),
 		emit: () => void 0
 	}
-} satisfies Meta<ReteNodeComponent>;
+};
 
-export const NodeVariable = {
+export const NodeVariable: Story = {
 	args: {
 		data: new ReteNode({
 			...nodeVariable,
-			inputs: graphNodeInputs.filter(({ __graph_node }) => __graph_node === nodeVariable._id),
-			outputs: graphNodeOutputs.filter(
-				({ __graph_node }) => __graph_node === nodeVariable._id
-			)
+			// FIXME
+			inputs: [], // graphNodeInputs.filter(({ __graph_node }) => __graph_node === nodeVariable._id),
+			outputs: []
+			// graphNodeOutputs.filter(
+			// ({ __graph_node }) => __graph_node === nodeVariable._id
+			// )
 		}),
 		emit: () => void 0
 	}
-} satisfies Meta<ReteNodeComponent>;
-
-export default {
-	component: ReteNodeComponent,
-	decorators: [moduleMetadata({ imports: [ReteNodeComponent] })],
-	title: "ReteNodeComponent"
-} satisfies Meta<ReteNodeComponent>;
+};

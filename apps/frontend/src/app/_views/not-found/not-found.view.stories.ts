@@ -1,16 +1,14 @@
-import { Meta, moduleMetadata } from "@storybook/angular";
+import type { Meta, StoryObj } from "@storybook/angular";
 
 import { NotFoundView } from "./not-found.view";
 
-export const Primary = {
-	args: {},
-	render: (args: NotFoundView) => ({
-		props: args
-	})
-};
-
-export default {
+const meta: Meta<NotFoundView> = {
 	component: NotFoundView,
-	decorators: [moduleMetadata({ imports: [NotFoundView] })],
 	title: "NotFoundView"
-} satisfies Meta<NotFoundView>;
+};
+export default meta;
+type Story = StoryObj<NotFoundView>;
+
+export const Primary: Story = {
+	args: {}
+};

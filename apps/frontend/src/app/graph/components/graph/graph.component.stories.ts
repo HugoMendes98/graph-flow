@@ -1,5 +1,5 @@
 import { action } from "@storybook/addon-actions";
-import { Meta, moduleMetadata } from "@storybook/angular";
+import type { Meta, StoryObj } from "@storybook/angular";
 import { Jsonify } from "type-fest";
 import { GraphDto } from "~/lib/common/app/graph/dtos";
 import { GraphNodeDto } from "~/lib/common/app/graph/dtos/node";
@@ -46,24 +46,9 @@ const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "actions" | "arc
 		nodes
 	};
 };
-
-export const NodeFunctionDivision = {
-	args: {
-		...getGraphContent(BASE_SEED.graph.graphs[0]),
-		readonly: false
-	} satisfies Partial<GraphComponent>
-} satisfies Meta<GraphComponent>;
-
-export const WorkflowSQL = {
-	args: {
-		...getGraphContent(BASE_SEED.graph.graphs[1])
-	} satisfies Partial<GraphComponent>
-} satisfies Meta<GraphComponent>;
-
-export default {
+const meta: Meta<GraphComponent> = {
 	component: GraphComponent,
 	decorators: [
-		moduleMetadata({ imports: [GraphComponent] }),
 		(fn, ctx) => {
 			const {
 				canvasElement: { children, id, style }
@@ -79,6 +64,15 @@ export default {
 		}
 	],
 	parameters: { layout: "fullscreen" },
-	render: args => ({ props: args }),
 	title: "GraphComponent"
-} satisfies Meta<GraphComponent>;
+};
+export default meta;
+type Story = StoryObj<GraphComponent>;
+
+export const NodeFunctionDivision: Story = {
+	args: { ...getGraphContent(BASE_SEED.graph.graphs[0]), readonly: false }
+};
+
+export const WorkflowSQL: Story = {
+	args: { ...getGraphContent(BASE_SEED.graph.graphs[1]) }
+};
