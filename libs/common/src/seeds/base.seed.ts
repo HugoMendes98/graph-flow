@@ -1049,6 +1049,8 @@ export const BASE_SEED = {
 			_updated_at: date1,
 
 			email: "admin@host.local",
+			password: "password",
+
 			firstname: null,
 			lastname: null
 		},
@@ -1059,6 +1061,8 @@ export const BASE_SEED = {
 			_updated_at: date1,
 
 			email: "john.doe@host.local",
+			password: "password",
+
 			firstname: "John",
 			lastname: "Doe"
 		},
@@ -1069,6 +1073,8 @@ export const BASE_SEED = {
 			_updated_at: date1,
 
 			email: "jane.doe@host.local",
+			password: "password",
+
 			firstname: "Jane",
 			lastname: "Doe"
 		}

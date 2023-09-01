@@ -64,12 +64,12 @@ describe("NodeService", () => {
 			return {
 				categories: await Promise.all(
 					[category1, category2].map(({ _id }) =>
-						categoryService.findById(_id, { populate: ["nodes"] })
+						categoryService.findById(_id, { populate: { nodes: true } })
 					)
 				),
 				nodes: await Promise.all(
 					[node1, node2].map(({ _id }) =>
-						service.findById(_id, { populate: ["categories"] })
+						service.findById(_id, { populate: { categories: true } })
 					)
 				)
 			};
@@ -119,8 +119,8 @@ describe("NodeService", () => {
 
 			expect(node1.categories.getItems()[0]._id).toBe(catA._id);
 
-			const cat1 = await categoryService.findById(catA._id, { populate: ["nodes"] });
-			const cat2 = await categoryService.findById(catB._id, { populate: ["nodes"] });
+			const cat1 = await categoryService.findById(catA._id, { populate: { nodes: true } });
+			const cat2 = await categoryService.findById(catB._id, { populate: { nodes: true } });
 			expect(cat1.nodes).toHaveLength(1);
 			expect(cat2.nodes).toHaveLength(0);
 
@@ -135,8 +135,8 @@ describe("NodeService", () => {
 
 			await categoryService.delete(catA._id);
 
-			const node1 = await service.findById(nodeA._id, { populate: ["categories"] });
-			const node2 = await service.findById(nodeB._id, { populate: ["categories"] });
+			const node1 = await service.findById(nodeA._id, { populate: { categories: true } });
+			const node2 = await service.findById(nodeB._id, { populate: { categories: true } });
 			expect(node1.categories).toHaveLength(1);
 			expect(node2.categories).toHaveLength(0);
 
@@ -151,8 +151,8 @@ describe("NodeService", () => {
 
 			await service.delete(nodeA._id);
 
-			const cat1 = await categoryService.findById(catA._id, { populate: ["nodes"] });
-			const cat2 = await categoryService.findById(catB._id, { populate: ["nodes"] });
+			const cat1 = await categoryService.findById(catA._id, { populate: { nodes: true } });
+			const cat2 = await categoryService.findById(catB._id, { populate: { nodes: true } });
 			expect(cat1.nodes).toHaveLength(1);
 			expect(cat2.nodes).toHaveLength(0);
 

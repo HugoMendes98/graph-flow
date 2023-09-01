@@ -43,6 +43,9 @@ export default composePlugins(withNx(), config => {
 				// In app code, use the alias instead
 				[moduleToAlias]: moduleAlias
 			}
+		},
+		watchOptions: {
+			ignored: /node_modules/
 		}
 	} satisfies typeof config);
 });

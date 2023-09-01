@@ -13,4 +13,14 @@ export class UserService extends EntityService<User, UserCreateDto, UserUpdateDt
 	public constructor(repository: UserRepository) {
 		super(repository);
 	}
+
+	/**
+	 * Searches for a user with the given credentials
+	 *
+	 * @param email The email to search
+	 * @returns the user with the given credentials
+	 */
+	public findByCredentials(email: string) {
+		return this.repository.findOneOrFail({ email }, { populate: ["password"] });
+	}
 }

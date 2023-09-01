@@ -4,14 +4,22 @@ import { DbE2eHelper } from "~/app/backend/e2e/db-e2e/db-e2e.helper";
 import { GraphHttpClient } from "~/app/backend/e2e/http/clients";
 import { GraphQueryDto } from "~/lib/common/app/graph/dtos";
 import { GRAPHS_ENDPOINT_PREFIX } from "~/lib/common/app/graph/endpoints";
+import { BASE_SEED } from "~/lib/common/seeds";
 
 describe("Backend HTTP Graphs", () => {
 	const client = new GraphHttpClient();
 
 	const dbHelper = DbE2eHelper.getHelper("base");
-	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<typeof dbHelper.db>;
+	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<typeof BASE_SEED>;
 
 	const { graphs } = db.graph;
+
+	beforeAll(async () => {
+		const [{ email, password }] = db.users;
+
+		await dbHelper.refresh();
+		await client.setAuth(email, password);
+	});
 
 	describe(`GET ${GRAPHS_ENDPOINT_PREFIX}`, () => {
 		beforeAll(() => dbHelper.refresh());

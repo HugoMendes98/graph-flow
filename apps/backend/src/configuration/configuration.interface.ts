@@ -8,6 +8,19 @@ import { PartialDeep } from "type-fest";
  */
 export interface Configuration {
 	/**
+	 * All information related to authentication, most of it for JWT.
+	 */
+	authentication: {
+		/**
+		 * The secret string for JWT
+		 */
+		secret: string;
+		/**
+		 * Timeout in seconds
+		 */
+		timeout: number;
+	};
+	/**
 	 * All information related to the database
 	 */
 	db: {

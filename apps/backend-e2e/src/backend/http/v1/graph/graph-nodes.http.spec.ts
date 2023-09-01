@@ -18,6 +18,13 @@ describe("Backend HTTP GraphNodes", () => {
 
 	const client = graphClient.forNodes(graphRef._id);
 
+	beforeAll(async () => {
+		const [{ email, password }] = db.users;
+
+		await dbHelper.refresh();
+		await client.setAuth(email, password);
+	});
+
 	describe(`GET ${generateGraphNodesEndpoint(graphRef._id)}`, () => {
 		beforeAll(() => dbHelper.refresh());
 		const sorted = graphRefNodes.slice().sort(({ _id: a }, { _id: b }) => a - b);

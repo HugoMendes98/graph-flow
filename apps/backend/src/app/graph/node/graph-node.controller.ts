@@ -24,6 +24,7 @@ import { UnshiftParameters } from "~/lib/common/types";
 
 import { GraphNode } from "./graph-node.entity";
 import { GraphNodeService } from "./graph-node.service";
+import { UseAuth } from "../../auth/auth.guard";
 import { Graph } from "../graph.entity";
 import { ApiGraphParam, GraphInterceptedParam, GraphInterceptor } from "../graph.interceptor";
 
@@ -35,6 +36,7 @@ type EndpointTransformed = {
 
 @ApiTags("Graph nodes")
 @Controller(generateGraphNodesEndpoint(`:${GraphInterceptor.PATH_PARAM}` as unknown as EntityId))
+@UseAuth()
 @UseInterceptors(GraphInterceptor)
 export class GraphNodeController implements EndpointTransformed {
 	public constructor(private readonly service: GraphNodeService) {}

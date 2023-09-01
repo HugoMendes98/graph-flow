@@ -2,6 +2,7 @@ autoincrement
 compodoc
 dockerode
 dtos
+embeddable
 endregion
 firstname
 fulltext

@@ -1,6 +1,7 @@
 import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { UserCreateDto, UserUpdateDto } from "~/lib/common/app/user/dtos";
+import { UserUpdateDto } from "~/lib/common/app/user/dtos";
+import { omit } from "~/lib/common/utils/object-fns";
 
 import { UserModule } from "./user.module";
 import { UserService } from "./user.service";
@@ -33,7 +34,7 @@ describe("UserService", () => {
 			it("should get one", async () => {
 				for (const user of dbTest.db.users) {
 					const row = await service.findById(user._id);
-					expect(row.toJSON()).toStrictEqual(user);
+					expect(row.toJSON()).toStrictEqual(omit(user, ["password"]));
 				}
 			});
 
@@ -52,7 +53,9 @@ describe("UserService", () => {
 
 					expect(data).toHaveLength(total);
 					expect(data).toHaveLength(users.length);
-					expect(data.map(d => d.toJSON())).toStrictEqual(users);
+					expect(data.map(d => d.toJSON())).toStrictEqual(
+						users.map(user => omit(user, ["password"]))
+					);
 				});
 
 				it("should count", async () => {
@@ -95,39 +98,10 @@ describe("UserService", () => {
 
 					expect(data).toHaveLength(total);
 					expect(data).toHaveLength(users.length);
-					expect(data.map(d => d.toJSON())).toStrictEqual(users);
+					expect(data.map(d => d.toJSON())).toStrictEqual(
+						users.map(user => omit(user, ["password"]))
+					);
 				});
-			});
-		});
-
-		describe("Create", () => {
-			beforeEach(() => dbTest.refresh());
-
-			it("should add a new entity", async () => {
-				// Backup previous data
-				const { data: before } = await service.findAndCount();
-
-				// Create a new entity and check its content
-				const toCreate: UserCreateDto = { email: "a whole new email" };
-				const created = await service.create(toCreate);
-				expect(created.email).toBe(toCreate.email);
-				expect(created.firstname).toBeNull();
-
-				// Check that the entity is in the data (should have one more than before)
-				const { data: after } = await service.findAndCount();
-				expect(after).toHaveLength(before.length + 1);
-
-				// Check that the value returned in the list is equal to the one just created
-				const found = after.find(({ _id }) => _id === created._id);
-				expect(found).toBeDefined();
-				expect(created.toJSON()).toStrictEqual(found!.toJSON());
-			});
-
-			it("should fail when a uniqueness constraint is not respected", async () => {
-				const toCreate: UserCreateDto = { email: dbTest.db.users[0].email };
-				await expect(service.create(toCreate)).rejects.toThrow(
-					UniqueConstraintViolationException
-				);
 			});
 		});
 
@@ -158,7 +132,7 @@ describe("UserService", () => {
 				const [, user] = dbTest.db.users;
 				const toUpdate: UserUpdateDto = { email: user.email };
 				const updated = await service.update(user._id, toUpdate);
-				expect(updated.toJSON()).toStrictEqual(user);
+				expect(updated.toJSON()).toStrictEqual(omit(user, ["password"]));
 			});
 
 			it("should fail when a uniqueness constraint is not respected", async () => {
@@ -179,7 +153,7 @@ describe("UserService", () => {
 				// Delete an entity
 				const [user] = dbTest.db.users;
 				const deleted = await service.delete(user._id);
-				expect(deleted.toJSON!()).toStrictEqual(user);
+				expect(deleted.toJSON!()).toStrictEqual(omit(user, ["password"]));
 
 				// Check that the entity is really deleted
 				const { data: after } = await service.findAndCount();

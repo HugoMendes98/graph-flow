@@ -1,6 +1,7 @@
 import { ConfigurationPartial } from "../../src/configuration";
 
 export const configTest = {
+	authentication: { timeout: 60 * 60 * 24 },
 	db: {
 		host: "127.0.0.1",
 		name: "_db-test",

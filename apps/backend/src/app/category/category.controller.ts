@@ -11,12 +11,14 @@ import { CATEGORIES_ENDPOINT_PREFIX, CategoryEndpoint } from "~/lib/common/app/c
 
 import { Category } from "./category.entity";
 import { CategoryService } from "./category.service";
+import { UseAuth } from "../auth/auth.guard";
 
 /**
  * The main controller for [categories]{@link CategoryDto}.
  */
 @ApiTags("Categories")
 @Controller(CATEGORIES_ENDPOINT_PREFIX)
+@UseAuth()
 export class CategoryController implements CategoryEndpoint<Category> {
 	public constructor(private readonly service: CategoryService) {}
 
