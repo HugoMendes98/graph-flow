@@ -1,6 +1,6 @@
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import cookieParser from "cookie-parser";
+import * as cookieParser from "cookie-parser";
 import { Writable } from "type-fest";
 import { authOptions } from "~/lib/common/options";
 
@@ -25,7 +25,7 @@ export async function bootstrap() {
 	});
 
 	const { globalPrefix } = config.host;
-	app.use(cookieParser())
+	app.use(cookieParser.default())
 		.useGlobalPipes(new AppValidationPipe())
 		.setGlobalPrefix(globalPrefix)
 		.enableShutdownHooks();

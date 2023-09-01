@@ -23,7 +23,6 @@ import { UnshiftParameters } from "~/lib/common/types";
 
 import { GraphArc } from "./graph-arc.entity";
 import { GraphArcService } from "./graph-arc.service";
-import { EntityRelationKeysDeep } from "../../_lib/entity";
 import { UseAuth } from "../../auth/auth.guard";
 import { Graph } from "../graph.entity";
 import { ApiGraphParam, GraphInterceptedParam, GraphInterceptor } from "../graph.interceptor";
@@ -90,24 +89,26 @@ export class GraphArcController implements EndpointTransformed {
 		return this.validateArcId(graph, id).then(({ _id }) => this.service.delete(_id));
 	}
 
+	/**
+	 * Determines if the graph contains the arc that is being manipulated
+	 *
+	 * @param graph the graph on which the arc should be present
+	 * @param id of the arc
+	 * @returns the found arc
+	 */
 	private validateArcId(graph: Graph, id: number): Promise<GraphArc> {
-		// Determine if the graph contains the arc that is being manipulated
-		const relations: Array<EntityRelationKeysDeep<GraphArc>> = [
-			"from.graphNode",
-			"to.graphNode"
-		];
+		return this.service
+			.findById(id, { populate: { from: { graphNode: true }, to: { graphNode: true } } })
+			.then(arc => {
+				const [fromGraph, toGraph] = [arc.from.graphNode.__graph, arc.to.graphNode.__graph];
 
-		return this.service.findById(id, { populate: relations as never }).then(arc => {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Exist through the `relations` variable
-			const [fromGraph, toGraph] = [arc.from.graphNode!.__graph, arc.to.graphNode!.__graph];
+				if (graph._id !== fromGraph || fromGraph !== toGraph) {
+					throw new NotFoundException(
+						`No GraphArc{id:${id}} found in graph{id:${graph._id}}`
+					);
+				}
 
-			if (graph._id !== fromGraph || fromGraph !== toGraph) {
-				throw new NotFoundException(
-					`No GraphArc{id:${id}} found in graph{id:${graph._id}}`
-				);
-			}
-
-			return arc;
-		});
+				return arc;
+			});
 	}
 }

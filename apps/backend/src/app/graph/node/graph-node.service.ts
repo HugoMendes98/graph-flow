@@ -5,6 +5,7 @@ import { GraphNodeCreateDto, GraphNodeUpdateDto } from "~/lib/common/app/graph/d
 import { GraphNodeInputCreateDto } from "~/lib/common/app/graph/dtos/node/input";
 import { GraphNodeOutputCreateDto } from "~/lib/common/app/graph/dtos/node/output";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
+import { EntitiesToPopulate } from "~/lib/common/endpoints";
 
 import {
 	GraphNodeTriggerInFunctionException,
@@ -14,7 +15,7 @@ import { GraphNode } from "./graph-node.entity";
 import { GraphNodeRepository } from "./graph-node.repository";
 import { GraphNodeInput } from "./input";
 import { GraphNodeOutput } from "./output";
-import { EntityRelationKeys, EntityService, EntityServiceCreateOptions } from "../../_lib/entity";
+import { EntityService, EntityServiceCreateOptions } from "../../_lib/entity";
 import { NodeService } from "../../node/node.service";
 import { Graph } from "../graph.entity";
 import { GraphService } from "../graph.service";
@@ -68,7 +69,7 @@ export class GraphNodeService
 		// TODO: A way to add custom relation in the EntityRelationsKey?
 		const behaviorRelation: keyof Graph = "nodeBehavior";
 		const { nodeBehavior, workflow } = await this.graphService.findById(__graph, {
-			populate: [behaviorRelation as never, "workflow"]
+			populate: { [behaviorRelation]: true, workflow: true }
 		});
 
 		if (nodeBehavior) {
@@ -89,12 +90,12 @@ export class GraphNodeService
 	/**
 	 * @inheritDoc
 	 */
-	public override async create<P extends EntityRelationKeys<GraphNode>>(
+	public override async create<P extends EntitiesToPopulate<GraphNode>>(
 		toCreate: GraphNodeCreate,
 		options?: EntityServiceCreateOptions<GraphNode, P>
 	) {
 		const { inputs, name, outputs } = await this.nodeService.findById(toCreate.__node, {
-			populate: ["inputs", "outputs"]
+			populate: { inputs: true, outputs: true }
 		});
 
 		const { _id } = await this.repository.getEntityManager().transactional(async em => {

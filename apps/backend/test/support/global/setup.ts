@@ -1,6 +1,5 @@
 import Dockerode = require("dockerode");
 import { Config } from "jest";
-import { Stream } from "stream";
 
 import { LoggerTest } from "./logger-test";
 import { configTest } from "../config.test";
@@ -40,7 +39,7 @@ export async function globalSetup(logger: LoggerTest) {
 
 	logger.log(`Pulling image '${imageTag}'`);
 	await new Promise<void>(resolve => {
-		void docker.pull(imageTag, (_, stream: Stream) => {
+		void docker.pull(imageTag, (_, stream: NodeJS.ReadableStream) => {
 			docker.modem.followProgress(
 				stream,
 				() => {
