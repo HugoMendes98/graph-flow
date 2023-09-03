@@ -1,0 +1,36 @@
+<mat-card>
+	<mat-card-header class="m-4">
+		<mat-card-title class="mat-body text-3xl" translate>components.login.title</mat-card-title>
+	</mat-card-header>
+
+	<mat-card-content>
+		<form class="flex flex-col gap-2" (ngSubmit)="login.next(form.getRawValue())">
+			<mat-form-field>
+				<mat-label translate>entities.user.email</mat-label>
+				<input matInput name="email" type="email" [formControl]="form.controls.email" />
+				<mat-error>{{ form.controls.email.errors | translateControlError }}</mat-error>
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label translate>entities.user.password</mat-label>
+				<input
+					matInput
+					name="password"
+					type="password"
+					[formControl]="form.controls.password"
+				/>
+				<mat-error>{{ form.controls.password.errors | translateControlError }}</mat-error>
+			</mat-form-field>
+
+			<button color="primary" mat-raised-button type="submit" [disabled]="form.invalid">
+				{{ "actions.login" | translate }}
+			</button>
+			<mat-progress-bar *ngIf="loading" mode="query" />
+
+			<mat-error *ngIf="error" class="align-i-center flex flex-row gap-2 mx-4 my-2">
+				<mat-icon>error_outline</mat-icon>
+				<span>{{ errorMessage(error) | async }}</span>
+			</mat-error>
+		</form>
+	</mat-card-content>
+</mat-card>

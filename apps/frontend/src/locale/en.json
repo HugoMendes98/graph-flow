@@ -1,1 +1,24 @@
-{}
+{
+	"actions": {
+		"login": "Login"
+	},
+	"components": {
+		"login": {
+			"login-fail": "The identification failed.",
+			"title": "Login"
+		}
+	},
+	"entities": {
+		"user": {
+			"email": "Email",
+			"password": "Password"
+		}
+	},
+	"errors": {
+		"http": {
+			"400": "The request is mal-formed.",
+			"500": "A server error occurred.",
+			"generic": "A network error occurred."
+		}
+	}
+}
