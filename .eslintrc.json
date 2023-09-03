@@ -328,6 +328,13 @@
 			"rules": {
 				"unicorn/filename-case": "off"
 			}
+		},
+		{
+			"files": ["*.ts", "*.js"],
+			"rules": {
+				/* FIXME: There's a plugin that disables that rule */
+				"curly": ["error", "all"]
+			}
 		}
 	],
 	"plugins": [

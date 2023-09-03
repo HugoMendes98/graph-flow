@@ -20,5 +20,14 @@
 			"500": "A server error occurred.",
 			"generic": "A network error occurred."
 		}
+	},
+	"views": {
+		"login": {
+			"being-redirected": "You are being redirected.",
+			"hello-user": {
+				"1": "Hello ",
+				"2": "!"
+			}
+		}
 	}
 }

@@ -43,3 +43,8 @@ export type RequestState<T, E = HttpErrorResponse> =
 	| (RequestFailed<T, E> & { state: "failed" })
 	| (RequestLoading<T, E> & { state: "loading" })
 	| (RequestSucceed<T> & { state: "success" });
+
+/**
+ * The possible type for the state of a {@link RequestState}
+ */
+export type RequestStateState = RequestState<never>["state"];

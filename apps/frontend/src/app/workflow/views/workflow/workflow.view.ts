@@ -5,7 +5,7 @@ import { EntityId } from "~/lib/common/dtos/entity";
 import { ApiModule } from "~/lib/ng/lib/api";
 import { GraphApiService } from "~/lib/ng/lib/api/graph-api/graph.api.service";
 import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
-import { RequestStateSubject } from "~/lib/ng/lib/request-state/request.state.subject";
+import { RequestStateSubject } from "~/lib/ng/lib/request-state/request-state.subject";
 
 import {
 	GraphActions,

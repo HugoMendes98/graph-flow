@@ -1,17 +1,23 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
 
-import { RequestState } from "./request.state";
+import { RequestState } from "./request-state";
+import { getRequestStateSnapshot, RequestStateWithSnapshot } from "./request-state.snapshot";
 
 /**
  * An observable of the state of any async request.
  *
  * It splits the error into a field to be more easily used in template
  */
-export class RequestStateSubject<T, E, ARGS extends readonly unknown[]>
-	extends Observable<RequestState<T, E>>
-	implements Pick<BehaviorSubject<RequestState<T, E>>, "getValue">
+export class RequestStateSubject<T, E = HttpErrorResponse, ARGS extends readonly unknown[] = never>
+	extends Observable<RequestStateWithSnapshot<T, E>>
+	implements Pick<BehaviorSubject<RequestStateWithSnapshot<T, E>>, "getValue">
 {
-	private readonly subject = new BehaviorSubject<RequestState<T, E>>({ state: "init" });
+	private readonly subject = new BehaviorSubject<RequestStateWithSnapshot<T, E>>(
+		this.getRequestWithSnapshot({
+			state: "init"
+		})
+	);
 
 	/**
 	 * Create a {@link RequestStateSubject}
@@ -34,17 +40,17 @@ export class RequestStateSubject<T, E, ARGS extends readonly unknown[]>
 	 */
 	public async request(...args: ARGS) {
 		const previous = this.getValue();
-		this.subject.next({
+		this.next({
 			...(previous.state === "init" ? { error: false } : previous),
 			state: "loading"
 		});
 
 		try {
 			const result = await this.fn(...args);
-			this.subject.next({ data: result, error: false, state: "success" });
+			this.next({ data: result, error: false, state: "success" });
 			return result;
 		} catch (exception: unknown) {
-			this.subject.next({ ...previous, error: exception as E, state: "failed" });
+			this.next({ ...previous, error: exception as E, state: "failed" });
 			throw exception;
 		}
 	}
@@ -52,7 +58,14 @@ export class RequestStateSubject<T, E, ARGS extends readonly unknown[]>
 	/**
 	 * @inheritDoc
 	 */
-	public getValue(): RequestState<T, E> {
+	public getValue() {
 		return this.subject.getValue();
+	}
+
+	private getRequestWithSnapshot(state: RequestState<T, E>): RequestStateWithSnapshot<T, E> {
+		return { ...state, snapshot: getRequestStateSnapshot(state) };
+	}
+	private next(state: RequestState<T, E>) {
+		this.subject.next(this.getRequestWithSnapshot(state));
 	}
 }
