@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/angular";
 import { expect } from "@storybook/jest";
-import { userEvent, within } from "@storybook/testing-library";
+import { userEvent } from "@storybook/testing-library";
 
 import { LoginCardComponent } from "./login-card.component";
 
@@ -18,11 +18,9 @@ export const Primary: Story = {
 export const TestButtonDisabled: Story = {
 	args: {},
 	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-
 		const txtEmail = canvasElement.querySelector("[name=email]")!;
 		const txtPassword = canvasElement.querySelector("[name=password]")!;
-		const btnLogin = canvas.getByRole<HTMLButtonElement>("button");
+		const btnLogin = canvasElement.querySelector<HTMLButtonElement>("button[type=submit]")!;
 
 		expect(btnLogin.disabled).toBe(true);
 

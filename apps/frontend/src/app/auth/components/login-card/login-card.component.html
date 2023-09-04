@@ -16,9 +16,21 @@
 				<input
 					matInput
 					name="password"
-					type="password"
 					[formControl]="form.controls.password"
+					[readonly]="showPassword"
+					[type]="showPassword ? 'text' : 'password'"
 				/>
+
+				<button
+					mat-icon-button
+					matIconSuffix
+					type="button"
+					(pointerdown)="showPassword = true"
+				>
+					<mat-icon *ngIf="showPassword">visibility_off</mat-icon>
+					<mat-icon *ngIf="!showPassword">visibility</mat-icon>
+				</button>
+
 				<mat-error>{{ form.controls.password.errors | translateControlError }}</mat-error>
 			</mat-form-field>
 

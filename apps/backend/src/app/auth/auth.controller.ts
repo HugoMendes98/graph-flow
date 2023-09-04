@@ -74,7 +74,9 @@ export class AuthController implements AuthEndpoint {
 			if (body.cookie) {
 				res.cookie(authOptions.cookies.name, token.access_token, {
 					expires: new Date(token.expires_at),
-					httpOnly: true
+					httpOnly: true,
+					sameSite: "none",
+					secure: true
 				});
 			}
 

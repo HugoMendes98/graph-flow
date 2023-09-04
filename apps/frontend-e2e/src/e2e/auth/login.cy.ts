@@ -5,7 +5,7 @@ describe("Auth login", () => {
 	const dbHelper = DbE2eHelper.getHelper("base");
 	const db = dbHelper.db as typeof BASE_SEED;
 
-	before(async () => dbHelper.refresh());
+	before(() => dbHelper.refresh());
 
 	beforeEach(() => {
 		cy.clearCookies();
@@ -36,15 +36,19 @@ describe("Auth login", () => {
 	});
 
 	/* ==== Test Created with Cypress Studio ==== */
-	it("should login and redirect to default", function () {
+	it("should login and redirect to default", () => {
 		/* ==== Generated with Cypress Studio ==== */
 		const [{ email, password }] = db.users;
 
 		cy.get("#mat-input-0").type(email);
 		cy.get("#mat-input-1").type(password);
-		cy.get(".mdc-button").click();
-		/* ==== End Cypress Studio ==== */
 
+		cy.get(".mdc-button").click();
+		cy.get(".mat-mdc-card-title").should("contain.text", `Hello ${email}!`);
+		// /* ==== End Cypress Studio ==== */
+
+		// eslint-disable-next-line cypress/no-unnecessary-waiting -- Wait for redirection
+		cy.wait(1000);
 		cy.location("pathname").should("eq", "/");
 	});
 });
