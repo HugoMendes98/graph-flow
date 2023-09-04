@@ -9,6 +9,11 @@ export class TranslationControlErrorPipe implements PipeTransform, OnDestroy {
 	private value = "";
 	private subscription?: Subscription;
 
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param service injected
+	 */
 	public constructor(private readonly service: TranslationService) {}
 
 	/**

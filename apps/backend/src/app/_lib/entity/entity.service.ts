@@ -44,6 +44,9 @@ export type EntityLoaded<
 	P extends EntitiesToPopulate<T> = never
 > = EntityPopulated<T, P> & Required<Pick<T, "toJSON">>;
 
+/**
+ * Base service to manage entities
+ */
 export abstract class EntityService<
 	T extends EntityBase,
 	ToCreate,

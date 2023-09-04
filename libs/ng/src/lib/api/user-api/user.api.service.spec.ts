@@ -1,15 +1,14 @@
 import { TestBed } from "@angular/core/testing";
 
 import { UserApiService } from "./user.api.service";
-import { ApiClient } from "../api.client";
+import { ApiModule } from "../api.module";
 
 describe("UserApiService", () => {
 	let service: UserApiService;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			imports: [ApiClient],
-			providers: [UserApiService]
+			imports: [ApiModule.forRoot({ client: { url: "" } })]
 		});
 		service = TestBed.inject(UserApiService);
 	});

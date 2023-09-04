@@ -46,6 +46,12 @@ export class LoginView implements OnInit, OnDestroy {
 
 	private readonly subscription = new Subscription();
 
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param service injected
+	 * @param router injected
+	 */
 	public constructor(private readonly service: AuthApiService, private readonly router: Router) {}
 
 	/** @inheritDoc */

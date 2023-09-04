@@ -7,6 +7,11 @@ import { Observable, of } from "rxjs";
 export class TranslationService {
 	// TODO: use this to translate api data
 
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param translate injected
+	 */
 	public constructor(private readonly translate: TranslateService) {}
 
 	/**

@@ -15,6 +15,11 @@ export class AuthApiService implements AuthEndpoint {
 	 */
 	private readonly entrypoint = AUTH_ENDPOINT_PREFIX;
 
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param client injected
+	 */
 	public constructor(private readonly client: ApiClient) {}
 
 	/**

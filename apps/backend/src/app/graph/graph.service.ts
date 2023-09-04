@@ -12,6 +12,11 @@ import { EntityService } from "../_lib/entity";
 export class GraphService extends EntityService<Graph, Record<string, never>, unknown> {
 	// TODO: update types
 
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param repository injected
+	 */
 	public constructor(repository: GraphRepository) {
 		super(repository);
 	}

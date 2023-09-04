@@ -21,6 +21,12 @@ export class GraphArcService
 	extends EntityService<GraphArc, GraphArcCreateDto, Record<string, never>>
 	implements EventSubscriber<GraphArc>
 {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param repository injected
+	 * @param graphNodeService injected
+	 */
 	public constructor(
 		repository: GraphArcRepository,
 		private readonly graphNodeService: GraphNodeService

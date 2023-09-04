@@ -12,6 +12,12 @@ import { GraphService } from "../graph/graph.service";
  */
 @Injectable()
 export class WorkflowService extends EntityService<Workflow, WorkflowCreateDto, WorkflowUpdateDto> {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param repository injected
+	 * @param graphService injected
+	 */
 	public constructor(
 		repository: WorkflowRepository,
 		private readonly graphService: GraphService
@@ -19,6 +25,9 @@ export class WorkflowService extends EntityService<Workflow, WorkflowCreateDto, 
 		super(repository);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public override delete(id: EntityId): Promise<Workflow> {
 		return this.findById(id, { populate: { graph: true } }).then(async entity => {
 			// Cascade integrity -> deleting the graph deletes the workflow

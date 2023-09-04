@@ -5,6 +5,9 @@ import { NodeController } from "./node.controller";
 import { NODE_ENTITIES } from "./node.entities";
 import { NodeService } from "./node.service";
 
+/**
+ * Module for "node" management
+ */
 @Module({
 	controllers: [NodeController],
 	exports: [NodeService],

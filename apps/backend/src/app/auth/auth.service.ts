@@ -8,6 +8,9 @@ import { JWTPayload } from "./auth.types";
 import { User } from "../user/user.entity";
 import { UserService } from "../user/user.service";
 
+/**
+ * Service managing authentication
+ */
 @Injectable()
 export class AuthService {
 	/**
@@ -31,6 +34,12 @@ export class AuthService {
 		return bcryptjs.hash(password, 9 + Math.round(Math.random() * 3));
 	}
 
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param jwtService injected
+	 * @param userService injected
+	 */
 	public constructor(
 		private readonly jwtService: JwtService,
 		private readonly userService: UserService

@@ -8,6 +8,9 @@ import { JwtStrategy, LocalStrategy } from "./strategies";
 import { getConfiguration } from "../../configuration";
 import { UserModule } from "../user/user.module";
 
+/**
+ * Module for authentication management
+ */
 @Module({
 	controllers: [AuthController],
 	imports: [

@@ -30,6 +30,14 @@ export class GraphNodeService
 	extends EntityService<GraphNode, GraphNodeCreate, GraphNodeUpdateDto>
 	implements EventSubscriber<GraphNode>
 {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param repository injected
+	 * @param entityManager injected
+	 * @param graphService injected
+	 * @param nodeService injected
+	 */
 	public constructor(
 		repository: GraphNodeRepository,
 		entityManager: EntityManager,

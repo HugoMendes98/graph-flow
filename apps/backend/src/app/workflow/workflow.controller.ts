@@ -26,35 +26,46 @@ import { GraphService } from "../graph/graph.service";
 @Controller(WORKFLOWS_ENDPOINT_PREFIX)
 @UseAuth()
 export class WorkflowController implements WorkflowEndpoint<Workflow> {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param service injected
+	 * @param graphService injected
+	 */
 	public constructor(
 		private readonly service: WorkflowService,
 		private readonly graphService: GraphService
 	) {}
 
+	/** @inheritDoc */
 	@ApiOkResponse({ type: WorkflowResultsDto })
 	@Get()
 	public findAndCount(@Query() { where, ...params }: WorkflowQueryDto) {
 		return this.service.findAndCount(where, params);
 	}
 
+	/** @inheritDoc */
 	@ApiOkResponse({ type: WorkflowDto })
 	@Get("/:id")
 	public findById(@Param("id") id: number) {
 		return this.service.findById(id);
 	}
 
+	/** @inheritDoc */
 	@ApiCreatedResponse({ type: WorkflowDto })
 	@Post()
 	public create(@Body() body: WorkflowCreateDto) {
 		return this.service.create(body);
 	}
 
+	/** @inheritDoc */
 	@ApiOkResponse({ type: WorkflowDto })
 	@Patch("/:id")
 	public update(@Param("id") id: number, @Body() body: WorkflowUpdateDto) {
 		return this.service.update(id, body);
 	}
 
+	/** @inheritDoc */
 	@ApiOkResponse({ type: WorkflowDto })
 	@Delete("/:id")
 	public delete(@Param("id") id: number) {

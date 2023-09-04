@@ -26,6 +26,11 @@ declare global {
 @ApiTags("Auth")
 @Controller(AUTH_ENDPOINT_PREFIX)
 export class AuthController implements AuthEndpoint {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param service injected
+	 */
 	public constructor(private readonly service: AuthService) {}
 
 	/**

@@ -7,6 +7,9 @@ import { Graph } from "../graph/graph.entity";
  * The repository to manage [workflows]{@link Workflow}.
  */
 export class WorkflowRepository extends EntityRepository<Workflow> {
+	/**
+	 * @inheritDoc
+	 */
 	public override create(data: RequiredEntityData<Workflow>, options?: CreateOptions): Workflow {
 		if (data.__graph && data.graph) {
 			return super.create(data, options);

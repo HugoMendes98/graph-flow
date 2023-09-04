@@ -1,3 +1,6 @@
+/**
+ * Response for a login success
+ */
 export class AuthSuccessDto {
 	// As a class for swagger
 

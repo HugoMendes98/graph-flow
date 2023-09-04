@@ -20,32 +20,42 @@ import { UseAuth } from "../auth/auth.guard";
 @Controller(NODES_ENDPOINT_PREFIX)
 @UseAuth()
 export class NodeController implements NodeEndpoint<Node> {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param service injected
+	 */
 	public constructor(private readonly service: NodeService) {}
 
+	/** @inheritDoc */
 	@ApiOkResponse({ type: NodeResultsDto })
 	@Get()
 	public findAndCount(@Query() { where, ...params }: NodeQueryDto) {
 		return this.service.findAndCount(where, params);
 	}
 
+	/** @inheritDoc */
 	@ApiOkResponse({ type: NodeDto })
 	@Get("/:id")
 	public findById(@Param("id") id: number) {
 		return this.service.findById(id);
 	}
 
+	/** @inheritDoc */
 	@ApiCreatedResponse({ type: NodeDto })
 	@Post()
 	public create(@Body() body: NodeCreateDto) {
 		return this.service.create(body);
 	}
 
+	/** @inheritDoc */
 	@ApiOkResponse({ type: NodeDto })
 	@Patch("/:id")
 	public update(@Param("id") id: number, @Body() body: NodeUpdateDto) {
 		return this.service.update(id, body);
 	}
 
+	/** @inheritDoc */
 	@ApiOkResponse({ type: NodeDto })
 	@Delete("/:id")
 	public delete(@Param("id") id: number) {

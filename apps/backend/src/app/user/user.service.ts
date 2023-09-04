@@ -10,6 +10,11 @@ import { EntityService } from "../_lib/entity";
  */
 @Injectable()
 export class UserService extends EntityService<User, UserCreateDto, UserUpdateDto> {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param repository injected
+	 */
 	public constructor(repository: UserRepository) {
 		super(repository);
 	}

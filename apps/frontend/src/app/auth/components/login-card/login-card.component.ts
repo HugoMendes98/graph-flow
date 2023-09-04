@@ -71,6 +71,11 @@ export class LoginCardComponent {
 	 */
 	protected showPassword = false;
 
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param translateService injected
+	 */
 	public constructor(private readonly translateService: TranslateService) {}
 
 	/**

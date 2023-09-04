@@ -47,12 +47,19 @@ class DtoStorage {
 	}
 
 	/**
+	 * Gets the properties for a given class
+	 *
 	 * @param source The object to look for registered properties
+	 * @throws DtoError when the source is undefined
 	 * @returns The know properties of the given class
 	 */
 	public getPropertyKeys(source: Type<unknown>): Set<DtoPropertyKey> {
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Can happen when reading a class with circular import.
 		if (source === null || source === undefined) {
-			throw new DtoError("Can not get the property of an `null` or `undefined` source");
+			throw new DtoError(
+				"Can not get the property of an `null` or `undefined` source." +
+					"Does the class have a circular dependence?"
+			);
 		}
 
 		// The current one is the newest ancestor

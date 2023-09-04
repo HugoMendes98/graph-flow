@@ -1,12 +1,12 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 
 import { API_CLIENT_CONFIG_TOKEN, ApiClient, ApiClientConfig } from "./api.client";
-import { AuthApiModule } from "./auth-api";
-import { CategoryApiModule } from "./category-api";
-import { GraphApiModule } from "./graph-api";
-import { NodeApiModule } from "./node-api";
-import { UserApiModule } from "./user-api";
-import { WorkflowApiModule } from "./workflow-api";
+import { AuthApiService } from "./auth-api";
+import { CategoryApiService } from "./category-api";
+import { GraphApiService } from "./graph-api";
+import { NodeApiService } from "./node-api";
+import { UserApiService } from "./user-api";
+import { WorkflowApiService } from "./workflow-api";
 
 export interface ApiModuleConfig {
 	/**
@@ -16,14 +16,14 @@ export interface ApiModuleConfig {
 }
 
 @NgModule({
-	imports: [
-		ApiClient,
-		AuthApiModule,
-		CategoryApiModule,
-		GraphApiModule,
-		NodeApiModule,
-		UserApiModule,
-		WorkflowApiModule
+	imports: [ApiClient],
+	providers: [
+		AuthApiService,
+		CategoryApiService,
+		GraphApiService,
+		NodeApiService,
+		UserApiService,
+		WorkflowApiService
 	]
 })
 export class ApiModule {

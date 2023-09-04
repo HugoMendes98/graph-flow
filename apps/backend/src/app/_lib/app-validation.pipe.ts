@@ -14,6 +14,11 @@ import { transformOptions, validatorOptions } from "~/lib/common/options";
  */
 @Injectable()
 export class AppValidationPipe extends ValidationPipe {
+	/**
+	 * Creates the pipe
+	 *
+	 * @param options for validation
+	 */
 	public constructor(options?: ValidationPipeOptions) {
 		super(
 			deepmerge(

@@ -6,10 +6,13 @@ import {
 	HttpParams,
 	HttpResponse
 } from "@angular/common/http";
-import { Inject, NgModule, Optional } from "@angular/core";
+import { Inject, NgModule } from "@angular/core";
 import { lastValueFrom, tap } from "rxjs";
 import { HttpMethod } from "~/lib/common/http";
 
+/**
+ * Configuration for the {@link ApiClient}
+ */
 export interface ApiClientConfig {
 	/**
 	 * Base url to the server api, should not end with `/`.
@@ -41,16 +44,24 @@ export interface RequestOptions {
 	reportProgress?: boolean;
 }
 
+/**
+ * {@link HttpClient} "extension" to contact the HTTP API
+ */
 @NgModule({
 	exports: [HttpClientModule],
 	imports: [HttpClientModule]
 })
 export class ApiClient {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param http injected
+	 * @param config injected
+	 */
 	public constructor(
 		public readonly http: HttpClient,
 		@Inject(API_CLIENT_CONFIG_TOKEN)
-		@Optional()
-		private readonly config: ApiClientConfig = { url: "/api" }
+		private readonly config: ApiClientConfig
 	) {}
 
 	/**
