@@ -1,20 +1,20 @@
+import { Singleton } from "@heap-code/singleton";
 import axios from "axios";
-import { MockedDb } from "~/app/backend/app/orm/seeders/_lib/mocked-db.seeder";
-import { DB_BASE_SEED } from "~/app/backend/app/orm/seeders/seeds";
 import { DbTestHelper, DbTestSample } from "~/app/backend/test/db-test";
 import { configTest } from "~/app/backend/test/support/config.test";
-import { Singleton } from "~/app/common/utils/singleton";
+import { BASE_SEED, EMPTY_SEED, MockSeed } from "~/lib/common/seeds";
 
 import { E2E_ENDPOINT_DB_SEEDING, E2eEndpointDbSeedingBody } from "../e2e.endpoints";
 
 const { name, port } = configTest.host;
 const baseURL = `http://${name}:${port}`;
 
-const dbSamples: Record<DbTestSample, MockedDb> = {
-	base: DB_BASE_SEED
+const dbSamples: Record<DbTestSample, MockSeed> = {
+	base: BASE_SEED,
+	empty: EMPTY_SEED
 };
 
-export class DbE2eHelper implements Omit<DbTestHelper, "close"> {
+export class DbE2eHelper implements Omit<DbTestHelper, "close" | "transformTo"> {
 	private static readonly helpers = new Map(
 		Object.entries(dbSamples).map(([sample, db]) => [
 			sample,
@@ -27,7 +27,7 @@ export class DbE2eHelper implements Omit<DbTestHelper, "close"> {
 		return this.helpers.get(sample)!.get();
 	}
 
-	protected constructor(private readonly sample: DbTestSample, public readonly db: MockedDb) {}
+	protected constructor(private readonly sample: DbTestSample, public readonly db: MockSeed) {}
 
 	public async refresh(): Promise<void> {
 		return axios.get(E2E_ENDPOINT_DB_SEEDING, {

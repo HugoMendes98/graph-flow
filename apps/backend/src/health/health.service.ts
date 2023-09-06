@@ -28,6 +28,13 @@ export class HealthService {
 		}
 	} as const;
 
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param heath injected
+	 * @param db injected
+	 * @param memory injected
+	 */
 	public constructor(
 		private readonly heath: HealthCheckService,
 		private readonly db: MikroOrmHealthIndicator,

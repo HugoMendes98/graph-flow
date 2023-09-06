@@ -6,11 +6,24 @@ import {
 	HttpParams,
 	HttpResponse
 } from "@angular/common/http";
-import { NgModule } from "@angular/core";
+import { Inject, NgModule } from "@angular/core";
 import { lastValueFrom, tap } from "rxjs";
-import { HttpMethod } from "~/app/common/http";
+import { HttpMethod } from "~/lib/common/http";
 
-import { environment } from "../../environments/environment";
+/**
+ * Configuration for the {@link ApiClient}
+ */
+export interface ApiClientConfig {
+	/**
+	 * Base url to the server api, should not end with `/`.
+	 */
+	url: string;
+}
+
+/**
+ * The API client provider  token
+ */
+export const API_CLIENT_CONFIG_TOKEN = "_API_CLIENT_CONFIG_";
 
 /**
  * Request options
@@ -31,27 +44,41 @@ export interface RequestOptions {
 	reportProgress?: boolean;
 }
 
+/**
+ * {@link HttpClient} "extension" to contact the HTTP API
+ */
 @NgModule({
 	exports: [HttpClientModule],
 	imports: [HttpClientModule]
 })
 export class ApiClient {
 	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param http injected
+	 * @param config injected
+	 */
+	public constructor(
+		public readonly http: HttpClient,
+		@Inject(API_CLIENT_CONFIG_TOKEN)
+		private readonly config: ApiClientConfig
+	) {}
+
+	/**
 	 * "Construct" the url to connect with API backend
 	 *
 	 * @param endpoint the endpoint to concat (suppose to start with `/`)
 	 * @returns the final url
 	 */
-	public static getURL(endpoint?: string): string {
-		let url = `${environment.backend.url}/api`;
+	public getURL(endpoint?: string): string {
+		const { url } = this.config;
+
 		if (endpoint) {
-			url += endpoint;
+			return `${url}${endpoint}`;
 		}
 
 		return url;
 	}
-
-	public constructor(public readonly http: HttpClient) {}
 
 	/**
 	 * GET request
@@ -126,7 +153,7 @@ export class ApiClient {
 	): Promise<T> {
 		const { observeEvent, ...reqOptions } = options;
 
-		let request = this.http.request(method, ApiClient.getURL(endpoint), {
+		let request = this.http.request(method, this.getURL(endpoint), {
 			...reqOptions,
 			observe: observeEvent ? "events" : "body"
 		});

@@ -13,8 +13,8 @@
 					"extractLicenses": false,
 					"fileReplacements": [
 						{
-							"replace": "apps/frontend/src/app/router/app-router.module.ts",
-							"with": "apps/frontend/src/app/router/app-router.module.dev.ts"
+							"replace": "apps/frontend/src/lib/router/app-router.module.ts",
+							"with": "apps/frontend/src/lib/router/app-router.module.dev.ts"
 						}
 					],
 					"namedChunks": true,
@@ -42,8 +42,8 @@
 					"extractLicenses": false,
 					"fileReplacements": [
 						{
-							"replace": "libs/ng/src/environments/environment.ts",
-							"with": "libs/ng/src/environments/environment.e2e.ts"
+							"replace": "apps/frontend/src/environments/environment.ts",
+							"with": "apps/frontend/src/environments/environment.e2e.ts"
 						}
 					],
 					"namedChunks": true,
@@ -120,6 +120,7 @@
 		"storybook-build": {
 			"configurations": {
 				"ci": {
+					"open": false,
 					"quiet": true
 				}
 			},
@@ -140,6 +141,14 @@
 			},
 			"outputs": ["{options.outputDir}"]
 		},
+		"storybook-test": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "test-storybook -c apps/frontend/.storybook --url=http://localhost:4040",
+				"parallel": true,
+				"readyWhen": "123-321"
+			}
+		},
 		"stylelint": {
 			"executor": "nx-stylelint:lint",
 			"options": {
@@ -152,7 +161,8 @@
 			"configurations": {
 				"ci": {
 					"ci": true,
-					"codeCoverage": true
+					"coverageDirectory": "./coverage/apps/frontend",
+					"coverageReporters": ["text", "json-summary"]
 				}
 			},
 			"executor": "@nx/jest:jest",

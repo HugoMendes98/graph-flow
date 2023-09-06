@@ -1,1 +1,10 @@
-{}
+{
+	"errors": {
+		"validation": {
+			"email": "The value is not a valid email.",
+			"invalid": "The value is invalid.",
+			"minlength": "Minimum of {{ requiredLength }} characters required.",
+			"required": "The value is required."
+		}
+	}
+}

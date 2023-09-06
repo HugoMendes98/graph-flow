@@ -3,6 +3,7 @@
 		"eslint:recommended",
 		"plugin:eslint-comments/recommended",
 		"plugin:storybook/recommended",
+		"plugin:sort-decorators/strict",
 		"plugin:typescript-sort-keys/recommended"
 	],
 	"overrides": [
@@ -88,7 +89,7 @@
 					}
 				],
 				"jsdoc/no-undefined-types": "off",
-				/* Hyphen is considerd as a bullet point in compodoc */
+				/* Hyphen is considered as a bullet point in compodoc */
 				"jsdoc/require-hyphen-before-param-description": ["error", "never"],
 				"jsdoc/require-throws": "warn",
 				"jsdoc/tag-lines": [
@@ -186,6 +187,17 @@
 						}
 					}
 				],
+				"@typescript-eslint/naming-convention": [
+					"error",
+					{
+						"format": ["PascalCase"],
+						"selector": "enum"
+					},
+					{
+						"format": ["UPPER_CASE"],
+						"selector": "enumMember"
+					}
+				],
 				"@typescript-eslint/no-confusing-non-null-assertion": "error",
 				"@typescript-eslint/no-confusing-void-expression": [
 					"error",
@@ -214,6 +226,9 @@
 				"@typescript-eslint/no-redundant-type-constituents": "error",
 				"@typescript-eslint/no-unnecessary-boolean-literal-compare": "warn",
 				"@typescript-eslint/no-unsafe-declaration-merging": "warn",
+				/* Managed by "unused-imports/no-unused-vars" */
+				"@typescript-eslint/no-unused-vars": "off",
+				"@typescript-eslint/prefer-enum-initializers": "error",
 				"@typescript-eslint/prefer-for-of": "warn",
 				"@typescript-eslint/prefer-includes": "warn",
 				"@typescript-eslint/prefer-optional-chain": "warn",
@@ -313,9 +328,17 @@
 			"rules": {
 				"unicorn/filename-case": "off"
 			}
+		},
+		{
+			"files": ["*.ts", "*.js"],
+			"rules": {
+				/* FIXME: There's a plugin that disables that rule */
+				"curly": ["error", "all"]
+			}
 		}
 	],
 	"plugins": [
+		"@cspell",
 		"@nx",
 		"@shopify",
 		"eslint-plugin-import",
@@ -330,6 +353,13 @@
 	],
 	"root": true,
 	"rules": {
+		"@cspell/spellchecker": [
+			"warn",
+			{
+				"autoFix": true,
+				"customWordListFile": "./tools/cspell/words.txt"
+			}
+		],
 		"@shopify/no-useless-computed-properties": "error",
 		"@shopify/prefer-early-return": "error",
 		"arrow-parens": "off",

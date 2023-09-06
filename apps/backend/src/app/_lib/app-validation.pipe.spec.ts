@@ -1,6 +1,6 @@
 import { BadRequestException } from "@nestjs/common";
-import { DtoProperty } from "~/app/common/dtos/_lib/dto";
-import { FindQueryDtoOf } from "~/app/common/dtos/_lib/find-query.dto";
+import { DtoProperty } from "~/lib/common/dtos/dto";
+import { FindQueryDtoOf } from "~/lib/common/dtos/find-query.dto";
 
 import { AppValidationPipe } from "./app-validation.pipe";
 

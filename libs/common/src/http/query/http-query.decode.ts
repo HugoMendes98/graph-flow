@@ -2,7 +2,7 @@ import { isObject } from "class-validator";
 import { ReadonlyDeep } from "type-fest";
 
 import {
-	QUERY_PREFIX_IDENTIFIER,
+	QueryPrefixIdentifier,
 	QueryDecoded,
 	QueryDecodedString,
 	QueryEncodedObject
@@ -68,12 +68,12 @@ export function httpQueryDecode<T>(
 		// The real value if it has a prefix
 		const value = query.substring(1);
 
-		switch (query.charAt(0) as QUERY_PREFIX_IDENTIFIER) {
-			case QUERY_PREFIX_IDENTIFIER.DATE:
+		switch (query.charAt(0) as QueryPrefixIdentifier) {
+			case QueryPrefixIdentifier.DATE:
 				return new Date(value);
-			case QUERY_PREFIX_IDENTIFIER.NUMBER:
+			case QueryPrefixIdentifier.NUMBER:
 				return +value;
-			case QUERY_PREFIX_IDENTIFIER.PRIMITIVE:
+			case QueryPrefixIdentifier.PRIMITIVE:
 				switch (value) {
 					case "true":
 						return true;
@@ -86,7 +86,7 @@ export function httpQueryDecode<T>(
 					default:
 						throw new Error(`Not a query primitive: ${query}`);
 				}
-			case QUERY_PREFIX_IDENTIFIER.REG_EXP:
+			case QueryPrefixIdentifier.REG_EXP:
 				return new RegExp(value);
 		}
 

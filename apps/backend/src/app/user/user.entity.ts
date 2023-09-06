@@ -1,27 +1,33 @@
-import { Collection, Entity, EntityRepositoryType, OneToMany, Property } from "@mikro-orm/core";
-import { UserRelationsDto } from "~/app/common/dtos/user/user.relations.dto";
+import { Entity, Property } from "@mikro-orm/core";
+import { UserDto } from "~/lib/common/app/user/dtos";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { UserRepository } from "./user.repository";
-import { EntityBase, EntityWithRelations } from "../_lib/entity";
-import { Group } from "../group/group.entity";
+import { EntityBase } from "../_lib/entity";
 
 /**
  * The entity class to manage users
  */
 @Entity({ customRepository: () => UserRepository })
-export class User extends EntityBase implements EntityWithRelations<UserRelationsDto> {
-	// With this, we can reuse the repository from an entity already loaded
-	public readonly [EntityRepositoryType]?: UserRepository;
-
+export class User extends EntityBase implements DtoToEntity<UserDto> {
+	/**
+	 * @inheritDoc
+	 */
 	@Property({ unique: true })
 	public email!: string;
 
+	@Property({ hidden: true, nullable: false })
+	public password?: string;
+
+	/**
+	 * @inheritDoc
+	 */
 	@Property({ nullable: true, type: String })
 	public firstname: string | null = null;
 
+	/**
+	 * @inheritDoc
+	 */
 	@Property({ nullable: true, type: String })
 	public lastname: string | null = null;
-
-	@OneToMany(() => Group, group => group.creator, { hidden: true })
-	public creations? = new Collection<Group>(this);
 }

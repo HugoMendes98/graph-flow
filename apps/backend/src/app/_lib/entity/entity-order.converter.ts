@@ -2,8 +2,8 @@ import { QueryOrder } from "@mikro-orm/core";
 import { ExcludeFunctions } from "@mikro-orm/core/typings";
 import { BadRequestException } from "@nestjs/common";
 import { ReadonlyDeep } from "type-fest";
-import { EntityOrder, OrderValue } from "~/app/common/endpoints/_lib";
-import { Primitive } from "~/app/common/types";
+import { EntityOrder, OrderValue } from "~/lib/common/endpoints";
+import { Primitive } from "~/lib/common/types";
 
 /**
  * The Order values converted

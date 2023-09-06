@@ -1,5 +1,6 @@
 {
 	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"defaultBase": "master",
 	"generators": {
 		"@nx/angular:application": {
 			"e2eTestRunner": "cypress",
@@ -25,7 +26,9 @@
 			"!{projectRoot}/.eslintrc.json",
 			"!{projectRoot}/.storybook/**/*",
 			"!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
-			"!{projectRoot}/.stylelintrc(.(json|yml|yaml|js))?"
+			"!{projectRoot}/.stylelintrc(.(json|yml|yaml|js))?",
+			"!{projectRoot}/src/test-setup.[jt]s",
+			"!{projectRoot}/tsconfig.storybook.json"
 		],
 		"sharedGlobals": []
 	},
@@ -42,7 +45,12 @@
 			"inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
 		},
 		"storybook-build": {
-			"inputs": ["default", "^production", "!{projectRoot}/.storybook/**/*"]
+			"inputs": [
+				"default",
+				"^production",
+				"!{projectRoot}/.storybook/**/*",
+				"{projectRoot}/tsconfig.storybook.json"
+			]
 		},
 		"stylelint": {
 			"inputs": ["default", "{workspaceRoot}/.stylelintrc(.(json|yml|yaml|js))?"]
@@ -54,14 +62,14 @@
 	"tasksRunnerOptions": {
 		"default": {
 			"options": {
-				"accessToken": "ZGQ0YjNjN2QtOTdkYS00YWZkLTg5ZjgtMjJjZmNjMzc0NGJjfHJlYWQtd3JpdGU=",
+				"accessToken": "NzkwOTRiNzYtZTZlOC00Y2NhLWEzOTQtY2JjNThiOGUwYjE0fHJlYWQ=",
 				"cacheableOperations": [
 					"build",
-					"lint",
-					"test",
 					"e2e",
-					"build-storybook",
-					"stylelint"
+					"lint",
+					"storybook-build",
+					"stylelint",
+					"test"
 				]
 			},
 			"runner": "nx-cloud"

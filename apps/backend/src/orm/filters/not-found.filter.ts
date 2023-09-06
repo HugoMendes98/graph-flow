@@ -12,18 +12,11 @@ export class NotFoundFilter extends BaseExceptionFilter {
 	 * @inheritDoc
 	 */
 	public override catch(exception: NotFoundError, host: ArgumentsHost) {
-		const { message } = exception;
-
 		super.catch(
-			new NotFoundException(
-				message.match(/\({ _id: '?\d+'? }\)$/)
-					? `The ressource ('${message}') was not found.`
-					: "A ressource was not found.",
-				{
-					cause: exception,
-					description: (exception as unknown as { detail: string }).detail
-				}
-			),
+			new NotFoundException(`The resource was not found`, {
+				cause: exception,
+				description: (exception as unknown as { detail: string }).detail
+			}),
 			host
 		);
 	}

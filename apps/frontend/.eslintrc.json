@@ -49,6 +49,12 @@
 					}
 				]
 			}
+		},
+		{
+			"files": [".storybook/main.ts", ".storybook/preview.ts"],
+			"rules": {
+				"import/no-default-export": "off"
+			}
 		}
 	]
 }

@@ -1,6 +1,6 @@
 import { QueryOrder } from "@mikro-orm/core";
 import { BadRequestException } from "@nestjs/common";
-import { EntityOrder } from "~/app/common/endpoints/_lib";
+import { EntityOrder } from "~/lib/common/endpoints";
 
 import { entityOrderToQueryOrder } from "./entity-order.converter";
 
@@ -43,14 +43,14 @@ describe("entityOrderToQueryOrder", () => {
 	});
 
 	it("should thrown and error", () => {
-		const encodeds: Array<EntityOrder<ITest>> = [
-			{ a: "asc", nested: { c: "desce" as never } },
+		const tests: Array<EntityOrder<ITest>> = [
+			{ a: "asc", nested: { c: "dec" as never } },
 			{ b: 2 as never },
 			{ a: false as never },
 			{ nested: { d: null as never } }
 		];
 
-		for (const encoded of encodeds) {
+		for (const encoded of tests) {
 			expect(() => entityOrderToQueryOrder(encoded)).toThrow(BadRequestException);
 		}
 	});

@@ -1,1 +1,42 @@
-{}
+{
+	"actions": {
+		"login": "Login",
+		"ok": "Ok"
+	},
+	"components": {
+		"login": {
+			"login-fail": "The identification failed.",
+			"title": "Login"
+		}
+	},
+	"entities": {
+		"user": {
+			"email": "Email",
+			"password": "Password"
+		}
+	},
+	"errors": {
+		"http": {
+			"400": "The request is mal-formed.",
+			"500": "A server error occurred.",
+			"generic": "A network error occurred."
+		}
+	},
+	"interceptors": {
+		"auth": {
+			"redirect": {
+				"connected": "Your session has expired. Please reconnect.",
+				"unconnected": "You have tried to access data requiring authentication"
+			}
+		}
+	},
+	"views": {
+		"login": {
+			"being-redirected": "You are being redirected.",
+			"hello-user": {
+				"1": "Hello ",
+				"2": "!"
+			}
+		}
+	}
+}

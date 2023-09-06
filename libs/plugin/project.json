@@ -33,7 +33,8 @@
 				],
 				"main": "libs/plugin/src/index.ts",
 				"outputPath": "dist/libs/plugin",
-				"tsConfig": "libs/plugin/tsconfig.lib.json"
+				"tsConfig": "libs/plugin/tsconfig.lib.json",
+				"updateBuildableProjectDepsInPackageJson": true
 			},
 			"outputs": ["{options.outputPath}"]
 		},

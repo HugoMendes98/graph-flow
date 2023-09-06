@@ -3,6 +3,7 @@
 	"plugins": ["stylelint-prettier", "stylelint-order"],
 	"rules": {
 		"color-function-notation": null,
+		"color-hex-length": "long",
 		"declaration-empty-line-before": null,
 		"no-empty-source": null,
 		"order/properties-order": [
@@ -17,7 +18,7 @@
 					"emptyLineBefore": "always",
 					"groupName": "position",
 					"noEmptyLineBetween": true,
-					"properties": ["bottom", "left", "right", "top"]
+					"properties": ["bottom", "left", "right", "top", "inset"]
 				}
 			],
 			{

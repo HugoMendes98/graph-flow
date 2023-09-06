@@ -1,5 +1,3 @@
-import { ReadonlyDeep } from "type-fest";
-
 /**
  * Picks some keys from an object.
  *
@@ -11,7 +9,7 @@ import { ReadonlyDeep } from "type-fest";
  * @returns A shallow copy of the object with the wanted keys
  */
 export function pick<T extends object, K extends keyof T>(
-	object: ReadonlyDeep<T>,
+	object: Readonly<T>,
 	keys: readonly K[]
 ): Pick<T, (typeof keys)[number]> {
 	return Object.fromEntries(

@@ -20,7 +20,6 @@ This file is more about how to develop, what part does what, rather than a real 
     * [Applications](#applications)
       * [Backend application](#backend-application)
       * [Frontend application](#frontend-application)
-      * [Office application](#office-application)
   * [Philosophies](#philosophies)
   * [Dev process](#dev-process)
     * [Defining the data transmitted](#defining-the-data-transmitted)
@@ -100,14 +99,6 @@ The application, as can be understood by the final users,
 communicates with the `backend` and is the product.
 
 > More about this application can be seen [here](../apps/frontend/README.md).
-
-#### Office application
-
-Very similar to the `frontend` application, it is used by fewer users,
-that are mostly aware of the data.
-The application helps to manage the data of the `backend`.
-
-> More about this application can be seen [here](../apps/office/README.md).
 
 ## Philosophies
 

@@ -1,5 +1,0 @@
-{
-	"exclude": ["src/dev/**/*", "**/*.stories.ts", "**/*.stories.js"],
-	"extends": "./tsconfig.app.json",
-	"include": ["src/**/*.ts", "../../libs/common/src/**/*.ts", "../../libs/ng/src/**/*.ts"]
-}

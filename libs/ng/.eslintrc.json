@@ -16,7 +16,7 @@
 				"@angular-eslint/component-class-suffix": [
 					"error",
 					{
-						"suffixes": ["Component", "View"]
+						"suffixes": ["Component", "Dialog", "SnackBar", "View"]
 					}
 				],
 				"@angular-eslint/component-selector": [
@@ -46,11 +46,17 @@
 				"@angular-eslint/sort-ngmodule-metadata-arrays": "error",
 				"@angular-eslint/use-component-selector": "error",
 				"@angular-eslint/use-lifecycle-interface": "error",
-				"@angular-eslint/use-pipe-transform-interface": "error"
+				"@angular-eslint/use-pipe-transform-interface": "error",
+				"@typescript-eslint/unbound-method": [
+					"error",
+					{
+						"ignoreStatic": true
+					}
+				]
 			}
 		},
 		{
-			"files": ["*.view.ts"],
+			"files": ["*.dialog.ts", "*.snack-bar.ts", "*.view.ts"],
 			"rules": {
 				"@angular-eslint/use-component-selector": "off"
 			}
@@ -62,7 +68,7 @@
 				"plugin:@angular-eslint/template/recommended"
 			],
 			"files": ["*.html"],
-			"plugins": ["prettier"],
+			"plugins": ["prettier", "sort-attribute-content"],
 			"rules": {
 				"@angular-eslint/template/attributes-order": [
 					"warn",
@@ -81,12 +87,22 @@
 						"parser": "angular"
 					}
 				],
+				"sort-attribute-content/sort-attribute-content": [
+					"warn",
+					[
+						{
+							"attributes": "class"
+						}
+					]
+				],
 				"spaced-comment": "off"
 			}
 		},
 		{
 			"files": ["*.stories.ts"],
 			"rules": {
+				/* Ok for stories `play` */
+				"@typescript-eslint/no-non-null-assertion": "off",
 				"import/no-default-export": "off"
 			}
 		}

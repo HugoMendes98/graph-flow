@@ -1,0 +1,9 @@
+:host {
+	flex-direction: row;
+	justify-content: center;
+}
+
+app-login-card,
+mat-card {
+	max-width: 500px;
+}

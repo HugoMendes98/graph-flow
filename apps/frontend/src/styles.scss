@@ -1,4 +1,5 @@
 @use "../../../libs/ng/src/styles" as ng;
+@use "styles/utils";
 @import "./styles/material";
 
 html,
@@ -9,6 +10,33 @@ body {
 body {
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 	margin: 0;
+
+	// inside `body` to take priority over material classes
+	@include ng.tw-base(utils.$spacing);
+	@include ng.tw-base(utils.$spacing, "hover", "hover");
+
+	@each $breakpoint, $_ in utils.$breakpoints {
+		@include utils.screen-breakpoint($breakpoint) {
+			@include ng.tw-base(utils.$spacing, $breakpoint);
+			@include ng.tw-base(utils.$spacing, "#{$breakpoint}\\/hover", "hover");
+		}
+
+		@include utils.screen-breakpoint($breakpoint, true) {
+			@include ng.tw-base(utils.$spacing, "#{$breakpoint}-max");
+		}
+	}
 }
 
-@include ng.tw-base();
+// By default, all routed component take all the remaining place
+router-outlet + * {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+}
+
+img {
+	height: 100%;
+	width: 100%;
+
+	object-fit: contain;
+}

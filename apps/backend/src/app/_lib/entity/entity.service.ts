@@ -1,32 +1,52 @@
-import { EntityRepository, FilterQuery, wrap } from "@mikro-orm/core";
+import { EntityRepository, FilterQuery } from "@mikro-orm/core";
 import { instanceToPlain } from "class-transformer";
-import { EntityId } from "~/app/common/dtos/_lib/entity";
-import { FindResultsDto } from "~/app/common/dtos/_lib/find-results.dto";
-import { EntityFindParams, EntityFilter } from "~/app/common/endpoints/_lib";
-import { transformOptions } from "~/app/common/options";
+import { EntityId } from "~/lib/common/dtos/entity";
+import { FindResultsDto } from "~/lib/common/dtos/find-results.dto";
+import {
+	EntityFindParams,
+	EntityFilter,
+	EntitiesToPopulate,
+	EntityPopulated
+} from "~/lib/common/endpoints";
+import { transformOptions } from "~/lib/common/options";
 
 import { EntityBase } from "./entity-base.entity";
 import { entityOrderToQueryOrder } from "./entity-order.converter";
+import { entityToPopulateToRelationsKeys } from "./entity-to-populate.coverter";
+
+/**
+ * Some options when finding entities
+ */
+export interface EntityServiceFindOptions<T extends EntityBase, P extends EntitiesToPopulate<T>> {
+	/**
+	 * Populate the given relations
+	 */
+	populate?: P;
+}
 
 /**
  * The options when creating an entity
  */
-export interface EntityServiceCreateOptions {
+export interface EntityServiceCreateOptions<T extends EntityBase, P extends EntitiesToPopulate<T>> {
 	/**
-	 * Disable this when doing multiple operations,
-	 * so all of them are on 1 transaction
-	 *
-	 * @default true
+	 * The options when returning the data
 	 */
-	flush?: boolean;
+	findOptions?: EntityServiceFindOptions<T, P>;
 }
 
-type EntityServiceCreateOptionsNoFlush = EntityServiceCreateOptions &
-	Record<keyof Pick<EntityServiceCreateOptions, "flush">, false>;
+export type EntityServiceUpdateOptions<
+	T extends EntityBase,
+	P extends EntitiesToPopulate<T>
+> = EntityServiceCreateOptions<T, P>;
 
-export type EntityServiceUpdateOptions = EntityServiceCreateOptions;
-export type EntityServiceDeleteOptions = EntityServiceCreateOptions;
+export type EntityLoaded<
+	T extends EntityBase,
+	P extends EntitiesToPopulate<T> = never
+> = EntityPopulated<T, P> & Required<Pick<T, "toJSON">>;
 
+/**
+ * Base service to manage entities
+ */
 export abstract class EntityService<
 	T extends EntityBase,
 	ToCreate,
@@ -41,16 +61,27 @@ export abstract class EntityService<
 	protected constructor(protected readonly repository: Repository) {}
 
 	/**
+	 * Clears the EntityManager ang the Unit of work
+	 */
+	public clearEM() {
+		const em = this.repository.getEntityManager();
+		em.clear();
+		em.getUnitOfWork().clear();
+	}
+
+	/**
 	 * Find many entities and count them
 	 *
 	 * @param where Filter to apply
 	 * @param params Additional parameters to sort and/or paginate
+	 * @param options Some options when loading an entities
 	 * @returns All entities found with its pagination
 	 */
-	public findAndCount(
+	public findAndCount<P extends EntitiesToPopulate<T>>(
 		where: EntityFilter<T> = {},
-		params: EntityFindParams<T> = {}
-	): Promise<FindResultsDto<T>> {
+		params: EntityFindParams<T> = {},
+		options?: EntityServiceFindOptions<T, P>
+	): Promise<FindResultsDto<EntityLoaded<T, P>>> {
 		// TODO: fix order by foreign of foreign id
 		const offset = params.skip ?? 0;
 		return (
@@ -60,10 +91,13 @@ export abstract class EntityService<
 				.findAndCount(instanceToPlain(where, transformOptions), {
 					limit: params.limit,
 					offset,
-					orderBy: params.order?.map(entityOrderToQueryOrder)
+					orderBy: params.order?.map(entityOrderToQueryOrder),
+					populate:
+						options?.populate &&
+						(entityToPopulateToRelationsKeys(options.populate) as never)
 				})
 				.then(([data, total]) => ({
-					data,
+					data: data as Array<EntityLoaded<T, P>>,
 					pagination: { range: { end: offset + data.length, start: offset }, total }
 				}))
 		);
@@ -83,13 +117,24 @@ export abstract class EntityService<
 	 * Find one entity by its id
 	 *
 	 * @param id Entity id to find
+	 * @param options Some options when loading an entity
 	 * @returns The found entity
 	 */
-	public findById(id: EntityId): Promise<T> {
-		return this.repository.findOneOrFail({
-			_id: id
-			// It seems there's an error when using calculated generic type
-		} satisfies FilterQuery<EntityBase> as FilterQuery<T>);
+	public findById<P extends EntitiesToPopulate<T>>(
+		id: EntityId,
+		options?: EntityServiceFindOptions<T, P>
+	) {
+		return this.repository.findOneOrFail(
+			{
+				_id: { $eq: id }
+				// It seems there's an error when using calculated generic type
+			} satisfies FilterQuery<EntityBase> as FilterQuery<T>,
+			{
+				populate:
+					options?.populate &&
+					(entityToPopulateToRelationsKeys(options.populate) as never)
+			}
+		) as Promise<EntityLoaded<T, P>>;
 	}
 
 	/**
@@ -97,40 +142,24 @@ export abstract class EntityService<
 	 *
 	 * @param toCreate Object to create
 	 * @param options Additional options when creating an entity
-	 * @returns The created entity not persisted in the Database
+	 * @returns The created entity persisted in the database
 	 */
-	public create(
+	public async create<P extends EntitiesToPopulate<T>>(
 		toCreate: ToCreate,
-		options: EntityServiceCreateOptionsNoFlush
-	): Promise<ToCreate>;
-	/**
-	 * Creates a new entity
-	 *
-	 * @param toCreate Object to create
-	 * @param options Additional options when creating an entity
-	 * @returns The created entity
-	 */
-	public create(toCreate: ToCreate, options?: EntityServiceCreateOptions): Promise<T>;
-
-	/**
-	 * Creates a new entity
-	 *
-	 * @param toCreate Object to create
-	 * @param options Additional options when creating an entity
-	 * @returns The created entity not persisted in the Database or the persisted one
-	 */
-	public async create(
-		toCreate: ToCreate,
-		options?: EntityServiceCreateOptions
-	): Promise<T | ToCreate> {
+		options?: EntityServiceCreateOptions<T, P>
+	) {
 		// Why as never? Mikro-orm detect optional props by `?`
 		//	But it does take account of SQL default value
 		const created = this.repository.create(toCreate as never, { persist: true });
-		if (options?.flush ?? true) {
-			await this.repository.getEntityManager().flush();
-		}
 
-		return created;
+		await this.repository.getEntityManager().flush();
+
+		// FIXME: a way to propagate the change to already managed collections:
+		//   Load an entity with manyToMany relation and delete one value.
+		//   Load an entity that was linked to the deleted entity -> the collection is still full
+		this.clearEM();
+
+		return this.findById<P>(created._id, options?.findOptions);
 	}
 
 	/**
@@ -141,24 +170,22 @@ export abstract class EntityService<
 	 * @param options Additional options when updating an entity
 	 * @returns The updated entity
 	 */
-	public async update(
+	public async update<P extends EntitiesToPopulate<T>>(
 		id: EntityId,
 		toUpdate: ToUpdate,
-		options?: EntityServiceUpdateOptions
-	): Promise<T> {
+		options?: EntityServiceUpdateOptions<T, P>
+	) {
 		return this.findById(id).then(async entity => {
 			// TODO: remove the `instanceToPlain`
 			//	https://mikro-orm.io/docs/entity-helper#using-class-based-data
-			wrap(entity).assign(instanceToPlain(toUpdate), {
-				mergeObjects: true
-			});
+			await this.repository.getEntityManager().persistAndFlush(
+				this.repository.assign(entity, instanceToPlain(toUpdate), {
+					mergeObjects: true
+				})
+			);
 
-			if (options?.flush ?? true) {
-				await this.repository.getEntityManager().flush();
-			}
-
-			// The return value will be up-to-date if flushed
-			return entity;
+			// The return value will be up-to-date when flushed
+			return this.findById<P>(id, options?.findOptions);
 		});
 	}
 
@@ -166,18 +193,26 @@ export abstract class EntityService<
 	 * Deletes an existing entity
 	 *
 	 * @param id Entity id to delete
-	 * @param options Additional options when deleting an entity
-	 * @returns The deleted entity
+	 * @returns The deleted entity (before deletion)
 	 */
-	public delete(id: EntityId, options?: EntityServiceDeleteOptions): Promise<T> {
-		return this.findById(id).then(async entity => {
-			this.repository.getEntityManager().remove(entity);
+	public delete(id: EntityId): Promise<T> {
+		return this.findById(id).then(async entity => this.deleteEntity(entity));
+	}
 
-			if (options?.flush ?? true) {
-				await this.repository.getEntityManager().flush();
-			}
+	/**
+	 * Deletes an existing entity
+	 *
+	 * @param entity The entity to delete
+	 * @returns The given entity
+	 */
+	protected async deleteEntity(entity: T) {
+		await this.repository.getEntityManager().removeAndFlush(entity);
 
-			return entity;
-		});
+		// FIXME: a way to propagate the change to already managed collections:
+		//   Load an entity with manyToMany relation and delete one value.
+		//   Load an entity that was linked to the deleted entity -> the collection is still full
+		this.clearEM();
+
+		return entity;
 	}
 }

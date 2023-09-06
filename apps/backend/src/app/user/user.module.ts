@@ -5,6 +5,9 @@ import { UserController } from "./user.controller";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
 
+/**
+ * Module for {@link User} management
+ */
 @Module({
 	controllers: [UserController],
 	exports: [UserService],

@@ -3,7 +3,6 @@ name: CI
 on:
   push:
     branches:
-      - develop
       - master
   pull_request:
     branches:
@@ -13,6 +12,9 @@ on:
 jobs:
   checks:
     runs-on: ubuntu-latest
+    env:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_TOKEN }}
+
     strategy:
       matrix:
         node-version: [18.x]
@@ -35,11 +37,11 @@ jobs:
         run: npm run build
 
       - name: Tests
-        run: npm run test -- --ci --code-coverage
+        run: npm run test:coverage -- --ci
 
       - name: Tests e2e
         run: npm run test:e2e -- --no-video
 
       # TODO: set in Nx
       - name: Comments coverage
-        run: npm run backend:compodoc:coverage && npm run frontend:compodoc:coverage && npm run office:compodoc:coverage
+        run: npm run backend:compodoc:coverage && npm run frontend:compodoc:coverage

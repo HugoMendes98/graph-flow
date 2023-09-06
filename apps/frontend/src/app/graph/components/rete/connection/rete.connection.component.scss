@@ -1,0 +1,13 @@
+// From example (https://retejs.org/examples/customization/angular)
+svg {
+	overflow: visible;
+	pointer-events: none;
+	position: absolute;
+
+	path {
+		fill: none;
+		pointer-events: auto;
+		stroke: black;
+		stroke-width: 5px;
+	}
+}

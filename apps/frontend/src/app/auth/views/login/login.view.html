@@ -1,0 +1,25 @@
+<app-login-card
+	*ngIf="loginState.state !== 'success'"
+	class="align-s-center flex-1 sm-max:pb-16"
+	[error]="loginState.snapshot.error"
+	[loading]="loginState.snapshot.isLoading"
+	(login)="handleLoginSubmit($event)"
+/>
+
+<mat-card *ngIf="loginState.state === 'success'" class="align-s-center flex-1">
+	<mat-card-header>
+		<mat-card-title>
+			{{ "views.login.hello-user.1" | translate
+			}}<span class="font-bold">{{ loginState.data.user.email }}</span
+			>{{ "views.login.hello-user.2" | translate }}
+		</mat-card-title>
+	</mat-card-header>
+
+	<mat-card-content class="align-i-center flex justify-c-center m-4">
+		<mat-progress-spinner mode="indeterminate" />
+	</mat-card-content>
+
+	<mat-card-content>
+		<mat-card-subtitle translate>views.login.being-redirected</mat-card-subtitle>
+	</mat-card-content>
+</mat-card>

@@ -1,11 +1,11 @@
 # Backend
 
-![coverage-branches](../../.badges/apps/backend/coverage-branches.svg)
-![coverage-functions](../../.badges/apps/backend/coverage-functions.svg)
-![coverage-jest coverage](../../.badges/apps/backend/coverage-jest coverage.svg)
-![coverage-lines](../../.badges/apps/backend/coverage-lines.svg)
-![coverage-statements](../../.badges/apps/backend/coverage-statements.svg)
-![coverage-badge-documentation](../../.badges/apps/backend/coverage-badge-documentation.svg)
+![coverage-branches](../../.badges/apps/backend/code/coverage-branches.svg)
+![coverage-functions](../../.badges/apps/backend/code/coverage-functions.svg)
+![coverage-jest coverage](../../.badges/apps/backend/code/coverage-jest coverage.svg)
+![coverage-lines](../../.badges/apps/backend/code/coverage-lines.svg)
+![coverage-statements](../../.badges/apps/backend/code/coverage-statements.svg)
+![coverage-badge-documentation](../../.badges/apps/backend/comment/coverage.svg)
 
 ## Description
 
