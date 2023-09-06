@@ -23,7 +23,10 @@ export interface AuthEndpoint {
 	 * @param body with the credentials
 	 */
 	login(body: AuthLoginDto): Promise<AuthSuccessDto>;
-
+	/**
+	 * Logout a user (only useful with cookies)
+	 */
+	logout(): Promise<void>;
 	/**
 	 * Refresh an existing token
 	 *
@@ -34,6 +37,7 @@ export interface AuthEndpoint {
 
 export enum AuthEndpoints {
 	LOGIN = "login",
+	LOGOUT = "logout",
 	PROFILE = "profile",
 	REFRESH = "refresh"
 }

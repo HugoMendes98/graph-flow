@@ -10,7 +10,8 @@ export const configTest = {
 		username: "_db-test"
 	},
 	host: {
-		cors: { origin: "127.0.0.1" },
+		// The e2e instance can be used in frontend:e2e:watch mode
+		cors: { origin: /\/\/localhost(:[0-9]{1,5})+/ },
 		globalPrefix: "/e2e/api",
 		name: "127.0.0.1",
 		port: 32300

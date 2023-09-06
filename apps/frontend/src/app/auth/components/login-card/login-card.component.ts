@@ -15,11 +15,12 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { TranslateService } from "@ngx-translate/core";
-import { AuthLoginDto } from "~/lib/common/app/auth/dtos";
 import { FormControlsFrom } from "~/lib/ng/lib/forms";
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
-export type AuthLogin = Omit<AuthLoginDto, "cookie">;
+import type { AuthLogin } from "../../auth.service";
+
+export type { AuthLogin } from "../../auth.service";
 
 @Component({
 	selector: "app-login-card",

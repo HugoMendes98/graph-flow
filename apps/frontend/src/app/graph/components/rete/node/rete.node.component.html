@@ -2,11 +2,7 @@
 
 <div class="title">{{ data.label }}</div>
 
-<div
-	*ngFor="let output of data.outputs | keyvalue"
-	class="output"
-	[attr.data-testid]="'output-' + output.key"
->
+<div *ngFor="let output of data.outputs | keyvalue" class="output">
 	<div class="output-title">
 		{{ output.value?.label }}
 	</div>

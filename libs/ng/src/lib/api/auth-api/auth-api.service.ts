@@ -39,6 +39,13 @@ export class AuthApiService implements AuthEndpoint {
 	/**
 	 * @inheritDoc
 	 */
+	public logout(): Promise<void> {
+		return this.client.post(`${this.entrypoint}/${AuthEndpoints.LOGOUT}`);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public refresh(body: AuthRefreshDto): Promise<AuthSuccessDto> {
 		return this.client.post(`${this.entrypoint}/${AuthEndpoints.REFRESH}`, body);
 	}

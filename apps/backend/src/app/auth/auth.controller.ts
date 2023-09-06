@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
+import { CookieOptions } from "express-serve-static-core";
 import { AuthLoginDto, AuthRefreshDto } from "~/lib/common/app/auth/dtos";
 import { AuthSuccessDto } from "~/lib/common/app/auth/dtos/auth.success.dto";
 import { AUTH_ENDPOINT_PREFIX, AuthEndpoint, AuthEndpoints } from "~/lib/common/app/auth/endpoints";
@@ -26,6 +27,15 @@ declare global {
 @ApiTags("Auth")
 @Controller(AUTH_ENDPOINT_PREFIX)
 export class AuthController implements AuthEndpoint {
+	/**
+	 * Default cookie options
+	 */
+	private readonly cookieOptions: CookieOptions = {
+		httpOnly: true,
+		sameSite: "none",
+		secure: true
+	};
+
 	/**
 	 * Constructor with "dependency injection"
 	 *
@@ -62,6 +72,17 @@ export class AuthController implements AuthEndpoint {
 	/**
 	 * @inheritDoc
 	 */
+	@ApiOkResponse()
+	@Post(AuthEndpoints.LOGOUT)
+	public logout(@Res({ passthrough: true }) res?: Response) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- From guards and decorators (optional for the interface)
+		res!.clearCookie(authOptions.cookies.name, this.cookieOptions);
+		return Promise.resolve();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	@ApiCreatedResponse({ type: AuthSuccessDto })
 	@Post(AuthEndpoints.REFRESH)
 	@UseAuth()
@@ -78,10 +99,8 @@ export class AuthController implements AuthEndpoint {
 		return this.service.login(user).then(token => {
 			if (body.cookie) {
 				res.cookie(authOptions.cookies.name, token.access_token, {
-					expires: new Date(token.expires_at),
-					httpOnly: true,
-					sameSite: "none",
-					secure: true
+					...this.cookieOptions,
+					expires: new Date(token.expires_at)
 				});
 			}
 

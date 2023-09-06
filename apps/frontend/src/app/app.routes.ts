@@ -1,5 +1,7 @@
 import { Routes } from "@angular/router";
 
+import { authGuard } from "./auth/auth.guard";
+
 export const APP_ROUTES: Routes = [
 	{
 		loadChildren: () =>
@@ -7,6 +9,7 @@ export const APP_ROUTES: Routes = [
 		path: "auth"
 	},
 	{
+		canActivate: [authGuard],
 		loadChildren: () =>
 			import("./workflow/views/workflow-routing.module").then(m => m.WorkflowRoutingModule),
 		path: "workflows"

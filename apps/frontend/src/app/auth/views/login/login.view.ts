@@ -4,11 +4,12 @@ import { MatCardModule } from "@angular/material/card";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { ApiModule } from "~/lib/ng/lib/api";
-import { AuthApiService } from "~/lib/ng/lib/api/auth-api";
 import { RequestStateSubject } from "~/lib/ng/lib/request-state/request-state.subject";
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
+import { AuthInterceptor } from "../../auth.interceptor";
+import { AuthModule } from "../../auth.module";
+import { AuthService } from "../../auth.service";
 import { AuthLogin, LoginCardComponent } from "../../components/login-card/login-card.component";
 
 @Component({
@@ -17,7 +18,7 @@ import { AuthLogin, LoginCardComponent } from "../../components/login-card/login
 	templateUrl: "./login.view.html",
 
 	imports: [
-		ApiModule,
+		AuthModule,
 		CommonModule,
 		LoginCardComponent,
 		MatCardModule,
@@ -33,14 +34,7 @@ export class LoginView implements OnInit, OnDestroy {
 	public redirectUrl?: string;
 
 	protected readonly loginState$ = new RequestStateSubject((login: AuthLogin) =>
-		this.service
-			.login({ cookie: true, ...login })
-			.then(auth => this.service.getProfile().then(profile => ({ auth, profile })))
-			.then(data => {
-				setTimeout(() => void this.router.navigateByUrl(this.redirectUrl ?? "/"), 1250);
-
-				return data;
-			})
+		this.interceptor.runUnprotected(() => this.service.login(login))
 	);
 	protected loginState = this.loginState$.getValue();
 
@@ -50,9 +44,14 @@ export class LoginView implements OnInit, OnDestroy {
 	 * Constructor with "dependency injection"
 	 *
 	 * @param service injected
+	 * @param interceptor injected
 	 * @param router injected
 	 */
-	public constructor(private readonly service: AuthApiService, private readonly router: Router) {}
+	public constructor(
+		private readonly service: AuthService,
+		private readonly interceptor: AuthInterceptor,
+		private readonly router: Router
+	) {}
 
 	/** @inheritDoc */
 	public ngOnInit() {
@@ -61,5 +60,26 @@ export class LoginView implements OnInit, OnDestroy {
 	/** @inheritDoc */
 	public ngOnDestroy() {
 		this.subscription.unsubscribe();
+	}
+
+	/**
+	 * Handles the login submit
+	 *
+	 * @param login parameters to use for a login
+	 */
+	protected handleLoginSubmit(login: AuthLogin) {
+		this.loginState$
+			.request(login)
+			.then(() => {
+				setTimeout(
+					() =>
+						void this.router.navigateByUrl(this.redirectUrl ?? "/", {
+							replaceUrl: true
+						}),
+					1250
+				);
+			})
+			// Avoid uncaught error in console
+			.catch(() => void 0);
 	}
 }

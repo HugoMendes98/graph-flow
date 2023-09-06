@@ -3,14 +3,14 @@
 	class="align-s-center flex-1 sm-max:pb-16"
 	[error]="loginState.snapshot.error"
 	[loading]="loginState.snapshot.isLoading"
-	(login)="loginState$.request($event)"
+	(login)="handleLoginSubmit($event)"
 />
 
 <mat-card *ngIf="loginState.state === 'success'" class="align-s-center flex-1">
 	<mat-card-header>
 		<mat-card-title>
 			{{ "views.login.hello-user.1" | translate
-			}}<span class="font-bold">{{ loginState.data.profile.email }}</span
+			}}<span class="font-bold">{{ loginState.data.user.email }}</span
 			>{{ "views.login.hello-user.2" | translate }}
 		</mat-card-title>
 	</mat-card-header>
