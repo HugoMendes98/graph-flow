@@ -12,6 +12,9 @@ on:
 jobs:
   checks:
     runs-on: ubuntu-latest
+    env:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_TOKEN }}
+
     strategy:
       matrix:
         node-version: [18.x]
