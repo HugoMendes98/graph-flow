@@ -146,6 +146,28 @@ describe("Backend HTTP Auth", () => {
 		});
 	});
 
+	describe("Logout", () => {
+		it("should logout (delete HTTPOnly for cookie)", async () => {
+			const { access_token: token } = await client.login({
+				...users[0],
+				cookie: true
+			} satisfies AuthLoginDto);
+			await client.getProfile({
+				headers: { Cookie: `${authOptions.cookies.name}=${token}` }
+			});
+
+			const { headers } = await client.logoutResponse({
+				headers: { Cookie: `${authOptions.cookies.name}=${token}` }
+			});
+
+			expect(headers["set-cookie"]).toBeDefined();
+
+			const cookie = cookieParser(headers["set-cookie"]![0]);
+			expect(cookie).toHaveProperty(authOptions.cookies.name);
+			expect(cookie[authOptions.cookies.name]).toBeEmpty();
+		});
+	});
+
 	describe("GetProfile", () => {
 		it("should get profile of connected user", async () => {
 			for (const user of users) {
