@@ -83,7 +83,7 @@ describe("Auth", () => {
 	});
 
 	describe("Auth interceptor", () => {
-		it.only("should redirect when a request has a 401 error", () => {
+		it("should redirect when a request has a 401 error", () => {
 			const [{ email, password }] = db.users;
 			cy.authConnectAs(email, password);
 			cy.visit(pathProtected);
