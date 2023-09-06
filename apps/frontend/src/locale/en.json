@@ -1,6 +1,7 @@
 {
 	"actions": {
-		"login": "Login"
+		"login": "Login",
+		"ok": "Ok"
 	},
 	"components": {
 		"login": {
@@ -19,6 +20,14 @@
 			"400": "The request is mal-formed.",
 			"500": "A server error occurred.",
 			"generic": "A network error occurred."
+		}
+	},
+	"interceptors": {
+		"auth": {
+			"redirect": {
+				"connected": "Your session has expired. Please reconnect.",
+				"unconnected": "You have tried to access data requiring authentication"
+			}
 		}
 	},
 	"views": {

@@ -82,15 +82,37 @@ describe("Auth", () => {
 		});
 	});
 
-	// describe("Auth interceptor", () => {
-	// 	it.only("should redirect when a request has a 401 error", () => {
-	// 		const [{ email, password }] = db.users;
-	// 		cy.authConnectAs(email, password);
-	// 		cy.visit(pathProtected);
-	//
-	// 		// TODO: something that makes a request
-	// 		cy.authDisconnect();
-	// 		// TODO: something that makes a request and redirect
-	// 	});
-	// });
+	describe("Auth interceptor", () => {
+		it.only("should redirect when a request has a 401 error", () => {
+			const [{ email, password }] = db.users;
+			cy.authConnectAs(email, password);
+			cy.visit(pathProtected);
+
+			const sckInput = () =>
+				cy
+					.findByText("Make SQL query")
+					.parent()
+					.children(".input")
+					.first()
+					.children(".input-socket");
+
+			// This removes the arc
+			sckInput().click();
+
+			cy.authDisconnect();
+
+			// This tries to add it back
+			sckInput().click();
+
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- Wait if there is a "redirection loop"
+			cy.wait(125);
+
+			cy.location("pathname").should("eq", pathLogin);
+			cy.location("search").should("eq", `?redirectUrl=${encodeURIComponent(pathProtected)}`);
+
+			/* ==== Generated with Cypress Studio ==== */
+			cy.get(".mat-mdc-simple-snack-bar").should("be.visible");
+			/* ==== End Cypress Studio ==== */
+		});
+	});
 });

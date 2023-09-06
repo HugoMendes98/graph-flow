@@ -5,6 +5,7 @@ import * as bcryptjs from "bcryptjs";
 import { AuthSuccessDto } from "~/lib/common/app/auth/dtos/auth.success.dto";
 
 import { JWTPayload } from "./auth.types";
+import { getConfiguration } from "../../configuration";
 import { User } from "../user/user.entity";
 import { UserService } from "../user/user.service";
 
@@ -60,7 +61,11 @@ export class AuthService {
 
 		// To get the real time of the JWT
 		const { exp } = this.jwtService.decode(access_token) as JWTPayload & { exp: number };
-		return { access_token, expires_at: exp * 1000 };
+		return {
+			access_token,
+			expires_at: exp * 1000,
+			expires_in: getConfiguration().authentication.timeout * 1000
+		};
 	}
 
 	/**

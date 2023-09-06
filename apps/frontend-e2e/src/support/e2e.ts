@@ -13,7 +13,7 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// import plugins
+// import plugins (Will probably be useful for graph actions)
 import "@4tw/cypress-drag-drop";
 import "@testing-library/cypress/add-commands";
 
