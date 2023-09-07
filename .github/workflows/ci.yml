@@ -37,7 +37,7 @@ jobs:
         run: npm run build
 
       - name: Tests
-        run: npm run test:coverage -- --ci
+        run: npm run test:ci
 
       - name: Tests e2e
         run: npm run test:e2e -- --no-video
