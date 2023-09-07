@@ -9,6 +9,9 @@ import { WorkflowModule } from "./workflow/workflow.module";
 import { HealthModule } from "../health/health.module";
 import { OrmModule } from "../orm/orm.module";
 
+/**
+ * Main module for the application
+ */
 @Module({
 	imports: [
 		AuthModule,

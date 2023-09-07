@@ -1,0 +1,17 @@
+<div *ngIf="requestState$ | async as state" class="flex flex-1 flex-col">
+	<div *ngIf="state.state === 'init'">Init</div>
+
+	<div *ngIf="state.state === 'loading'">Loading</div>
+
+	<pre *ngIf="state.state === 'failed'">{{ state.error | json }}</pre>
+
+	<app-graph
+		*ngIf="state.state === 'success'"
+		class="flex-1"
+		[actions]="getActions(state.data.workflow)"
+		[arcs]="state.data.arcs"
+		[nodes]="state.data.nodes"
+		[readonly]="false"
+		(nodeMoved)="handleNodeMove(state.data.workflow, $event)"
+	></app-graph>
+</div>

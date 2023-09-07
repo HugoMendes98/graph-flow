@@ -17,14 +17,21 @@ import { UseAuth } from "../auth/auth.guard";
 @Controller(GRAPHS_ENDPOINT_PREFIX)
 @UseAuth()
 export class GraphController implements GraphEndpoint<Graph> {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param service injected
+	 */
 	public constructor(private readonly service: GraphService) {}
 
+	/** @inheritDoc */
 	@ApiOkResponse({ type: GraphResultsDto })
 	@Get()
 	public findAndCount(@Query() { where, ...params }: GraphQueryDto) {
 		return this.service.findAndCount(where, params);
 	}
 
+	/** @inheritDoc */
 	@ApiOkResponse({ type: GraphDto })
 	@Get("/:id")
 	public findById(@Param("id") id: number) {

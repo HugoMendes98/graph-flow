@@ -10,6 +10,9 @@ import { GraphNodeController } from "./node/graph-node.controller";
 import { GraphNodeService } from "./node/graph-node.service";
 import { NodeModule } from "../node/node.module";
 
+/**
+ * Module for "graph", "graph-node" & "graph-arc" management
+ */
 @Module({
 	controllers: [GraphArcController, GraphController, GraphNodeController],
 	exports: [GraphNodeService, GraphService],

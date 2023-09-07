@@ -4,6 +4,9 @@ import { ApiBearerAuth, ApiCookieAuth } from "@nestjs/swagger";
 
 import { STRATEGY_JWT_NAME } from "./strategies";
 
+/**
+ * The default guard for any authentication
+ */
 @Injectable()
 export class AuthGuard extends PassportGuard(STRATEGY_JWT_NAME) {}
 

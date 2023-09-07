@@ -38,6 +38,11 @@ export class GraphInterceptor implements NestInterceptor {
 	 */
 	public static readonly GRAPH_TOKEN = `__graph__`;
 
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param service injected
+	 */
 	public constructor(private readonly service: GraphService) {}
 
 	/**

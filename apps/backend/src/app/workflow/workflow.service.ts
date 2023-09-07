@@ -20,6 +20,14 @@ export class WorkflowService
 	extends EntityService<Workflow, WorkflowCreateDto, WorkflowUpdateDto>
 	implements EventSubscriber<Workflow>, OnModuleInit
 {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param repository injected
+	 * @param orm injected
+	 * @param graphService injected
+	 * @param graphNodeService injected
+	 */
 	public constructor(
 		repository: WorkflowRepository,
 		// For `@UseRequestContext`
@@ -39,6 +47,9 @@ export class WorkflowService
 		return [Workflow];
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public async beforeUpdate(args: EventArgs<Workflow>) {
 		const { changeSet, entity } = args;
 		if (!changeSet) {
@@ -66,6 +77,9 @@ export class WorkflowService
 		await Promise.all(workflows.map(workflow => this.registerWorkflow(workflow)));
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public override delete(id: EntityId): Promise<Workflow> {
 		return this.findById(id, { populate: { graph: true } }).then(async entity => {
 			// Cascade integrity -> deleting the graph deletes the workflow
@@ -94,7 +108,7 @@ export class WorkflowService
 		const { data } = await this.graphNodeService.findAndCount(
 			{ __graph, node: { behavior: { type: NodeBehaviorType.TRIGGER } } },
 			{ limit: 1 },
-			{ populate: ["node"] }
+			{ populate: { node: true } }
 		);
 
 		if (data.length !== 1) {

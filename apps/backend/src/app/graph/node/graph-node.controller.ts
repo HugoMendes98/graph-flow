@@ -39,6 +39,11 @@ type EndpointTransformed = {
 @UseAuth()
 @UseInterceptors(GraphInterceptor)
 export class GraphNodeController implements EndpointTransformed {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param service injected
+	 */
 	public constructor(private readonly service: GraphNodeService) {}
 
 	@ApiGraphParam()

@@ -120,6 +120,7 @@
 		"storybook-build": {
 			"configurations": {
 				"ci": {
+					"open": false,
 					"quiet": true
 				}
 			},
@@ -140,6 +141,14 @@
 			},
 			"outputs": ["{options.outputDir}"]
 		},
+		"storybook-test": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "test-storybook -c apps/frontend/.storybook --url=http://localhost:4040",
+				"parallel": true,
+				"readyWhen": "123-321"
+			}
+		},
 		"stylelint": {
 			"executor": "nx-stylelint:lint",
 			"options": {
@@ -152,6 +161,7 @@
 			"configurations": {
 				"ci": {
 					"ci": true,
+					"codeCoverage": true,
 					"coverageDirectory": "./coverage/apps/frontend",
 					"coverageReporters": ["text", "json-summary"]
 				}

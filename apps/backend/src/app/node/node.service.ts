@@ -13,6 +13,11 @@ import { Category } from "../category/category.entity";
  */
 @Injectable()
 export class NodeService extends EntityService<Node, NodeCreateDto, NodeUpdateDto> {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param repository injected
+	 */
 	public constructor(repository: NodeRepository) {
 		super(repository);
 	}

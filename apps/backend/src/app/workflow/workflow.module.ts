@@ -6,6 +6,9 @@ import { Workflow } from "./workflow.entity";
 import { WorkflowService } from "./workflow.service";
 import { GraphModule } from "../graph/graph.module";
 
+/**
+ * Module for {@link Workflow} management
+ */
 @Module({
 	controllers: [WorkflowController],
 	exports: [WorkflowService],

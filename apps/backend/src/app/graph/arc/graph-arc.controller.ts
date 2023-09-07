@@ -4,7 +4,6 @@ import {
 	Delete,
 	Get,
 	NotFoundException,
-	NotImplementedException,
 	Param,
 	Patch,
 	Post,
@@ -39,6 +38,11 @@ type EndpointTransformed = {
 @UseAuth()
 @UseInterceptors(GraphInterceptor)
 export class GraphArcController implements EndpointTransformed {
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param service injected
+	 */
 	public constructor(private readonly service: GraphArcService) {}
 
 	@ApiGraphParam()
@@ -72,8 +76,9 @@ export class GraphArcController implements EndpointTransformed {
 	@ApiCreatedResponse({ type: GraphArcDto })
 	@ApiGraphParam()
 	@Post()
-	public create(@GraphInterceptedParam() _graph: Graph, @Body() _body: GraphArcCreateDto) {
-		return Promise.reject(new NotImplementedException(`Can not create an arc yet.`));
+	public create(@GraphInterceptedParam() _graph: Graph, @Body() body: GraphArcCreateDto) {
+		// TODO: verify graph
+		return this.service.create(body);
 	}
 
 	@ApiExcludeEndpoint()

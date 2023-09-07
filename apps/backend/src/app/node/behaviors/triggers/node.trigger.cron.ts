@@ -6,10 +6,8 @@ import {
 
 import { NodeTriggerBase } from "./node.trigger.base";
 
-const type = NodeTriggerType.CRON;
-
 @Embeddable({
-	discriminatorValue: type
+	discriminatorValue: NodeTriggerType.CRON
 })
 export class NodeTriggerCron extends NodeTriggerBase implements DTO {
 	/**

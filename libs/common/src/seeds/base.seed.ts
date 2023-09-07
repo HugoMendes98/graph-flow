@@ -404,7 +404,7 @@ export const BASE_SEED = {
 				__graph: 1,
 				__node: 10,
 				name: "Calculate quotient (fn)",
-				position: { x: 100, y: 0 }
+				position: { x: 325, y: 25 }
 			},
 			{
 				_id: 1002,
@@ -415,7 +415,7 @@ export const BASE_SEED = {
 				__graph: 1,
 				__node: 11,
 				name: "Calculate remainder (fn)",
-				position: { x: 100, y: 200 }
+				position: { x: 325, y: 250 }
 			},
 			{
 				_id: 1003,
@@ -426,7 +426,7 @@ export const BASE_SEED = {
 				__graph: 1,
 				__node: 2001,
 				name: "Dividend (input)",
-				position: { x: 0, y: 75 }
+				position: { x: 25, y: 125 }
 			},
 			{
 				_id: 1004,
@@ -437,7 +437,7 @@ export const BASE_SEED = {
 				__graph: 1,
 				__node: 2002,
 				name: "Divisor (input)",
-				position: { x: 0, y: 150 }
+				position: { x: 25, y: 250 }
 			},
 			{
 				_id: 1005,
@@ -448,7 +448,7 @@ export const BASE_SEED = {
 				__graph: 1,
 				__node: 2003,
 				name: "Quotient (output)",
-				position: { x: 300, y: 75 }
+				position: { x: 725, y: 125 }
 			},
 			{
 				_id: 1006,
@@ -459,7 +459,7 @@ export const BASE_SEED = {
 				__graph: 1,
 				__node: 2004,
 				name: "Remainder (input)",
-				position: { x: 3000, y: 150 }
+				position: { x: 725, y: 250 }
 			},
 
 			// endregion:
@@ -474,7 +474,7 @@ export const BASE_SEED = {
 				__graph: 2,
 				__node: 1,
 				name: "DB_HOST",
-				position: { x: 0, y: 0 }
+				position: { x: 25, y: 25 }
 			},
 			{
 				_id: 2002,
@@ -485,7 +485,7 @@ export const BASE_SEED = {
 				__graph: 2,
 				__node: 2,
 				name: "DB_PORT",
-				position: { x: 0, y: 50 }
+				position: { x: 25, y: 150 }
 			},
 			{
 				_id: 2003,
@@ -496,7 +496,7 @@ export const BASE_SEED = {
 				__graph: 2,
 				__node: 3,
 				name: "DB_USER",
-				position: { x: 0, y: 100 }
+				position: { x: 25, y: 275 }
 			},
 			{
 				_id: 2004,
@@ -507,7 +507,7 @@ export const BASE_SEED = {
 				__graph: 2,
 				__node: 4,
 				name: "DB_PASS",
-				position: { x: 0, y: 150 }
+				position: { x: 25, y: 400 }
 			},
 
 			{
@@ -519,7 +519,7 @@ export const BASE_SEED = {
 				__graph: 2,
 				__node: 5,
 				name: "Make SQL query",
-				position: { x: 150, y: 80 }
+				position: { x: 600, y: 250 }
 			},
 			{
 				// The trigger node
@@ -532,7 +532,7 @@ export const BASE_SEED = {
 				__node: 30,
 
 				name: "Cron",
-				position: { x: 25, y: 300 }
+				position: { x: 50, y: 650 }
 			}
 
 			// endregion

@@ -7,18 +7,26 @@ import { AuthSuccessDto } from "../dtos/auth.success.dto";
  */
 export const AUTH_ENDPOINT_PREFIX = "/v1/auth";
 
+/**
+ * Endpoints for authentication
+ */
 export interface AuthEndpoint {
 	/**
+	 * Returns the connected user
+	 *
 	 * @returns the connected user
 	 */
 	getProfile(): Promise<UserDto>;
 	/**
-	 * Log in a user
+	 * Logs in a user
 	 *
 	 * @param body with the credentials
 	 */
 	login(body: AuthLoginDto): Promise<AuthSuccessDto>;
-
+	/**
+	 * Logout a user (only useful with cookies)
+	 */
+	logout(): Promise<void>;
 	/**
 	 * Refresh an existing token
 	 *
@@ -29,6 +37,7 @@ export interface AuthEndpoint {
 
 export enum AuthEndpoints {
 	LOGIN = "login",
+	LOGOUT = "logout",
 	PROFILE = "profile",
 	REFRESH = "refresh"
 }

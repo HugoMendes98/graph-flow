@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
@@ -25,8 +26,11 @@ jobs:
       - name: Install packages
         run: npm ci
 
+      - name: Run normal tests to populate nx cache
+        run: npm run test
+
       - name: Generate code coverage summary
-        run: npm run test:coverage -- --ci --coverageReporters json-summary
+        run: npm run test:ci
 
       - name: Generating `common` lib coverage badges
         uses: jpb06/jest-badges-action@latest

@@ -101,6 +101,8 @@
 		{
 			"files": ["*.stories.ts"],
 			"rules": {
+				/* Ok for stories `play` */
+				"@typescript-eslint/no-non-null-assertion": "off",
 				"import/no-default-export": "off"
 			}
 		}

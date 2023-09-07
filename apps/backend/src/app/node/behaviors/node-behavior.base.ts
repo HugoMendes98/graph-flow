@@ -7,6 +7,9 @@ import {
 
 import { Node } from "../node.entity";
 
+/**
+ * Base options of "node-behavior" entities
+ */
 export const NODE_BEHAVIOR_ENTITY_OPTIONS = {
 	discriminatorColumn: "type" satisfies NodeBehaviorDiscriminatorKey,
 	tableName: "node_behavior"

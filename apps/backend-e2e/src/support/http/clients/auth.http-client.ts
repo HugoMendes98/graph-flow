@@ -22,6 +22,13 @@ export class AuthHttpClient {
 		return this.loginResponse(...params).then(({ data }) => data);
 	}
 
+	public logoutResponse(...params: DropFirst<Parameters<Axios["post"]>>) {
+		return axios.post<AuthSuccessDto>(
+			`${AUTH_ENDPOINT_PREFIX}/${AuthEndpoints.LOGOUT}`,
+			...params
+		);
+	}
+
 	public refreshResponse(...params: DropFirst<Parameters<Axios["post"]>>) {
 		return axios.post<AuthSuccessDto>(
 			`${AUTH_ENDPOINT_PREFIX}/${AuthEndpoints.REFRESH}`,
