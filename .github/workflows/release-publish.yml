@@ -65,10 +65,10 @@ jobs:
       - name: Set default code coverage badges
         run: for path in .badges/*/*/code; do cp $path/coverage-jest\ coverage.svg $path/coverage.svg; done
 
-      - name: Generating `backend` app comment coverage badges
-        run: npm run backend:compodoc:build && cp dist/documentation/backend/images/coverage-badge-documentation.svg .badges/apps/backend/comment/coverage.svg
-      - name: Generating `frontend` app comment coverage badges
-        run: npm run frontend:compodoc:build && cp dist/documentation/frontend/images/coverage-badge-documentation.svg .badges/apps/frontend/comment/coverage.svg
+      - name: Generate apps comment coverage
+        run: npm run compodoc:build
+      - name: Move comment coverage badges
+        run: for app in backend frontend; do cp dist/documentation/$app/images/coverage-badge-documentation.svg .badges/apps/$app/comment/coverage.svg; done
 
       - name: Set git config
         run: |

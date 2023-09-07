@@ -42,6 +42,5 @@ jobs:
       - name: Tests e2e
         run: npm run test:e2e -- --no-video
 
-      # TODO: set in Nx
       - name: Comments coverage
-        run: npm run backend:compodoc:coverage && npm run frontend:compodoc:coverage
+        run: npm run compodoc:coverage

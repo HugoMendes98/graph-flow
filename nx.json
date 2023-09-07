@@ -65,6 +65,7 @@
 				"accessToken": "NzkwOTRiNzYtZTZlOC00Y2NhLWEzOTQtY2JjNThiOGUwYjE0fHJlYWQ=",
 				"cacheableOperations": [
 					"build",
+					"compodoc",
 					"e2e",
 					"lint",
 					"storybook-build",
