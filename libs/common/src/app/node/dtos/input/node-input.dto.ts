@@ -2,7 +2,7 @@ import { IsEnum, IsNumber, IsOptional, IsString, Min } from "class-validator";
 
 import { DtoProperty } from "../../../../dtos/dto";
 import { EntityDto } from "../../../../dtos/entity";
-import { NodeIoType } from "../io";
+import { NodeIoType } from "../../io";
 import { NodeDto } from "../node.dto";
 
 export class NodeInputDto extends EntityDto {

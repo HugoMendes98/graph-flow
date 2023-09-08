@@ -1,1 +1,1 @@
-export * from "./graph-error.code";
+export * from "./graph.error-code";

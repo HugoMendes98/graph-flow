@@ -1,6 +1,5 @@
 import { EntityManager, Reference } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
-import { ReadonlyDeep } from "type-fest";
 import { EntityDto } from "~/lib/common/dtos/entity";
 import { MockSeed } from "~/lib/common/seeds";
 
@@ -42,7 +41,7 @@ export abstract class MockedDbSeeder extends Seeder {
 	/**
 	 * The sample DB to seed
 	 */
-	protected abstract readonly db: ReadonlyDeep<MockSeed>;
+	protected abstract readonly db: Readonly<MockSeed>;
 
 	/**
 	 * @inheritDoc

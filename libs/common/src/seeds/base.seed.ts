@@ -1,7 +1,7 @@
 import { MockSeed } from "./mock.seed";
 import { NodeBehaviorType } from "../app/node/dtos/behaviors";
 import { NodeTriggerType } from "../app/node/dtos/behaviors/triggers";
-import { NodeIoType } from "../app/node/dtos/io";
+import { NodeIoType } from "../app/node/io";
 
 /** Sample date1 */
 const date1 = new Date(2020, 1, 1);
@@ -956,7 +956,7 @@ export const BASE_SEED = {
 				__categories: [2],
 
 				behavior: {
-					code: "module.export = (a, b) => a % b;",
+					code: "module.export = (a, b) => b === 0 ? a : a % b;",
 					type: NodeBehaviorType.CODE
 				},
 				name: "Calculate remainder"

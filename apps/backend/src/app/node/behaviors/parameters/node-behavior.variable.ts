@@ -1,6 +1,6 @@
 import { Entity, Property } from "@mikro-orm/core";
 import { NodeBehaviorType, NodeBehaviorVariableDto } from "~/lib/common/app/node/dtos/behaviors";
-import { NodeIoTypes } from "~/lib/common/app/node/dtos/io";
+import { NodeIoValue } from "~/lib/common/app/node/io";
 
 import { NodeBehaviorParameterBase } from "./node-behavior.parameter-base";
 
@@ -10,5 +10,5 @@ export class NodeBehaviorVariable
 	implements NodeBehaviorVariableDto
 {
 	@Property({ type: Object })
-	public value!: NodeIoTypes;
+	public value!: NodeIoValue;
 }

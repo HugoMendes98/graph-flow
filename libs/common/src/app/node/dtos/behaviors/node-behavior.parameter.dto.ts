@@ -3,7 +3,7 @@ import { IsDefined } from "class-validator";
 import { NodeBehaviorBaseDto } from "./node-behavior.base.dto";
 import { NodeBehaviorType } from "./node-behavior.type";
 import { DtoProperty } from "../../../../dtos/dto";
-import { NodeIoTypes } from "../io";
+import { NodeIoValue } from "../../io";
 
 /**
  * Base behavior of node that is a variable/parameter
@@ -30,7 +30,7 @@ export class NodeBehaviorVariableDto extends NodeBehaviorParameterBaseDto {
 	// TODO: this is temporary
 	@DtoProperty()
 	@IsDefined()
-	public value!: NodeIoTypes;
+	public value!: NodeIoValue;
 }
 
 /**
