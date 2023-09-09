@@ -1,25 +1,25 @@
 import { Injectable } from "@nestjs/common";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
-import { castNodeIoValueTo, NODE_IO_VOID, NodeIoValue } from "~/lib/common/app/node/io";
+import { castNodeIoValueTo, NODE_IO_VOID, NodeIoType, NodeIoValue } from "~/lib/common/app/node/io";
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import {
-	NodeExecutorMissingInputException,
-	NodeExecutorNotExecutableException
+	GraphExecutorMissingInputException,
+	GraphExecutorNotExecutableException
 } from "./exceptions";
-import { NodeBehaviorCode, NodeBehaviorFunction } from "../behaviors";
-import { NodeBehaviorTrigger } from "../behaviors/node-behavior.trigger";
-import { NodeBehaviorVariable } from "../behaviors/parameters";
-import { NodeInput } from "../input";
-import { Node } from "../node.entity";
-import { NodeOutput } from "../output";
+import { NodeBehaviorCode, NodeBehaviorFunction } from "../../node/behaviors";
+import { NodeBehaviorTrigger } from "../../node/behaviors/node-behavior.trigger";
+import { NodeBehaviorVariable } from "../../node/behaviors/parameters";
+import { GraphNode } from "../node/graph-node.entity";
+import { GraphNodeInput } from "../node/input";
+import { GraphNodeOutput } from "../node/output";
 
-export interface NodeOutputAndValue {
+export interface GraphNodeOutputAndValue {
 	/**
 	 * The output the value is applied to
 	 */
-	output: NodeOutput;
+	output: GraphNodeOutput;
 	/**
 	 * The value of the output
 	 */
@@ -29,45 +29,40 @@ export interface NodeOutputAndValue {
 /**
  * @internal
  */
-interface NodeInputAndValue {
-	input: NodeInput;
+interface GraphNodeInputAndValue {
+	input: GraphNodeInput;
 	/**
 	 * The value of the input
 	 */
 	value: NodeIoValue;
 }
 
-export type NodeInputAndValues = ReadonlyMap<EntityId, NodeIoValue>;
-
-export interface NodeExecuteParams {
-	node: Node;
-	valuedInputs: NodeInputAndValues;
+export type GraphNodeInputAndValues = ReadonlyMap<EntityId, NodeIoValue>;
+export interface GraphNodeExecuteParams {
+	node: GraphNode;
+	valuedInputs: GraphNodeInputAndValues;
 }
 
 @Injectable()
-export class NodeExecutor {
-	/**
-	 *
-	 * Notes:
-	 *	- The output values are cast to its type
-	 * 	- A `node-code` could have no output (but should not happen, by default a void)
-	 * 	- "parameters" can not be executed and are managed by their graph-executor
-	 *
-	 * @param params
-	 */
-	public async execute(params: NodeExecuteParams): Promise<NodeOutputAndValue[]> {
+export class GraphNodeExecutor {
+	public async execute(params: GraphNodeExecuteParams): Promise<GraphNodeOutputAndValue[]> {
 		const { node, valuedInputs } = params;
-		const { behavior, inputs, outputs } = node;
+		const {
+			inputs,
+			node: { behavior },
+			outputs
+		} = node;
 
 		const getValues = () =>
-			inputs.getItems().map<NodeInputAndValue>(input => {
-				if (input.type === "void") {
+			inputs.getItems().map<GraphNodeInputAndValue>(input => {
+				if (input.nodeInput.type === NodeIoType.VOID) {
 					return { input, value: NODE_IO_VOID };
 				}
 
-				const value = valuedInputs.get(input._id);
+				const { _id } = input;
+				const value = valuedInputs.get(_id);
 				if (value === undefined) {
-					throw new NodeExecutorMissingInputException(input._id);
+					throw new GraphExecutorMissingInputException(_id);
 				}
 
 				return { input, value };
@@ -86,7 +81,7 @@ export class NodeExecutor {
 				}
 
 				const [output] = outputs;
-				return [{ output, value: castNodeIoValueTo(output.type, value) }];
+				return [{ output, value: castNodeIoValueTo(output.nodeOutput.type, value) }];
 			}
 
 			case NodeBehaviorType.FUNCTION:
@@ -100,7 +95,7 @@ export class NodeExecutor {
 
 			case NodeBehaviorType.PARAMETER_IN:
 			case NodeBehaviorType.PARAMETER_OUT:
-				throw new NodeExecutorNotExecutableException(node._id);
+				throw new GraphExecutorNotExecutableException(node._id);
 		}
 	}
 
@@ -111,12 +106,15 @@ export class NodeExecutor {
 
 	private executeFunction(
 		behavior: NodeBehaviorFunction,
-		node: Node
-	): Promise<NodeOutputAndValue[]> {
+		node: GraphNode
+	): Promise<GraphNodeOutputAndValue[]> {
 		return Promise.reject();
 	}
 
-	private executeTrigger(behavior: NodeBehaviorTrigger, node: Node): NodeOutputAndValue[] {
+	private executeTrigger(
+		behavior: NodeBehaviorTrigger,
+		node: GraphNode
+	): GraphNodeOutputAndValue[] {
 		const { trigger } = behavior;
 		const { outputs } = node;
 

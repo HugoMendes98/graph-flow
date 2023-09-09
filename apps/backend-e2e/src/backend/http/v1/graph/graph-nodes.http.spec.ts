@@ -44,7 +44,7 @@ describe("Backend HTTP GraphNodes", () => {
 			expect(data).toHaveLength(limit);
 			expect(total).toBe(sorted.length);
 
-			expect(data.map(item => omit(item, ["inputs", "outputs"]))).toStrictEqual(
+			expect(data.map(item => omit(item, ["node", "inputs", "outputs"]))).toStrictEqual(
 				sorted.slice(0, limit)
 			);
 		});
@@ -56,7 +56,7 @@ describe("Backend HTTP GraphNodes", () => {
 		it("should get one", async () => {
 			for (const node of graphRefNodes) {
 				const response = await client.findOne(node._id);
-				expect(omit(response, ["inputs", "outputs"])).toStrictEqual(node);
+				expect(omit(response, ["node", "inputs", "outputs"])).toStrictEqual(node);
 			}
 		});
 

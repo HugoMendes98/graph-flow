@@ -29,6 +29,12 @@ export class GraphNodeOutputDto extends EntityDto {
 	// ------- Relations -------
 
 	/**
+	 * The [node-output]{@link NodeInputDto} linked to this graph-node-output
+	 */
+	@DtoProperty({ forwardRef: true, type: () => NodeOutputDto })
+	public readonly nodeOutput!: NodeOutputDto;
+
+	/**
 	 * The [graph-arcs]{@link GraphArcDto} connected to this graph-node-output
 	 */
 	@DtoProperty({ array: true, forwardRef: true, type: () => GraphArcDto })
@@ -39,10 +45,4 @@ export class GraphNodeOutputDto extends EntityDto {
 	 */
 	@DtoProperty({ forwardRef: true, type: () => GraphNodeDto })
 	public readonly graphNode?: GraphNodeDto;
-
-	/**
-	 * The [node-output]{@link NodeInputDto} linked to this graph-node-output
-	 */
-	@DtoProperty({ forwardRef: true, type: () => NodeOutputDto })
-	public readonly nodeOutput?: NodeOutputDto;
 }

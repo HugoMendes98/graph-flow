@@ -17,6 +17,7 @@ const GraphNodeProperty = ManyToOneFactory(() => GraphNode, {
 });
 
 const NodeInputProperty = ManyToOneFactory(() => NodeInput, {
+	eager: true,
 	fieldName: "__node_input" satisfies keyof GraphNodeInputDto,
 	onUpdateIntegrity: "cascade"
 });
@@ -35,11 +36,16 @@ export class GraphNodeInput extends EntityBase implements DtoToEntity<GraphNodeI
 	public __node_input!: number;
 
 	// ------- Relations -------
+	@NodeInputProperty({ foreign: true })
+	public readonly nodeInput!: NodeInput;
+
 	@OneToOne(() => GraphArc, ({ to }) => to, { hidden: true, owner: false })
 	public readonly graphArc?: GraphArc;
-
 	@GraphNodeProperty({ foreign: true })
 	public readonly graphNode?: GraphNode;
-	@NodeInputProperty({ foreign: true })
-	public readonly nodeInput?: NodeInput;
+
+	public override toJSON?() {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- exists on loaded entity
+		return { ...super.toJSON!(), nodeInput: this.nodeInput.toJSON!() };
+	}
 }

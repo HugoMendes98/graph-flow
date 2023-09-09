@@ -8,7 +8,7 @@ import { GraphNodeInput } from "./input/graph-node-input.entity";
 import { GraphNodeOutput } from "./output/graph-node-output.entity";
 import { PositionEmbeddable } from "./position.embeddable";
 import { EntityBase, EntityToDto } from "../../_lib/entity";
-import { ManyToOneFactory } from "../../_lib/entity/decorators";
+import { ManyToOneFactory, ManyToOneParams } from "../../_lib/entity/decorators";
 import { Node } from "../../node/node.entity";
 import { Graph } from "../graph.entity";
 
@@ -17,10 +17,12 @@ const GraphProperty = ManyToOneFactory(() => Graph, {
 	onUpdateIntegrity: "cascade"
 });
 
-const NodeProperty = ManyToOneFactory(() => Node, {
-	fieldName: "__node" satisfies keyof GraphNodeDto,
-	onUpdateIntegrity: "cascade"
-});
+const NodeProperty = (params: ManyToOneParams) =>
+	ManyToOneFactory(() => Node, {
+		eager: params.foreign,
+		fieldName: "__node" satisfies keyof GraphNodeDto,
+		onUpdateIntegrity: "cascade"
+	})(params);
 
 @Entity({ customRepository: () => GraphNodeRepository })
 export class GraphNode extends EntityBase implements DtoToEntity<GraphNodeDto> {
@@ -55,17 +57,22 @@ export class GraphNode extends EntityBase implements DtoToEntity<GraphNodeDto> {
 	@OneToMany(() => GraphNodeOutput, ({ graphNode }) => graphNode, { eager: true })
 	public readonly outputs = new Collection<GraphNodeOutput>(this);
 
+	@NodeProperty({ foreign: true })
+	public readonly node!: Node;
+
 	@GraphProperty({ foreign: true })
 	public readonly graph?: Graph;
 
-	@NodeProperty({ foreign: true })
-	public readonly node?: Node;
-
 	public override toJSON?(): EntityToDto<this> {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Override only applied if the parent function exists
-		const json = super.toJSON!();
+		const [json, node] = [super.toJSON!(), this.node.toJSON!()];
 
 		// Override the inputs and outputs
-		return { ...json, inputs: this.inputs.toJSON(), outputs: this.outputs.toJSON() };
+		return {
+			...json,
+			inputs: this.inputs.toJSON(),
+			node,
+			outputs: this.outputs.toJSON()
+		};
 	}
 }

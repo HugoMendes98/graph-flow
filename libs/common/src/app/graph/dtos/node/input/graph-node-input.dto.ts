@@ -29,6 +29,12 @@ export class GraphNodeInputDto extends EntityDto {
 	// ------- Relations -------
 
 	/**
+	 * The [node-input]{@link NodeInputDto} linked to this graph-node-input
+	 */
+	@DtoProperty({ forwardRef: true, type: () => NodeInputDto })
+	public readonly nodeInput!: NodeInputDto;
+
+	/**
 	 * The [graph-arc]{@link GraphArcDto} connected to this graph-node-input
 	 */
 	@DtoProperty({ forwardRef: true, type: () => GraphArcDto })
@@ -39,10 +45,4 @@ export class GraphNodeInputDto extends EntityDto {
 	 */
 	@DtoProperty({ forwardRef: true, type: () => GraphNodeDto })
 	public readonly graphNode?: GraphNodeDto;
-
-	/**
-	 * The [node-input]{@link NodeInputDto} linked to this graph-node-input
-	 */
-	@DtoProperty({ forwardRef: true, type: () => NodeInputDto })
-	public readonly nodeInput?: NodeInputDto;
 }

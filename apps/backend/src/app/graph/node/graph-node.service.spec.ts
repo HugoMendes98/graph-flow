@@ -210,7 +210,7 @@ describe("GraphNodeService", () => {
 			it("should get one", async () => {
 				for (const node of graphNodes) {
 					const row = await service.findById(node._id);
-					expect(omit(row.toJSON(), ["inputs", "outputs"])).toStrictEqual(node);
+					expect(omit(row.toJSON(), ["node", "inputs", "outputs"])).toStrictEqual(node);
 				}
 			});
 

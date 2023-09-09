@@ -29,15 +29,15 @@ export interface MockSeed {
 		/**
 		 * Represents the [graph-node-input]{@link GraphNodeInputDto} table
 		 */
-		graphNodeInputs: readonly GraphNodeInputDto[];
+		graphNodeInputs: ReadonlyArray<Omit<GraphNodeInputDto, "nodeInput">>;
 		/**
 		 * Represents the [graph-node-output]{@link GraphNodeOutputDto} table
 		 */
-		graphNodeOutputs: readonly GraphNodeOutputDto[];
+		graphNodeOutputs: ReadonlyArray<Omit<GraphNodeOutputDto, "nodeOutput">>;
 		/**
 		 * Represents the [graph-node]{@link GraphNodeDto} table
 		 */
-		graphNodes: ReadonlyArray<Omit<GraphNodeDto, "inputs" | "outputs">>;
+		graphNodes: ReadonlyArray<Omit<GraphNodeDto, "inputs" | "node" | "outputs">>;
 		/**
 		 * Represents the [graph]{@link GraphDto} table
 		 */

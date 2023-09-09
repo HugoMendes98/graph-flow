@@ -56,6 +56,12 @@ export class GraphNodeDto extends EntityDto {
 	// ------- Relations -------
 
 	/**
+	 * The {@link NodeDto} this `graph-node` represents
+	 */
+	@DtoProperty({ forwardRef: true, type: () => NodeDto })
+	public readonly node!: NodeDto;
+
+	/**
 	 * The inputs of this {@link GraphNodeDto}
 	 */
 	@DtoProperty({ array: true, forwardRef: true, type: () => GraphNodeInputDto })
@@ -71,10 +77,4 @@ export class GraphNodeDto extends EntityDto {
 	 */
 	@DtoProperty({ forwardRef: true, type: () => GraphDto })
 	public readonly graph?: GraphDto;
-
-	/**
-	 * The {@link NodeDto} this `graph-node` represents
-	 */
-	@DtoProperty({ forwardRef: true, type: () => NodeDto })
-	public readonly node?: NodeDto;
 }

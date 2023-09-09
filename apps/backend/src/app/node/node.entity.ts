@@ -56,7 +56,13 @@ export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 	 * @inheritDoc
 	 */
 	public override toJSON?(): EntityToDto<this> {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Override only applied if the parent function exists
-		return { ...super.toJSON!(), behavior: super.toJSON!.call(this.behavior) };
+		return {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- From override
+			...super.toJSON!(),
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- From override
+			behavior: super.toJSON!.call(this.behavior),
+			inputs: this.inputs.toJSON(),
+			outputs: this.outputs.toJSON()
+		};
 	}
 }
