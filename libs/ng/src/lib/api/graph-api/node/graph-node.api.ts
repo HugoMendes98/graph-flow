@@ -1,18 +1,12 @@
-import { GraphNodeCreateDto, GraphNodeUpdateDto } from "~/lib/common/app/graph/dtos/node";
-import {
-	generateGraphNodesEndpoint,
-	GraphNode,
-	GraphNodeEndpoint
-} from "~/lib/common/app/graph/endpoints";
+import { generateGraphNodesEndpoint } from "~/lib/common/app/graph/endpoints";
+import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
+import { Node } from "~/lib/common/app/node/endpoints";
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import { EntityApiService } from "../../_lib/entity-api";
 import { ApiClient } from "../../api.client";
 
-export class GraphNodeApi
-	extends EntityApiService<GraphNode, GraphNodeCreateDto, GraphNodeUpdateDto>
-	implements GraphNodeEndpoint
-{
+export class GraphNodeApi extends EntityApiService<Node, NodeCreateDto, NodeUpdateDto> {
 	/**
 	 * @inheritDoc
 	 */

@@ -6,7 +6,6 @@ import {
 
 import { NodeBehaviorParameterBase } from "./node-behavior.parameter-base";
 import { ManyToOneFactory } from "../../../_lib/entity/decorators";
-import { GraphNodeOutput } from "../../../graph/node/output";
 import { NodeOutput } from "../../output";
 
 const OutputProperty = ManyToOneFactory(() => NodeOutput, {
@@ -26,5 +25,5 @@ export class NodeBehaviorParameterOutput
 	public readonly __node_output!: number;
 
 	@OutputProperty({ foreign: true })
-	public readonly nodeOutput?: GraphNodeOutput;
+	public readonly nodeOutput?: NodeOutput;
 }

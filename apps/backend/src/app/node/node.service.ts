@@ -1,25 +1,135 @@
-import { Reference } from "@mikro-orm/core";
-import { Injectable } from "@nestjs/common";
+import { EventArgs, EventSubscriber, Reference } from "@mikro-orm/core";
+import { EntityName } from "@mikro-orm/nestjs";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { EntityId } from "~/lib/common/dtos/entity";
+import { EntitiesToPopulate } from "~/lib/common/endpoints";
 
+import { NodeInput, NodeInputCreate } from "./input";
 import { Node } from "./node.entity";
 import { NodeRepository } from "./node.repository";
-import { EntityService } from "../_lib/entity";
+import { NodeOutput, NodeOutputCreate } from "./output";
+import { EntityLoaded, EntityService, EntityServiceCreateOptions } from "../_lib/entity";
 import { Category } from "../category/category.entity";
+import { Graph } from "../graph/graph.entity";
+import { GraphService } from "../graph/graph.service";
+import {
+	GraphNodeTriggerInFunctionException,
+	GraphNodeTriggerInWorkflowException
+} from "../graph/node/exceptions";
 
 /**
  * Service to manages [nodes]{@link Node}.
  */
 @Injectable()
-export class NodeService extends EntityService<Node, NodeCreateDto, NodeUpdateDto> {
+export class NodeService
+	extends EntityService<Node, NodeCreateDto, NodeUpdateDto>
+	implements EventSubscriber<Node>
+{
 	/**
 	 * Constructor with "dependency injection"
 	 *
 	 * @param repository injected
+	 * @param graphService injected
 	 */
-	public constructor(repository: NodeRepository) {
+	public constructor(
+		repository: NodeRepository,
+		@Inject(forwardRef(() => GraphService))
+		private readonly graphService: GraphService
+	) {
 		super(repository);
+
+		repository.getEntityManager().getEventManager().registerSubscriber(this);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public getSubscribedEntities(): Array<EntityName<Node>> {
+		return [Node];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public async beforeCreate(args: EventArgs<Node>) {
+		const { behavior, kind } = args.entity;
+
+		if (behavior.type !== NodeBehaviorType.TRIGGER || kind.type !== NodeKindType.EDGE) {
+			// Nothing to verify it the node is not a `trigger`
+			return;
+		}
+
+		// TODO: A way to add custom relation in the EntityRelationsKey?
+		const behaviorRelation: keyof Graph = "nodeBehavior";
+		const { nodeBehavior, workflow } = await this.graphService.findById(kind.__graph, {
+			populate: { [behaviorRelation]: true, workflow: true }
+		});
+
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- exists (reversed relation)
+		if (nodeBehavior) {
+			throw new GraphNodeTriggerInFunctionException();
+		}
+
+		if (workflow) {
+			const {
+				pagination: { total }
+			} = await this.findAndCount(
+				{
+					behavior: { type: NodeBehaviorType.TRIGGER },
+					kind: { __graph: kind.__graph, type: NodeKindType.EDGE }
+				},
+				{ limit: 0 }
+			);
+
+			if (total > 0) {
+				throw new GraphNodeTriggerInWorkflowException();
+			}
+		}
+	}
+
+	public override async create<P extends EntitiesToPopulate<Node>>(
+		toCreate: NodeCreateDto,
+		options?: EntityServiceCreateOptions<Node, P>
+	): Promise<EntityLoaded<Node, P>> {
+		return super.create(toCreate, options).then(async created => {
+			const { behavior } = created;
+			if (behavior.type !== NodeBehaviorType.REFERENCE) {
+				return created;
+			}
+
+			// "Copy" inputs and outputs
+
+			// TODO: in another function
+			// FIXME: in the `afterCreate` hook. (Currently an error with seeding)
+			const reference = await this.findById(behavior.__node);
+
+			const em = this.repository.getEntityManager();
+
+			for (const [collection, entity] of [
+				[reference.inputs, NodeInput],
+				[reference.outputs, NodeOutput]
+			] as const) {
+				for (const { _id, name, type } of collection) {
+					em.create(entity, {
+						__node: created._id,
+						__ref: _id,
+						name,
+						type
+					} satisfies NodeInputCreate | NodeOutputCreate as never);
+				}
+			}
+
+			await em.flush();
+
+			// Fill the values
+			await created.inputs.init();
+			await created.outputs.init();
+
+			return created;
+		});
 	}
 
 	/**

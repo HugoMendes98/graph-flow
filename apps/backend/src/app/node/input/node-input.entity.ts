@@ -1,6 +1,7 @@
-import { Entity, Enum, Property } from "@mikro-orm/core";
+import { Entity, Enum, ManyToOne, Property } from "@mikro-orm/core";
 import { NodeInputDto } from "~/lib/common/app/node/dtos/input";
 import { NodeIoType } from "~/lib/common/app/node/io";
+import { EntityId } from "~/lib/common/dtos/entity";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { NodeInputRepository } from "./node-input.repository";
@@ -21,6 +22,9 @@ export class NodeInput extends EntityBase implements DtoToEntity<NodeInputDto> {
 	 */
 	@NodeProperty({ foreign: false })
 	public __node!: number;
+
+	@ManyToOne(() => NodeInput, { mapToPk: true, nullable: true, type: () => Number })
+	public __ref!: EntityId | null;
 
 	/**
 	 * @inheritDoc

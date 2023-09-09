@@ -1,6 +1,7 @@
 import { EventArgs, EventSubscriber, MikroORM, UseRequestContext } from "@mikro-orm/core";
 import { Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
 import { EntityId } from "~/lib/common/dtos/entity";
 
@@ -9,8 +10,8 @@ import { Workflow } from "./workflow.entity";
 import { WorkflowRepository } from "./workflow.repository";
 import { EntityService } from "../_lib/entity";
 import { GraphService } from "../graph/graph.service";
-import { GraphNodeService } from "../graph/node/graph-node.service";
 import { NodeTrigger } from "../node/behaviors/triggers";
+import { NodeService } from "../node/node.service";
 
 /**
  * Service to manages [workflows]{@link Workflow}.
@@ -26,14 +27,14 @@ export class WorkflowService
 	 * @param repository injected
 	 * @param orm injected
 	 * @param graphService injected
-	 * @param graphNodeService injected
+	 * @param nodeService injected
 	 */
 	public constructor(
 		repository: WorkflowRepository,
 		// For `@UseRequestContext`
 		private readonly orm: MikroORM,
 		private readonly graphService: GraphService,
-		private readonly graphNodeService: GraphNodeService
+		private readonly nodeService: NodeService
 	) {
 		super(repository);
 
@@ -105,17 +106,29 @@ export class WorkflowService
 	private async getTrigger(workflow: Workflow) {
 		const { __graph, _id } = workflow;
 
-		const { data } = await this.graphNodeService.findAndCount(
-			{ __graph, node: { behavior: { type: NodeBehaviorType.TRIGGER } } },
-			{ limit: 1 },
-			{ populate: { node: true } }
+		const { data } = await this.nodeService.findAndCount(
+			{
+				$or: [
+					// Trigger directly set in the workflows
+					{ behavior: { type: NodeBehaviorType.TRIGGER } }
+					// { TODO
+					// 	// Or via a reference
+					// 	behavior: {
+					// 		node: { behavior: { type: NodeBehaviorType.TRIGGER } },
+					// 		type: NodeBehaviorType.REFERENCE
+					// 	}
+					// }
+				],
+				kind: { __graph, type: NodeKindType.EDGE }
+			},
+			{ limit: 1 }
 		);
 
 		if (data.length !== 1) {
 			throw new NotFoundException(`No trigger found for the workflow ${_id}`);
 		}
 
-		const [{ node }] = data;
+		const [node] = data;
 
 		type Node = typeof node;
 		return node as Node & Record<keyof Pick<Node, "behavior">, NodeTrigger>;

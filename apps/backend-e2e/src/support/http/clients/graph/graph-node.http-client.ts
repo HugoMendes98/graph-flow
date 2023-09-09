@@ -1,4 +1,4 @@
-import { GraphNodeDto } from "~/lib/common/app/graph/dtos/node";
+import { GraphNodeDto } from "~/lib/common/app/graph/endpoints";
 
 import { EntityHttpClient } from "../_lib/entity.http-client";
 

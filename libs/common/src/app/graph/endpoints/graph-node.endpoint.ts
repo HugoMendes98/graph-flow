@@ -1,13 +1,12 @@
-import { Jsonify } from "type-fest";
-
 import { GRAPHS_ENDPOINT_PREFIX } from "./graph.endpoint";
 import { EntityId } from "../../../dtos/entity";
 import { DtoToEntity } from "../../../dtos/entity/entity.types";
 import { EntityEndpoint } from "../../../endpoints";
-import { GraphNodeCreateDto, GraphNodeDto, GraphNodeUpdateDto } from "../dtos/node";
+import { NodeCreateDto, NodeDto, NodeUpdateDto } from "../../node/dtos";
+import { NodeKindEdgeDto } from "../../node/dtos/kind";
 
 /**
- * Endpoint path parts for [nodes]{@link GraphNodeDto} (without global prefix).
+ * Endpoint path parts for [nodes]{@link NodeDto} (without global prefix).
  * The parameter goes in the middle starting with a `/`.
  */
 export const GRAPH_NODES_ENDPOINT_PARTS = [GRAPHS_ENDPOINT_PREFIX, "/nodes"] as const;
@@ -23,6 +22,7 @@ export function generateGraphNodesEndpoint(graphId: EntityId) {
 	return `${start}/${graphId}${end}`;
 }
 
-export type GraphNode = Jsonify<GraphNodeDto>;
-export type GraphNodeEndpoint<T extends DtoToEntity<GraphNodeDto> | GraphNode = GraphNode> =
-	EntityEndpoint<T, GraphNodeCreateDto, GraphNodeUpdateDto>;
+export type GraphNodeDto = Omit<NodeDto, "kind"> &
+	Record<keyof Pick<NodeDto, "kind">, NodeKindEdgeDto>;
+export type GraphNodeEndpoint<T extends DtoToEntity<NodeDto> | GraphNodeDto = GraphNodeDto> =
+	EntityEndpoint<T, NodeCreateDto, NodeUpdateDto>;

@@ -6,7 +6,6 @@ import {
 
 import { NodeBehaviorParameterBase } from "./node-behavior.parameter-base";
 import { ManyToOneFactory } from "../../../_lib/entity/decorators";
-import { GraphNodeInput } from "../../../graph/node/input";
 import { NodeInput } from "../../input";
 
 const InputProperty = ManyToOneFactory(() => NodeInput, {
@@ -26,5 +25,5 @@ export class NodeBehaviorParameterInput
 	public readonly __node_input!: number;
 
 	@InputProperty({ foreign: true })
-	public readonly nodeInput?: GraphNodeInput;
+	public readonly nodeInput?: NodeInput;
 }

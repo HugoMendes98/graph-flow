@@ -2,17 +2,16 @@ import { Type as TypeTransformer } from "class-transformer";
 import { IsString, MinLength, ValidateNested } from "class-validator";
 
 import {
-	NODE_BEHAVIOR_DTOS,
 	NodeBehaviorBaseDto,
-	NodeBehaviorDiscriminatorKey,
-	NodeBehaviorDto
-} from "./behaviors";
+	NodeBehaviorDiscriminatorKey
+} from "./behaviors/node-behavior.base.dto";
+import { NodeBehaviorDto, NODE_BEHAVIOR_DTOS } from "./behaviors/node-behavior.dto";
 import { NodeInputDto } from "./input/node-input.dto";
+import { NODE_KIND_DTOS, NodeKindBaseDto, NodeKindDiscriminatorKey, NodeKindDto } from "./kind";
 import { NodeOutputDto } from "./output/node-output.dto";
 import { DtoProperty } from "../../../dtos/dto";
 import { EntityDto } from "../../../dtos/entity";
 import { CategoryDto } from "../../category/dtos/category.dto";
-import { GraphNodeDto } from "../../graph/dtos/node/graph-node.dto";
 
 /**
  * DTO for node entities.
@@ -27,9 +26,6 @@ export class NodeDto extends EntityDto {
 	@IsString()
 	@MinLength(2)
 	public name!: string;
-
-	// TODO: color?
-	// TODO: number of inputs/outputs (calculated/determined from the behavior)
 
 	/**
 	 * The behavior of a node defines how it works on a graph.
@@ -53,27 +49,44 @@ export class NodeDto extends EntityDto {
 	@ValidateNested()
 	public readonly behavior!: NodeBehaviorDto;
 
+	/**
+	 * The kind of this node
+	 */
+	@TypeTransformer(() => NodeKindBaseDto, {
+		discriminator: {
+			property: "type" satisfies NodeKindDiscriminatorKey,
+			subTypes: NODE_KIND_DTOS.map(kind => ({ name: kind.TYPE, value: kind }))
+		},
+		keepDiscriminatorProperty: true
+	})
+	@ValidateNested()
+	public readonly kind!: NodeKindDto;
+
 	// ------- Relations -------
 
 	/**
-	 * All [inputs]{@link NodeInputDto} linked to this node
+	 * All [inputs]{@link NodeInputDto} linked to this node.
+	 *
+	 * Automatically managed most of the time
 	 */
 	@DtoProperty({
 		array: true,
 		forwardRef: true,
 		type: () => NodeInputDto
 	})
-	public readonly inputs!: NodeInputDto[];
-
+	public readonly inputs!: readonly NodeInputDto[];
 	/**
-	 * All [outputs]{@link NodeOutputDto} linked to this node
+	 * All [outputs]{@link NodeOutputDto} linked to this node.
+	 *
+	 * Automatically managed most of the time
 	 */
 	@DtoProperty({
 		array: true,
 		forwardRef: true,
 		type: () => NodeOutputDto
 	})
-	public readonly outputs!: NodeOutputDto[];
+	public readonly outputs!: readonly NodeOutputDto[];
+
 	/**
 	 * All [categories]{@link CategoryDto} linked to this node
 	 *
@@ -84,15 +97,5 @@ export class NodeDto extends EntityDto {
 		forwardRef: true,
 		type: () => CategoryDto
 	})
-	public readonly categories?: CategoryDto[];
-
-	/**
-	 * All [graph-nodes]{@link GraphNodeDto} linked to this node
-	 */
-	@DtoProperty({
-		array: true,
-		forwardRef: true,
-		type: () => GraphNodeDto
-	})
-	public readonly graphNodes?: GraphNodeDto[];
+	public readonly categories?: readonly CategoryDto[];
 }

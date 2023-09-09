@@ -6,15 +6,8 @@ import { MockSeed } from "./mock.seed";
 export const EMPTY_SEED = {
 	categories: [],
 	graph: {
-		graphArcs: [],
-		graphNodeInputs: [],
-		graphNodeOutputs: [],
-		graphNodes: [],
-		graphs: []
-	},
-	node: {
-		nodeInputs: [],
-		nodeOutputs: [],
+		arcs: [],
+		graphs: [],
 		nodes: []
 	},
 	users: [],

@@ -38,5 +38,5 @@ export abstract class NodeBehaviorBase<Type extends NodeBehaviorType = NodeBehav
 		owner: true,
 		primary: true
 	})
-	public readonly node?: Node;
+	public readonly pkNode?: Node;
 }

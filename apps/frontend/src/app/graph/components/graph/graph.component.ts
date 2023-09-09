@@ -18,8 +18,10 @@ import { ConnectionPlugin, Presets as ConnectionPresets } from "rete-connection-
 import { ReadonlyPlugin } from "rete-readonly-plugin";
 import { bufferToggle, filter, map, Observable, Subject } from "rxjs";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
-import { PositionDto } from "~/lib/common/app/graph/dtos/node";
-import { GraphArc, GraphNode } from "~/lib/common/app/graph/endpoints";
+import { GraphArc } from "~/lib/common/app/graph/endpoints";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { PositionDto } from "~/lib/common/app/node/dtos/position.dto";
+import { Node } from "~/lib/common/app/node/endpoints";
 import { ReteConnection, ReteInput, ReteNode, ReteOutput } from "~/lib/ng/lib/rete";
 
 import { ReteConnectionComponent } from "../rete/connection/rete.connection.component";
@@ -29,7 +31,7 @@ import { ReteSocketComponent } from "../rete/socket/rete.socket.component";
 type Schemes = GetSchemes<ReteNode, ReteConnection>;
 type AreaExtra = AngularArea2D<Schemes>;
 
-export interface GraphNodeMoved {
+export interface NodeMoved {
 	/**
 	 * The new position of the node
 	 */
@@ -37,7 +39,7 @@ export interface GraphNodeMoved {
 	/**
 	 * The node that has been moved
 	 */
-	node: GraphNode;
+	node: Node;
 	/**
 	 * The previous position of the node
 	 */
@@ -96,7 +98,7 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 	 * The nodes (with their inputs/outputs) of the graphs
 	 */
 	@Input({ required: true })
-	public nodes!: readonly GraphNode[];
+	public nodes!: readonly Node[];
 
 	/**
 	 * Is the graph on readonly mode?
@@ -116,7 +118,7 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 	 * When a node has been moved on the graph
 	 */
 	@Output()
-	public readonly nodeMoved: Observable<GraphNodeMoved>;
+	public readonly nodeMoved: Observable<NodeMoved>;
 
 	// The ref to this component is not used, so content can more easily be added to this component (context menu, pop-ups, ...)
 	@ViewChild("graph", { static: true })
@@ -161,9 +163,9 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 				) {
 					return {
 						current: current.data.position,
-						node: node.data.graphNode,
+						node: node.data.node,
 						previous: previous.data.previous
-					} satisfies GraphNodeMoved;
+					} satisfies NodeMoved;
 				}
 
 				throw new Error("Should not happen");
@@ -216,7 +218,12 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 		const outputsMap = new Map<number, ReteOutput>();
 
 		for (const node of this.nodes) {
-			const { position } = node;
+			const { kind } = node;
+			if (kind.type !== NodeKindType.EDGE) {
+				continue;
+			}
+
+			const { position } = kind;
 			const reteNode = new ReteNode(node);
 
 			for (const input of Object.values(reteNode.inputs) as ReteInput[]) {

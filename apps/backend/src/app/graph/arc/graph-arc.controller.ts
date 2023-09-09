@@ -18,6 +18,7 @@ import {
 	GraphArcResultsDto
 } from "~/lib/common/app/graph/dtos/arc";
 import { generateGraphArcsEndpoint, GraphArcEndpoint } from "~/lib/common/app/graph/endpoints";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { UnshiftParameters } from "~/lib/common/types";
 
@@ -56,8 +57,8 @@ export class GraphArcController implements EndpointTransformed {
 			{
 				$and: [
 					{
-						from: { graphNode: { __graph: graph._id } },
-						to: { graphNode: { __graph: graph._id } }
+						from: { node: { kind: { __graph: graph._id } } },
+						to: { node: { kind: { __graph: graph._id } } }
 					},
 					where
 				]
@@ -103,14 +104,14 @@ export class GraphArcController implements EndpointTransformed {
 	 */
 	private validateArcId(graph: Graph, id: number): Promise<GraphArc> {
 		return this.service
-			.findById(id, { populate: { from: { graphNode: true }, to: { graphNode: true } } })
+			.findById(id, { populate: { from: { node: true }, to: { node: true } } })
 			.then(arc => {
-				const [fromGraph, toGraph] = [arc.from.graphNode.__graph, arc.to.graphNode.__graph];
-
-				if (graph._id !== fromGraph || fromGraph !== toGraph) {
-					throw new NotFoundException(
-						`No GraphArc{id:${id}} found in graph{id:${graph._id}}`
-					);
+				for (const kind of [arc.from.node.kind, arc.to.node.kind]) {
+					if (kind.type !== NodeKindType.EDGE || kind.__graph !== graph._id) {
+						throw new NotFoundException(
+							`No GraphArc{id:${id}} found in graph{id:${graph._id}}`
+						);
+					}
 				}
 
 				return arc;

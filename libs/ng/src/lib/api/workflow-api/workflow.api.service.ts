@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Jsonify } from "type-fest";
-import { GraphDto } from "~/lib/common/app/graph/dtos";
+import { Graph } from "~/lib/common/app/graph/endpoints";
 import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
 import {
 	Workflow,
@@ -27,7 +26,7 @@ export class WorkflowApiService
 	/**
 	 * @inheritDoc
 	 */
-	public lookForGraph(id: EntityId): Promise<Jsonify<GraphDto>> {
+	public lookForGraph(id: EntityId): Promise<Graph> {
 		return this.client.get(`${this.getEntrypoint()}/${id}${WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT}`);
 	}
 }

@@ -8,6 +8,7 @@ import {
 	NodeBehaviorParameterOutputDto,
 	NodeBehaviorVariableDto
 } from "./node-behavior.parameter.dto";
+import { NodeBehaviorReferenceDto } from "./node-behavior.reference.dto";
 import { NodeBehaviorTriggerDto } from "./node-behavior.trigger.dto";
 
 /**
@@ -18,6 +19,7 @@ export const NODE_BEHAVIOR_DTOS = [
 	NodeBehaviorFunctionDto,
 	NodeBehaviorParameterInputDto,
 	NodeBehaviorParameterOutputDto,
+	NodeBehaviorReferenceDto,
 	NodeBehaviorTriggerDto,
 	NodeBehaviorVariableDto
 ] as const satisfies ReadonlyArray<Type<NodeBehaviorBaseDto>>;

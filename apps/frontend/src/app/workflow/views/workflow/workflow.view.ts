@@ -10,7 +10,7 @@ import { RequestStateSubject } from "~/lib/ng/lib/request-state/request-state.su
 import {
 	GraphActions,
 	GraphComponent,
-	GraphNodeMoved
+	NodeMoved
 } from "../../../graph/components/graph/graph.component";
 
 @Component({
@@ -42,11 +42,11 @@ export class WorkflowView {
 		private readonly graphApi: GraphApiService
 	) {}
 
-	protected handleNodeMove(workflow: Workflow, nodeMoved: GraphNodeMoved) {
+	protected handleNodeMove(workflow: Workflow, nodeMoved: NodeMoved) {
 		// TODO: this is temporary
 		void this.graphApi
 			.forNodes(workflow.__graph)
-			.update(nodeMoved.node._id, { position: nodeMoved.current });
+			.update(nodeMoved.node._id, { kind: { position: nodeMoved.current } });
 	}
 
 	protected getActions(workflow: Workflow): GraphActions {

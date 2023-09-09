@@ -8,12 +8,7 @@ import { AuthService } from "../../../app/auth/auth.service";
 import { Category } from "../../../app/category/category.entity";
 import { GraphArc } from "../../../app/graph/arc/graph-arc.entity";
 import { Graph } from "../../../app/graph/graph.entity";
-import { GraphNode } from "../../../app/graph/node/graph-node.entity";
-import { GraphNodeInput } from "../../../app/graph/node/input";
-import { GraphNodeOutput } from "../../../app/graph/node/output";
-import { NodeInput } from "../../../app/node/input";
 import { Node } from "../../../app/node/node.entity";
-import { NodeOutput } from "../../../app/node/output";
 import { User } from "../../../app/user/user.entity";
 import { Workflow } from "../../../app/workflow/workflow.entity";
 
@@ -58,8 +53,7 @@ export abstract class MockedDbSeeder extends Seeder {
 
 		const {
 			categories,
-			graph: { graphArcs, graphNodeInputs, graphNodeOutputs, graphNodes, graphs },
-			node: { nodeInputs, nodeOutputs, nodes },
+			graph: { arcs, graphs, nodes },
 			users,
 			workflows
 		} = this.db;
@@ -75,16 +69,11 @@ export abstract class MockedDbSeeder extends Seeder {
 					}))
 				)
 			},
-			// Nodes
-			{ entity: Node, mocks: nodes },
-			{ entity: NodeInput, mocks: nodeInputs },
-			{ entity: NodeOutput, mocks: nodeOutputs },
+
 			// Graphs
 			{ entity: Graph, mocks: graphs },
-			{ entity: GraphNode, mocks: graphNodes },
-			{ entity: GraphNodeInput, mocks: graphNodeInputs },
-			{ entity: GraphNodeOutput, mocks: graphNodeOutputs },
-			{ entity: GraphArc, mocks: graphArcs },
+			{ entity: Node, mocks: nodes },
+			{ entity: GraphArc, mocks: arcs },
 
 			{ entity: Workflow, mocks: workflows }
 		] satisfies MockEntity[]) {

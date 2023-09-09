@@ -1,7 +1,7 @@
 import { IsEnum, IsNumber, IsOptional, IsString, Min } from "class-validator";
 
 import { DtoProperty } from "../../../../dtos/dto";
-import { EntityDto } from "../../../../dtos/entity";
+import { EntityDto, EntityId } from "../../../../dtos/entity";
 import { NodeIoType } from "../../io";
 import { NodeDto } from "../node.dto";
 
@@ -12,7 +12,13 @@ export class NodeOutputDto extends EntityDto {
 	@DtoProperty()
 	@IsNumber()
 	@Min(0)
-	public __node!: number;
+	public readonly __node!: EntityId;
+
+	/**
+	 * When the node is a reference, the output is linked to an ref output
+	 */
+	@DtoProperty({ nullable: true, type: () => Number })
+	public readonly __ref!: EntityId | null;
 
 	/**
 	 * Name of this output
@@ -36,9 +42,6 @@ export class NodeOutputDto extends EntityDto {
 	/**
 	 * Foreign data of the {@link NodeDto} it is connected
 	 */
-	@DtoProperty({
-		forwardRef: true,
-		type: () => NodeDto
-	})
+	@DtoProperty({ forwardRef: true, type: () => NodeDto })
 	public readonly node?: NodeDto;
 }

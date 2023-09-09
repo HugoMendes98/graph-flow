@@ -2,25 +2,21 @@ import { action } from "@storybook/addon-actions";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { Jsonify } from "type-fest";
 import { GraphDto } from "~/lib/common/app/graph/dtos";
-import { GraphNodeDto } from "~/lib/common/app/graph/dtos/node";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { BASE_SEED } from "~/lib/common/seeds";
 
 import { GraphComponent } from "./graph.component";
 
 const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "actions" | "arcs" | "nodes"> => {
-	const { graphArcs, graphNodeInputs, graphNodeOutputs, graphNodes } = JSON.parse(
-		JSON.stringify(BASE_SEED.graph)
-	) as Jsonify<typeof BASE_SEED.graph>;
+	const { arcs: gArcs, nodes: gNodes } = JSON.parse(JSON.stringify(BASE_SEED.graph)) as Jsonify<
+		typeof BASE_SEED.graph
+	>;
 
-	const nodes = graphNodes
-		.filter(({ __graph }) => __graph === graph._id)
-		.map<Jsonify<GraphNodeDto>>(node => ({
-			...node,
-			inputs: graphNodeInputs.filter(({ __graph_node }) => __graph_node === node._id),
-			outputs: graphNodeOutputs.filter(({ __graph_node }) => __graph_node === node._id)
-		}));
+	const nodes = gNodes.filter(
+		({ kind }) => kind.type === NodeKindType.EDGE && kind.__graph === graph._id
+	);
 
-	const arcs = graphArcs.filter(({ __from, __to }) =>
+	const arcs = gArcs.filter(({ __from, __to }) =>
 		nodes.some(
 			({ inputs, outputs }) =>
 				inputs.some(({ _id }) => _id === __to) || outputs.some(({ _id }) => _id === __from)

@@ -1,6 +1,7 @@
-import { Entity, Enum, LoadStrategy, Property } from "@mikro-orm/core";
+import { Entity, Enum, LoadStrategy, ManyToOne, Property } from "@mikro-orm/core";
 import { NodeOutputDto } from "~/lib/common/app/node/dtos/output";
 import { NodeIoType } from "~/lib/common/app/node/io";
+import { EntityId } from "~/lib/common/dtos/entity";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { NodeOutputRepository } from "./node-output.repository";
@@ -22,6 +23,12 @@ export class NodeOutput extends EntityBase implements DtoToEntity<NodeOutputDto>
 	 */
 	@NodeProperty({ foreign: false })
 	public __node!: number;
+
+	/**
+	 * @inheritDoc
+	 */
+	@ManyToOne(() => NodeOutput, { mapToPk: true, nullable: true, type: () => Number })
+	public __ref!: EntityId | null;
 
 	/**
 	 * @inheritDoc

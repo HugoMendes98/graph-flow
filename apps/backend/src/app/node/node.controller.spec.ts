@@ -1,16 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { NodeController } from "./node.controller";
-import { NodeRepository } from "./node.repository";
-import { NodeService } from "./node.service";
+import { NodeModule } from "./node.module";
+import { OrmModule } from "../../orm/orm.module";
 
 describe("NodeController", () => {
 	let controller: NodeController;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
-			controllers: [NodeController],
-			providers: [{ provide: NodeRepository, useValue: {} }, NodeService]
+			imports: [OrmModule, NodeModule]
 		}).compile();
 
 		controller = module.get<NodeController>(NodeController);
