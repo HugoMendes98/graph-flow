@@ -18,7 +18,7 @@ export default {
 				tsconfig: "<rootDir>/tsconfig.spec.json"
 			}
 		],
-		// eslint-disable-next-line sort-keys -- the order matters
+		// eslint-disable-next-line sort-keys-plus/sort-keys -- the order matters
 		"^.+\\.(ts|mjs|js|html)$": "jest-preset-angular"
 	},
 	transformIgnorePatterns: ["node_modules/(?!.*\\.mjs$)"]
