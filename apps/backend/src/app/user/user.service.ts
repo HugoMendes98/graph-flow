@@ -1,15 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { UserCreateDto, UserUpdateDto } from "~/lib/common/app/user/dtos";
 
-import { User } from "./user.entity";
+import { UserEntity } from "./user.entity";
 import { UserRepository } from "./user.repository";
 import { EntityService } from "../_lib/entity";
 
 /**
- * Service to manages [users]{@link User}.
+ * Service to manages [users]{@link UserEntity}.
  */
 @Injectable()
-export class UserService extends EntityService<User, UserCreateDto, UserUpdateDto> {
+export class UserService extends EntityService<UserEntity, UserCreateDto, UserUpdateDto> {
 	/**
 	 * Constructor with "dependency injection"
 	 *

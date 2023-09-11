@@ -1,15 +1,15 @@
 import { NODE_BEHAVIOR_ENTITIES, NodeBehaviorBase } from "./behaviors";
 import { NodeBehaviorParameterBase } from "./behaviors/parameters";
-import { NodeInput } from "./input";
+import { NodeInputEntity } from "./input";
 import { NODE_KIND_ENTITIES, NodeKindBaseEntity } from "./kind";
-import { Node } from "./node.entity";
-import { NodeOutput } from "./output";
+import { NodeEntity } from "./node.entity";
+import { NodeOutputEntity } from "./output";
 
 /**
- * All entities (classes) linked to {@link Node}
+ * All entities (classes) linked to {@link NodeEntity}
  */
 export const NODE_ENTITIES = [
-	Node,
+	NodeEntity,
 
 	// Behavior
 	NodeBehaviorBase,
@@ -20,6 +20,6 @@ export const NODE_ENTITIES = [
 	...NODE_KIND_ENTITIES,
 
 	// Input/Output
-	NodeInput,
-	NodeOutput
+	NodeInputEntity,
+	NodeOutputEntity
 ];

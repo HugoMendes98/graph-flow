@@ -21,4 +21,4 @@ export const NODE_BEHAVIOR_ENTITIES = [
 /**
  * The union type of all node behaviors
  */
-export type NodeBehavior = InstanceType<(typeof NODE_BEHAVIOR_ENTITIES)[number]>;
+export type NodeBehaviorEntity = InstanceType<(typeof NODE_BEHAVIOR_ENTITIES)[number]>;

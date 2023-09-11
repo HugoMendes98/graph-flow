@@ -1,8 +1,8 @@
 import { EntityRepository } from "@mikro-orm/core";
 
-import { Node } from "./node.entity";
+import { NodeEntity } from "./node.entity";
 
 /**
- * The repository to manage [nodes]{@link Node}.
+ * The repository to manage [nodes]{@link NodeEntity}.
  */
-export class NodeRepository extends EntityRepository<Node> {}
+export class NodeRepository extends EntityRepository<NodeEntity> {}

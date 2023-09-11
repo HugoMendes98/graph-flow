@@ -6,7 +6,7 @@ import { AuthSuccessDto } from "~/lib/common/app/auth/dtos/auth.success.dto";
 
 import { JWTPayload } from "./auth.types";
 import { getConfiguration } from "../../configuration";
-import { User } from "../user/user.entity";
+import { UserEntity } from "../user/user.entity";
 import { UserService } from "../user/user.service";
 
 /**
@@ -52,7 +52,7 @@ export class AuthService {
 	 * @param user The user to log
 	 * @returns The success message with the access_token
 	 */
-	public async login(user: User): Promise<AuthSuccessDto> {
+	public async login(user: UserEntity): Promise<AuthSuccessDto> {
 		const access_token = await this.jwtService.signAsync({
 			_id: user._id,
 			email: user.email,

@@ -9,7 +9,7 @@ import {
 } from "~/lib/common/app/category/dtos";
 import { CATEGORIES_ENDPOINT_PREFIX, CategoryEndpoint } from "~/lib/common/app/category/endpoints";
 
-import { Category } from "./category.entity";
+import { CategoryEntity } from "./category.entity";
 import { CategoryService } from "./category.service";
 import { UseAuth } from "../auth/auth.guard";
 
@@ -19,7 +19,7 @@ import { UseAuth } from "../auth/auth.guard";
 @ApiTags("Categories")
 @Controller(CATEGORIES_ENDPOINT_PREFIX)
 @UseAuth()
-export class CategoryController implements CategoryEndpoint<Category> {
+export class CategoryController implements CategoryEndpoint<CategoryEntity> {
 	/**
 	 * Constructor with "dependency injection"
 	 *

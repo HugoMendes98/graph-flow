@@ -7,23 +7,23 @@ import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 import { NodeInputRepository } from "./node-input.repository";
 import { EntityBase } from "../../_lib/entity";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
-import { Node } from "../node.entity";
+import { NodeEntity } from "../node.entity";
 
-const NodeProperty = ManyToOneFactory(() => Node, {
+const NodeProperty = ManyToOneFactory(() => NodeEntity, {
 	fieldName: "__node" satisfies keyof NodeInputDto,
 	onDelete: "cascade",
 	onUpdateIntegrity: "cascade"
 });
 
 @Entity({ customRepository: () => NodeInputRepository })
-export class NodeInput extends EntityBase implements DtoToEntity<NodeInputDto> {
+export class NodeInputEntity extends EntityBase implements DtoToEntity<NodeInputDto> {
 	/**
 	 * @inheritDoc
 	 */
 	@NodeProperty({ foreign: false })
 	public __node!: number;
 
-	@ManyToOne(() => NodeInput, { mapToPk: true, nullable: true, type: () => Number })
+	@ManyToOne(() => NodeInputEntity, { mapToPk: true, nullable: true, type: () => Number })
 	public __ref!: EntityId | null;
 
 	/**
@@ -41,5 +41,5 @@ export class NodeInput extends EntityBase implements DtoToEntity<NodeInputDto> {
 	// ------- Relations -------
 
 	@NodeProperty({ foreign: true })
-	public node?: Node;
+	public node?: NodeEntity;
 }

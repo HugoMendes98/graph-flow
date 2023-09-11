@@ -10,20 +10,20 @@ import {
 import { NodeDto } from "~/lib/common/app/node/dtos";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
-import { NodeBehavior } from "./behaviors/node-behavior";
 import { NodeBehaviorBase } from "./behaviors/node-behavior.base";
-import { NodeInput } from "./input/node-input.entity";
+import { NodeBehaviorEntity } from "./behaviors/node-behavior.entity";
+import { NodeInputEntity } from "./input/node-input.entity";
 import { NodeKindBaseEntity, NodeKindEntity } from "./kind";
 import { NodeRepository } from "./node.repository";
-import { NodeOutput } from "./output/node-output.entity";
+import { NodeOutputEntity } from "./output/node-output.entity";
 import { EntityBase, EntityToDto } from "../_lib/entity";
-import { Category } from "../category/category.entity";
+import { CategoryEntity } from "../category/category.entity";
 
 /**
  * The entity class to manage nodes
  */
 @Entity({ customRepository: () => NodeRepository })
-export class Node extends EntityBase implements DtoToEntity<NodeDto> {
+export class NodeEntity extends EntityBase implements DtoToEntity<NodeDto> {
 	/**
 	 * @inheritDoc
 	 */
@@ -39,7 +39,7 @@ export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 		// This strategy is "kinda mandatory" with manual populate
 		strategy: LoadStrategy.JOINED
 	})
-	public readonly behavior!: NodeBehavior;
+	public readonly behavior!: NodeBehaviorEntity;
 
 	/**
 	 * @inheritDoc
@@ -54,19 +54,19 @@ export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 
 	// ------- Relations -------
 
-	@OneToMany(() => NodeInput, ({ node }) => node, {
+	@OneToMany(() => NodeInputEntity, ({ node }) => node, {
 		eager: true,
 		orderBy: { _id: "asc" }
 	})
-	public readonly inputs = new Collection<NodeInput>(this);
-	@OneToMany(() => NodeOutput, ({ node }) => node, {
+	public readonly inputs = new Collection<NodeInputEntity>(this);
+	@OneToMany(() => NodeOutputEntity, ({ node }) => node, {
 		eager: true,
 		orderBy: { _id: "asc" }
 	})
-	public readonly outputs = new Collection<NodeOutput>(this);
+	public readonly outputs = new Collection<NodeOutputEntity>(this);
 
-	@ManyToMany(() => Category, ({ nodes }) => nodes, { hidden: true, owner: true })
-	public readonly categories? = new Collection<Category>(this);
+	@ManyToMany(() => CategoryEntity, ({ nodes }) => nodes, { hidden: true, owner: true })
+	public readonly categories? = new Collection<CategoryEntity>(this);
 
 	/**
 	 * @inheritDoc

@@ -1,15 +1,15 @@
 import { Injectable, MethodNotAllowedException } from "@nestjs/common";
 import { EntityId } from "~/lib/common/dtos/entity";
 
-import { Graph } from "./graph.entity";
+import { GraphEntity } from "./graph.entity";
 import { GraphRepository } from "./graph.repository";
 import { EntityService } from "../_lib/entity";
 
 /**
- * Service to manages [graphs]{@link Graph}.
+ * Service to manages [graphs]{@link GraphEntity}.
  */
 @Injectable()
-export class GraphService extends EntityService<Graph, Record<string, never>, unknown> {
+export class GraphService extends EntityService<GraphEntity, Record<string, never>, unknown> {
 	// TODO: update types
 
 	/**
@@ -43,7 +43,7 @@ export class GraphService extends EntityService<Graph, Record<string, never>, un
 	 * @param id Entity id to delete
 	 * @returns A promise that always reject
 	 */
-	public override delete(id: EntityId): Promise<Graph> {
+	public override delete(id: EntityId): Promise<GraphEntity> {
 		return Promise.reject(
 			new MethodNotAllowedException(
 				`Can not delete the graph ${id} directly. Delete through its \`workflow\` or \`node-function\`.`
@@ -58,7 +58,7 @@ export class GraphService extends EntityService<Graph, Record<string, never>, un
 	 * @param graph The graph to delete
 	 * @returns the deleted graph
 	 */
-	public _deleteFromParent(graph: Graph) {
+	public _deleteFromParent(graph: GraphEntity) {
 		return this.deleteEntity(graph);
 	}
 }

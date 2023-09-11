@@ -11,15 +11,15 @@ import {
 import { NodeBehaviorCode, NodeBehaviorFunction } from "../behaviors";
 import { NodeBehaviorTrigger } from "../behaviors/node-behavior.trigger";
 import { NodeBehaviorVariable } from "../behaviors/parameters";
-import { NodeInput } from "../input";
-import { Node } from "../node.entity";
-import { NodeOutput } from "../output";
+import { NodeInputEntity } from "../input";
+import { NodeEntity } from "../node.entity";
+import { NodeOutputEntity } from "../output";
 
 export interface NodeOutputAndValue {
 	/**
 	 * The output the value is applied to
 	 */
-	output: NodeOutput;
+	output: NodeOutputEntity;
 	/**
 	 * The value of the output
 	 */
@@ -30,7 +30,7 @@ export interface NodeOutputAndValue {
  * @internal
  */
 interface NodeInputAndValue {
-	input: NodeInput;
+	input: NodeInputEntity;
 	/**
 	 * The value of the input
 	 */
@@ -39,7 +39,7 @@ interface NodeInputAndValue {
 
 export type NodeInputAndValues = ReadonlyMap<EntityId, NodeIoValue>;
 export interface NodeExecuteParams {
-	node: Node;
+	node: NodeEntity;
 	valuedInputs: NodeInputAndValues;
 }
 
@@ -103,12 +103,12 @@ export class NodeExecutor {
 
 	private executeFunction(
 		behavior: NodeBehaviorFunction,
-		node: Node
+		node: NodeEntity
 	): Promise<NodeOutputAndValue[]> {
 		return Promise.reject();
 	}
 
-	private executeTrigger(behavior: NodeBehaviorTrigger, node: Node): NodeOutputAndValue[] {
+	private executeTrigger(behavior: NodeBehaviorTrigger, node: NodeEntity): NodeOutputAndValue[] {
 		const { trigger } = behavior;
 		const { outputs } = node;
 

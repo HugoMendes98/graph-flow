@@ -6,7 +6,7 @@ import {
 	GRAPHS_ENDPOINT_PREFIX
 } from "~/lib/common/app/graph/endpoints/graph.endpoint";
 
-import { Graph } from "./graph.entity";
+import { GraphEntity } from "./graph.entity";
 import { GraphService } from "./graph.service";
 import { UseAuth } from "../auth/auth.guard";
 
@@ -16,7 +16,7 @@ import { UseAuth } from "../auth/auth.guard";
 @ApiTags("Graphs")
 @Controller(GRAPHS_ENDPOINT_PREFIX)
 @UseAuth()
-export class GraphController implements GraphEndpoint<Graph> {
+export class GraphController implements GraphEndpoint<GraphEntity> {
 	/**
 	 * Constructor with "dependency injection"
 	 *

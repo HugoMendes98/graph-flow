@@ -13,4 +13,4 @@ export const NODE_TRIGGER_ENTITIES = [NodeTriggerCron] as const satisfies Readon
 /**
  * The union type of all node trigger
  */
-export type NodeTrigger = InstanceType<(typeof NODE_TRIGGER_ENTITIES)[number]>;
+export type NodeTriggerEntity = InstanceType<(typeof NODE_TRIGGER_ENTITIES)[number]>;

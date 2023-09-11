@@ -6,9 +6,9 @@ import {
 
 import { NodeBehaviorParameterBase } from "./node-behavior.parameter-base";
 import { ManyToOneFactory } from "../../../_lib/entity/decorators";
-import { NodeInput } from "../../input";
+import { NodeInputEntity } from "../../input";
 
-const InputProperty = ManyToOneFactory(() => NodeInput, {
+const InputProperty = ManyToOneFactory(() => NodeInputEntity, {
 	fieldName: "__node_input" satisfies keyof NodeBehaviorParameterInputDto,
 	onUpdateIntegrity: "cascade"
 });
@@ -25,5 +25,5 @@ export class NodeBehaviorParameterInput
 	public readonly __node_input!: number;
 
 	@InputProperty({ foreign: true })
-	public readonly nodeInput?: NodeInput;
+	public readonly nodeInput?: NodeInputEntity;
 }

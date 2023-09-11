@@ -8,11 +8,11 @@ import { EntityId } from "~/lib/common/dtos/entity";
 
 import { NodeBehaviorBase } from "./node-behavior.base";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
-import { Node } from "../node.entity";
+import { NodeEntity } from "../node.entity";
 
 const type = NodeBehaviorType.REFERENCE;
 
-const NodeProperty = ManyToOneFactory(() => Node, {
+const NodeProperty = ManyToOneFactory(() => NodeEntity, {
 	fieldName: "__node" satisfies keyof DTO,
 	onUpdateIntegrity: "cascade"
 });

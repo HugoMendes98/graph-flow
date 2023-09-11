@@ -20,15 +20,15 @@ import { EntityId } from "~/lib/common/dtos/entity";
 import { UnshiftParameters } from "~/lib/common/types";
 
 import { UseAuth } from "../../auth/auth.guard";
-import { Node } from "../../node/node.entity";
+import { NodeEntity } from "../../node/node.entity";
 import { NodeService } from "../../node/node.service";
-import { Graph } from "../graph.entity";
+import { GraphEntity } from "../graph.entity";
 import { ApiGraphParam, GraphInterceptedParam, GraphInterceptor } from "../graph.interceptor";
 
-type EndpointBase = GraphNodeEndpoint<Node>;
+type EndpointBase = GraphNodeEndpoint<NodeEntity>;
 type EndpointTransformed = {
 	// Adds a Graph as a first parameter for each function
-	[K in keyof EndpointBase]: UnshiftParameters<EndpointBase[K], [Graph]>;
+	[K in keyof EndpointBase]: UnshiftParameters<EndpointBase[K], [GraphEntity]>;
 };
 
 @ApiTags("Graph nodes")
@@ -49,7 +49,7 @@ export class GraphNodeController implements EndpointTransformed {
 	@ApiOkResponse({ type: NodeDto })
 	@Get()
 	public findAndCount(
-		@GraphInterceptedParam() graph: Graph,
+		@GraphInterceptedParam() graph: GraphEntity,
 		@Query() { where = {}, ...params }: NodeQueryDto = {}
 	) {
 		return this.service.findAndCount(
@@ -61,14 +61,14 @@ export class GraphNodeController implements EndpointTransformed {
 	@ApiGraphParam()
 	@ApiOkResponse({ type: NodeDto })
 	@Get("/:id")
-	public findById(@GraphInterceptedParam() graph: Graph, @Param("id") id: number) {
+	public findById(@GraphInterceptedParam() graph: GraphEntity, @Param("id") id: number) {
 		return this.validateNodeId(graph, id);
 	}
 
 	@ApiCreatedResponse({ type: NodeDto })
 	@ApiGraphParam()
 	@Post()
-	public create(@GraphInterceptedParam() graph: Graph, @Body() body: NodeCreateDto) {
+	public create(@GraphInterceptedParam() graph: GraphEntity, @Body() body: NodeCreateDto) {
 		return this.service.create({
 			...body,
 			kind: { ...(body.kind as NodeKindEdgeDto), __graph: graph._id, type: NodeKindType.EDGE }
@@ -79,7 +79,7 @@ export class GraphNodeController implements EndpointTransformed {
 	@ApiOkResponse({ type: NodeDto })
 	@Patch("/:id")
 	public update(
-		@GraphInterceptedParam() graph: Graph,
+		@GraphInterceptedParam() graph: GraphEntity,
 		@Param("id") id: number,
 		@Body() body: NodeUpdateDto
 	) {
@@ -89,11 +89,11 @@ export class GraphNodeController implements EndpointTransformed {
 	@ApiGraphParam()
 	@ApiOkResponse({ type: NodeDto })
 	@Delete("/:id")
-	public delete(@GraphInterceptedParam() graph: Graph, @Param("id") id: number) {
+	public delete(@GraphInterceptedParam() graph: GraphEntity, @Param("id") id: number) {
 		return this.validateNodeId(graph, id).then(({ _id }) => this.service.delete(_id));
 	}
 
-	private validateNodeId(graph: Graph, id: number) {
+	private validateNodeId(graph: GraphEntity, id: number) {
 		// Determine if the graph contains the node that is being manipulated
 		return this.service.findById(id).then(node => {
 			const { kind } = node;

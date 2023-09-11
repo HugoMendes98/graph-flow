@@ -5,12 +5,12 @@ import { MockSeed } from "~/lib/common/seeds";
 
 import { EntityBase } from "../../../app/_lib/entity";
 import { AuthService } from "../../../app/auth/auth.service";
-import { Category } from "../../../app/category/category.entity";
-import { GraphArc } from "../../../app/graph/arc/graph-arc.entity";
-import { Graph } from "../../../app/graph/graph.entity";
-import { Node } from "../../../app/node/node.entity";
-import { User } from "../../../app/user/user.entity";
-import { Workflow } from "../../../app/workflow/workflow.entity";
+import { CategoryEntity } from "../../../app/category/category.entity";
+import { GraphArcEntity } from "../../../app/graph/arc/graph-arc.entity";
+import { GraphEntity } from "../../../app/graph/graph.entity";
+import { NodeEntity } from "../../../app/node/node.entity";
+import { UserEntity } from "../../../app/user/user.entity";
+import { WorkflowEntity } from "../../../app/workflow/workflow.entity";
 
 /**
  * A seeder that seeds a full DB.
@@ -59,9 +59,9 @@ export abstract class MockedDbSeeder extends Seeder {
 		} = this.db;
 
 		for (const { entity, mocks } of [
-			{ entity: Category, mocks: categories },
+			{ entity: CategoryEntity, mocks: categories },
 			{
-				entity: User,
+				entity: UserEntity,
 				mocks: await Promise.all(
 					users.map(async ({ password, ...user }) => ({
 						...user,
@@ -71,11 +71,11 @@ export abstract class MockedDbSeeder extends Seeder {
 			},
 
 			// Graphs
-			{ entity: Graph, mocks: graphs },
-			{ entity: Node, mocks: nodes },
-			{ entity: GraphArc, mocks: arcs },
+			{ entity: GraphEntity, mocks: graphs },
+			{ entity: NodeEntity, mocks: nodes },
+			{ entity: GraphArcEntity, mocks: arcs },
 
-			{ entity: Workflow, mocks: workflows }
+			{ entity: WorkflowEntity, mocks: workflows }
 		] satisfies MockEntity[]) {
 			for (const mock of mocks) {
 				em.getRepository<EntityBase>(entity).create(mock);
@@ -102,9 +102,11 @@ export abstract class MockedDbSeeder extends Seeder {
 		await em.getConnection().execute("SET session_replication_role = 'origin';");
 
 		for (const { __categories, _id } of nodes) {
-			const node = await em.findOneOrFail(Node, _id, { populate: ["categories"] });
+			const node = await em.findOneOrFail(NodeEntity, _id, { populate: ["categories"] });
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Does exist with the `populate` option
-			node.categories!.add(__categories.map(id => Reference.createFromPK(Category, id)));
+			node.categories!.add(
+				__categories.map(id => Reference.createFromPK(CategoryEntity, id))
+			);
 		}
 
 		// Seeder always flush at the end

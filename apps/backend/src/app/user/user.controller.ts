@@ -9,7 +9,7 @@ import {
 } from "~/lib/common/app/user/dtos";
 import { UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpoints";
 
-import { User } from "./user.entity";
+import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 import { UseAuth } from "../auth/auth.guard";
 
@@ -19,7 +19,7 @@ import { UseAuth } from "../auth/auth.guard";
 @ApiTags("Users")
 @Controller(USERS_ENDPOINT_PREFIX)
 @UseAuth()
-export class UserController implements UserEndpoint<User> {
+export class UserController implements UserEndpoint<UserEntity> {
 	/**
 	 * Constructor with "dependency injection"
 	 *

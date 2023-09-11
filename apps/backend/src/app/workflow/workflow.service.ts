@@ -6,20 +6,19 @@ import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import { WorkflowNoTriggerException } from "./exceptions";
-import { Workflow } from "./workflow.entity";
+import { WorkflowEntity } from "./workflow.entity";
 import { WorkflowRepository } from "./workflow.repository";
 import { EntityService } from "../_lib/entity";
 import { GraphService } from "../graph/graph.service";
-import { NodeTrigger } from "../node/behaviors/triggers";
 import { NodeService } from "../node/node.service";
 
 /**
- * Service to manages [workflows]{@link Workflow}.
+ * Service to manages [workflows]{@link WorkflowEntity}.
  */
 @Injectable()
 export class WorkflowService
-	extends EntityService<Workflow, WorkflowCreateDto, WorkflowUpdateDto>
-	implements EventSubscriber<Workflow>, OnModuleInit
+	extends EntityService<WorkflowEntity, WorkflowCreateDto, WorkflowUpdateDto>
+	implements EventSubscriber<WorkflowEntity>, OnModuleInit
 {
 	/**
 	 * Constructor with "dependency injection"
@@ -45,13 +44,13 @@ export class WorkflowService
 	 * @inheritDoc
 	 */
 	public getSubscribedEntities() {
-		return [Workflow];
+		return [WorkflowEntity];
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public async beforeUpdate(args: EventArgs<Workflow>) {
+	public async beforeUpdate(args: EventArgs<WorkflowEntity>) {
 		const { changeSet, entity } = args;
 		if (!changeSet) {
 			return;
@@ -81,7 +80,7 @@ export class WorkflowService
 	/**
 	 * @inheritDoc
 	 */
-	public override delete(id: EntityId): Promise<Workflow> {
+	public override delete(id: EntityId): Promise<WorkflowEntity> {
 		return this.findById(id, { populate: { graph: true } }).then(async entity => {
 			// Cascade integrity -> deleting the graph deletes the workflow
 			// TODO: Reverse the relation ? Remove the cascade and delete manually
@@ -90,7 +89,7 @@ export class WorkflowService
 		});
 	}
 
-	private async registerWorkflow(workflow: Workflow) {
+	private async registerWorkflow(workflow: WorkflowEntity) {
 		const trigger = await this.getTrigger(workflow);
 
 		// TODO
@@ -103,7 +102,7 @@ export class WorkflowService
 	 * @throws NotFoundException when no trigger is found
 	 * @returns the trigger node for the given workflow
 	 */
-	private async getTrigger(workflow: Workflow) {
+	private async getTrigger(workflow: WorkflowEntity) {
 		const { __graph, _id } = workflow;
 
 		const { data } = await this.nodeService.findAndCount(
@@ -131,6 +130,6 @@ export class WorkflowService
 		const [node] = data;
 
 		type Node = typeof node;
-		return node as Node & Record<keyof Pick<Node, "behavior">, NodeTrigger>;
+		return node;
 	}
 }

@@ -7,9 +7,9 @@ import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 import { NodeOutputRepository } from "./node-output.repository";
 import { EntityBase } from "../../_lib/entity";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
-import { Node } from "../node.entity";
+import { NodeEntity } from "../node.entity";
 
-const NodeProperty = ManyToOneFactory(() => Node, {
+const NodeProperty = ManyToOneFactory(() => NodeEntity, {
 	fieldName: "__node" satisfies keyof NodeOutputDto,
 	onDelete: "cascade",
 	onUpdateIntegrity: "cascade",
@@ -17,7 +17,7 @@ const NodeProperty = ManyToOneFactory(() => Node, {
 });
 
 @Entity({ customRepository: () => NodeOutputRepository })
-export class NodeOutput extends EntityBase implements DtoToEntity<NodeOutputDto> {
+export class NodeOutputEntity extends EntityBase implements DtoToEntity<NodeOutputDto> {
 	/**
 	 * @inheritDoc
 	 */
@@ -27,7 +27,7 @@ export class NodeOutput extends EntityBase implements DtoToEntity<NodeOutputDto>
 	/**
 	 * @inheritDoc
 	 */
-	@ManyToOne(() => NodeOutput, { mapToPk: true, nullable: true, type: () => Number })
+	@ManyToOne(() => NodeOutputEntity, { mapToPk: true, nullable: true, type: () => Number })
 	public __ref!: EntityId | null;
 
 	/**
@@ -48,5 +48,5 @@ export class NodeOutput extends EntityBase implements DtoToEntity<NodeOutputDto>
 	 * @inheritDoc
 	 */
 	@NodeProperty({ foreign: true })
-	public readonly node?: Node;
+	public readonly node?: NodeEntity;
 }

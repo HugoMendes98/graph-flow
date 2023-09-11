@@ -5,7 +5,7 @@ import {
 	NodeKindType
 } from "~/lib/common/app/node/dtos/kind";
 
-import { Node } from "../node.entity";
+import { NodeEntity } from "../node.entity";
 
 @Entity({
 	abstract: true,
@@ -19,7 +19,7 @@ export class NodeKindBaseEntity<Type extends NodeKindType = NodeKindType>
 	public readonly type!: Type;
 
 	// The owing side is here, so the primary key is also the foreign key
-	@OneToOne(() => Node, {
+	@OneToOne(() => NodeEntity, {
 		eager: false,
 		hidden: true,
 		onDelete: "cascade",
@@ -27,5 +27,5 @@ export class NodeKindBaseEntity<Type extends NodeKindType = NodeKindType>
 		owner: true,
 		primary: true
 	})
-	public readonly node?: Node;
+	public readonly node?: NodeEntity;
 }

@@ -1,14 +1,15 @@
+import { UnderscoreNamingStrategy } from "@mikro-orm/core";
 import { LoggerNamespace } from "@mikro-orm/core/logging";
 import { defineConfig } from "@mikro-orm/postgresql";
 import { TsMorphMetadataProvider } from "@mikro-orm/reflection";
 import { kebabCase } from "eslint-plugin-yml/lib/utils/casing";
 import * as path from "path";
 
-import { Category } from "./app/category/category.entity";
+import { CategoryEntity } from "./app/category/category.entity";
 import { GRAPH_ENTITIES } from "./app/graph/graph.entities";
 import { NODE_ENTITIES } from "./app/node/node.entities";
-import { User } from "./app/user/user.entity";
-import { Workflow } from "./app/workflow/workflow.entity";
+import { UserEntity } from "./app/user/user.entity";
+import { WorkflowEntity } from "./app/workflow/workflow.entity";
 import { getConfiguration } from "./configuration";
 import { migrations } from "./orm/migrations";
 
@@ -22,6 +23,16 @@ const ormPath = path.join(__dirname, "orm");
  * The suffixes for the generated file with the CLI.
  */
 const suffixes = { migration: "migration", seeder: "seeder" };
+
+/** @internal */
+class NamingStrategy extends UnderscoreNamingStrategy {
+	public override classToTableName(entityName: string): string {
+		const tableName = super.classToTableName(entityName);
+
+		const suffix = "_entity";
+		return tableName.endsWith(suffix) ? tableName.slice(0, -suffix.length) : tableName;
+	}
+}
 
 /**
  * The configuration for `Mikro-orm`.
@@ -38,9 +49,10 @@ const ormConfig = defineConfig({
 
 	// For app code
 	discovery: { disableDynamicFileAccess: true },
-	entities: [Category, ...GRAPH_ENTITIES, ...NODE_ENTITIES, User, Workflow],
+	entities: [CategoryEntity, ...GRAPH_ENTITIES, ...NODE_ENTITIES, UserEntity, WorkflowEntity],
 	forceUndefined: false,
 	metadataProvider: TsMorphMetadataProvider,
+	namingStrategy: NamingStrategy,
 	strict: true,
 	type: "postgresql", // Only needed for the `MikroOrmHealthIndicator`
 	validate: true,

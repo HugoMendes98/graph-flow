@@ -7,13 +7,13 @@ import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { EntitiesToPopulate } from "~/lib/common/endpoints";
 
-import { NodeInput, NodeInputCreate } from "./input";
-import { Node } from "./node.entity";
+import { NodeInputEntity, NodeInputCreate } from "./input";
+import { NodeEntity } from "./node.entity";
 import { NodeRepository } from "./node.repository";
-import { NodeOutput, NodeOutputCreate } from "./output";
+import { NodeOutputEntity, NodeOutputCreate } from "./output";
 import { EntityLoaded, EntityService, EntityServiceCreateOptions } from "../_lib/entity";
-import { Category } from "../category/category.entity";
-import { Graph } from "../graph/graph.entity";
+import { CategoryEntity } from "../category/category.entity";
+import { GraphEntity } from "../graph/graph.entity";
 import { GraphService } from "../graph/graph.service";
 import {
 	GraphNodeTriggerInFunctionException,
@@ -21,12 +21,12 @@ import {
 } from "../graph/node/exceptions";
 
 /**
- * Service to manages [nodes]{@link Node}.
+ * Service to manages [nodes]{@link NodeEntity}.
  */
 @Injectable()
 export class NodeService
-	extends EntityService<Node, NodeCreateDto, NodeUpdateDto>
-	implements EventSubscriber<Node>
+	extends EntityService<NodeEntity, NodeCreateDto, NodeUpdateDto>
+	implements EventSubscriber<NodeEntity>
 {
 	/**
 	 * Constructor with "dependency injection"
@@ -47,14 +47,14 @@ export class NodeService
 	/**
 	 * @inheritDoc
 	 */
-	public getSubscribedEntities(): Array<EntityName<Node>> {
-		return [Node];
+	public getSubscribedEntities(): Array<EntityName<NodeEntity>> {
+		return [NodeEntity];
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public async beforeCreate(args: EventArgs<Node>) {
+	public async beforeCreate(args: EventArgs<NodeEntity>) {
 		const { behavior, kind } = args.entity;
 
 		if (behavior.type !== NodeBehaviorType.TRIGGER || kind.type !== NodeKindType.EDGE) {
@@ -63,7 +63,7 @@ export class NodeService
 		}
 
 		// TODO: A way to add custom relation in the EntityRelationsKey?
-		const behaviorRelation: keyof Graph = "nodeBehavior";
+		const behaviorRelation: keyof GraphEntity = "nodeBehavior";
 		const { nodeBehavior, workflow } = await this.graphService.findById(kind.__graph, {
 			populate: { [behaviorRelation]: true, workflow: true }
 		});
@@ -90,10 +90,10 @@ export class NodeService
 		}
 	}
 
-	public override async create<P extends EntitiesToPopulate<Node>>(
+	public override async create<P extends EntitiesToPopulate<NodeEntity>>(
 		toCreate: NodeCreateDto,
-		options?: EntityServiceCreateOptions<Node, P>
-	): Promise<EntityLoaded<Node, P>> {
+		options?: EntityServiceCreateOptions<NodeEntity, P>
+	): Promise<EntityLoaded<NodeEntity, P>> {
 		return super.create(toCreate, options).then(async created => {
 			const { behavior } = created;
 			if (behavior.type !== NodeBehaviorType.REFERENCE) {
@@ -109,8 +109,8 @@ export class NodeService
 			const em = this.repository.getEntityManager();
 
 			for (const [collection, entity] of [
-				[reference.inputs, NodeInput],
-				[reference.outputs, NodeOutput]
+				[reference.inputs, NodeInputEntity],
+				[reference.outputs, NodeOutputEntity]
 			] as const) {
 				for (const { _id, name, type } of collection) {
 					em.create(entity, {
@@ -142,7 +142,7 @@ export class NodeService
 	 */
 	public addCategory(nodeId: EntityId, categoryId: EntityId) {
 		return this.findById(nodeId, { populate: { categories: true } }).then(async node => {
-			node.categories.add(Reference.createFromPK(Category, categoryId));
+			node.categories.add(Reference.createFromPK(CategoryEntity, categoryId));
 
 			await this.repository.getEntityManager().persistAndFlush(node);
 			return node;

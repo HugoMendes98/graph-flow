@@ -14,19 +14,19 @@ import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import { GraphArcDifferentGraphException } from "./exceptions";
-import { GraphArc } from "./graph-arc.entity";
+import { GraphArcEntity } from "./graph-arc.entity";
 import { GraphArcRepository } from "./graph-arc.repository";
 import { EntityService } from "../../_lib/entity";
 import { NodeService } from "../../node/node.service";
 import { GraphCyclicException } from "../exceptions";
 
 /**
- * Service to manages [graph-arcs]{@link GraphArc}.
+ * Service to manages [graph-arcs]{@link GraphArcEntity}.
  */
 @Injectable()
 export class GraphArcService
-	extends EntityService<GraphArc, GraphArcCreateDto, Record<string, never>>
-	implements EventSubscriber<GraphArc>
+	extends EntityService<GraphArcEntity, GraphArcCreateDto, Record<string, never>>
+	implements EventSubscriber<GraphArcEntity>
 {
 	/**
 	 * Constructor with "dependency injection"
@@ -46,14 +46,14 @@ export class GraphArcService
 	/**
 	 * @inheritDoc
 	 */
-	public getSubscribedEntities(): Array<EntityName<GraphArc>> {
-		return [GraphArc];
+	public getSubscribedEntities(): Array<EntityName<GraphArcEntity>> {
+		return [GraphArcEntity];
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public async beforeCreate(event: EventArgs<GraphArc>) {
+	public async beforeCreate(event: EventArgs<GraphArcEntity>) {
 		const {
 			entity: { __from, __to }
 		} = event;

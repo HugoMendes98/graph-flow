@@ -4,12 +4,12 @@ import { EntityId } from "~/lib/common/dtos/entity";
 
 import { NodeKindBaseEntity } from "./node-kind.base.entity";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
-import { Graph } from "../../graph/graph.entity";
+import { GraphEntity } from "../../graph/graph.entity";
 import { PositionEmbeddable } from "../position.embeddable";
 
 const type = NodeKindType.EDGE;
 
-const GraphProperty = ManyToOneFactory(() => Graph, {
+const GraphProperty = ManyToOneFactory(() => GraphEntity, {
 	fieldName: "__graph" satisfies keyof NodeKindEdgeDto,
 	onUpdateIntegrity: "cascade"
 });
@@ -35,5 +35,5 @@ export class NodeKindEdgeEntity
 	 * @inheritDoc
 	 */
 	@GraphProperty({ foreign: true })
-	public readonly graph?: Graph;
+	public readonly graph?: GraphEntity;
 }
