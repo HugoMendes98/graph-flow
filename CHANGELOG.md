@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0](https://github.com/HugoMendes98/graph-flow/compare/v0.1.0...v0.2.0) (2023-09-12)
+
+
+### Features
+
+* **executor:** add first graph and node executor ([a775def](https://github.com/HugoMendes98/graph-flow/commit/a775def56d2c5b0ecea65bbd93dddccc40b245ef))
+* **executor:** execute node ([884765e](https://github.com/HugoMendes98/graph-flow/commit/884765e36d830e1a1da38349861f5f95bcd8f98a))
+
+
+### Code Refactors
+
+* add `Entity` suffix ([d51061f](https://github.com/HugoMendes98/graph-flow/commit/d51061f4280bbf94dcf0eb39029b378fe0d5aa81))
+* remove `graph-node` to set inside a `node` ([2fb7a73](https://github.com/HugoMendes98/graph-flow/commit/2fb7a7329b640bca7b865357e81381e3aac8789c))
+
 ## [0.1.0](https://github.com/HugoMendes98/graph-flow/compare/v0.0.1...v0.1.0) (2023-09-07)
 
 
