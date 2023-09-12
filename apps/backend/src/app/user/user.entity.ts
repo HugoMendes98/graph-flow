@@ -9,7 +9,7 @@ import { EntityBase } from "../_lib/entity";
  * The entity class to manage users
  */
 @Entity({ customRepository: () => UserRepository })
-export class User extends EntityBase implements DtoToEntity<UserDto> {
+export class UserEntity extends EntityBase implements DtoToEntity<UserDto> {
 	/**
 	 * @inheritDoc
 	 */

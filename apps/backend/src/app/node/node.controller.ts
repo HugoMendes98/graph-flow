@@ -9,7 +9,7 @@ import {
 } from "~/lib/common/app/node/dtos";
 import { NodeEndpoint, NODES_ENDPOINT_PREFIX } from "~/lib/common/app/node/endpoints";
 
-import { Node } from "./node.entity";
+import { NodeEntity } from "./node.entity";
 import { NodeService } from "./node.service";
 import { UseAuth } from "../auth/auth.guard";
 
@@ -19,7 +19,7 @@ import { UseAuth } from "../auth/auth.guard";
 @ApiTags("Nodes")
 @Controller(NODES_ENDPOINT_PREFIX)
 @UseAuth()
-export class NodeController implements NodeEndpoint<Node> {
+export class NodeController implements NodeEndpoint<NodeEntity> {
 	/**
 	 * Constructor with "dependency injection"
 	 *

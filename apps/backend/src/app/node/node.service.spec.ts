@@ -2,26 +2,41 @@ import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { BASE_SEED } from "~/lib/common/seeds";
 
+import { NodeInputRepository } from "./input";
+import { NodeKindEdgeEntity } from "./kind";
 import { NodeModule } from "./node.module";
 import { NodeService } from "./node.service";
+import { NodeOutputRepository } from "./output";
 import { DbTestHelper } from "../../../test/db-test";
 import { OrmModule } from "../../orm/orm.module";
 import { CategoryModule } from "../category/category.module";
 import { CategoryService } from "../category/category.service";
+import { GraphArcService } from "../graph/arc/graph-arc.service";
+import {
+	GraphNodeTriggerInFunctionException,
+	GraphNodeTriggerInWorkflowException
+} from "../graph/node/exceptions";
 
 describe("NodeService", () => {
 	let module: TestingModule;
-	let dbTest: DbTestHelper;
 	let service: NodeService;
+
+	let dbTest: DbTestHelper;
+	let db: typeof BASE_SEED;
 
 	beforeAll(async () => {
 		module = await Test.createTestingModule({
 			imports: [CategoryModule, OrmModule, NodeModule]
 		}).compile();
 
-		dbTest = new DbTestHelper(module);
 		service = module.get(NodeService);
+
+		dbTest = new DbTestHelper(module);
+		db = dbTest.db as never;
 	});
 
 	afterAll(() => dbTest.close());
@@ -48,11 +63,13 @@ describe("NodeService", () => {
 			const category2 = await categoryService.create({ name: "cat2" });
 
 			const node1 = await service.create({
-				behavior: { type: NodeBehaviorType.VARIABLE },
+				behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
+				kind: { type: NodeKindType.TEMPLATE },
 				name: "node1"
 			});
 			const node2 = await service.create({
-				behavior: { type: NodeBehaviorType.VARIABLE },
+				behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
+				kind: { type: NodeKindType.TEMPLATE },
 				name: "node2"
 			});
 
@@ -159,20 +176,141 @@ describe("NodeService", () => {
 		});
 	});
 
+	describe("With Graph", () => {
+		beforeAll(() => dbTest.refresh());
+
+		it("should fail when adding more that one 'trigger' node in a `workflow`", async () => {
+			// The 3rd graph is empty and linked to a 'workflow'
+			const [, graph] = db.graph.graphs;
+
+			await expect(() =>
+				service.create({
+					behavior: {
+						trigger: { cron: "* * * * *", type: NodeTriggerType.CRON },
+						type: NodeBehaviorType.TRIGGER
+					},
+					kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+					name: "new-trigger"
+				})
+			).rejects.toThrow(GraphNodeTriggerInWorkflowException);
+		});
+
+		it("should fail when adding any 'trigger' node in a `node-function`", async () => {
+			// The first graph is linked to a 'node-function'
+			const [graph] = db.graph.graphs;
+
+			await expect(() =>
+				service.create({
+					behavior: {
+						trigger: { cron: "* * * * *", type: NodeTriggerType.CRON },
+						type: NodeBehaviorType.TRIGGER
+					},
+					kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+					name: "new-trigger"
+				})
+			).rejects.toThrow(GraphNodeTriggerInFunctionException);
+		});
+
+		// TODO: Test that a node-function 'A' is not used in another function 'B'
+		//  if using itself the node-function 'B'.
+		//	B uses A, A uses B, B uses A, A uses B, ...
+
+		// This currently creates an infinite loop.
+		// With conditional nodes, it can work.
+	});
+
+	describe("With Input/Outputs and Arcs", () => {
+		beforeEach(() => dbTest.refresh());
+
+		it("should remove inputs and arcs when deleting a node", async () => {
+			const graphArcService = module.get(GraphArcService);
+
+			const graphNode = await service.findById(db.graph.nodes[4]._id);
+			// For test verification; do not use a possibly used node if it is "locked"
+			const { __graph } = graphNode.kind as NodeKindEdgeEntity;
+			expect(__graph).toBe(2);
+
+			const { inputs, outputs } = graphNode;
+			const { data: arcs } = await graphArcService.findAndCount({
+				$or: [
+					{
+						from: {
+							node: { kind: { __graph, type: NodeKindType.EDGE } }
+						}
+					},
+					{ to: { node: { kind: { __graph, type: NodeKindType.EDGE } } } }
+				]
+			});
+
+			// Need to have some data before
+			expect(arcs).not.toHaveLength(0);
+			expect(inputs).not.toHaveLength(0);
+			expect(outputs).not.toHaveLength(0);
+
+			await service.delete(graphNode._id);
+
+			// search by ids so that is not linked with the foreign keys
+			const {
+				pagination: { total: totalArcs }
+			} = await graphArcService.findAndCount({ _id: { $in: arcs.map(({ _id }) => _id) } });
+			expect(totalArcs).toBe(0);
+
+			for (const [repository, entities] of [
+				[module.get(NodeInputRepository), inputs],
+				[module.get(NodeOutputRepository), outputs]
+			] as const) {
+				const [, total] = await repository.findAndCount({
+					_id: { $in: entities.getItems().map(({ _id }) => _id) }
+				});
+				expect(total).toBe(0);
+			}
+		});
+	});
+
+	describe("Behavior: 'Reference'", () => {
+		beforeEach(() => dbTest.refresh());
+
+		it("should copy inputs/outputs on creation", async () => {
+			const reference = await service.findById(db.graph.nodes[0]._id);
+
+			const { inputs, outputs } = await service.create({
+				behavior: { __node: reference._id, type: NodeBehaviorType.REFERENCE },
+				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+				name: `${reference.name} (ref)`
+			});
+
+			expect(inputs).toHaveLength(reference.inputs.length);
+			expect(outputs).toHaveLength(reference.outputs.length);
+
+			for (const [i, input] of inputs.getItems().entries()) {
+				const inputRef = reference.inputs[i];
+				expect(input.__ref).toBe(inputRef._id);
+				expect(input.type).toBe(inputRef.type);
+				expect(input._created_at).not.toStrictEqual(inputRef._created_at);
+			}
+			for (const [i, output] of outputs.getItems().entries()) {
+				const outputRef = reference.outputs[i];
+				expect(output.__ref).toBe(outputRef._id);
+				expect(output.type).toBe(outputRef.type);
+				expect(output._created_at).not.toStrictEqual(outputRef._created_at);
+			}
+		});
+	});
+
 	describe("CRUD basic", () => {
 		describe("Read", () => {
 			beforeEach(() => dbTest.refresh());
 
 			it("should get one", async () => {
 				// eslint-disable-next-line unused-imports/no-unused-vars -- to remove from object
-				for (const { __categories: _, ...node } of dbTest.db.node.nodes) {
+				for (const { __categories: _, ...node } of dbTest.db.graph.nodes) {
 					const row = await service.findById(node._id);
 					expect(row.toJSON()).toStrictEqual(node);
 				}
 			});
 
 			it("should fail when getting one by an unknown id", async () => {
-				const id = Math.max(...dbTest.db.node.nodes.map(({ _id }) => _id)) + 1;
+				const id = Math.max(...dbTest.db.graph.nodes.map(({ _id }) => _id)) + 1;
 				await expect(service.findById(id)).rejects.toThrow(NotFoundError);
 			});
 		});
@@ -184,7 +322,8 @@ describe("NodeService", () => {
 				const { data: before } = await service.findAndCount();
 
 				const toCreate: NodeCreateDto = {
-					behavior: { type: NodeBehaviorType.VARIABLE },
+					behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
+					kind: { type: NodeKindType.TEMPLATE },
 					name: "new-node"
 				};
 				const created = await service.create(toCreate);
@@ -210,7 +349,7 @@ describe("NodeService", () => {
 				const { data: before } = await service.findAndCount();
 
 				// Update an entity and check its content
-				const [node] = dbTest.db.node.nodes;
+				const [node] = dbTest.db.graph.nodes;
 				const toUpdate: NodeUpdateDto = { name: `${node.name}-${node.name}` };
 				const updated = await service.update(node._id, toUpdate);
 				expect(updated.name).toBe(toUpdate.name);
@@ -231,7 +370,8 @@ describe("NodeService", () => {
 
 			it("should delete an entity", async () => {
 				const { _id } = await service.create({
-					behavior: { type: NodeBehaviorType.VARIABLE },
+					behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
+					kind: { type: NodeKindType.TEMPLATE },
 					name: "__new__"
 				});
 				const {
@@ -247,7 +387,7 @@ describe("NodeService", () => {
 			});
 
 			it("should not delete an unknown id", async () => {
-				const id = Math.max(...dbTest.db.node.nodes.map(({ _id }) => _id)) + 1;
+				const id = Math.max(...dbTest.db.graph.nodes.map(({ _id }) => _id)) + 1;
 				await expect(service.delete(id)).rejects.toThrow(NotFoundError);
 			});
 		});

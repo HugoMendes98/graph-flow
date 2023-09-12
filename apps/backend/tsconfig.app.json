@@ -7,7 +7,7 @@
 		"outDir": "../../dist/out-tsc",
 		"target": "es2021"
 	},
-	"exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
+	"exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts", "src/orm/seeders"],
 	"extends": "./tsconfig.json",
 	"include": ["src/**/*.ts"]
 }

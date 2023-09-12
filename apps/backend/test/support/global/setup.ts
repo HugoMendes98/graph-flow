@@ -22,10 +22,9 @@ export async function globalSetup(logger: LoggerTest) {
 
 	if (existing) {
 		if (existing.Image !== imageTag) {
-			logger.error(
+			throw new Error(
 				`An existing container with public port '${port}' was found, but it does not use the image '${imageTag}'`
 			);
-			return;
 		}
 
 		logger.log(

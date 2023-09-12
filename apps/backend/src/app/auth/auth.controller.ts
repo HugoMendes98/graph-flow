@@ -11,7 +11,7 @@ import { authOptions } from "~/lib/common/options";
 import { UseAuth } from "./auth.guard";
 import { AuthLocalGuard } from "./auth.local-guard";
 import { AuthService } from "./auth.service";
-import { User as UserEntity, User } from "../user/user.entity";
+import { UserEntity } from "../user/user.entity";
 
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace -- TODO: set it as a custom global type AND still working for e2e tests
@@ -95,7 +95,7 @@ export class AuthController implements AuthEndpoint {
 		return this.loginOrRefresh(req!.user!, body, res!);
 	}
 
-	private loginOrRefresh(user: User, body: AuthRefreshDto, res: Response) {
+	private loginOrRefresh(user: UserEntity, body: AuthRefreshDto, res: Response) {
 		return this.service.login(user).then(token => {
 			if (body.cookie) {
 				res.cookie(authOptions.cookies.name, token.access_token, {

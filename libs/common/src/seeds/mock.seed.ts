@@ -1,12 +1,7 @@
 import { CategoryDto } from "../app/category/dtos";
 import { GraphDto } from "../app/graph/dtos";
 import { GraphArcDto } from "../app/graph/dtos/arc";
-import { GraphNodeDto } from "../app/graph/dtos/node";
-import { GraphNodeInputDto } from "../app/graph/dtos/node/input";
-import { GraphNodeOutputDto } from "../app/graph/dtos/node/output";
 import { NodeDto } from "../app/node/dtos";
-import { NodeInputDto } from "../app/node/dtos/input";
-import { NodeOutputDto } from "../app/node/dtos/output";
 import { UserDto } from "../app/user/dtos";
 import { WorkflowDto } from "../app/workflow/dtos";
 
@@ -25,36 +20,11 @@ export interface MockSeed {
 		/**
 		 * Represents the [graph-arc]{@link GraphArcDto} table
 		 */
-		graphArcs: readonly GraphArcDto[];
-		/**
-		 * Represents the [graph-node-input]{@link GraphNodeInputDto} table
-		 */
-		graphNodeInputs: readonly GraphNodeInputDto[];
-		/**
-		 * Represents the [graph-node-output]{@link GraphNodeOutputDto} table
-		 */
-		graphNodeOutputs: readonly GraphNodeOutputDto[];
-		/**
-		 * Represents the [graph-node]{@link GraphNodeDto} table
-		 */
-		graphNodes: ReadonlyArray<Omit<GraphNodeDto, "inputs" | "outputs">>;
+		arcs: readonly GraphArcDto[];
 		/**
 		 * Represents the [graph]{@link GraphDto} table
 		 */
 		graphs: readonly GraphDto[];
-	};
-	/**
-	 * Node domain related
-	 */
-	node: {
-		/**
-		 * Represents the [node-input]{@link NodeInputDto} table
-		 */
-		nodeInputs: readonly NodeInputDto[];
-		/**
-		 * Represents the [node-output]{@link NodeOutputDto} table
-		 */
-		nodeOutputs: readonly NodeOutputDto[];
 		/**
 		 * Represents the [node]{@link NodeDto} table
 		 */

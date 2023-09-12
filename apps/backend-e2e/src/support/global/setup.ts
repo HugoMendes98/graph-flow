@@ -6,6 +6,7 @@ import "~/app/backend/test/support/setup";
 import { INestApplication } from "@nestjs/common";
 import { Config } from "jest";
 import { bootstrap } from "~/app/backend/app/bootstrap";
+import { DbTestHelper } from "~/app/backend/test/db-test";
 import { configTest } from "~/app/backend/test/support/config.test";
 import { LoggerTest } from "~/app/backend/test/support/global/logger-test";
 import { globalSetup as setupBackend } from "~/app/backend/test/support/global/setup";
@@ -43,6 +44,10 @@ export async function globalSetup(params?: GlobalSetupParams) {
 		e2eAppHook(app);
 
 		const { globalPrefix, name, port } = configTest.host;
+
+		// FIXME: remove once migration is on ready
+		await new DbTestHelper(app, { sample: "empty" }).refresh();
+
 		await app.listen(port, name);
 		logger.log(`E2E app running and listening at 'http://${name}:${port}${globalPrefix}'`);
 	}

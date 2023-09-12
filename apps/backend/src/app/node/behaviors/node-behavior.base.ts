@@ -5,7 +5,7 @@ import {
 	NodeBehaviorType
 } from "~/lib/common/app/node/dtos/behaviors";
 
-import { Node } from "../node.entity";
+import { NodeEntity } from "../node.entity";
 
 /**
  * Base options of "node-behavior" entities
@@ -30,7 +30,7 @@ export abstract class NodeBehaviorBase<Type extends NodeBehaviorType = NodeBehav
 	public readonly type!: Type;
 
 	// The owing side is here, so the primary key is also the foreign key
-	@OneToOne(() => Node, {
+	@OneToOne(() => NodeEntity, {
 		eager: false,
 		hidden: true,
 		onDelete: "cascade",
@@ -38,5 +38,5 @@ export abstract class NodeBehaviorBase<Type extends NodeBehaviorType = NodeBehav
 		owner: true,
 		primary: true
 	})
-	public readonly node?: Node;
+	public readonly pkNode?: NodeEntity;
 }

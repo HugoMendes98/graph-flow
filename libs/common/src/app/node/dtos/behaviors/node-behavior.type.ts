@@ -6,6 +6,7 @@ export enum NodeBehaviorType {
 	FUNCTION = "function",
 	PARAMETER_IN = "parameter-input",
 	PARAMETER_OUT = "parameter-output",
+	REFERENCE = "reference",
 	TRIGGER = "trigger",
 	VARIABLE = "variable"
 }

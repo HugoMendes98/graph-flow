@@ -6,11 +6,11 @@ import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 import { WorkflowRepository } from "./workflow.repository";
 import { EntityBase } from "../_lib/entity";
 import { ManyToOneParams } from "../_lib/entity/decorators";
-import { Graph } from "../graph/graph.entity";
+import { GraphEntity } from "../graph/graph.entity";
 
 const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) =>
 	applyDecorators(
-		OneToOne(() => Graph, {
+		OneToOne(() => GraphEntity, {
 			fieldName: "__graph" satisfies keyof WorkflowDto,
 			hidden: foreign,
 			mapToPk: !foreign,
@@ -27,12 +27,18 @@ const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) =>
  * The entity class to manage workflows
  */
 @Entity({ customRepository: () => WorkflowRepository })
-export class Workflow extends EntityBase implements DtoToEntity<WorkflowDto> {
+export class WorkflowEntity extends EntityBase implements DtoToEntity<WorkflowDto> {
 	/**
 	 * @inheritDoc
 	 */
 	@GraphProperty({ foreign: false })
 	public readonly __graph!: number;
+
+	/**
+	 * @inheritDoc
+	 */
+	@Property({ default: false })
+	public active!: boolean;
 
 	/**
 	 * @inheritDoc
@@ -43,5 +49,5 @@ export class Workflow extends EntityBase implements DtoToEntity<WorkflowDto> {
 	// ------- Relations -------
 
 	@GraphProperty({ foreign: true })
-	public readonly graph?: Graph;
+	public readonly graph?: GraphEntity;
 }

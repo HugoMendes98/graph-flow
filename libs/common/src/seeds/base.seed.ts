@@ -1,6 +1,8 @@
 import { MockSeed } from "./mock.seed";
 import { NodeBehaviorType } from "../app/node/dtos/behaviors";
 import { NodeTriggerType } from "../app/node/dtos/behaviors/triggers";
+import { NodeKindType } from "../app/node/dtos/kind";
+import { NodeIoType } from "../app/node/io";
 
 /** Sample date1 */
 const date1 = new Date(2020, 1, 1);
@@ -28,7 +30,7 @@ export const BASE_SEED = {
 		}
 	],
 	graph: {
-		graphArcs: [
+		arcs: [
 			// region - Arcs for Node-function 20 - graph1
 			{
 				// "Calculate quotient" -> "Quotient"
@@ -37,8 +39,8 @@ export const BASE_SEED = {
 				_created_at: date1,
 				_updated_at: date1,
 
-				__from: 100101,
-				__to: 100501
+				__from: 1501,
+				__to: 200301
 			},
 			{
 				// "Calculate remainder" -> "Remainder"
@@ -47,8 +49,8 @@ export const BASE_SEED = {
 				_created_at: date1,
 				_updated_at: date1,
 
-				__from: 100201,
-				__to: 100601
+				__from: 1601,
+				__to: 200401
 			},
 			{
 				// "Dividend" -> "Calculate quotient"
@@ -57,8 +59,8 @@ export const BASE_SEED = {
 				_created_at: date1,
 				_updated_at: date1,
 
-				__from: 100301,
-				__to: 100101
+				__from: 200101,
+				__to: 1501
 			},
 			{
 				// "Dividend" -> "Calculate remainder"
@@ -67,8 +69,8 @@ export const BASE_SEED = {
 				_created_at: date1,
 				_updated_at: date1,
 
-				__from: 100301,
-				__to: 100201
+				__from: 200101,
+				__to: 1601
 			},
 			{
 				// "Divisor" -> "Calculate quotient"
@@ -77,8 +79,8 @@ export const BASE_SEED = {
 				_created_at: date1,
 				_updated_at: date1,
 
-				__from: 100401,
-				__to: 100102
+				__from: 200201,
+				__to: 1502
 			},
 			{
 				// "Divisor" -> "Calculate remainder"
@@ -87,8 +89,8 @@ export const BASE_SEED = {
 				_created_at: date1,
 				_updated_at: date1,
 
-				__from: 100401,
-				__to: 100202
+				__from: 200201,
+				__to: 1602
 			},
 			// endregion
 
@@ -100,440 +102,39 @@ export const BASE_SEED = {
 				_created_at: date1,
 				_updated_at: date1,
 
-				__from: 200101,
-				__to: 200501
+				__from: 101,
+				__to: 501
 			},
 			{
-				// Variable output "DB_HOST" -> Code "SQL Query" input "DB Host"
+				// Variable output "DB_PORT" -> Code "SQL Query" input "DB PORT"
 				_id: 202,
 
 				_created_at: date1,
 				_updated_at: date1,
 
-				__from: 200201,
-				__to: 200502
+				__from: 201,
+				__to: 502
 			},
 			{
-				// Variable output "DB_HOST" -> Code "SQL Query" input "DB Host"
+				// Variable output "DB_USER" -> Code "SQL Query" input "DB USER"
 				_id: 203,
 
 				_created_at: date1,
 				_updated_at: date1,
 
-				__from: 200301,
-				__to: 200503
+				__from: 301,
+				__to: 503
 			},
 			{
-				// Variable output "DB_HOST" -> Code "SQL Query" input "DB Host"
+				// Variable output "DB_PASS" -> Code "SQL Query" input "DB DB PASS"
 				_id: 204,
 
 				_created_at: date1,
 				_updated_at: date1,
 
-				__from: 200401,
-				__to: 200504
+				__from: 401,
+				__to: 504
 			}
-			// endregion
-		],
-		graphNodeInputs: [
-			// region - Node outputs for Node-function 20 - graph1
-			{
-				// "Calculate quotient" dividend input
-				_id: 100101,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 1001,
-				__node_input: 1001
-			},
-			{
-				// "Calculate quotient" divisor input
-				_id: 100102,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 1001,
-				__node_input: 1002
-			},
-			{
-				// "Calculate remainder" dividend input
-				_id: 100201,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 1002,
-				__node_input: 1101
-			},
-			{
-				// "Calculate remainder" divisor input
-				_id: 100202,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 1002,
-				__node_input: 1102
-			},
-			{
-				// Parameter output "Quotient"
-				_id: 100501,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 1005,
-				__node_input: 200301
-			},
-			{
-				// Parameter output "Remainder"
-				_id: 100601,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 1006,
-				__node_input: 200401
-			},
-			// endregion
-
-			// region - Node inputs for workflow 1 - graph2
-			{
-				// Variable void input "DB_HOST"
-				_id: 200101,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2001,
-				__node_input: 101
-			},
-			{
-				// Variable void input "DB_PORT"
-				_id: 200201,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2002,
-				__node_input: 201
-			},
-			{
-				// Variable void input "DB_USER"
-				_id: 200301,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2003,
-				__node_input: 301
-			},
-			{
-				// Variable void input "DB_PASS"
-				_id: 200401,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2004,
-				__node_input: 401
-			},
-
-			{
-				// Input "DB Host" of Code "SQL Query"
-				_id: 200501,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2005,
-				__node_input: 501
-			},
-			{
-				// Input "DB Port" of Code "SQL Query"
-				_id: 200502,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2005,
-				__node_input: 502
-			},
-			{
-				// Input "DB User" of Code "SQL Query"
-				_id: 200503,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2005,
-				__node_input: 503
-			},
-			{
-				// Input "DB Pass" of Code "SQL Query"
-				_id: 200504,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2005,
-				__node_input: 504
-			},
-			{
-				// Input "SQL stmt" of Code "SQL Query"
-				_id: 200505,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2005,
-				__node_input: 505
-			}
-
-			// endregion
-		],
-		graphNodeOutputs: [
-			// region - Node outputs for Node-function 20 - graph1
-			{
-				// "Calculate quotient" output
-				_id: 100101,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 1001,
-				__node_output: 1001
-			},
-			{
-				// "Calculate remainder" output
-				_id: 100201,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 1002,
-				__node_output: 1101
-			},
-			{
-				// Parameter input "Dividend"
-				_id: 100301,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 1003,
-				__node_output: 200101
-			},
-			{
-				// Parameter input "Divisor"
-				_id: 100401,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 1004,
-				__node_output: 200201
-			},
-			// endregion
-
-			// region - Node outputs for workflow 1 - graph2
-			{
-				// Variable output "DB_HOST"
-				_id: 200101,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2001,
-				__node_output: 101
-			},
-			{
-				// Variable output "DB_PORT"
-				_id: 200201,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2002,
-				__node_output: 201
-			},
-			{
-				// Variable output "DB_USER"
-				_id: 200301,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2003,
-				__node_output: 301
-			},
-			{
-				// Variable output "DB_PASS"
-				_id: 200401,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2004,
-				__node_output: 401
-			},
-
-			{
-				// Output of "SQL Query"
-				_id: 200501,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph_node: 2005,
-				__node_output: 501
-			}
-			// endregion
-		],
-		graphNodes: [
-			// region - Graph 1 (node-function)
-			{
-				_id: 1001,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 1,
-				__node: 10,
-				name: "Calculate quotient (fn)",
-				position: { x: 325, y: 25 }
-			},
-			{
-				_id: 1002,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 1,
-				__node: 11,
-				name: "Calculate remainder (fn)",
-				position: { x: 325, y: 250 }
-			},
-			{
-				_id: 1003,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 1,
-				__node: 2001,
-				name: "Dividend (input)",
-				position: { x: 25, y: 125 }
-			},
-			{
-				_id: 1004,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 1,
-				__node: 2002,
-				name: "Divisor (input)",
-				position: { x: 25, y: 250 }
-			},
-			{
-				_id: 1005,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 1,
-				__node: 2003,
-				name: "Quotient (output)",
-				position: { x: 725, y: 125 }
-			},
-			{
-				_id: 1006,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 1,
-				__node: 2004,
-				name: "Remainder (input)",
-				position: { x: 725, y: 250 }
-			},
-
-			// endregion:
-
-			// region - Workflow 1
-			{
-				_id: 2001,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 2,
-				__node: 1,
-				name: "DB_HOST",
-				position: { x: 25, y: 25 }
-			},
-			{
-				_id: 2002,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 2,
-				__node: 2,
-				name: "DB_PORT",
-				position: { x: 25, y: 150 }
-			},
-			{
-				_id: 2003,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 2,
-				__node: 3,
-				name: "DB_USER",
-				position: { x: 25, y: 275 }
-			},
-			{
-				_id: 2004,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 2,
-				__node: 4,
-				name: "DB_PASS",
-				position: { x: 25, y: 400 }
-			},
-
-			{
-				_id: 2005,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 2,
-				__node: 5,
-				name: "Make SQL query",
-				position: { x: 600, y: 250 }
-			},
-			{
-				// The trigger node
-				_id: 2006,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__graph: 2,
-				__node: 30,
-
-				name: "Cron",
-				position: { x: 50, y: 650 }
-			}
-
 			// endregion
 		],
 		graphs: [
@@ -558,288 +159,6 @@ export const BASE_SEED = {
 				_created_at: date1,
 				_updated_at: date1
 			}
-		]
-	},
-	node: {
-		nodeInputs: [
-			// region Variables dummy inputs
-			{
-				_id: 101,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 1,
-				name: "DB_HOST in"
-			},
-			{
-				_id: 201,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 2,
-				name: "DB_PORT in"
-			},
-			{
-				_id: 301,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 3,
-				name: "DB_USER in"
-			},
-			{
-				_id: 401,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 4,
-				name: "DB_PASS in"
-			},
-			// endregion
-
-			// region inputs for code 5 (SQL request)
-			{
-				_id: 501,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 5,
-				name: "DB Host"
-			},
-			{
-				_id: 502,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 5,
-				name: "DB Port"
-			},
-			{
-				_id: 503,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 5,
-				name: "DB User"
-			},
-			{
-				_id: 504,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 5,
-				name: "DB Pass"
-			},
-			{
-				_id: 505,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 5,
-				name: "SQL stmt"
-			},
-
-			// endregion
-
-			// Inputs for code 10
-			{
-				_id: 1001,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 10,
-				name: "Dividend"
-			},
-			{
-				_id: 1002,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 10,
-				name: "Divisor"
-			},
-
-			// Inputs for code 11
-			{
-				_id: 1101,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 11,
-				name: "Dividend"
-			},
-			{
-				_id: 1102,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 11,
-				name: "Divisor"
-			},
-
-			// ----------------------------------------------------------
-
-			// In parameters for function 20
-			{
-				_id: 2001,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 20,
-				name: "Dividend"
-			},
-			{
-				_id: 2002,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 20,
-				name: "Divisor"
-			},
-			{
-				_id: 200301,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 2003,
-				name: "Quotient (input of the output parameter node)"
-			},
-			{
-				_id: 200401,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 2004,
-				name: "Remainder (input of the output parameter node)"
-			}
-		],
-		nodeOutputs: [
-			// Variables outputs
-			{
-				_id: 101,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 1,
-				name: "DB_HOST out"
-			},
-			{
-				_id: 201,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 2,
-				name: "DB_PORT out"
-			},
-			{
-				_id: 301,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 3,
-				name: "DB_USER out"
-			},
-			{
-				_id: 401,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 4,
-				name: "DB_PASS out"
-			},
-
-			{
-				// Output for code 10 (SQL request)
-				_id: 501,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 5,
-				name: "SQL Output"
-			},
-
-			{
-				// Output for code 10
-				_id: 1001,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 10,
-				name: "Quotient"
-			},
-			{
-				// Output for code 11
-				_id: 1101,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 11,
-				name: "Remainder"
-			},
-
-			// ----------------------------------------------------------
-
-			// Out parameter for function 20
-			{
-				_id: 2003,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 20,
-				name: "Quotient"
-			},
-			{
-				_id: 2004,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 20,
-				name: "Remainder"
-			},
-			{
-				_id: 200101,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 2001,
-				name: "Dividend (output of the input parameter node)"
-			},
-			{
-				_id: 200201,
-
-				_created_at: date1,
-				_updated_at: date1,
-
-				__node: 2002,
-				name: "Divisor (output of the input parameter node)"
-			}
 		],
 		nodes: [
 			// Some DB variables
@@ -851,8 +170,36 @@ export const BASE_SEED = {
 
 				__categories: [1],
 
-				behavior: { type: NodeBehaviorType.VARIABLE },
-				name: "DB_HOST"
+				behavior: { type: NodeBehaviorType.VARIABLE, value: "host" },
+				kind: { __graph: 2, position: { x: 25, y: 25 }, type: NodeKindType.EDGE },
+				name: "DB_HOST",
+
+				inputs: [
+					{
+						_id: 101,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 1,
+						__ref: null,
+						name: "DB_HOST in",
+						type: NodeIoType.VOID
+					}
+				],
+				outputs: [
+					{
+						_id: 101,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 1,
+						__ref: null,
+						name: "DB_HOST out",
+						type: NodeIoType.STRING
+					}
+				]
 			},
 			{
 				_id: 2,
@@ -862,8 +209,36 @@ export const BASE_SEED = {
 
 				__categories: [1],
 
-				behavior: { type: NodeBehaviorType.VARIABLE },
-				name: "DB_PORT"
+				behavior: { type: NodeBehaviorType.VARIABLE, value: 1234 },
+				kind: { __graph: 2, position: { x: 25, y: 150 }, type: NodeKindType.EDGE },
+				name: "DB_PORT",
+
+				inputs: [
+					{
+						_id: 201,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 2,
+						__ref: null,
+						name: "DB_PORT in",
+						type: NodeIoType.VOID
+					}
+				],
+				outputs: [
+					{
+						_id: 201,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 2,
+						__ref: null,
+						name: "DB_PORT out",
+						type: NodeIoType.NUMBER
+					}
+				]
 			},
 			{
 				_id: 3,
@@ -873,8 +248,36 @@ export const BASE_SEED = {
 
 				__categories: [1],
 
-				behavior: { type: NodeBehaviorType.VARIABLE },
-				name: "DB_USER"
+				behavior: { type: NodeBehaviorType.VARIABLE, value: "user" },
+				kind: { __graph: 2, position: { x: 25, y: 275 }, type: NodeKindType.EDGE },
+				name: "DB_USER",
+
+				inputs: [
+					{
+						_id: 301,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 3,
+						__ref: null,
+						name: "DB_USER in",
+						type: NodeIoType.VOID
+					}
+				],
+				outputs: [
+					{
+						_id: 301,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 3,
+						__ref: null,
+						name: "DB_USER out",
+						type: NodeIoType.STRING
+					}
+				]
 			},
 			{
 				_id: 4,
@@ -884,8 +287,36 @@ export const BASE_SEED = {
 
 				__categories: [1],
 
-				behavior: { type: NodeBehaviorType.VARIABLE },
-				name: "DB_PASS"
+				behavior: { type: NodeBehaviorType.VARIABLE, value: "pass" },
+				kind: { __graph: 2, position: { x: 25, y: 400 }, type: NodeKindType.EDGE },
+				name: "DB_PASS",
+
+				inputs: [
+					{
+						_id: 401,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 4,
+						__ref: null,
+						name: "DB_PASS in",
+						type: NodeIoType.VOID
+					}
+				],
+				outputs: [
+					{
+						_id: 401,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 4,
+						__ref: null,
+						name: "DB_PASS out",
+						type: NodeIoType.STRING
+					}
+				]
 			},
 
 			// ----------------------------------------------------------
@@ -899,8 +330,81 @@ export const BASE_SEED = {
 
 				__categories: [1, 2],
 
-				behavior: { type: NodeBehaviorType.CODE },
-				name: "Make SQL query"
+				behavior: { code: "module.export = console.log", type: NodeBehaviorType.CODE },
+				kind: { __graph: 2, position: { x: 600, y: 250 }, type: NodeKindType.EDGE },
+				name: "Make SQL query",
+
+				inputs: [
+					{
+						_id: 501,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 5,
+						__ref: null,
+						name: "DB Host",
+						type: NodeIoType.STRING
+					},
+					{
+						_id: 502,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 5,
+						__ref: null,
+						name: "DB Port",
+						type: NodeIoType.STRING
+					},
+					{
+						_id: 503,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 5,
+						__ref: null,
+						name: "DB User",
+						type: NodeIoType.STRING
+					},
+					{
+						_id: 504,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 5,
+						__ref: null,
+						name: "DB Pass",
+						type: NodeIoType.STRING
+					},
+					{
+						_id: 505,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 5,
+						__ref: null,
+						name: "SQL stmt",
+						type: NodeIoType.STRING
+					}
+				],
+				outputs: [
+					{
+						// Output for code 10 (SQL request)
+						_id: 501,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 5,
+						__ref: null,
+						name: "SQL Output",
+						type: NodeIoType.STRING
+					}
+				]
 			},
 			{
 				// Do: Math.floor(a / b)
@@ -911,8 +415,51 @@ export const BASE_SEED = {
 
 				__categories: [2],
 
-				behavior: { type: NodeBehaviorType.CODE },
-				name: "Calculate quotient"
+				behavior: {
+					code: "module.export = (a, b) => b === 0 ? 0 : Math.floor(a / b);",
+					type: NodeBehaviorType.CODE
+				},
+				kind: { type: NodeKindType.TEMPLATE },
+				name: "Calculate quotient",
+
+				inputs: [
+					{
+						_id: 1001,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 10,
+						__ref: null,
+						name: "Dividend",
+						type: NodeIoType.NUMBER
+					},
+					{
+						_id: 1002,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 10,
+						__ref: null,
+						name: "Divisor",
+						type: NodeIoType.NUMBER
+					}
+				],
+				outputs: [
+					{
+						// Output for code 10
+						_id: 1001,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 10,
+						__ref: null,
+						name: "Quotient",
+						type: NodeIoType.NUMBER
+					}
+				]
 			},
 			{
 				// Do: a % b
@@ -923,8 +470,51 @@ export const BASE_SEED = {
 
 				__categories: [2],
 
-				behavior: { type: NodeBehaviorType.CODE },
-				name: "Calculate remainder"
+				behavior: {
+					code: "module.export = (a, b) => b === 0 ? a : a % b;",
+					type: NodeBehaviorType.CODE
+				},
+				kind: { type: NodeKindType.TEMPLATE },
+				name: "Calculate remainder",
+
+				inputs: [
+					{
+						_id: 1101,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 11,
+						__ref: null,
+						name: "Dividend",
+						type: NodeIoType.NUMBER
+					},
+					{
+						_id: 1102,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 11,
+						__ref: null,
+						name: "Divisor",
+						type: NodeIoType.NUMBER
+					}
+				],
+				outputs: [
+					{
+						// Output for code 11
+						_id: 1101,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 11,
+						__ref: null,
+						name: "Remainder",
+						type: NodeIoType.NUMBER
+					}
+				]
 			},
 
 			// ----------------------------------------------------------
@@ -940,7 +530,57 @@ export const BASE_SEED = {
 				__categories: [2],
 
 				behavior: { __graph: 1, type: NodeBehaviorType.FUNCTION },
-				name: "Integer division"
+				kind: { type: NodeKindType.TEMPLATE },
+				name: "Integer division",
+
+				inputs: [
+					{
+						_id: 2001,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 20,
+						__ref: null,
+						name: "Dividend",
+						type: NodeIoType.NUMBER
+					},
+					{
+						_id: 2002,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 20,
+						__ref: null,
+						name: "Divisor",
+						type: NodeIoType.NUMBER
+					}
+				],
+				outputs: [
+					{
+						_id: 2003,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 20,
+						__ref: null,
+						name: "Quotient",
+						type: NodeIoType.NUMBER
+					},
+					{
+						_id: 2004,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 20,
+						__ref: null,
+						name: "Remainder",
+						type: NodeIoType.NUMBER
+					}
+				]
 			}, // parameters start with id 20
 			{
 				_id: 2001,
@@ -951,7 +591,23 @@ export const BASE_SEED = {
 				__categories: [],
 
 				behavior: { __node_input: 2001, type: NodeBehaviorType.PARAMETER_IN },
-				name: "Dividend"
+				kind: { __graph: 1, position: { x: 25, y: 125 }, type: NodeKindType.EDGE },
+				name: "Dividend",
+
+				inputs: [],
+				outputs: [
+					{
+						_id: 200101,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 2001,
+						__ref: null,
+						name: "Dividend (output of the input parameter node)",
+						type: NodeIoType.NUMBER
+					}
+				]
 			},
 			{
 				_id: 2002,
@@ -962,7 +618,23 @@ export const BASE_SEED = {
 				__categories: [],
 
 				behavior: { __node_input: 2002, type: NodeBehaviorType.PARAMETER_IN },
-				name: "Divisor"
+				kind: { __graph: 1, position: { x: 25, y: 250 }, type: NodeKindType.EDGE },
+				name: "Divisor",
+
+				inputs: [],
+				outputs: [
+					{
+						_id: 200201,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 2002,
+						__ref: null,
+						name: "Divisor (output of the input parameter node)",
+						type: NodeIoType.NUMBER
+					}
+				]
 			},
 			{
 				_id: 2003,
@@ -973,7 +645,23 @@ export const BASE_SEED = {
 				__categories: [],
 
 				behavior: { __node_output: 2003, type: NodeBehaviorType.PARAMETER_OUT },
-				name: "Quotient"
+				kind: { __graph: 1, position: { x: 725, y: 125 }, type: NodeKindType.EDGE },
+				name: "Quotient",
+
+				inputs: [
+					{
+						_id: 200301,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 2003,
+						__ref: null,
+						name: "Quotient (input of the output parameter node)",
+						type: NodeIoType.NUMBER
+					}
+				],
+				outputs: []
 			},
 			{
 				_id: 2004,
@@ -984,7 +672,23 @@ export const BASE_SEED = {
 				__categories: [],
 
 				behavior: { __node_output: 2004, type: NodeBehaviorType.PARAMETER_OUT },
-				name: "Remainder"
+				kind: { __graph: 1, position: { x: 725, y: 250 }, type: NodeKindType.EDGE },
+				name: "Remainder",
+
+				inputs: [
+					{
+						_id: 200401,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 2004,
+						__ref: null,
+						name: "Remainder (input of the output parameter node)",
+						type: NodeIoType.NUMBER
+					}
+				],
+				outputs: []
 			},
 
 			// ----------------------------------------------------------
@@ -999,10 +703,132 @@ export const BASE_SEED = {
 				__categories: [],
 
 				behavior: {
-					trigger: { type: NodeTriggerType.CRON },
+					trigger: { cron: "1 * * * *", type: NodeTriggerType.CRON },
 					type: NodeBehaviorType.TRIGGER
 				},
-				name: "Cron"
+				kind: { __graph: 2, position: { x: 50, y: 650 }, type: NodeKindType.EDGE },
+				name: "Cron",
+
+				inputs: [],
+				outputs: [
+					{
+						_id: 3001,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 30,
+						__ref: null,
+						name: "Timestamp",
+						type: NodeIoType.NUMBER
+					}
+				]
+			},
+
+			// Node from templates
+			{
+				// Do: Math.floor(a / b)
+				_id: 15,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__categories: [2],
+
+				behavior: { __node: 10, type: NodeBehaviorType.REFERENCE },
+				kind: { __graph: 1, position: { x: 325, y: 25 }, type: NodeKindType.EDGE },
+				name: "Calculate quotient (reference)",
+
+				inputs: [
+					{
+						_id: 1501,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 15,
+						__ref: 1001,
+						name: "Dividend",
+						type: NodeIoType.NUMBER
+					},
+					{
+						_id: 1502,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 15,
+						__ref: 1002,
+						name: "Divisor",
+						type: NodeIoType.NUMBER
+					}
+				],
+				outputs: [
+					{
+						// Output for code 10
+						_id: 1501,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 15,
+						__ref: 1001,
+						name: "Quotient",
+						type: NodeIoType.NUMBER
+					}
+				]
+			},
+			{
+				// Do: a % b
+				_id: 16,
+
+				_created_at: date1,
+				_updated_at: date1,
+
+				__categories: [2],
+
+				behavior: { __node: 11, type: NodeBehaviorType.REFERENCE },
+				kind: { __graph: 1, position: { x: 325, y: 250 }, type: NodeKindType.EDGE },
+				name: "Calculate remainder (reference)",
+
+				inputs: [
+					{
+						_id: 1601,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 16,
+						__ref: 1101,
+						name: "Dividend",
+						type: NodeIoType.NUMBER
+					},
+					{
+						_id: 1602,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 16,
+						__ref: 1102,
+						name: "Divisor",
+						type: NodeIoType.NUMBER
+					}
+				],
+				outputs: [
+					{
+						// Output for code 11
+						_id: 1601,
+
+						_created_at: date1,
+						_updated_at: date1,
+
+						__node: 16,
+						__ref: 1101,
+						name: "Remainder",
+						type: NodeIoType.NUMBER
+					}
+				]
 			}
 		]
 	},
@@ -1052,6 +878,7 @@ export const BASE_SEED = {
 			_updated_at: date1,
 
 			__graph: 2,
+			active: false,
 			name: "Do a SQL request"
 		},
 		{
@@ -1061,6 +888,7 @@ export const BASE_SEED = {
 			_updated_at: date1,
 
 			__graph: 3,
+			active: false,
 			name: "Empty graph"
 		}
 	]

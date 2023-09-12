@@ -1,4 +1,4 @@
-import { IsNumber, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 
 import { DtoProperty } from "../../../dtos/dto";
 import { EntityDto } from "../../../dtos/entity";
@@ -17,6 +17,17 @@ export class WorkflowDto extends EntityDto {
 	public readonly __graph!: number;
 
 	/**
+	 * Is the workflow active?
+	 * An active workflow can be executed, it is "registered" by the server (with CRON for example).
+	 *
+	 * @default false
+	 */
+	@DtoProperty()
+	@IsBoolean()
+	@IsOptional()
+	public readonly active!: boolean;
+
+	/**
 	 * The unique name of a workflow
 	 */
 	@DtoProperty()
@@ -32,5 +43,7 @@ export class WorkflowDto extends EntityDto {
 	 * The data to the {@link GraphDto}
 	 */
 	@DtoProperty({ forwardRef: true, type: () => GraphDto })
-	public readonly graph?: GraphDto;
+	public readonly graph?: GraphDto[][number];
+
+	// `GraphDto[][number]` hack for metadata circular dependency
 }

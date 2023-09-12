@@ -10,19 +10,20 @@ import {
 import { NodeDto } from "~/lib/common/app/node/dtos";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
-import { NodeBehavior, NodeBehaviorBase } from "./behaviors";
-import { NodeInput } from "./input/node-input.entity";
+import { NodeBehaviorBase } from "./behaviors/node-behavior.base";
+import { NodeBehaviorEntity } from "./behaviors/node-behavior.entity";
+import { NodeInputEntity } from "./input/node-input.entity";
+import { NodeKindBaseEntity, NodeKindEntity } from "./kind";
 import { NodeRepository } from "./node.repository";
-import { NodeOutput } from "./output/node-output.entity";
+import { NodeOutputEntity } from "./output/node-output.entity";
 import { EntityBase, EntityToDto } from "../_lib/entity";
-import { Category } from "../category/category.entity";
-import { GraphNode } from "../graph/node/graph-node.entity";
+import { CategoryEntity } from "../category/category.entity";
 
 /**
  * The entity class to manage nodes
  */
 @Entity({ customRepository: () => NodeRepository })
-export class Node extends EntityBase implements DtoToEntity<NodeDto> {
+export class NodeEntity extends EntityBase implements DtoToEntity<NodeDto> {
 	/**
 	 * @inheritDoc
 	 */
@@ -32,28 +33,54 @@ export class Node extends EntityBase implements DtoToEntity<NodeDto> {
 	/**
 	 * @inheritDoc
 	 */
-	@OneToOne(() => NodeBehaviorBase, ({ node }) => node, {
+	@OneToOne(() => NodeBehaviorBase, ({ pkNode }) => pkNode, {
 		eager: true,
 		owner: false,
+		// This strategy is "kinda mandatory" with manual populate
 		strategy: LoadStrategy.JOINED
 	})
-	public readonly behavior!: NodeBehavior;
+	public readonly behavior!: NodeBehaviorEntity;
+
+	/**
+	 * @inheritDoc
+	 */
+	@OneToOne(() => NodeKindBaseEntity, ({ node }) => node, {
+		eager: true,
+		owner: false,
+		// Same as above
+		strategy: LoadStrategy.JOINED
+	})
+	public readonly kind!: NodeKindEntity;
 
 	// ------- Relations -------
 
-	@OneToMany(() => NodeInput, ({ node }) => node, { lazy: true })
-	public readonly inputs? = new Collection<NodeInput>(this);
-	@OneToMany(() => NodeOutput, ({ node }) => node, { lazy: true })
-	public readonly outputs? = new Collection<NodeOutput>(this);
+	@OneToMany(() => NodeInputEntity, ({ node }) => node, {
+		eager: true,
+		orderBy: { _id: "asc" }
+	})
+	public readonly inputs = new Collection<NodeInputEntity>(this);
+	@OneToMany(() => NodeOutputEntity, ({ node }) => node, {
+		eager: true,
+		orderBy: { _id: "asc" }
+	})
+	public readonly outputs = new Collection<NodeOutputEntity>(this);
 
-	@ManyToMany(() => Category, ({ nodes }) => nodes, { hidden: true, owner: true })
-	public readonly categories? = new Collection<Category>(this);
+	@ManyToMany(() => CategoryEntity, ({ nodes }) => nodes, { hidden: true, owner: true })
+	public readonly categories? = new Collection<CategoryEntity>(this);
 
-	@OneToMany(() => GraphNode, ({ node }) => node, { lazy: true })
-	public readonly graphNodes? = new Collection<GraphNode>(this);
-
+	/**
+	 * @inheritDoc
+	 */
 	public override toJSON?(): EntityToDto<this> {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Override only applied if the parent function exists
-		return { ...super.toJSON!(), behavior: super.toJSON!.call(this.behavior) };
+		return {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- From override
+			...super.toJSON!(),
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- From override
+			behavior: super.toJSON!.call(this.behavior),
+			inputs: this.inputs.toJSON(),
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- From override
+			kind: super.toJSON!.call(this.kind),
+			outputs: this.outputs.toJSON()
+		};
 	}
 }

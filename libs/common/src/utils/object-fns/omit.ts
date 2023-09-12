@@ -1,5 +1,3 @@
-import { ReadonlyDeep } from "type-fest";
-
 /**
  * Omits some keys from an object.
  *
@@ -11,7 +9,7 @@ import { ReadonlyDeep } from "type-fest";
  * @returns A shallow copy of the object without the keys
  */
 export function omit<T extends object, K extends keyof T>(
-	object: ReadonlyDeep<T>,
+	object: T,
 	keys: readonly K[]
 ): Omit<T, (typeof keys)[number]> {
 	return Object.fromEntries(

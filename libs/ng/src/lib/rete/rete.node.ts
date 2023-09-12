@@ -1,13 +1,9 @@
 import { ClassicPreset } from "rete";
-import { GraphNode } from "~/lib/common/app/graph/endpoints";
+import { Node } from "~/lib/common/app/node/endpoints";
 
 import { ReteInput } from "./rete.input";
 import { ReteOutput } from "./rete.output";
 import { ReteSocket } from "./rete.socket";
-
-// namespace ClassicPreset {
-// 	export class Node {}
-// }
 
 export class ReteNode extends ClassicPreset.Node<
 	Record<string, ReteSocket>,
@@ -22,8 +18,8 @@ export class ReteNode extends ClassicPreset.Node<
 	 */
 	public override outputs!: Partial<Record<string, ReteOutput>>;
 
-	public constructor(public readonly graphNode: GraphNode) {
-		const { inputs, name, outputs } = graphNode;
+	public constructor(public readonly node: Node) {
+		const { inputs, name, outputs } = node;
 		super(name);
 
 		for (const input of inputs) {

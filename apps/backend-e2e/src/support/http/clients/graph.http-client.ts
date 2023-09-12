@@ -7,7 +7,8 @@ import { GRAPHS_ENDPOINT_PREFIX } from "~/lib/common/app/graph/endpoints/graph.e
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import { EntityHttpClient } from "./_lib/entity.http-client";
-import { GraphArcHttpClient, GraphNodeHttpClient } from "./graph";
+import { GraphArcHttpClient } from "./graph";
+import { GraphNodeHttpClient } from "./graph/graph-node.http-client";
 
 export class GraphHttpClient extends EntityHttpClient<GraphDto> {
 	public override getEndpoint(): string {

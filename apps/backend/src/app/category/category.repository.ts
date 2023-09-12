@@ -1,8 +1,8 @@
 import { EntityRepository } from "@mikro-orm/core";
 
-import { Category } from "./category.entity";
+import { CategoryEntity } from "./category.entity";
 
 /**
- * The repository to manage [categories]{@link Category}.
+ * The repository to manage [categories]{@link CategoryEntity}.
  */
-export class CategoryRepository extends EntityRepository<Category> {}
+export class CategoryRepository extends EntityRepository<CategoryEntity> {}

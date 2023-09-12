@@ -7,7 +7,7 @@ export type EntityFilterObject<T> = {
 	[P in keyof T as ExcludeFunctions<T, P>]?: T[P] extends Date
 		? EntityFilterValue<T[P]> | T[P]
 		: // Nest array of objects
-		NonNullable<T[P]> extends Array<infer U>
+		NonNullable<T[P]> extends ReadonlyArray<infer U>
 		? EntityFilterObject<U>
 		: // Compatibility for backend (Mikro-orm Collection)
 		NonNullable<T[P]> extends Collection<infer U>
@@ -30,7 +30,7 @@ export interface EntityFilterLogicalOperators<T> {
 	 * // => entity.a === 2 && entity.a === 5
 	 * ```
 	 */
-	$and?: Array<EntityFilter<T>>;
+	$and?: ReadonlyArray<EntityFilter<T>>;
 	/**
 	 * Negate condition
 	 */
@@ -43,7 +43,7 @@ export interface EntityFilterLogicalOperators<T> {
 	 * // => entity.a === 2 || entity.a === 5
 	 * ```
 	 */
-	$or?: Array<EntityFilter<T>>;
+	$or?: ReadonlyArray<EntityFilter<T>>;
 }
 /* eslint-enable */
 

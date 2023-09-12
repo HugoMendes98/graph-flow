@@ -1,6 +1,9 @@
+import { IsDefined } from "class-validator";
+
 import { NodeBehaviorBaseDto } from "./node-behavior.base.dto";
 import { NodeBehaviorType } from "./node-behavior.type";
 import { DtoProperty } from "../../../../dtos/dto";
+import { NodeIoValue } from "../../io";
 
 /**
  * Base behavior of node that is a variable/parameter
@@ -13,8 +16,6 @@ export abstract class NodeBehaviorParameterBaseDto extends NodeBehaviorBaseDto {
 		| NodeBehaviorType.PARAMETER_IN
 		| NodeBehaviorType.PARAMETER_OUT
 		| NodeBehaviorType.VARIABLE;
-
-	// TODO: default value, lock type (string, number, null)
 }
 
 /**
@@ -25,6 +26,11 @@ export class NodeBehaviorVariableDto extends NodeBehaviorParameterBaseDto {
 	 * @inheritDoc
 	 */
 	public override readonly type = NodeBehaviorType.VARIABLE;
+
+	// TODO: this is temporary
+	@DtoProperty()
+	@IsDefined()
+	public value!: NodeIoValue;
 }
 
 /**

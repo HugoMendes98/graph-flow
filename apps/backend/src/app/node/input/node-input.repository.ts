@@ -1,8 +1,8 @@
 import { EntityRepository } from "@mikro-orm/core";
 
-import { NodeInput } from "./node-input.entity";
+import { NodeInputEntity } from "./node-input.entity";
 
 /**
- * The repository to manage [node-inputs]{@link NodeInput}.
+ * The repository to manage [node-inputs]{@link NodeInputEntity}.
  */
-export class NodeInputRepository extends EntityRepository<NodeInput> {}
+export class NodeInputRepository extends EntityRepository<NodeInputEntity> {}

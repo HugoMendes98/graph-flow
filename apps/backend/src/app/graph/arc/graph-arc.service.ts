@@ -1,35 +1,43 @@
 import { EventArgs, EventSubscriber } from "@mikro-orm/core";
 import { EntityName } from "@mikro-orm/nestjs";
-import { Injectable, MethodNotAllowedException } from "@nestjs/common";
+import {
+	forwardRef,
+	Inject,
+	Injectable,
+	MethodNotAllowedException,
+	NotImplementedException
+} from "@nestjs/common";
 import { graphHasCycle } from "~/lib/common/app/graph/algorithms";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
 import { getAdjacencyList } from "~/lib/common/app/graph/transformations";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { EntityId } from "~/lib/common/dtos/entity";
+import { EntitiesToPopulate, EntityFilter, EntityFindParams } from "~/lib/common/endpoints";
 
 import { GraphArcDifferentGraphException } from "./exceptions";
-import { GraphArc } from "./graph-arc.entity";
+import { GraphArcEntity } from "./graph-arc.entity";
 import { GraphArcRepository } from "./graph-arc.repository";
-import { EntityService } from "../../_lib/entity";
+import { EntityService, EntityServiceFindOptions } from "../../_lib/entity";
+import { NodeService } from "../../node/node.service";
 import { GraphCyclicException } from "../exceptions";
-import { GraphNodeService } from "../node/graph-node.service";
 
 /**
- * Service to manages [graph-arcs]{@link GraphArc}.
+ * Service to manages [graph-arcs]{@link GraphArcEntity}.
  */
 @Injectable()
 export class GraphArcService
-	extends EntityService<GraphArc, GraphArcCreateDto, Record<string, never>>
-	implements EventSubscriber<GraphArc>
+	extends EntityService<GraphArcEntity, GraphArcCreateDto, Record<string, never>>
+	implements EventSubscriber<GraphArcEntity>
 {
 	/**
 	 * Constructor with "dependency injection"
 	 *
 	 * @param repository injected
-	 * @param graphNodeService injected
+	 * @param nodeService injected
 	 */
 	public constructor(
 		repository: GraphArcRepository,
-		private readonly graphNodeService: GraphNodeService
+		@Inject(forwardRef(() => NodeService)) private readonly nodeService: NodeService
 	) {
 		super(repository);
 
@@ -39,14 +47,14 @@ export class GraphArcService
 	/**
 	 * @inheritDoc
 	 */
-	public getSubscribedEntities(): Array<EntityName<GraphArc>> {
-		return [GraphArc];
+	public getSubscribedEntities(): Array<EntityName<GraphArcEntity>> {
+		return [GraphArcEntity];
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public async beforeCreate(event: EventArgs<GraphArc>) {
+	public async beforeCreate(event: EventArgs<GraphArcEntity>) {
 		const {
 			entity: { __from, __to }
 		} = event;
@@ -54,31 +62,32 @@ export class GraphArcService
 		const {
 			data: [nodeA],
 			pagination: { total: totalA }
-		} = await this.graphNodeService.findAndCount({ inputs: { _id: __to } }, { limit: 1 });
+		} = await this.nodeService.findAndCount({ inputs: { _id: __to } }, { limit: 1 });
 		const {
 			data: [nodeB],
 			pagination: { total: totalB }
-		} = await this.graphNodeService.findAndCount({ outputs: { _id: __from } }, { limit: 1 });
+		} = await this.nodeService.findAndCount({ outputs: { _id: __from } }, { limit: 1 });
 
-		switch ((totalA + totalB) as 0 | 1 | 2) {
-			case 0:
-			case 1: // One was not found
-				// Let the FK error be triggered
-				return;
-			case 2:
-				if (nodeA.__graph !== nodeB.__graph) {
-					throw new GraphArcDifferentGraphException(__from, __to);
-				}
+		if (totalA + totalB <= 1) {
+			// Let the FK error be triggered
+			return;
+		}
 
-				break;
+		const { kind: nodeAKind } = nodeA;
+		const { kind: nodeBKind } = nodeB;
+
+		if (nodeAKind.type !== NodeKindType.EDGE || nodeBKind.type !== NodeKindType.EDGE) {
+			throw new NotImplementedException();
+		}
+
+		if (nodeAKind.__graph !== nodeBKind.__graph) {
+			throw new GraphArcDifferentGraphException(__from, __to);
 		}
 
 		// Load graph content
-		const { __graph } = nodeA;
-		const { data: arcs } = await this.findAndCount({
-			$or: [{ from: { graphNode: { __graph } } }, { to: { graphNode: { __graph } } }]
-		});
-		const { data: nodes } = await this.graphNodeService.findAndCount({ __graph });
+		const { __graph } = nodeAKind;
+		const { data: arcs } = await this.findByGraph(__graph);
+		const { data: nodes } = await this.nodeService.findByGraph(__graph);
 
 		const adjacencyList = getAdjacencyList({
 			arcs: [{ __from, __to }, ...arcs],
@@ -88,6 +97,35 @@ export class GraphArcService
 		if (graphHasCycle(adjacencyList)) {
 			throw new GraphCyclicException();
 		}
+	}
+
+	/**
+	 * Finds arcs related to a graph
+	 *
+	 * @see EntityService
+	 * @param graphId The graph id to look for
+	 * @param where Filter to apply
+	 * @param params Additional parameters to sort and/or paginate
+	 * @param options Some options when loading an entities
+	 * @returns All arcs from a graph
+	 */
+	public findByGraph<P extends EntitiesToPopulate<GraphArcEntity>>(
+		graphId: EntityId,
+		where: EntityFilter<GraphArcEntity> = {},
+		params: EntityFindParams<GraphArcEntity> = {},
+		options?: EntityServiceFindOptions<GraphArcEntity, P>
+	) {
+		return this.findAndCount<P>(
+			{
+				$and: [where],
+				$or: [
+					{ from: { node: { kind: { __graph: graphId, type: NodeKindType.EDGE } } } },
+					{ to: { node: { kind: { __graph: graphId, type: NodeKindType.EDGE } } } }
+				]
+			},
+			params,
+			options
+		);
 	}
 
 	/**

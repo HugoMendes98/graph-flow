@@ -5,7 +5,7 @@ import {
 } from "~/lib/common/app/node/dtos/behaviors";
 
 import { NodeBehaviorBase } from "./node-behavior.base";
-import { NODE_TRIGGER_ENTITIES, NodeTrigger } from "./triggers";
+import { NODE_TRIGGER_ENTITIES, NodeTriggerEntity } from "./triggers";
 
 const type = NodeBehaviorType.TRIGGER;
 
@@ -15,5 +15,5 @@ export class NodeBehaviorTrigger extends NodeBehaviorBase<typeof type> implement
 	 * @inheritDoc
 	 */
 	@Embedded(() => NODE_TRIGGER_ENTITIES, { object: true })
-	public readonly trigger!: NodeTrigger;
+	public readonly trigger!: NodeTriggerEntity;
 }

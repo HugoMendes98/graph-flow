@@ -347,6 +347,7 @@
 		"prettier",
 		"sonarjs",
 		"sort-destructure-keys",
+		"sort-keys-plus",
 		"typescript-sort-keys",
 		"unicorn",
 		"unused-imports"
@@ -473,7 +474,7 @@
 		],
 		"semi": ["error", "always"],
 		"sort-destructure-keys/sort-destructure-keys": "error",
-		"sort-keys": [
+		"sort-keys-plus/sort-keys": [
 			"error",
 			"asc",
 			{

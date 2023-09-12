@@ -11,11 +11,11 @@ import { ParameterObject } from "@nestjs/swagger/dist/interfaces/open-api-spec.i
 import { isInt } from "class-validator";
 import { Request } from "express";
 
-import { Graph } from "./graph.entity";
+import { GraphEntity } from "./graph.entity";
 import { GraphService } from "./graph.service";
 
 // eslint-disable-next-line no-use-before-define -- Only for typing
-type RequestParams = Partial<Record<typeof GraphInterceptor.GRAPH_TOKEN, Graph>> &
+type RequestParams = Partial<Record<typeof GraphInterceptor.GRAPH_TOKEN, GraphEntity>> &
 	// eslint-disable-next-line no-use-before-define -- Only for typing
 	Record<typeof GraphInterceptor.PATH_PARAM, string>;
 
@@ -34,7 +34,7 @@ export class GraphInterceptor implements NestInterceptor {
 	 */
 	public static readonly PATH_PARAM = "graphId";
 	/**
-	 * The "token" it uses to share the found {@link Graph}
+	 * The "token" it uses to share the found {@link GraphEntity}
 	 */
 	public static readonly GRAPH_TOKEN = `__graph__`;
 

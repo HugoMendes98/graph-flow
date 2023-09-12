@@ -39,6 +39,22 @@
 			},
 			"outputs": ["{options.outputPath}"]
 		},
+		"compodoc": {
+			"configurations": {
+				"build": {
+					"command": "{args.base}"
+				},
+				"coverage": {
+					"command": "{args.base} --coverageTest 75 --silent"
+				}
+			},
+			"executor": "nx:run-commands",
+			"options": {
+				"args": "--base='npx @compodoc/compodoc -p ./apps/backend/tsconfig.doc.json -a .badges/ -d ./dist/documentation/backend --disablePrivate --disableInternal --disableLifeCycleHooks'",
+				"command": "{args.base} -r 3080 -s"
+			},
+			"outputs": ["{workspaceRoot}/dist/documentation/backend"]
+		},
 		"lint": {
 			"executor": "@nx/linter:eslint",
 			"options": {

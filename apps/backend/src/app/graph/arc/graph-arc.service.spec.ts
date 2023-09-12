@@ -6,20 +6,22 @@ import {
 import { MethodNotAllowedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
-import { BASE_SEED } from "~/lib/common/seeds";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { BASE_SEED, MockSeed } from "~/lib/common/seeds";
 
 import { GraphArcDifferentGraphException } from "./exceptions";
 import { GraphArcService } from "./graph-arc.service";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
+import { NodeService } from "../../node/node.service";
 import { GraphCyclicException } from "../exceptions";
 import { GraphModule } from "../graph.module";
-import { GraphNodeService } from "../node/graph-node.service";
 
 describe("GraphArcService", () => {
 	let dbTest: DbTestHelper;
 	let service: GraphArcService;
-	let graphNodeService: GraphNodeService;
+	let nodeService: NodeService;
 
 	beforeAll(async () => {
 		const module: TestingModule = await Test.createTestingModule({
@@ -29,7 +31,7 @@ describe("GraphArcService", () => {
 
 		dbTest = new DbTestHelper(module);
 		service = module.get(GraphArcService);
-		graphNodeService = module.get(GraphNodeService);
+		nodeService = module.get(NodeService);
 	});
 
 	afterAll(() => dbTest.close());
@@ -39,34 +41,34 @@ describe("GraphArcService", () => {
 	});
 
 	describe("With Input/Outputs", () => {
-		let db: typeof BASE_SEED;
+		let db: typeof BASE_SEED.graph;
 
 		// Small seed in the empty graph
 		const seed = async () => {
-			const graph = db.graph.graphs[2];
-			const [var1, var2, , , nCode] = db.node.nodes;
+			const graph = db.graphs[2];
+			const [var1, var2, , , nCode] = db.nodes;
 
-			const variable1 = await graphNodeService.create(
+			const variable1 = await nodeService.create(
 				{
-					__graph: graph._id,
-					__node: var1._id,
-					position: { x: 0, y: 0 }
+					behavior: { __node: var1._id, type: NodeBehaviorType.REFERENCE },
+					kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+					name: "Var1"
 				},
 				{ findOptions: { populate: { inputs: true, outputs: true } } }
 			);
-			const variable2 = await graphNodeService.create(
+			const variable2 = await nodeService.create(
 				{
-					__graph: graph._id,
-					__node: var2._id,
-					position: { x: 0, y: 0 }
+					behavior: { __node: var2._id, type: NodeBehaviorType.REFERENCE },
+					kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+					name: "Var2"
 				},
 				{ findOptions: { populate: { inputs: true, outputs: true } } }
 			);
-			const code = await graphNodeService.create(
+			const code = await nodeService.create(
 				{
-					__graph: graph._id,
-					__node: nCode._id,
-					position: { x: 0, y: 0 }
+					behavior: { __node: nCode._id, type: NodeBehaviorType.REFERENCE },
+					kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+					name: "code"
 				},
 				{ findOptions: { populate: { inputs: true, outputs: true } } }
 			);
@@ -75,7 +77,7 @@ describe("GraphArcService", () => {
 		};
 
 		beforeEach(() => {
-			db = dbTest.db as never;
+			db = dbTest.db.graph as never;
 			return dbTest.refresh();
 		});
 
@@ -86,7 +88,12 @@ describe("GraphArcService", () => {
 				}
 			} = await seed();
 
-			const __to = Math.max(...db.graph.graphNodeInputs.map(({ _id }) => _id)) * 2;
+			const __to =
+				Math.max(
+					...(db.nodes as MockSeed["graph"]["nodes"]).flatMap(({ inputs }) =>
+						inputs.map(({ _id }) => _id)
+					)
+				) * 2;
 			await expect(() => service.create({ __from: output._id, __to })).rejects.toThrow(
 				ForeignKeyConstraintViolationException
 			);
@@ -99,7 +106,12 @@ describe("GraphArcService", () => {
 				}
 			} = await seed();
 
-			const __from = Math.max(...db.graph.graphNodeOutputs.map(({ _id }) => _id)) * 2;
+			const __from =
+				Math.max(
+					...(db.nodes as MockSeed["graph"]["nodes"]).flatMap(({ outputs }) =>
+						outputs.map(({ _id }) => _id)
+					)
+				) * 2;
 			await expect(() => service.create({ __from, __to: input._id })).rejects.toThrow(
 				ForeignKeyConstraintViolationException
 			);
@@ -133,9 +145,7 @@ describe("GraphArcService", () => {
 
 			const {
 				outputs: [output]
-			} = await graphNodeService.findById(db.graph.graphNodes[0]._id, {
-				populate: { outputs: true }
-			});
+			} = await nodeService.findById(db.nodes[0]._id);
 
 			await expect(() =>
 				service.create({ __from: output._id, __to: input._id })
@@ -196,15 +206,17 @@ describe("GraphArcService", () => {
 			// variable2 -> code
 			await service.create({ __from: v2Output._id, __to: cInput1._id });
 			// variable1 -> code
-			await service.create({ __from: v1Output._id, __to: cInput2._id });
+			await expect(
+				service.create({ __from: v1Output._id, __to: cInput2._id })
+			).resolves.not.toThrow();
 		});
 	});
 
 	describe("CRUD basic", () => {
-		let graphArcs: typeof dbTest.db.graph.graphArcs;
+		let graphArcs: typeof dbTest.db.graph.arcs;
 
 		beforeEach(() => {
-			graphArcs = dbTest.db.graph.graphArcs;
+			graphArcs = dbTest.db.graph.arcs;
 		});
 
 		describe("Read", () => {

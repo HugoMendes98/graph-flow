@@ -67,6 +67,22 @@
 			},
 			"outputs": ["{options.outputPath}"]
 		},
+		"compodoc": {
+			"configurations": {
+				"build": {
+					"command": "{args.base}"
+				},
+				"coverage": {
+					"command": "{args.base} --coverageTest 75 --silent"
+				}
+			},
+			"executor": "nx:run-commands",
+			"options": {
+				"args": "--base='npx @compodoc/compodoc -p ./apps/frontend/tsconfig.doc.json -a .badges/ -d ./dist/documentation/frontend --disablePrivate --disableInternal --disableLifeCycleHooks'",
+				"command": "{args.base} -r 4080 -s"
+			},
+			"outputs": ["{workspaceRoot}/dist/documentation/frontend"]
+		},
 		"lint": {
 			"executor": "@nx/linter:eslint",
 			"options": {
@@ -145,8 +161,7 @@
 			"executor": "nx:run-commands",
 			"options": {
 				"command": "test-storybook -c apps/frontend/.storybook --url=http://localhost:4040",
-				"parallel": true,
-				"readyWhen": "123-321"
+				"parallel": true
 			}
 		},
 		"stylelint": {

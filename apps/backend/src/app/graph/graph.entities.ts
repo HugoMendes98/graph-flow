@@ -1,10 +1,7 @@
-import { GraphArc } from "./arc/graph-arc.entity";
-import { Graph } from "./graph.entity";
-import { GraphNode } from "./node/graph-node.entity";
-import { GraphNodeInput } from "./node/input";
-import { GraphNodeOutput } from "./node/output";
+import { GraphArcEntity } from "./arc/graph-arc.entity";
+import { GraphEntity } from "./graph.entity";
 
 /**
- * All entities to manage {@link Graph}
+ * All entities to manage {@link GraphEntity}
  */
-export const GRAPH_ENTITIES = [Graph, GraphArc, GraphNode, GraphNodeInput, GraphNodeOutput];
+export const GRAPH_ENTITIES = [GraphEntity, GraphArcEntity];

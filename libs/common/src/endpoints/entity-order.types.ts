@@ -21,7 +21,11 @@ export const OrderValues: readonly OrderValue[] = [
 ];
 
 // For array and Mikro-orm compatible
-export type EntityFlat<T> = T extends Array<infer U> ? U : T extends Collection<infer U> ? U : T;
+export type EntityFlat<T> = T extends ReadonlyArray<infer U>
+	? U
+	: T extends Collection<infer U>
+	? U
+	: T;
 
 export type EntityOrder<T> = {
 	[K in keyof T as ExcludeFunctions<T, K>]?: T[K] extends Date | Primitive

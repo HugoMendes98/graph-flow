@@ -2,15 +2,15 @@ import { IsNumber, Min } from "class-validator";
 
 import { DtoProperty } from "../../../../dtos/dto";
 import { EntityDto } from "../../../../dtos/entity";
-import { GraphNodeInputDto } from "../node/input/graph-node-input.dto";
-import { GraphNodeOutputDto } from "../node/output/graph-node-output.dto";
+import { NodeInputDto } from "../../../node/dtos/input";
+import { NodeOutputDto } from "../../../node/dtos/output";
 
 /**
  * DTO for the arcs in the graph
  */
 export class GraphArcDto extends EntityDto {
 	/**
-	 * The foreign key value to the [graph-node-output]{@link GraphNodeOutputDto}
+	 * The foreign key value to the [graph-node-output]{@link NodeOutputDto}
 	 */
 	@DtoProperty()
 	@IsNumber()
@@ -18,7 +18,7 @@ export class GraphArcDto extends EntityDto {
 	public readonly __from!: number;
 
 	/**
-	 * The foreign key value to the [graph-node-input]{@link GraphNodeInputDto}
+	 * The foreign key value to the [graph-node-input]{@link NodeInputDto}
 	 */
 	@DtoProperty()
 	@IsNumber()
@@ -28,14 +28,14 @@ export class GraphArcDto extends EntityDto {
 	// ------- Relations -------
 
 	/**
-	 * The [graph-node-output]{@link GraphNodeOutputDto} linked to this arc
+	 * The [graph-node-output]{@link NodeOutputDto} linked to this arc
 	 */
-	@DtoProperty({ forwardRef: true, type: () => GraphNodeOutputDto })
-	public readonly from?: GraphNodeOutputDto;
+	@DtoProperty({ forwardRef: true, type: () => NodeOutputDto })
+	public readonly from?: NodeOutputDto;
 
 	/**
-	 * The [graph-node-input]{@link GraphNodeInputDto} linked to this arc
+	 * The [graph-node-input]{@link NodeInputDto} linked to this arc
 	 */
-	@DtoProperty({ forwardRef: true, type: () => GraphNodeInputDto })
-	public readonly to?: GraphNodeInputDto;
+	@DtoProperty({ forwardRef: true, type: () => NodeInputDto })
+	public readonly to?: NodeInputDto;
 }

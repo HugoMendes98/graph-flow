@@ -1,7 +1,7 @@
 import { AdjacencyListUnlinkedArcException } from "./get-adjacency-list.exceptions";
 import { EntityId } from "../../../dtos/entity";
+import { NodeDto } from "../../node/dtos";
 import { GraphArcDto } from "../dtos/arc";
-import { GraphNodeDto } from "../dtos/node";
 
 // Reduced data types, to be able to get the adjacency list even on incomplete data (on create or on update)
 
@@ -16,11 +16,11 @@ export interface AdjacencyListNode {
 	/**
 	 * The required inputs for a node
 	 */
-	inputs: ReadonlyArray<Pick<GraphNodeDto["inputs"][number], "_id">>;
+	inputs: ReadonlyArray<Pick<NodeDto["inputs"][number], "_id">>;
 	/**
 	 * The required outputs for a node
 	 */
-	outputs: ReadonlyArray<Pick<GraphNodeDto["outputs"][number], "_id">>;
+	outputs: ReadonlyArray<Pick<NodeDto["outputs"][number], "_id">>;
 }
 
 /**

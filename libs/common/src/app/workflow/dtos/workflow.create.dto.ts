@@ -26,6 +26,8 @@ export class WorkflowCreateDto extends IntersectionType(
 	OmitType(WorkflowDto, [
 		...ENTITY_BASE_KEYS,
 		...WORKFLOW_CREATE_KEYS_MANDATORY,
-		...WORKFLOW_KEYS_READONLY
+		...WORKFLOW_KEYS_READONLY,
+		// A workflow is never active by default
+		"active"
 	])
 ) {}

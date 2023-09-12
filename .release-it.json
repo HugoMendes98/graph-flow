@@ -34,6 +34,10 @@
 					{
 						"section": "Performances",
 						"type": "perf"
+					},
+					{
+						"section": "Code Refactors",
+						"type": "refactor"
 					}
 				]
 			}

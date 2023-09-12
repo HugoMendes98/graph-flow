@@ -1,6 +1,6 @@
 import { ClassicPreset } from "rete";
 import { Jsonify } from "type-fest";
-import { GraphNodeOutputDto } from "~/lib/common/app/graph/dtos/node/output";
+import { NodeOutputDto } from "~/lib/common/app/node/dtos/output";
 
 import { ReteNode } from "./rete.node";
 import { ReteSocket } from "./rete.socket";
@@ -10,7 +10,7 @@ export class ReteOutput extends ClassicPreset.Output<ReteSocket> {
 
 	public constructor(
 		public readonly node: ReteNode,
-		public readonly output: Jsonify<GraphNodeOutputDto>
+		public readonly output: Jsonify<NodeOutputDto>
 	) {
 		super(ReteOutput.SOCKET);
 

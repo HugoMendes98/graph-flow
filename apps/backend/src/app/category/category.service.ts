@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { CategoryCreateDto, CategoryUpdateDto } from "~/lib/common/app/category/dtos";
 
-import { Category } from "./category.entity";
+import { CategoryEntity } from "./category.entity";
 import { CategoryRepository } from "./category.repository";
 import { EntityService } from "../_lib/entity";
 
@@ -9,7 +9,11 @@ import { EntityService } from "../_lib/entity";
  * Service to manages [categories]{@link category}.
  */
 @Injectable()
-export class CategoryService extends EntityService<Category, CategoryCreateDto, CategoryUpdateDto> {
+export class CategoryService extends EntityService<
+	CategoryEntity,
+	CategoryCreateDto,
+	CategoryUpdateDto
+> {
 	/**
 	 * Constructor with "dependency injection"
 	 *

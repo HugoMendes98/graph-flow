@@ -6,13 +6,13 @@ import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 import { GraphArcRepository } from "./graph-arc.repository";
 import { EntityBase } from "../../_lib/entity";
 import { ManyToOneFactory, ManyToOneParams } from "../../_lib/entity/decorators";
-import { GraphNodeInput } from "../node/input";
-import { GraphNodeOutput } from "../node/output";
+import { NodeInputEntity } from "../../node/input";
+import { NodeOutputEntity } from "../../node/output";
 
 /**
  * Decorator for the "from" relation
  */
-const FromProperty = ManyToOneFactory(() => GraphNodeOutput, {
+const FromProperty = ManyToOneFactory(() => NodeOutputEntity, {
 	fieldName: "__from" satisfies keyof GraphArcDto,
 	// Deleting a GraphNodeOutput deletes its arcs
 	onDelete: "cascade",
@@ -29,7 +29,7 @@ function ToProperty(params: Pick<ManyToOneParams, "foreign">) {
 	const { foreign } = params;
 
 	return applyDecorators(
-		OneToOne(() => GraphNodeInput, {
+		OneToOne(() => NodeInputEntity, {
 			fieldName: "__to" satisfies keyof GraphArcDto,
 			hidden: foreign,
 			mapToPk: !foreign,
@@ -44,7 +44,7 @@ function ToProperty(params: Pick<ManyToOneParams, "foreign">) {
 }
 
 @Entity({ customRepository: () => GraphArcRepository })
-export class GraphArc extends EntityBase implements DtoToEntity<GraphArcDto> {
+export class GraphArcEntity extends EntityBase implements DtoToEntity<GraphArcDto> {
 	/** @inheritDoc */
 	@FromProperty({ foreign: false })
 	public readonly __from!: number;
@@ -56,8 +56,8 @@ export class GraphArc extends EntityBase implements DtoToEntity<GraphArcDto> {
 
 	/** @inheritDoc */
 	@FromProperty({ foreign: true })
-	public readonly from?: GraphNodeOutput;
+	public readonly from?: NodeOutputEntity;
 	/** @inheritDoc */
 	@ToProperty({ foreign: true })
-	public readonly to?: GraphNodeInput;
+	public readonly to?: NodeInputEntity;
 }

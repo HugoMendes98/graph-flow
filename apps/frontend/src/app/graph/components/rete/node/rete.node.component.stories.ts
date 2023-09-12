@@ -5,12 +5,10 @@ import { ReteNode } from "~/lib/ng/lib/rete";
 
 import { ReteNodeComponent } from "./rete.node.component";
 
-const { graphNodeInputs, graphNodeOutputs, graphNodes } = JSON.parse(
-	JSON.stringify(BASE_SEED.graph)
-) as Jsonify<typeof BASE_SEED.graph>;
+const { nodes } = JSON.parse(JSON.stringify(BASE_SEED.graph)) as Jsonify<typeof BASE_SEED.graph>;
 
-const nodeCode = graphNodes[0];
-const nodeVariable = graphNodes[8];
+const nodeCode = nodes[5];
+const nodeVariable = nodes[8];
 
 const meta: Meta<ReteNodeComponent> = {
 	component: ReteNodeComponent,
