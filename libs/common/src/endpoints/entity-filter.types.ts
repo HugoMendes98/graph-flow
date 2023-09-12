@@ -30,7 +30,7 @@ export interface EntityFilterLogicalOperators<T> {
 	 * // => entity.a === 2 && entity.a === 5
 	 * ```
 	 */
-	$and?: Array<EntityFilter<T>>;
+	$and?: ReadonlyArray<EntityFilter<T>>;
 	/**
 	 * Negate condition
 	 */
@@ -43,7 +43,7 @@ export interface EntityFilterLogicalOperators<T> {
 	 * // => entity.a === 2 || entity.a === 5
 	 * ```
 	 */
-	$or?: Array<EntityFilter<T>>;
+	$or?: ReadonlyArray<EntityFilter<T>>;
 }
 /* eslint-enable */
 

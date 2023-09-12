@@ -1,17 +1,20 @@
 import { Test } from "@nestjs/testing";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { BASE_SEED } from "~/lib/common/seeds";
 
-import {
-	NodeExecutorMissingInputException,
-	NodeExecutorNotExecutableException
-} from "./exceptions";
+import { NodeExecutorMissingInputException } from "./exceptions";
 import { NodeExecutor } from "./node.executor";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
+import { GraphModule } from "../../graph/graph.module";
 import { NodeBehaviorTrigger } from "../behaviors/node-behavior.trigger";
-import { NodeBehaviorVariable } from "../behaviors/parameters";
+import {
+	NodeBehaviorParameterInput,
+	NodeBehaviorParameterOutput,
+	NodeBehaviorVariable
+} from "../behaviors/parameters";
 import { NodeModule } from "../node.module";
 import { NodeService } from "../node.service";
 
@@ -23,8 +26,11 @@ describe("NodeExecutor", () => {
 
 	beforeAll(async () => {
 		const module = await Test.createTestingModule({
-			imports: [OrmModule, NodeModule]
+			imports: [OrmModule, NodeModule, GraphModule]
 		}).compile();
+
+		// FIXME
+		await module.init();
 
 		dbTest = new DbTestHelper(module);
 		executor = module.get(NodeExecutor);
@@ -44,28 +50,6 @@ describe("NodeExecutor", () => {
 			await expect(() => executor.execute({ node, valuedInputs: new Map() })).rejects.toThrow(
 				NodeExecutorMissingInputException
 			);
-		});
-
-		it("should not execute a `node-parameter-in`", async () => {
-			for (const { _id } of [db.graph.nodes[8], db.graph.nodes[9]]) {
-				const node = await service.findById(_id);
-				expect(node.behavior.type).toBe(NodeBehaviorType.PARAMETER_IN);
-
-				await expect(() =>
-					executor.execute({ node, valuedInputs: new Map([]) })
-				).rejects.toThrow(NodeExecutorNotExecutableException);
-			}
-		});
-
-		it("should not execute a `node-parameter-out`", async () => {
-			for (const { _id } of [db.graph.nodes[10], db.graph.nodes[11]]) {
-				const node = await service.findById(_id);
-				expect(node.behavior.type).toBe(NodeBehaviorType.PARAMETER_OUT);
-
-				await expect(() =>
-					executor.execute({ node, valuedInputs: new Map([]) })
-				).rejects.toThrow(NodeExecutorNotExecutableException);
-			}
 		});
 	});
 
@@ -152,13 +136,13 @@ describe("NodeExecutor", () => {
 			expect(outputs).toHaveLength(2);
 
 			const [
-				{ value: quotient, ...quotientOutput },
-				{ value: remainder, ...remainderOutput }
+				{ output: quotientOutput, value: quotient },
+				{ output: remainderOutput, value: remainder }
 			] = outputs;
 
 			// The values are correct
 			expect(quotient).toBe(divisor === 0 ? 0 : Math.floor(dividend / divisor));
-			expect(remainder).toBe(dividend % divisor);
+			expect(remainder).toBe(divisor === 0 ? dividend : dividend % divisor);
 
 			// The outputs of the nodes are correct
 			expect(quotientOutput).toStrictEqual(fnQuotient);
@@ -166,6 +150,44 @@ describe("NodeExecutor", () => {
 		}
 
 		await dbTest.refresh();
+	});
+
+	describe("Parameters", () => {
+		it("should execute a `node-parameter-in`", async () => {
+			const [fnInput] = db.graph.nodes[7].inputs;
+			const node = await service.findById(db.graph.nodes[8]._id);
+
+			const behavior = node.behavior as NodeBehaviorParameterInput;
+			expect(behavior.type).toBe(NodeBehaviorType.PARAMETER_IN);
+			expect(behavior.__node_input).toBe(fnInput._id);
+
+			const expectedValue = Math.floor(Math.random() * 1000);
+			const [{ output, value }] = await executor.execute({
+				node,
+				valuedInputs: new Map([[fnInput._id, expectedValue]])
+			});
+
+			expect(value).toBe(expectedValue);
+			expect(output._id).toBe(node.outputs[0]._id);
+		});
+
+		it("should execute a `node-parameter-out`", async () => {
+			const [fnOutput] = db.graph.nodes[7].outputs;
+			const node = await service.findById(db.graph.nodes[10]._id);
+
+			const behavior = node.behavior as NodeBehaviorParameterOutput;
+			expect(behavior.type).toBe(NodeBehaviorType.PARAMETER_OUT);
+			expect(behavior.__node_output).toBe(fnOutput._id);
+
+			const expectedValue = Math.floor(Math.random() * 1000);
+			const [{ output, value }] = await executor.execute({
+				node,
+				valuedInputs: new Map([[node.inputs[0]._id, expectedValue]])
+			});
+
+			expect(value).toBe(expectedValue);
+			expect(output._id).toBe(fnOutput._id);
+		});
 	});
 
 	describe("Triggers", () => {
@@ -199,5 +221,79 @@ describe("NodeExecutor", () => {
 			expect(value).toBe((node.behavior as NodeBehaviorVariable).value);
 			expect(outputValue).toStrictEqual(node.outputs[0]);
 		}
+	});
+
+	describe("References", () => {
+		beforeEach(() => dbTest.refresh());
+
+		it("should execute a `node-code` reference ('Calculate remainder')", async () => {
+			const node = await service.findById(db.graph.nodes[14]._id);
+			expect(node.behavior.type).toBe(NodeBehaviorType.REFERENCE);
+
+			const [dividend, divisor] = [50, 3];
+			const {
+				inputs: [iDividend, iDivisor],
+				outputs: [oQuotient]
+			} = node;
+
+			const [{ output, value }] = await executor.execute({
+				node,
+				valuedInputs: new Map([
+					[iDividend._id, dividend],
+					[iDivisor._id, divisor]
+				])
+			});
+			expect(value).toBe(dividend % divisor);
+			expect(output.toJSON!()).toStrictEqual(oQuotient.toJSON!());
+		});
+
+		it("should execute a `node-function` reference ('Integer division')", async () => {
+			const node = await service.create({
+				behavior: { __node: db.graph.nodes[7]._id, type: NodeBehaviorType.REFERENCE },
+				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+				name: "fn ref"
+			});
+			expect(node.behavior.type).toBe(NodeBehaviorType.REFERENCE);
+
+			const [dividend, divisor] = [12, 10];
+			const {
+				inputs: [iDividend, iDivisor],
+				outputs: [oQuotient, oRemainder]
+			} = node;
+
+			const [
+				{ output: ovQuotient, value: quotient },
+				{ output: ovRemainder, value: remainder }
+			] = await executor.execute({
+				node,
+				valuedInputs: new Map([
+					[iDividend._id, dividend],
+					[iDivisor._id, divisor]
+				])
+			});
+
+			// The values are correct
+			expect(quotient).toBe(divisor === 0 ? 0 : Math.floor(dividend / divisor));
+			expect(remainder).toBe(dividend % divisor);
+
+			// The outputs of the nodes are correct
+			expect(ovQuotient).toStrictEqual(oQuotient);
+			expect(ovRemainder).toStrictEqual(oRemainder);
+		});
+
+		it("should execute a `node-variable` reference (~= global variable)", async () => {
+			const nodeRef = await service.findById(db.graph.nodes[0]._id);
+			const node = await service.create({
+				behavior: { __node: nodeRef._id, type: NodeBehaviorType.REFERENCE },
+				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+				name: "var ref"
+			});
+			expect(nodeRef.behavior.type).toBe(NodeBehaviorType.VARIABLE);
+			expect(node.behavior.type).toBe(NodeBehaviorType.REFERENCE);
+
+			const [{ output, value }] = await executor.execute({ node, valuedInputs: new Map() });
+			expect(value).toBe((nodeRef.behavior as NodeBehaviorVariable).value);
+			expect(output).toStrictEqual(node.outputs[0]);
+		});
 	});
 });

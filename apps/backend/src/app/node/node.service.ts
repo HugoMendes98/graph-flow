@@ -1,17 +1,25 @@
 import { EventArgs, EventSubscriber, Reference } from "@mikro-orm/core";
 import { EntityName } from "@mikro-orm/nestjs";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import { GraphNodeDto } from "~/lib/common/app/graph/endpoints";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { EntityId } from "~/lib/common/dtos/entity";
-import { EntitiesToPopulate } from "~/lib/common/endpoints";
+import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
+import { FindResultsDto } from "~/lib/common/dtos/find-results.dto";
+import { EntitiesToPopulate, EntityFilter, EntityFindParams } from "~/lib/common/endpoints";
 
 import { NodeInputEntity, NodeInputCreate } from "./input";
 import { NodeEntity } from "./node.entity";
 import { NodeRepository } from "./node.repository";
 import { NodeOutputEntity, NodeOutputCreate } from "./output";
-import { EntityLoaded, EntityService, EntityServiceCreateOptions } from "../_lib/entity";
+import {
+	EntityLoaded,
+	EntityService,
+	EntityServiceCreateOptions,
+	EntityServiceFindOptions
+} from "../_lib/entity";
 import { CategoryEntity } from "../category/category.entity";
 import { GraphEntity } from "../graph/graph.entity";
 import { GraphService } from "../graph/graph.service";
@@ -33,6 +41,7 @@ export class NodeService
 	 *
 	 * @param repository injected
 	 * @param graphService injected
+	 * @param nodeExecutor injected
 	 */
 	public constructor(
 		repository: NodeRepository,
@@ -88,6 +97,32 @@ export class NodeService
 				throw new GraphNodeTriggerInWorkflowException();
 			}
 		}
+	}
+
+	/**
+	 * Finds nodes related to a graph
+	 *
+	 * @see EntityService
+	 * @param graphId The graph id to look for
+	 * @param where Filter to apply
+	 * @param params Additional parameters to sort and/or paginate
+	 * @param options Some options when loading an entities
+	 * @returns All nodes from a graph
+	 */
+	public findByGraph<P extends EntitiesToPopulate<DtoToEntity<GraphNodeDto>>>(
+		graphId: EntityId,
+		where: EntityFilter<DtoToEntity<GraphNodeDto>> = {},
+		params: EntityFindParams<DtoToEntity<GraphNodeDto>> = {},
+		options?: EntityServiceFindOptions<DtoToEntity<GraphNodeDto>, P>
+	) {
+		// GraphNodeDto
+		return this.findAndCount(
+			{ $and: [{ kind: { __graph: graphId, type: NodeKindType.EDGE } }, where] },
+			params,
+			options
+		) as Promise<
+			FindResultsDto<EntityLoaded<DtoToEntity<GraphNodeDto & Pick<NodeEntity, "toJSON">>, P>>
+		>;
 	}
 
 	public override async create<P extends EntitiesToPopulate<NodeEntity>>(

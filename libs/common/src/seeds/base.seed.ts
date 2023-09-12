@@ -747,7 +747,7 @@ export const BASE_SEED = {
 						_updated_at: date1,
 
 						__node: 15,
-						__ref: null,
+						__ref: 1001,
 						name: "Dividend",
 						type: NodeIoType.NUMBER
 					},
@@ -758,7 +758,7 @@ export const BASE_SEED = {
 						_updated_at: date1,
 
 						__node: 15,
-						__ref: null,
+						__ref: 1002,
 						name: "Divisor",
 						type: NodeIoType.NUMBER
 					}
@@ -772,7 +772,7 @@ export const BASE_SEED = {
 						_updated_at: date1,
 
 						__node: 15,
-						__ref: null,
+						__ref: 1001,
 						name: "Quotient",
 						type: NodeIoType.NUMBER
 					}
@@ -799,7 +799,7 @@ export const BASE_SEED = {
 						_updated_at: date1,
 
 						__node: 16,
-						__ref: null,
+						__ref: 1101,
 						name: "Dividend",
 						type: NodeIoType.NUMBER
 					},
@@ -810,7 +810,7 @@ export const BASE_SEED = {
 						_updated_at: date1,
 
 						__node: 16,
-						__ref: null,
+						__ref: 1102,
 						name: "Divisor",
 						type: NodeIoType.NUMBER
 					}
@@ -824,7 +824,7 @@ export const BASE_SEED = {
 						_updated_at: date1,
 
 						__node: 16,
-						__ref: null,
+						__ref: 1101,
 						name: "Remainder",
 						type: NodeIoType.NUMBER
 					}

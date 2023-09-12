@@ -2,21 +2,22 @@ import { EventArgs, EventSubscriber } from "@mikro-orm/core";
 import { EntityName } from "@mikro-orm/nestjs";
 import {
 	forwardRef,
+	Inject,
 	Injectable,
 	MethodNotAllowedException,
-	NotImplementedException,
-	Inject
+	NotImplementedException
 } from "@nestjs/common";
 import { graphHasCycle } from "~/lib/common/app/graph/algorithms";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
 import { getAdjacencyList } from "~/lib/common/app/graph/transformations";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { EntityId } from "~/lib/common/dtos/entity";
+import { EntitiesToPopulate, EntityFilter, EntityFindParams } from "~/lib/common/endpoints";
 
 import { GraphArcDifferentGraphException } from "./exceptions";
 import { GraphArcEntity } from "./graph-arc.entity";
 import { GraphArcRepository } from "./graph-arc.repository";
-import { EntityService } from "../../_lib/entity";
+import { EntityService, EntityServiceFindOptions } from "../../_lib/entity";
 import { NodeService } from "../../node/node.service";
 import { GraphCyclicException } from "../exceptions";
 
@@ -85,13 +86,8 @@ export class GraphArcService
 
 		// Load graph content
 		const { __graph } = nodeAKind;
-		const { data: arcs } = await this.findAndCount({
-			$or: [
-				{ from: { node: { kind: { __graph } } } },
-				{ to: { node: { kind: { __graph } } } }
-			]
-		});
-		const { data: nodes } = await this.nodeService.findAndCount({ kind: { __graph } });
+		const { data: arcs } = await this.findByGraph(__graph);
+		const { data: nodes } = await this.nodeService.findByGraph(__graph);
 
 		const adjacencyList = getAdjacencyList({
 			arcs: [{ __from, __to }, ...arcs],
@@ -101,6 +97,35 @@ export class GraphArcService
 		if (graphHasCycle(adjacencyList)) {
 			throw new GraphCyclicException();
 		}
+	}
+
+	/**
+	 * Finds arcs related to a graph
+	 *
+	 * @see EntityService
+	 * @param graphId The graph id to look for
+	 * @param where Filter to apply
+	 * @param params Additional parameters to sort and/or paginate
+	 * @param options Some options when loading an entities
+	 * @returns All arcs from a graph
+	 */
+	public findByGraph<P extends EntitiesToPopulate<GraphArcEntity>>(
+		graphId: EntityId,
+		where: EntityFilter<GraphArcEntity> = {},
+		params: EntityFindParams<GraphArcEntity> = {},
+		options?: EntityServiceFindOptions<GraphArcEntity, P>
+	) {
+		return this.findAndCount<P>(
+			{
+				$and: [where],
+				$or: [
+					{ from: { node: { kind: { __graph: graphId, type: NodeKindType.EDGE } } } },
+					{ to: { node: { kind: { __graph: graphId, type: NodeKindType.EDGE } } } }
+				]
+			},
+			params,
+			options
+		);
 	}
 
 	/**

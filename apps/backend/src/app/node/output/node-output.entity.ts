@@ -27,7 +27,12 @@ export class NodeOutputEntity extends EntityBase implements DtoToEntity<NodeOutp
 	/**
 	 * @inheritDoc
 	 */
-	@ManyToOne(() => NodeOutputEntity, { mapToPk: true, nullable: true, type: () => Number })
+	@ManyToOne(() => NodeOutputEntity, {
+		fieldName: "__ref" satisfies keyof NodeOutputDto,
+		mapToPk: true,
+		nullable: true,
+		type: () => Number
+	})
 	public __ref!: EntityId | null;
 
 	/**

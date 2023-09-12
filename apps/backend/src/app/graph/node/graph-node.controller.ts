@@ -52,10 +52,7 @@ export class GraphNodeController implements EndpointTransformed {
 		@GraphInterceptedParam() graph: GraphEntity,
 		@Query() { where = {}, ...params }: NodeQueryDto = {}
 	) {
-		return this.service.findAndCount(
-			{ $and: [{ kind: { __graph: graph._id, type: NodeKindType.EDGE } }, where] },
-			params
-		);
+		return this.service.findByGraph(graph._id, where as never, params);
 	}
 
 	@ApiGraphParam()

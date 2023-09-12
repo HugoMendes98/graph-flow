@@ -127,9 +127,6 @@ export class WorkflowService
 			throw new NotFoundException(`No trigger found for the workflow ${_id}`);
 		}
 
-		const [node] = data;
-
-		type Node = typeof node;
-		return node;
+		return data[0];
 	}
 }

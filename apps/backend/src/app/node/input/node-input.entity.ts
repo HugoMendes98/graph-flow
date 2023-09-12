@@ -23,7 +23,12 @@ export class NodeInputEntity extends EntityBase implements DtoToEntity<NodeInput
 	@NodeProperty({ foreign: false })
 	public __node!: number;
 
-	@ManyToOne(() => NodeInputEntity, { mapToPk: true, nullable: true, type: () => Number })
+	@ManyToOne(() => NodeInputEntity, {
+		fieldName: "__ref" satisfies keyof NodeInputDto,
+		mapToPk: true,
+		nullable: true,
+		type: () => Number
+	})
 	public __ref!: EntityId | null;
 
 	/**

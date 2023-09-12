@@ -53,18 +53,7 @@ export class GraphArcController implements EndpointTransformed {
 		@GraphInterceptedParam() graph: GraphEntity,
 		@Query() { where = {}, ...params }: GraphArcQueryDto = {}
 	) {
-		return this.service.findAndCount(
-			{
-				$and: [
-					{
-						from: { node: { kind: { __graph: graph._id } } },
-						to: { node: { kind: { __graph: graph._id } } }
-					},
-					where
-				]
-			},
-			params
-		);
+		return this.service.findByGraph(graph._id, where, params);
 	}
 
 	@ApiGraphParam()
