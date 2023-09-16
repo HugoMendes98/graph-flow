@@ -64,12 +64,12 @@ describe("NodeService", () => {
 
 			const node1 = await service.create({
 				behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
-				kind: { type: NodeKindType.TEMPLATE },
+				kind: { active: false, type: NodeKindType.TEMPLATE },
 				name: "node1"
 			});
 			const node2 = await service.create({
 				behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
-				kind: { type: NodeKindType.TEMPLATE },
+				kind: { active: false, type: NodeKindType.TEMPLATE },
 				name: "node2"
 			});
 
@@ -323,7 +323,7 @@ describe("NodeService", () => {
 
 				const toCreate: NodeCreateDto = {
 					behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
-					kind: { type: NodeKindType.TEMPLATE },
+					kind: { active: false, type: NodeKindType.TEMPLATE },
 					name: "new-node"
 				};
 				const created = await service.create(toCreate);
@@ -371,7 +371,7 @@ describe("NodeService", () => {
 			it("should delete an entity", async () => {
 				const { _id } = await service.create({
 					behavior: { type: NodeBehaviorType.VARIABLE, value: 123 },
-					kind: { type: NodeKindType.TEMPLATE },
+					kind: { active: false, type: NodeKindType.TEMPLATE },
 					name: "__new__"
 				});
 				const {

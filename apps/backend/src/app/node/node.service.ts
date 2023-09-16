@@ -41,7 +41,6 @@ export class NodeService
 	 *
 	 * @param repository injected
 	 * @param graphService injected
-	 * @param nodeExecutor injected
 	 */
 	public constructor(
 		repository: NodeRepository,

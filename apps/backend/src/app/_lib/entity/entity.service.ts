@@ -180,7 +180,10 @@ export abstract class EntityService<
 			//	https://mikro-orm.io/docs/entity-helper#using-class-based-data
 			await this.repository.getEntityManager().persistAndFlush(
 				this.repository.assign(entity, instanceToPlain(toUpdate), {
-					mergeObjects: true
+					mergeObjects: true,
+					// Without this, it is considered as a new entity each time
+					// https://mikro-orm.io/docs/entity-helper#updating-deep-entity-graph
+					updateByPrimaryKey: false
 				})
 			);
 
