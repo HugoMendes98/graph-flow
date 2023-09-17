@@ -7,6 +7,11 @@ import {
 
 import { NodeEntity } from "../node.entity";
 
+/**
+ * The basic entity for a `node-kind`
+ *
+ * @abstract
+ */
 @Entity({
 	abstract: true,
 	discriminatorColumn: "type" satisfies NodeKindDiscriminatorKey,

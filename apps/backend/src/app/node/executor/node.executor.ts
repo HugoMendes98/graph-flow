@@ -32,15 +32,27 @@ export interface NodeOutputAndValue {
 	 */
 	value: NodeIoValue;
 }
+
+/**
+ * A map of inputs for a node execution
+ */
 export type NodeInputAndValues = ReadonlyMap<EntityId, NodeIoValue>;
-export interface NodeExecuteParams {
+
+/**
+ * The parameters for executing a node
+ */
+export interface NodeExecuteParameters {
+	/**
+	 * The node to execute
+	 */
 	node: NodeEntity;
+	/**
+	 * The values connected to its inputs
+	 */
 	valuedInputs: NodeInputAndValues;
 }
 
-/**
- * @internal
- */
+/** @internal */
 interface NodeInputAndValue {
 	input: NodeInputEntity;
 	/**
@@ -78,7 +90,7 @@ export class NodeExecutor {
 	 * @param params The parameters to execute a node
 	 * @returns All the {@link NodeOutputEntity} affected with their value
 	 */
-	public async execute(params: NodeExecuteParams): Promise<NodeOutputAndValue[]> {
+	public async execute(params: NodeExecuteParameters): Promise<NodeOutputAndValue[]> {
 		const { node, valuedInputs } = params;
 		const { behavior, inputs, outputs } = node;
 

@@ -9,9 +9,7 @@ import { GraphDto } from "../../../graph/dtos/graph.dto";
 import { PositionDto } from "../position.dto";
 
 export class NodeKindEdgeDto extends NodeKindBaseDto {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override readonly type = NodeKindType.EDGE;
 
 	/**

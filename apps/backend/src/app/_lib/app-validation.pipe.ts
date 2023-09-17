@@ -33,9 +33,7 @@ export class AppValidationPipe extends ValidationPipe {
 		);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override async transform(value: unknown, metadata: ArgumentMetadata) {
 		if (metadata.type === "custom" || metadata.type === "param") {
 			return super.transform(value, metadata);
@@ -54,9 +52,7 @@ export class AppValidationPipe extends ValidationPipe {
 		return instanceToPlain(await super.transform(value, metadata), transformOptions) as never;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override validate(
 		object: object,
 		validatorOptions?: ValidatorOptions

@@ -52,16 +52,12 @@ export class NodeService
 		repository.getEntityManager().getEventManager().registerSubscriber(this);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public getSubscribedEntities(): Array<EntityName<NodeEntity>> {
 		return [NodeEntity];
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public async beforeCreate(args: EventArgs<NodeEntity>) {
 		const { behavior, kind } = args.entity;
 

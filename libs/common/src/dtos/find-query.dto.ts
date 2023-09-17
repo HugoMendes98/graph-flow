@@ -10,13 +10,9 @@ import { EntityFindQuery, EntityFilter, EntityOrder } from "../endpoints";
  * Base class for the query parameters when making requests
  */
 export abstract class FindQueryDto<T> implements EntityFindQuery<T> {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public abstract order?: Array<EntityOrder<T>>;
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public abstract where?: EntityFilter<T>;
 
 	/**

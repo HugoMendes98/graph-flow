@@ -8,9 +8,7 @@ import { EntityApiService } from "../../_lib/entity-api";
 import { ApiClient } from "../../api.client";
 
 export class GraphNodeApi extends EntityApiService<Node, GraphNodeCreateDto, GraphNodeUpdateDto> {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	private readonly endpoint: string;
 
 	public constructor(client: ApiClient, graphId: EntityId) {
@@ -19,9 +17,7 @@ export class GraphNodeApi extends EntityApiService<Node, GraphNodeCreateDto, Gra
 		this.endpoint = generateGraphNodesEndpoint(graphId);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override getEntrypoint(): string {
 		return this.endpoint;
 	}

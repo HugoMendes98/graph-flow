@@ -44,16 +44,12 @@ export class GraphArcService
 		repository.getEntityManager().getEventManager().registerSubscriber(this);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public getSubscribedEntities(): Array<EntityName<GraphArcEntity>> {
 		return [GraphArcEntity];
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public async beforeCreate(event: EventArgs<GraphArcEntity>) {
 		const {
 			entity: { __from, __to }

@@ -10,9 +10,7 @@ import {
 	discriminatorColumn: "type" satisfies NodeTriggerDiscriminatorKey
 })
 export abstract class NodeTriggerBase implements NodeTriggerBaseDto {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Enum({ items: () => NodeTriggerType })
 	public abstract readonly type: NodeTriggerType;
 }

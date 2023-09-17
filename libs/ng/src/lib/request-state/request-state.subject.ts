@@ -55,9 +55,7 @@ export class RequestStateSubject<T, E = HttpErrorResponse, ARGS extends readonly
 		}
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public getValue() {
 		return this.subject.getValue();
 	}

@@ -9,6 +9,7 @@ import { EntityBase } from "../../_lib/entity";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
 import { NodeEntity } from "../node.entity";
 
+/** @internal */
 const NodeProperty = ManyToOneFactory(() => NodeEntity, {
 	fieldName: "__node" satisfies keyof NodeOutputDto,
 	onDelete: "cascade",
@@ -16,17 +17,16 @@ const NodeProperty = ManyToOneFactory(() => NodeEntity, {
 	strategy: LoadStrategy.JOINED
 });
 
+/**
+ * The entity for a `node-input`
+ */
 @Entity({ customRepository: () => NodeOutputRepository })
 export class NodeOutputEntity extends EntityBase implements DtoToEntity<NodeOutputDto> {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@NodeProperty({ foreign: false })
 	public __node!: number;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@ManyToOne(() => NodeOutputEntity, {
 		fieldName: "__ref" satisfies keyof NodeOutputDto,
 		mapToPk: true,
@@ -35,23 +35,17 @@ export class NodeOutputEntity extends EntityBase implements DtoToEntity<NodeOutp
 	})
 	public __ref!: EntityId | null;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property()
 	public name!: string;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Enum({ items: () => NodeIoType, type: () => NodeIoType })
 	public type!: NodeIoType;
 
 	// ------- Relations -------
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@NodeProperty({ foreign: true })
 	public readonly node?: NodeEntity;
 }

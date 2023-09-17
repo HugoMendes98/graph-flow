@@ -10,24 +10,18 @@ import { EntityBase } from "../_lib/entity";
  */
 @Entity({ customRepository: () => UserRepository })
 export class UserEntity extends EntityBase implements DtoToEntity<UserDto> {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property({ unique: true })
 	public email!: string;
 
 	@Property({ hidden: true, nullable: false })
 	public password?: string;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property({ nullable: true, type: String })
 	public firstname: string | null = null;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property({ nullable: true, type: String })
 	public lastname: string | null = null;
 }

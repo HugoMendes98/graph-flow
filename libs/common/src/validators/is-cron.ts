@@ -2,6 +2,9 @@ import { buildMessage, ValidateBy } from "class-validator";
 import { ValidationOptions } from "class-validator/types/decorator/ValidationOptions";
 import cron from "cron-validate";
 
+/**
+ * Unique name for `class-validator` register
+ */
 export const IS_CRON = "isCron";
 
 /**

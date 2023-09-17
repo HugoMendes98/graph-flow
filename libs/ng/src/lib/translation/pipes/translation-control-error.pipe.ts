@@ -16,16 +16,12 @@ export class TranslationControlErrorPipe implements PipeTransform, OnDestroy {
 	 */
 	public constructor(private readonly service: TranslationService) {}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public ngOnDestroy() {
 		this.subscription?.unsubscribe();
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public transform(errors: ValidationErrors | null) {
 		// Resets on change
 		this.ngOnDestroy();

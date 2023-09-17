@@ -24,15 +24,11 @@ import { CategoryEntity } from "../category/category.entity";
  */
 @Entity({ customRepository: () => NodeRepository })
 export class NodeEntity extends EntityBase implements DtoToEntity<NodeDto> {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property()
 	public name!: string;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@OneToOne(() => NodeBehaviorBase, ({ pkNode }) => pkNode, {
 		eager: true,
 		owner: false,
@@ -41,9 +37,7 @@ export class NodeEntity extends EntityBase implements DtoToEntity<NodeDto> {
 	})
 	public readonly behavior!: NodeBehaviorEntity;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@OneToOne(() => NodeKindBaseEntity, ({ node }) => node, {
 		eager: true,
 		owner: false,
@@ -68,9 +62,7 @@ export class NodeEntity extends EntityBase implements DtoToEntity<NodeDto> {
 	@ManyToMany(() => CategoryEntity, ({ nodes }) => nodes, { hidden: true, owner: true })
 	public readonly categories? = new Collection<CategoryEntity>(this);
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override toJSON?(): EntityToDto<this> {
 		return {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- From override

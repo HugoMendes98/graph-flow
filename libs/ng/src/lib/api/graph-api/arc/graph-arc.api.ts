@@ -13,9 +13,7 @@ export class GraphArcApi
 	extends EntityApiService<GraphArc, GraphArcCreateDto, never>
 	implements GraphArcEndpoint
 {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	private readonly endpoint: string;
 
 	public constructor(client: ApiClient, graphId: EntityId) {
@@ -24,9 +22,7 @@ export class GraphArcApi
 		this.endpoint = generateGraphArcsEndpoint(graphId);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override getEntrypoint(): string {
 		return this.endpoint;
 	}

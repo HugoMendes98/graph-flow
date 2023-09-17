@@ -3,6 +3,9 @@ import { ValidationErrors } from "@angular/forms";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable, of } from "rxjs";
 
+/**
+ * A service for application translation (e.g.: form-control errors)
+ */
 @Injectable({ providedIn: "root" })
 export class TranslationService {
 	// TODO: use this to translate api data
