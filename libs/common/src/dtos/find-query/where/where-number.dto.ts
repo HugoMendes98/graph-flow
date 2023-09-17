@@ -1,4 +1,4 @@
-import { Type } from "class-transformer";
+import { Expose, Type } from "class-transformer";
 import { IsArray, IsBoolean, IsNumber, IsOptional } from "class-validator";
 
 import { EntityFilterValue } from "../../../endpoints";
@@ -12,6 +12,7 @@ export class WhereNumberNullableDto implements EntityFilterValue<number> {
 	 * Search for records whose value is equal to the given one.
 	 */
 	@CanBeNull()
+	@Expose()
 	@IsNumber()
 	@IsOptional()
 	@Type(() => Number)
@@ -20,6 +21,7 @@ export class WhereNumberNullableDto implements EntityFilterValue<number> {
 	 * Search for records whose value is **not** equal to the given one.
 	 */
 	@CanBeNull()
+	@Expose()
 	@IsNumber()
 	@IsOptional()
 	@Type(() => Number)
@@ -30,6 +32,7 @@ export class WhereNumberNullableDto implements EntityFilterValue<number> {
 	 *
 	 * It can also be tested with `$eq = null` or `$ne = null`.
 	 */
+	@Expose()
 	@IsBoolean()
 	@IsOptional()
 	public $exists?: boolean;
@@ -37,12 +40,14 @@ export class WhereNumberNullableDto implements EntityFilterValue<number> {
 	/**
 	 * Search for records whose value is greater than the given one.
 	 */
+	@Expose()
 	@IsNumber()
 	@IsOptional()
 	public $gt?: number;
 	/**
 	 * Search for records whose value is greater than or equal to the given one.
 	 */
+	@Expose()
 	@IsNumber()
 	@IsOptional()
 	public $gte?: number;
@@ -50,12 +55,14 @@ export class WhereNumberNullableDto implements EntityFilterValue<number> {
 	/**
 	 * Search for records whose value is less than the given one.
 	 */
+	@Expose()
 	@IsNumber()
 	@IsOptional()
 	public $lt?: number;
 	/**
 	 * Search for records whose value is less than or equal to the given one.
 	 */
+	@Expose()
 	@IsNumber()
 	@IsOptional()
 	public $lte?: number;
@@ -63,6 +70,7 @@ export class WhereNumberNullableDto implements EntityFilterValue<number> {
 	/**
 	 * Search for records whose value is included in the given list.
 	 */
+	@Expose()
 	@IsArray()
 	@IsNumber({}, { each: true })
 	@IsOptional()
@@ -72,6 +80,7 @@ export class WhereNumberNullableDto implements EntityFilterValue<number> {
 	/**
 	 * Search for records whose value is **not** included in the given list.
 	 */
+	@Expose()
 	@IsArray()
 	@IsNumber({}, { each: true })
 	@IsOptional()
@@ -86,12 +95,14 @@ export class WhereNumberDto extends WhereNumberNullableDto {
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */
+	@Expose()
 	@IsNumber()
 	@IsOptional()
 	public declare $eq?: number;
 	/**
 	 * Search for records whose value is **not** equal to the given one.
 	 */
+	@Expose()
 	@IsNumber()
 	@IsOptional()
 	public declare $ne?: number;

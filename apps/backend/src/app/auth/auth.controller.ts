@@ -43,9 +43,7 @@ export class AuthController implements AuthEndpoint {
 	 */
 	public constructor(private readonly service: AuthService) {}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@ApiOkResponse({ type: UserDto })
 	@Get(AuthEndpoints.PROFILE)
 	@UseAuth()
@@ -54,9 +52,7 @@ export class AuthController implements AuthEndpoint {
 		return Promise.resolve(req!.user!);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@ApiCreatedResponse({ type: AuthSuccessDto })
 	@Post(AuthEndpoints.LOGIN)
 	@UseGuards(AuthLocalGuard)
@@ -69,9 +65,7 @@ export class AuthController implements AuthEndpoint {
 		return this.loginOrRefresh(req!.user!, body, res!);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@ApiOkResponse()
 	@Post(AuthEndpoints.LOGOUT)
 	public logout(@Res({ passthrough: true }) res?: Response) {
@@ -80,9 +74,7 @@ export class AuthController implements AuthEndpoint {
 		return Promise.resolve();
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@ApiCreatedResponse({ type: AuthSuccessDto })
 	@Post(AuthEndpoints.REFRESH)
 	@UseAuth()

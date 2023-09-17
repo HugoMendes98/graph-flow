@@ -40,16 +40,12 @@ export class WorkflowService
 		repository.getEntityManager().getEventManager().registerSubscriber(this);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public getSubscribedEntities() {
 		return [WorkflowEntity];
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public async beforeUpdate(args: EventArgs<WorkflowEntity>) {
 		const { changeSet, entity } = args;
 		if (!changeSet) {
@@ -67,9 +63,7 @@ export class WorkflowService
 		}
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@UseRequestContext()
 	public async onModuleInit() {
 		const { data: workflows } = await this.findAndCount({ active: true });
@@ -77,9 +71,7 @@ export class WorkflowService
 		await Promise.all(workflows.map(workflow => this.registerWorkflow(workflow)));
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override delete(id: EntityId): Promise<WorkflowEntity> {
 		return this.findById(id, { populate: { graph: true } }).then(async entity => {
 			// Cascade integrity -> deleting the graph deletes the workflow

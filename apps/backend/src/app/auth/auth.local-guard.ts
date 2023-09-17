@@ -15,9 +15,7 @@ export class AuthLocalGuard extends AuthGuard(STRATEGY_LOCAL_NAME) {
 	 */
 	private readonly pipe = new AppValidationPipe();
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override async canActivate(context: ExecutionContext) {
 		// To use the pipe before the guard
 		// https://github.com/nestjs/nest/issues/767

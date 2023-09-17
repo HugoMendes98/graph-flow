@@ -1,6 +1,16 @@
 import { NODE_IO_VOID, NodeIoType, NodeIoValueFromType } from "./node-io.type";
 
+/**
+ * Error that occurs when "casting"
+ */
 export class CastNodeIoValueToException extends Error {
+	/**
+	 * Creates an exception
+	 *
+	 * @param type the type to cast to
+	 * @param value the value that was being casted
+	 * @param cause The previous cause of an error
+	 */
 	public constructor(
 		public readonly type: NodeIoType,
 		private readonly value: unknown,

@@ -9,9 +9,7 @@ import { NodeIoValue } from "../../io";
  * Base behavior of node that is a variable/parameter
  */
 export abstract class NodeBehaviorParameterBaseDto extends NodeBehaviorBaseDto {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public abstract override readonly type:
 		| NodeBehaviorType.PARAMETER_IN
 		| NodeBehaviorType.PARAMETER_OUT
@@ -22,9 +20,7 @@ export abstract class NodeBehaviorParameterBaseDto extends NodeBehaviorBaseDto {
  * Behavior of a node that is a `node-variable`
  */
 export class NodeBehaviorVariableDto extends NodeBehaviorParameterBaseDto {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override readonly type = NodeBehaviorType.VARIABLE;
 
 	// TODO: this is temporary
@@ -37,9 +33,7 @@ export class NodeBehaviorVariableDto extends NodeBehaviorParameterBaseDto {
  * Behavior of a node that is an input parameter of `node-function`
  */
 export class NodeBehaviorParameterInputDto extends NodeBehaviorParameterBaseDto {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override readonly type = NodeBehaviorType.PARAMETER_IN;
 
 	/**
@@ -53,9 +47,7 @@ export class NodeBehaviorParameterInputDto extends NodeBehaviorParameterBaseDto 
  * Behavior of a node that is an output parameter of `node-function`
  */
 export class NodeBehaviorParameterOutputDto extends NodeBehaviorParameterBaseDto {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override readonly type = NodeBehaviorType.PARAMETER_OUT;
 
 	/**

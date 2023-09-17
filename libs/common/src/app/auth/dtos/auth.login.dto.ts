@@ -1,4 +1,5 @@
 import { IntersectionType, PickType } from "@nestjs/mapped-types";
+import { Expose } from "class-transformer";
 import { IsString, MinLength } from "class-validator";
 
 import { AuthRefreshDto } from "./auth.refresh.dto";
@@ -11,6 +12,7 @@ export class AuthLoginDto extends IntersectionType(
 	/**
 	 * The password for login
 	 */
+	@Expose()
 	@IsString()
 	@MinLength(4)
 	public readonly password!: string;

@@ -23,9 +23,7 @@ export class ReteSocketComponent implements OnChanges {
 	@Input({ required: true })
 	public readonly rendered!: () => void;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public ngOnChanges(): void {
 		requestAnimationFrame(() => this.rendered());
 	}

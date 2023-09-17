@@ -9,17 +9,19 @@ import { EntityBase } from "../../_lib/entity";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
 import { NodeEntity } from "../node.entity";
 
+/** @internal */
 const NodeProperty = ManyToOneFactory(() => NodeEntity, {
 	fieldName: "__node" satisfies keyof NodeInputDto,
 	onDelete: "cascade",
 	onUpdateIntegrity: "cascade"
 });
 
+/**
+ * The entity for a `node-input`
+ */
 @Entity({ customRepository: () => NodeInputRepository })
 export class NodeInputEntity extends EntityBase implements DtoToEntity<NodeInputDto> {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@NodeProperty({ foreign: false })
 	public __node!: number;
 
@@ -31,15 +33,11 @@ export class NodeInputEntity extends EntityBase implements DtoToEntity<NodeInput
 	})
 	public __ref!: EntityId | null;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property()
 	public name!: string;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Enum({ items: () => NodeIoType, type: () => NodeIoType })
 	public type!: NodeIoType;
 

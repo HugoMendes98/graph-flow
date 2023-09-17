@@ -34,6 +34,9 @@ type EndpointTransformed = {
 	[K in keyof EndpointBase]: UnshiftParameters<EndpointBase[K], [GraphEntity]>;
 };
 
+/**
+ * {@link GraphArc} main controller
+ */
 @ApiTags("Graph arcs")
 @Controller(generateGraphArcsEndpoint(`:${GraphInterceptor.PATH_PARAM}` as unknown as EntityId))
 @UseAuth()

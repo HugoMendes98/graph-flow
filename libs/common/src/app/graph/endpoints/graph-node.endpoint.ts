@@ -2,8 +2,9 @@ import { GRAPHS_ENDPOINT_PREFIX } from "./graph.endpoint";
 import { EntityId } from "../../../dtos/entity";
 import { DtoToEntity } from "../../../dtos/entity/entity.types";
 import { EntityEndpoint } from "../../../endpoints";
-import { NodeCreateDto, NodeDto, NodeUpdateDto } from "../../node/dtos";
-import { NodeKindEdgeDto } from "../../node/dtos/kind";
+import { NodeDto } from "../../node/dtos";
+import { GraphNodeDto, GraphNodeUpdateDto } from "../dtos/node";
+import { GraphNodeCreateDto } from "../dtos/node/graph-node.create.dto";
 
 /**
  * Endpoint path parts for [nodes]{@link NodeDto} (without global prefix).
@@ -22,7 +23,6 @@ export function generateGraphNodesEndpoint(graphId: EntityId) {
 	return `${start}/${graphId}${end}`;
 }
 
-export type GraphNodeDto = Omit<NodeDto, "kind"> &
-	Record<keyof Pick<NodeDto, "kind">, NodeKindEdgeDto>;
-export type GraphNodeEndpoint<T extends DtoToEntity<NodeDto> | GraphNodeDto = GraphNodeDto> =
-	EntityEndpoint<T, NodeCreateDto, NodeUpdateDto>;
+export type GraphNode = GraphNodeDto;
+export type GraphNodeEndpoint<T extends DtoToEntity<NodeDto> | GraphNode = GraphNode> =
+	EntityEndpoint<T, GraphNodeCreateDto, GraphNodeUpdateDto>;

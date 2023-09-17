@@ -13,9 +13,11 @@ import {
 	UseInterceptors
 } from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { GraphNodeUpdateDto } from "~/lib/common/app/graph/dtos/node";
+import { GraphNodeCreateDto } from "~/lib/common/app/graph/dtos/node/graph-node.create.dto";
 import { generateGraphNodesEndpoint, GraphNodeEndpoint } from "~/lib/common/app/graph/endpoints";
-import { NodeCreateDto, NodeDto, NodeQueryDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
-import { NodeKindEdgeDto, NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeDto, NodeQueryDto } from "~/lib/common/app/node/dtos";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { UnshiftParameters } from "~/lib/common/types";
 
@@ -31,6 +33,9 @@ type EndpointTransformed = {
 	[K in keyof EndpointBase]: UnshiftParameters<EndpointBase[K], [GraphEntity]>;
 };
 
+/**
+ * {@link NodeEntity} from a {@link GraphEntity} controller
+ */
 @ApiTags("Graph nodes")
 @Controller(generateGraphNodesEndpoint(`:${GraphInterceptor.PATH_PARAM}` as unknown as EntityId))
 @UseAuth()
@@ -65,10 +70,10 @@ export class GraphNodeController implements EndpointTransformed {
 	@ApiCreatedResponse({ type: NodeDto })
 	@ApiGraphParam()
 	@Post()
-	public create(@GraphInterceptedParam() graph: GraphEntity, @Body() body: NodeCreateDto) {
+	public create(@GraphInterceptedParam() graph: GraphEntity, @Body() body: GraphNodeCreateDto) {
 		return this.service.create({
 			...body,
-			kind: { ...(body.kind as NodeKindEdgeDto), __graph: graph._id, type: NodeKindType.EDGE }
+			kind: { __graph: graph._id, position: body.kind.position, type: NodeKindType.EDGE }
 		});
 	}
 
@@ -78,9 +83,14 @@ export class GraphNodeController implements EndpointTransformed {
 	public update(
 		@GraphInterceptedParam() graph: GraphEntity,
 		@Param("id") id: number,
-		@Body() body: NodeUpdateDto
+		@Body() body: GraphNodeUpdateDto
 	) {
-		return this.validateNodeId(graph, id).then(({ _id }) => this.service.update(_id, body));
+		return this.validateNodeId(graph, id).then(({ _id, kind }) =>
+			this.service.update(_id, {
+				...body,
+				kind: { ...kind, ...body.kind, type: NodeKindType.EDGE }
+			})
+		);
 	}
 
 	@ApiGraphParam()

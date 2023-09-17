@@ -1,4 +1,4 @@
-import { Type } from "class-transformer";
+import { Expose, Type } from "class-transformer";
 import { IsArray, IsBoolean, IsDate, IsOptional } from "class-validator";
 
 import { EntityFilterValue } from "../../../endpoints";
@@ -12,6 +12,7 @@ export class WhereDateNullableDto implements EntityFilterValue<Date> {
 	 * Search for records whose value is equal to the given one.
 	 */
 	@CanBeNull()
+	@Expose()
 	@IsDate()
 	@IsOptional()
 	public $eq?: Date | null;
@@ -19,6 +20,7 @@ export class WhereDateNullableDto implements EntityFilterValue<Date> {
 	 * Search for records whose value is **not** equal to the given one.
 	 */
 	@CanBeNull()
+	@Expose()
 	@IsDate()
 	@IsOptional()
 	public $ne?: Date | null;
@@ -28,6 +30,7 @@ export class WhereDateNullableDto implements EntityFilterValue<Date> {
 	 *
 	 * It can also be tested with `$eq = null` or `$ne = null`.
 	 */
+	@Expose()
 	@IsBoolean()
 	@IsOptional()
 	public $exists?: boolean;
@@ -35,12 +38,14 @@ export class WhereDateNullableDto implements EntityFilterValue<Date> {
 	/**
 	 * Search for records whose value is greater than the given one.
 	 */
+	@Expose()
 	@IsDate()
 	@IsOptional()
 	public $gt?: Date;
 	/**
 	 * Search for records whose value is greater than or equal to the given one.
 	 */
+	@Expose()
 	@IsDate()
 	@IsOptional()
 	public $gte?: Date;
@@ -48,12 +53,14 @@ export class WhereDateNullableDto implements EntityFilterValue<Date> {
 	/**
 	 * Search for records whose value is less than the given one.
 	 */
+	@Expose()
 	@IsDate()
 	@IsOptional()
 	public $lt?: Date;
 	/**
 	 * Search for records whose value is less than or equal to the given one.
 	 */
+	@Expose()
 	@IsDate()
 	@IsOptional()
 	public $lte?: Date;
@@ -61,6 +68,7 @@ export class WhereDateNullableDto implements EntityFilterValue<Date> {
 	/**
 	 * Search for records whose value is included in the given list.
 	 */
+	@Expose()
 	@IsArray()
 	@IsDate({ each: true })
 	@IsOptional()
@@ -70,6 +78,7 @@ export class WhereDateNullableDto implements EntityFilterValue<Date> {
 	/**
 	 * Search for records whose value is **not** included in the given list.
 	 */
+	@Expose()
 	@IsArray()
 	@IsDate({ each: true })
 	@IsOptional()
@@ -84,12 +93,14 @@ export class WhereDateDto extends WhereDateNullableDto {
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */
+	@Expose()
 	@IsDate()
 	@IsOptional()
 	public declare $eq?: Date;
 	/**
 	 * Search for records whose value is **not** equal to the given one.
 	 */
+	@Expose()
 	@IsDate()
 	@IsOptional()
 	public declare $ne?: Date;

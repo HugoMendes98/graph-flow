@@ -14,9 +14,7 @@ export class GraphApiService
 	extends EntityApiService<Graph, never, never>
 	implements GraphEndpoint
 {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override getEntrypoint(): string {
 		return GRAPHS_ENDPOINT_PREFIX;
 	}

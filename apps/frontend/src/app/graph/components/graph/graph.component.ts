@@ -175,9 +175,7 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 		);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public async ngAfterViewInit() {
 		const area = new AreaPlugin<Schemes, AreaExtra>(this.container.nativeElement);
 		const connection = new ConnectionPlugin<Schemes, AreaExtra>();
@@ -331,9 +329,7 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 		});
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public async ngOnDestroy() {
 		this.area$.complete();
 

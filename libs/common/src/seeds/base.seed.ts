@@ -419,7 +419,7 @@ export const BASE_SEED = {
 					code: "module.export = (a, b) => b === 0 ? 0 : Math.floor(a / b);",
 					type: NodeBehaviorType.CODE
 				},
-				kind: { type: NodeKindType.TEMPLATE },
+				kind: { active: true, type: NodeKindType.TEMPLATE },
 				name: "Calculate quotient",
 
 				inputs: [
@@ -474,7 +474,7 @@ export const BASE_SEED = {
 					code: "module.export = (a, b) => b === 0 ? a : a % b;",
 					type: NodeBehaviorType.CODE
 				},
-				kind: { type: NodeKindType.TEMPLATE },
+				kind: { active: true, type: NodeKindType.TEMPLATE },
 				name: "Calculate remainder",
 
 				inputs: [
@@ -530,7 +530,7 @@ export const BASE_SEED = {
 				__categories: [2],
 
 				behavior: { __graph: 1, type: NodeBehaviorType.FUNCTION },
-				kind: { type: NodeKindType.TEMPLATE },
+				kind: { active: true, type: NodeKindType.TEMPLATE },
 				name: "Integer division",
 
 				inputs: [

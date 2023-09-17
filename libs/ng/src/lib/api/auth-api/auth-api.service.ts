@@ -22,30 +22,22 @@ export class AuthApiService implements AuthEndpoint {
 	 */
 	public constructor(private readonly client: ApiClient) {}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public getProfile(): Promise<UserDto> {
 		return this.client.get(`${this.entrypoint}/${AuthEndpoints.PROFILE}`);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public login(body: AuthLoginDto): Promise<AuthSuccessDto> {
 		return this.client.post(`${this.entrypoint}/${AuthEndpoints.LOGIN}`, body);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public logout(): Promise<void> {
 		return this.client.post(`${this.entrypoint}/${AuthEndpoints.LOGOUT}`);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public refresh(body: AuthRefreshDto): Promise<AuthSuccessDto> {
 		return this.client.post(`${this.entrypoint}/${AuthEndpoints.REFRESH}`, body);
 	}

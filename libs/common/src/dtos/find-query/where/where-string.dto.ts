@@ -1,4 +1,4 @@
-import { Type } from "class-transformer";
+import { Expose, Type } from "class-transformer";
 import { IsArray, IsBoolean, IsOptional, IsString } from "class-validator";
 
 import { EntityFilterValue } from "../../../endpoints";
@@ -12,6 +12,7 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	 * Search for records whose value is equal to the given one.
 	 */
 	@CanBeNull()
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public $eq?: string | null;
@@ -19,6 +20,7 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	 * Search for records whose value is **not** equal to the given one.
 	 */
 	@CanBeNull()
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public $ne?: string | null;
@@ -28,6 +30,7 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	 *
 	 * It can also be tested with `$eq = null` or `$ne = null`.
 	 */
+	@Expose()
 	@IsBoolean()
 	@IsOptional()
 	public $exists?: boolean;
@@ -35,12 +38,14 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	/**
 	 * Search for records whose value is greater than the given one.
 	 */
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public $gt?: string;
 	/**
 	 * Search for records whose value is greater than or equal to the given one.
 	 */
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public $gte?: string;
@@ -48,12 +53,14 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	/**
 	 * Search for records whose value is less than the given one.
 	 */
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public $lt?: string;
 	/**
 	 * Search for records whose value is less than or equal to the given one.
 	 */
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public $lte?: string;
@@ -61,6 +68,7 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	/**
 	 * Search for records whose value is included in the given list.
 	 */
+	@Expose()
 	@IsArray()
 	@IsOptional()
 	@IsString({ each: true })
@@ -70,6 +78,7 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	/**
 	 * Search for records whose value is **not** included in the given list.
 	 */
+	@Expose()
 	@IsArray()
 	@IsOptional()
 	@IsString({ each: true })
@@ -79,6 +88,7 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	/**
 	 * Search for records whose value match the given regex string.
 	 */
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public $re?: string;
@@ -86,6 +96,7 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	/**
 	 * Search for records whose value looks like the given one (~SQL Like operator).
 	 */
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public $like?: string;
@@ -95,6 +106,7 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	 *
 	 * It works correctly only to indexed properties.
 	 */
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public fulltext?: string;
@@ -107,12 +119,14 @@ export class WhereStringDto extends WhereStringNullableDto {
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public declare $eq?: string;
 	/**
 	 * Search for records whose value is **not** equal to the given one.
 	 */
+	@Expose()
 	@IsOptional()
 	@IsString()
 	public declare $ne?: string;

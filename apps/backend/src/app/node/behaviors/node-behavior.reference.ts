@@ -19,15 +19,11 @@ const NodeProperty = ManyToOneFactory(() => NodeEntity, {
 
 @Entity({ discriminatorValue: type })
 export class NodeBehaviorReference extends NodeBehaviorBase<typeof type> implements DTO {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@NodeProperty({ foreign: false })
 	public readonly __node!: EntityId;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@NodeProperty({ foreign: true })
 	public readonly node?: NodeDto; // FIXME
 }

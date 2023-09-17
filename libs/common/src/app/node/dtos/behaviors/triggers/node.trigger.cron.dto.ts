@@ -7,9 +7,7 @@ import { IsCron } from "../../../../../validators";
  * DTO for `node-trigger` of subtype CRON
  */
 export class NodeTriggerCronDto extends NodeTriggerBaseDto {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override readonly type = NodeTriggerType.CRON;
 
 	/**

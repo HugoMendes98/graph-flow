@@ -9,9 +9,7 @@ import { EntityId } from "../../../../dtos/entity";
  * Behavior of a node that is a function
  */
 export class NodeBehaviorFunctionDto extends NodeBehaviorBaseDto {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override readonly type = NodeBehaviorType.FUNCTION;
 
 	// TODO: input/output, graph (same thing as for a workflow)

@@ -8,9 +8,7 @@ import { BaseExceptionFilter } from "@nestjs/core";
  */
 @Catch(NotFoundError)
 export class NotFoundFilter extends BaseExceptionFilter {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override catch(exception: NotFoundError, host: ArgumentsHost) {
 		super.catch(
 			new NotFoundException(`The resource was not found`, {

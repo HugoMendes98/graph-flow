@@ -12,6 +12,9 @@ import { NodeExecutor, NodeInputAndValues } from "../../node/executor/node.execu
 import { NodeService } from "../../node/node.service";
 import { GraphArcService } from "../arc/graph-arc.service";
 
+/**
+ * Parameters when executing a `graph`
+ */
 export interface GraphExecuteParams {
 	/**
 	 * Id of the graph to execute
@@ -26,7 +29,9 @@ export interface GraphExecuteParams {
 	 */
 	startAt: EntityId[];
 }
-
+/**
+ * Options when executing a `graph`
+ */
 export interface GraphExecuteOptions {
 	/**
 	 * Timeout in ms for **1** node.
@@ -34,6 +39,9 @@ export interface GraphExecuteOptions {
 	timeout?: number;
 }
 
+/**
+ * A graph executor
+ */
 @Injectable()
 export class GraphExecutor implements OnModuleInit {
 	private nodeExecutor!: NodeExecutor;
@@ -52,6 +60,7 @@ export class GraphExecutor implements OnModuleInit {
 		private moduleRef: ModuleRef
 	) {}
 
+	/** @inheritDoc */
 	public async onModuleInit() {
 		// FIXME
 		this.nodeExecutor = await this.moduleRef.get(NodeExecutor, {
@@ -59,6 +68,13 @@ export class GraphExecutor implements OnModuleInit {
 		});
 	}
 
+	/**
+	 * Executes a graph
+	 *
+	 * @param params parameters with the graph and the starting nodes
+	 * @param options additional options
+	 * @returns Promise when initialized that returns an finish-able observable with events
+	 */
 	public async execute(
 		params: GraphExecuteParams,
 		options: GraphExecuteOptions = {}

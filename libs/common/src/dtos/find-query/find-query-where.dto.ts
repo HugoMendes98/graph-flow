@@ -1,6 +1,6 @@
 import { Singleton } from "@heap-code/singleton";
 import type { Type } from "@nestjs/common";
-import { plainToInstance, Transform, Type as TypeTransformer } from "class-transformer";
+import { Expose, plainToInstance, Transform, Type as TypeTransformer } from "class-transformer";
 import { IsArray, isDateString, isObject, IsOptional, ValidateNested } from "class-validator";
 
 import {
@@ -23,17 +23,20 @@ import { dtoStorage } from "../dto";
  */
 export function FindQueryWhereDtoOf<T extends object>(dto: Type<T>): Type<EntityFilter<T>> {
 	class WhereDto implements EntityFilterLogicalOperators<T> {
+		@Expose()
 		@IsArray()
 		@IsOptional()
 		@TypeTransformer(() => WhereDto)
 		@ValidateNested({ each: true })
 		public $and?;
 
+		@Expose()
 		@IsOptional()
 		@TypeTransformer(() => WhereDto)
 		@ValidateNested()
 		public $not?;
 
+		@Expose()
 		@IsArray()
 		@IsOptional()
 		@TypeTransformer(() => WhereDto)
@@ -45,7 +48,7 @@ export function FindQueryWhereDtoOf<T extends object>(dto: Type<T>): Type<Entity
 		const keys = dtoStorage.getPropertyKeys(source);
 
 		for (const key of keys) {
-			const decorators: PropertyDecorator[] = [IsOptional()];
+			const decorators: PropertyDecorator[] = [Expose(), IsOptional()];
 
 			if (dtoStorage.getPropertyOptions(source.prototype as Type<unknown>, key)?.forwardRef) {
 				const singleton = new Singleton(() =>
@@ -72,9 +75,14 @@ export function FindQueryWhereDtoOf<T extends object>(dto: Type<T>): Type<Entity
 						case Date: {
 							const classType = nullable ? WhereDateNullableDto : WhereDateDto;
 							decorators.push(
-								Transform(({ value }) => {
+								Transform(({ key, obj, value }) => {
 									if (isObject(value)) {
-										return value;
+										// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Given object is an object (already transformed, but empty)
+										return plainToInstance(classType, obj[key]);
+									}
+
+									if (value === undefined) {
+										return undefined;
 									}
 
 									return plainToInstance(classType, {
@@ -82,40 +90,47 @@ export function FindQueryWhereDtoOf<T extends object>(dto: Type<T>): Type<Entity
 											? new Date(value as string)
 											: (value as never)
 									} satisfies WhereDateDto);
-								}),
-								TypeTransformer(() => classType)
+								})
 							);
 							break;
 						}
 						case Number: {
 							const classType = nullable ? WhereNumberNullableDto : WhereNumberDto;
 							decorators.push(
-								Transform(({ value }) => {
+								Transform(({ key, obj, value }) => {
 									if (isObject(value)) {
-										return value;
+										// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Given object is an object (already transformed, but empty)
+										return plainToInstance(classType, obj[key]);
+									}
+
+									if (value === undefined) {
+										return undefined;
 									}
 
 									return plainToInstance(classType, {
 										$eq: value === null ? null : +value
 									} satisfies WhereNumberNullableDto);
-								}),
-								TypeTransformer(() => classType)
+								})
 							);
 							break;
 						}
 						case String: {
 							const classType = nullable ? WhereStringNullableDto : WhereStringDto;
 							decorators.push(
-								Transform(({ value }) => {
+								Transform(({ key, obj, value }) => {
 									if (isObject(value)) {
-										return value;
+										// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Given object is an object (already transformed, but empty)
+										return plainToInstance(classType, obj[key]);
+									}
+
+									if (value === undefined) {
+										return undefined;
 									}
 
 									return plainToInstance(classType, {
 										$eq: value as string
 									} satisfies WhereStringDto);
-								}),
-								TypeTransformer(() => classType)
+								})
 							);
 							break;
 						}

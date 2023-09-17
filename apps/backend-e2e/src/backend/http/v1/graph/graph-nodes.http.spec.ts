@@ -2,8 +2,9 @@ import { AxiosError, HttpStatusCode } from "axios";
 import { Jsonify } from "type-fest";
 import { DbE2eHelper } from "~/app/backend/e2e/db-e2e/db-e2e.helper";
 import { GraphHttpClient } from "~/app/backend/e2e/http/clients";
+import { GraphNodeKindUpdateDto } from "~/lib/common/app/graph/dtos/node";
 import { generateGraphNodesEndpoint } from "~/lib/common/app/graph/endpoints";
-import { NodeQueryDto } from "~/lib/common/app/node/dtos";
+import { NodeQueryDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
 import { omit } from "~/lib/common/utils/object-fns";
 
@@ -76,6 +77,28 @@ describe("Backend HTTP GraphNodes", () => {
 				.findOneResponse(node!._id)
 				.catch(({ response }: AxiosError) => response!);
 			expect(response.status).toBe(HttpStatusCode.NotFound);
+		});
+	});
+
+	describe(`PATCH ${generateGraphNodesEndpoint(graphRef._id)}/:id`, () => {
+		it("should update the position of a node", async () => {
+			const {
+				data: [node]
+			} = await client.findMany({
+				params: { limit: 1 } satisfies NodeQueryDto
+			});
+
+			const position = {
+				x: node.kind.position.x * 2,
+				y: node.kind.position.y + 2
+			} as const satisfies GraphNodeKindUpdateDto["position"];
+
+			const updated = await client.update(node._id, {
+				kind: { position, type: NodeKindType.EDGE }
+			} satisfies NodeUpdateDto);
+
+			expect(updated.kind.position.x).toBe(position.x);
+			expect(updated.kind.position.y).toBe(position.y);
 		});
 	});
 });
