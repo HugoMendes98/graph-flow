@@ -1,5 +1,6 @@
 import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
+import { GraphNode } from "~/lib/common/app/graph/endpoints";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
@@ -11,6 +12,7 @@ import { NodeKindEdgeEntity } from "./kind";
 import { NodeModule } from "./node.module";
 import { NodeService } from "./node.service";
 import { NodeOutputRepository } from "./output";
+import { PositionEmbeddable } from "./position.embeddable";
 import { DbTestHelper } from "../../../test/db-test";
 import { OrmModule } from "../../orm/orm.module";
 import { CategoryModule } from "../category/category.module";
@@ -225,21 +227,14 @@ describe("NodeService", () => {
 		it("should remove inputs and arcs when deleting a node", async () => {
 			const graphArcService = module.get(GraphArcService);
 
-			const graphNode = await service.findById(db.graph.nodes[4]._id);
+			const node = await service.findById(db.graph.nodes[4]._id);
 			// For test verification; do not use a possibly used node if it is "locked"
-			const { __graph } = graphNode.kind as NodeKindEdgeEntity;
+			const { __graph } = node.kind as NodeKindEdgeEntity;
 			expect(__graph).toBe(2);
 
-			const { inputs, outputs } = graphNode;
+			const { inputs, outputs } = node;
 			const { data: arcs } = await graphArcService.findAndCount({
-				$or: [
-					{
-						from: {
-							node: { kind: { __graph, type: NodeKindType.EDGE } }
-						}
-					},
-					{ to: { node: { kind: { __graph, type: NodeKindType.EDGE } } } }
-				]
+				$or: [{ from: { node: { _id: node._id } } }, { to: { node: { _id: node._id } } }]
 			});
 
 			// Need to have some data before
@@ -247,7 +242,7 @@ describe("NodeService", () => {
 			expect(inputs).not.toHaveLength(0);
 			expect(outputs).not.toHaveLength(0);
 
-			await service.delete(graphNode._id);
+			await service.delete(node._id);
 
 			// search by ids so that is not linked with the foreign keys
 			const {
@@ -362,6 +357,24 @@ describe("NodeService", () => {
 				const found = after.find(({ _id }) => _id === node._id);
 				expect(found).toBeDefined();
 				expect(updated.toJSON()).toStrictEqual(found!.toJSON());
+			});
+
+			it("should update a node position", async () => {
+				const {
+					data: [{ _id, kind }]
+				} = await service.findByGraph(1, {}, { limit: 1 });
+
+				const position: PositionEmbeddable = {
+					x: kind.position.x * 2,
+					y: kind.position.y + 2
+				};
+
+				const updated = await service.update(_id, {
+					kind: { position, type: NodeKindType.EDGE }
+				});
+
+				expect((updated as unknown as GraphNode).kind.position.x).toBe(position.x);
+				expect((updated as unknown as GraphNode).kind.position.y).toBe(position.y);
 			});
 		});
 

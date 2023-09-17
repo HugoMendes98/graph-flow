@@ -1,7 +1,7 @@
 import { EventArgs, EventSubscriber, Reference } from "@mikro-orm/core";
 import { EntityName } from "@mikro-orm/nestjs";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
-import { GraphNodeDto } from "~/lib/common/app/graph/endpoints";
+import { GraphNode } from "~/lib/common/app/graph/endpoints";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
@@ -108,11 +108,11 @@ export class NodeService
 	 * @param options Some options when loading an entities
 	 * @returns All nodes from a graph
 	 */
-	public findByGraph<P extends EntitiesToPopulate<DtoToEntity<GraphNodeDto>>>(
+	public findByGraph<P extends EntitiesToPopulate<DtoToEntity<GraphNode>>>(
 		graphId: EntityId,
-		where: EntityFilter<DtoToEntity<GraphNodeDto>> = {},
-		params: EntityFindParams<DtoToEntity<GraphNodeDto>> = {},
-		options?: EntityServiceFindOptions<DtoToEntity<GraphNodeDto>, P>
+		where: EntityFilter<DtoToEntity<GraphNode>> = {},
+		params: EntityFindParams<DtoToEntity<GraphNode>> = {},
+		options?: EntityServiceFindOptions<DtoToEntity<GraphNode>, P>
 	) {
 		// GraphNodeDto
 		return this.findAndCount(
@@ -120,7 +120,7 @@ export class NodeService
 			params,
 			options
 		) as Promise<
-			FindResultsDto<EntityLoaded<DtoToEntity<GraphNodeDto & Pick<NodeEntity, "toJSON">>, P>>
+			FindResultsDto<EntityLoaded<DtoToEntity<GraphNode & Pick<NodeEntity, "toJSON">>, P>>
 		>;
 	}
 
