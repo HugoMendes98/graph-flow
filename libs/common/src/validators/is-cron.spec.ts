@@ -1,4 +1,4 @@
-import { plainToInstance } from "class-transformer";
+import { Expose, plainToInstance } from "class-transformer";
 import { validateSync } from "class-validator";
 
 import { IsCron } from "./is-cron";
@@ -6,6 +6,7 @@ import { transformOptions } from "../options";
 
 describe("IsCron", () => {
 	class TestRef {
+		@Expose()
 		@IsCron()
 		public readonly cron: unknown;
 	}

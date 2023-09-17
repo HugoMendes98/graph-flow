@@ -1,6 +1,6 @@
 import { Singleton } from "@heap-code/singleton";
 import type { Type } from "@nestjs/common";
-import { Type as TypeTransformer } from "class-transformer";
+import { Expose, Type as TypeTransformer } from "class-transformer";
 import { IsIn, IsOptional, ValidateNested } from "class-validator";
 
 import { EntityOrder, OrderValues } from "../../endpoints";
@@ -21,7 +21,7 @@ export function FindQueryOrderDtoOf<T extends object>(dto: Type<T>): Type<Entity
 		class OrderDto {}
 
 		for (const key of keys) {
-			const decorators: PropertyDecorator[] = [IsOptional()];
+			const decorators: PropertyDecorator[] = [Expose(), IsOptional()];
 
 			if (dtoStorage.getPropertyOptions(source.prototype as Type<unknown>, key)?.forwardRef) {
 				const singleton = new Singleton(() =>

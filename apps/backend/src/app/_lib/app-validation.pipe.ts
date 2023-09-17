@@ -1,6 +1,6 @@
 import { ArgumentMetadata, Injectable, ValidationError, ValidationPipe } from "@nestjs/common";
 import { ValidationPipeOptions } from "@nestjs/common/pipes/validation.pipe";
-import { plainToInstance } from "class-transformer";
+import { plainToInstance, instanceToPlain } from "class-transformer";
 import { ValidatorOptions } from "class-validator";
 import { deepmerge } from "deepmerge-ts";
 import { transformOptions, validatorOptions } from "~/lib/common/options";
@@ -28,7 +28,7 @@ export class AppValidationPipe extends ValidationPipe {
 					transformOptions: transformOptions
 				},
 				// To override default options
-				options
+				options ?? {}
 			)
 		);
 	}
@@ -36,7 +36,11 @@ export class AppValidationPipe extends ValidationPipe {
 	/**
 	 * @inheritDoc
 	 */
-	public override transform(value: unknown, metadata: ArgumentMetadata) {
+	public override async transform(value: unknown, metadata: ArgumentMetadata) {
+		if (metadata.type === "custom" || metadata.type === "param") {
+			return super.transform(value, metadata);
+		}
+
 		if (metadata.type === "query" && metadata.metatype) {
 			// Only enable the implicit conversions for query params (even if it does the transformation 2 times)
 			// So it can be more easily used in the query parameters when writing a query
@@ -47,7 +51,7 @@ export class AppValidationPipe extends ValidationPipe {
 			});
 		}
 
-		return super.transform(value, metadata);
+		return instanceToPlain(await super.transform(value, metadata), transformOptions) as never;
 	}
 
 	/**

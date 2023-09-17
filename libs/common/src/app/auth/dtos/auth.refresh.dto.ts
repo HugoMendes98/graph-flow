@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import { IsBoolean, IsOptional } from "class-validator";
 
 export class AuthRefreshDto {
@@ -6,6 +7,7 @@ export class AuthRefreshDto {
 	 *
 	 * @default false
 	 */
+	@Expose()
 	@IsBoolean()
 	@IsOptional()
 	public readonly cookie?: boolean = false;

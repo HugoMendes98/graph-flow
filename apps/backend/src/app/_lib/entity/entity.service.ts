@@ -1,5 +1,4 @@
 import { EntityRepository, FilterQuery } from "@mikro-orm/core";
-import { instanceToPlain } from "class-transformer";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { FindResultsDto } from "~/lib/common/dtos/find-results.dto";
 import {
@@ -8,7 +7,6 @@ import {
 	EntitiesToPopulate,
 	EntityPopulated
 } from "~/lib/common/endpoints";
-import { transformOptions } from "~/lib/common/options";
 
 import { EntityBase } from "./entity-base.entity";
 import { entityOrderToQueryOrder } from "./entity-order.converter";
@@ -84,23 +82,19 @@ export abstract class EntityService<
 	): Promise<FindResultsDto<EntityLoaded<T, P>>> {
 		// TODO: fix order by foreign of foreign id
 		const offset = params.skip ?? 0;
-		return (
-			this.repository
-				// TODO: should probably not convert here
-				//	https://mikro-orm.io/docs/entity-helper#using-class-based-data
-				.findAndCount(instanceToPlain(where, transformOptions), {
-					limit: params.limit,
-					offset,
-					orderBy: params.order?.map(entityOrderToQueryOrder),
-					populate:
-						options?.populate &&
-						(entityToPopulateToRelationsKeys(options.populate) as never)
-				})
-				.then(([data, total]) => ({
-					data: data as Array<EntityLoaded<T, P>>,
-					pagination: { range: { end: offset + data.length, start: offset }, total }
-				}))
-		);
+		return this.repository
+			.findAndCount(where as never, {
+				limit: params.limit,
+				offset,
+				orderBy: params.order?.map(entityOrderToQueryOrder),
+				populate:
+					options?.populate &&
+					(entityToPopulateToRelationsKeys(options.populate) as never)
+			})
+			.then(([data, total]) => ({
+				data: data as Array<EntityLoaded<T, P>>,
+				pagination: { range: { end: offset + data.length, start: offset }, total }
+			}));
 	}
 
 	/**
@@ -176,10 +170,8 @@ export abstract class EntityService<
 		options?: EntityServiceUpdateOptions<T, P>
 	) {
 		return this.findById(id).then(async entity => {
-			// TODO: remove the `instanceToPlain`
-			//	https://mikro-orm.io/docs/entity-helper#using-class-based-data
 			await this.repository.getEntityManager().persistAndFlush(
-				this.repository.assign(entity, instanceToPlain(toUpdate), {
+				this.repository.assign(entity, toUpdate as never, {
 					mergeObjects: true,
 					// Without this, it is considered as a new entity each time
 					// https://mikro-orm.io/docs/entity-helper#updating-deep-entity-graph

@@ -1,4 +1,5 @@
 import type { Type } from "@nestjs/common";
+import { ExposeOptions } from "class-transformer/types/interfaces";
 
 export type DtoPropertyKey = string | symbol;
 export type DtoType = Type<unknown>;
@@ -13,6 +14,14 @@ export interface DtoPropertyOptions {
 	 * @default false
 	 */
 	array?: boolean;
+	/**
+	 * Should expose this property to `class-transformer`.
+	 *
+	 * By default, a `Expose` decorator is added
+	 *
+	 * @default true
+	 */
+	expose?: ExposeOptions | boolean;
 	/**
 	 * Allows to refer to references which are not yet defined.
 	 * Same purpose as `forwardRef` in Angular or NestJS.

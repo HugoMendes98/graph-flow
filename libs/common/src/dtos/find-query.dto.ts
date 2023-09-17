@@ -1,5 +1,5 @@
 import type { Type } from "@nestjs/common";
-import { Type as TypeTransformer } from "class-transformer";
+import { Expose, Type as TypeTransformer } from "class-transformer";
 import { IsArray, IsNumber, IsOptional, Min, ValidateNested } from "class-validator";
 
 import { FindQueryOrderDtoOf } from "./find-query/find-query-order.dto";
@@ -22,6 +22,7 @@ export abstract class FindQueryDto<T> implements EntityFindQuery<T> {
 	/**
 	 * Limit the number of items returned<br /> · Use `0` to count only
 	 */
+	@Expose()
 	@IsNumber()
 	@IsOptional()
 	@Min(0)
@@ -30,6 +31,7 @@ export abstract class FindQueryDto<T> implements EntityFindQuery<T> {
 	/**
 	 * Skip some items
 	 */
+	@Expose()
 	@IsNumber()
 	@IsOptional()
 	@Min(0)
@@ -48,12 +50,14 @@ export function FindQueryDtoOf<T extends object>(dto: Type<T>): Type<EntityFindQ
 	const WhereDto = FindQueryWhereDtoOf(dto);
 
 	class FindDto extends FindQueryDto<T> {
+		@Expose()
 		@IsArray()
 		@IsOptional()
 		@TypeTransformer(() => OrderDto)
 		@ValidateNested({ each: true })
 		public override order?;
 
+		@Expose()
 		@TypeTransformer(() => WhereDto)
 		@ValidateNested()
 		public override where?;
