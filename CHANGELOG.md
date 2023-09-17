@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.1](https://github.com/HugoMendes98/graph-flow/compare/v0.2.0...v0.2.1) (2023-09-17)
+
+
+### Bug Fixes
+
+* **graph-node:** correct missing validation decorators ([efab854](https://github.com/HugoMendes98/graph-flow/commit/efab8547c421ee72594a9ca569c89f2e3c0bc1e3))
+* **http:** correct serialisation with validation ([44675ca](https://github.com/HugoMendes98/graph-flow/commit/44675cad604c88cdcff7ce4b141d0aca09384678))
+* **node:** correct one2one entity save ([c3fd385](https://github.com/HugoMendes98/graph-flow/commit/c3fd385ec4f46c08d6f4724ba989f1167ece6d17))
+
 ## [0.2.0](https://github.com/HugoMendes98/graph-flow/compare/v0.1.0...v0.2.0) (2023-09-12)
 
 
