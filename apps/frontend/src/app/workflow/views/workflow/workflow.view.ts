@@ -37,6 +37,12 @@ export class WorkflowView {
 		void this.requestState$.request(id);
 	}
 
+	/**
+	 * Constructor with "dependency injection"
+	 *
+	 * @param service injected
+	 * @param graphApi injected
+	 */
 	public constructor(
 		private readonly service: WorkflowApiService,
 		private readonly graphApi: GraphApiService

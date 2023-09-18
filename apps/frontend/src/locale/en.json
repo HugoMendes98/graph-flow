@@ -1,6 +1,7 @@
 {
 	"actions": {
 		"login": "Login",
+		"logout": "Logout",
 		"ok": "Ok"
 	},
 	"components": {
@@ -10,9 +11,19 @@
 		}
 	},
 	"entities": {
+		"node": {
+			"__meta": {
+				"plural": "Nodes"
+			}
+		},
 		"user": {
 			"email": "Email",
 			"password": "Password"
+		},
+		"workflow": {
+			"__meta": {
+				"plural": "Workflows"
+			}
 		}
 	},
 	"errors": {

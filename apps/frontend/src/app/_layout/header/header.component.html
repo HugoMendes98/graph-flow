@@ -1,1 +1,37 @@
-<mat-toolbar color="primary">header-words</mat-toolbar>
+<mat-toolbar class="flex flex-row gap-2 justify-c-between" color="primary">
+	<div class="align-i-center flex flex-row gap-4">
+		<h3 class="cursor-pointer" routerLink="/">GraphFlow</h3>
+
+		<mat-nav-list class="align-i-center flex flex-row">
+			<mat-list-item routerLink="/workflows">
+				<mat-icon matListItemIcon>account_tree</mat-icon>
+				<span translate>entities.workflow.__meta.plural</span>
+			</mat-list-item>
+
+			<mat-list-item routerLink="/nodes">
+				<mat-icon matListItemIcon>commit</mat-icon>
+				<span translate>entities.node.__meta.plural</span>
+			</mat-list-item>
+		</mat-nav-list>
+	</div>
+
+	<button
+		*ngIf="user$ | async as user"
+		mat-icon-button
+		type="button"
+		[matMenuTriggerFor]="userMenu"
+	>
+		<mat-icon>person</mat-icon>
+
+		<mat-menu #userMenu="matMenu">
+			<span disabled mat-menu-item>{{ user.email }}</span>
+
+			<mat-divider />
+
+			<button mat-menu-item type="button">
+				<mat-icon>logout</mat-icon>
+				<span translate>actions.logout</span>
+			</button>
+		</mat-menu>
+	</button>
+</mat-toolbar>
