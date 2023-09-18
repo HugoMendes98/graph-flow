@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ApiModule } from "~/lib/ng/lib/api";
 
 import { WorkflowsView } from "./workflows.view";
 
@@ -9,7 +8,7 @@ describe("WorkflowsView", () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [ApiModule.forRoot({ client: { url: "" } }), WorkflowsView]
+			imports: [WorkflowsView]
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(WorkflowsView);

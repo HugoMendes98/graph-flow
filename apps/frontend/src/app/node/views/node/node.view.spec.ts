@@ -8,7 +8,7 @@ describe("NodeView", () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [NodeView]
+			imports: [NodeView]
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(NodeView);
