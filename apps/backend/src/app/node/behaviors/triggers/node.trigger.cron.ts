@@ -10,14 +10,10 @@ import { NodeTriggerBase } from "./node.trigger.base";
 	discriminatorValue: NodeTriggerType.CRON
 })
 export class NodeTriggerCron extends NodeTriggerBase implements DTO {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override readonly type = NodeTriggerType.CRON;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property({ nullable: false })
 	public cron!: string;
 }

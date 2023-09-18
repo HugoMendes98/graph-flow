@@ -7,6 +7,9 @@ import { EntityBase } from "../_lib/entity";
 import { NodeBehaviorFunction } from "../node/behaviors/node-behavior.function";
 import { WorkflowEntity } from "../workflow/workflow.entity";
 
+/**
+ * Entity for a `graph`
+ */
 @Entity({ customRepository: () => GraphRepository })
 export class GraphEntity extends EntityBase implements DtoToEntity<GraphDto> {
 	// ------- Relations -------

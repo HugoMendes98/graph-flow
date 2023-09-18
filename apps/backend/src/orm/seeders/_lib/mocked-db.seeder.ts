@@ -38,9 +38,7 @@ export abstract class MockedDbSeeder extends Seeder {
 	 */
 	protected abstract readonly db: Readonly<MockSeed>;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public async run(em: EntityManager) {
 		interface MockEntity {
 			entity: new () => EntityBase;

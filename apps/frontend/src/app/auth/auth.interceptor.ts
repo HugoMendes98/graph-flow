@@ -49,9 +49,7 @@ export class AuthInterceptor implements HttpInterceptor {
 		return result;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public intercept(
 		request: HttpRequest<unknown>,
 		next: HttpHandler

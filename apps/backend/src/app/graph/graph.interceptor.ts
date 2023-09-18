@@ -45,9 +45,7 @@ export class GraphInterceptor implements NestInterceptor {
 	 */
 	public constructor(private readonly service: GraphService) {}
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public intercept(context: ExecutionContext, next: CallHandler) {
 		const request = context.switchToHttp().getRequest<Request<RequestParams>>();
 		const graphId = request.params[GraphInterceptor.PATH_PARAM];

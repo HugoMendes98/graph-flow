@@ -91,6 +91,18 @@
 				"jsdoc/no-undefined-types": "off",
 				/* Hyphen is considered as a bullet point in compodoc */
 				"jsdoc/require-hyphen-before-param-description": ["error", "never"],
+				"jsdoc/require-param": [
+					"warn",
+					{
+						"exemptedBy": ["inheritDoc", "internal", "private"]
+					}
+				],
+				"jsdoc/require-returns": [
+					"warn",
+					{
+						"exemptedBy": ["inheritDoc", "internal", "private"]
+					}
+				],
 				"jsdoc/require-throws": "warn",
 				"jsdoc/tag-lines": [
 					"error",

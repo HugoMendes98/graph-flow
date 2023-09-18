@@ -3,14 +3,10 @@ import { PositionDto } from "~/lib/common/app/node/dtos/position.dto";
 
 @Embeddable()
 export class PositionEmbeddable implements PositionDto {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property()
 	public x!: number;
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property()
 	public y!: number;
 }

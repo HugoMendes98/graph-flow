@@ -9,13 +9,9 @@ export class ReteNode extends ClassicPreset.Node<
 	Record<string, ReteSocket>,
 	Record<string, ReteSocket>
 > {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override inputs!: Partial<Record<string, ReteInput>>;
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	public override outputs!: Partial<Record<string, ReteOutput>>;
 
 	public constructor(public readonly node: Node) {

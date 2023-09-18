@@ -5,6 +5,9 @@ import { EntityDto, EntityId } from "../../../../dtos/entity";
 import { NodeIoType } from "../../io";
 import { NodeDto } from "../node.dto";
 
+/**
+ * Represents an input for a [Node]{@link NodeDto}
+ */
 export class NodeInputDto extends EntityDto {
 	/**
 	 * Foreign key to the node it is connected

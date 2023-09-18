@@ -8,6 +8,7 @@ import { EntityBase } from "../_lib/entity";
 import { ManyToOneParams } from "../_lib/entity/decorators";
 import { GraphEntity } from "../graph/graph.entity";
 
+/** @internal */
 const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) =>
 	applyDecorators(
 		OneToOne(() => GraphEntity, {
@@ -28,26 +29,21 @@ const GraphProperty = ({ foreign }: Pick<ManyToOneParams, "foreign">) =>
  */
 @Entity({ customRepository: () => WorkflowRepository })
 export class WorkflowEntity extends EntityBase implements DtoToEntity<WorkflowDto> {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@GraphProperty({ foreign: false })
 	public readonly __graph!: number;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property({ default: false })
 	public active!: boolean;
 
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property({ unique: true })
 	public name!: string;
 
 	// ------- Relations -------
 
+	/** @inheritDoc */
 	@GraphProperty({ foreign: true })
 	public readonly graph?: GraphEntity;
 }

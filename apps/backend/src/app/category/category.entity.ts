@@ -11,9 +11,7 @@ import { NodeEntity } from "../node/node.entity";
  */
 @Entity({ customRepository: () => CategoryRepository })
 export class CategoryEntity extends EntityBase implements DtoToEntity<CategoryDto> {
-	/**
-	 * @inheritDoc
-	 */
+	/** @inheritDoc */
 	@Property({ unique: true })
 	public name!: string;
 
