@@ -5,7 +5,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { map } from "rxjs";
 
@@ -25,8 +25,8 @@ import { AuthService } from "../../auth/auth.service";
 		MatButtonModule,
 		MatIconModule,
 		MatMenuModule,
-		RouterModule,
 		MatListModule,
+		RouterModule,
 		TranslateModule
 	]
 })
@@ -39,6 +39,19 @@ export class HeaderComponent {
 	 * Constructor with "dependency injection"
 	 *
 	 * @param authService injected
+	 * @param router injected
 	 */
-	public constructor(private readonly authService: AuthService) {}
+	public constructor(
+		protected readonly authService: AuthService,
+		protected readonly router: Router
+	) {}
+
+	/**
+	 * Handles the logout action
+	 *
+	 * @returns Promise
+	 */
+	protected handleLogout() {
+		return this.authService.logout().then(() => this.router.navigateByUrl("/auth/login"));
+	}
 }

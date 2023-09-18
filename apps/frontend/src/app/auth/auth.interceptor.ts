@@ -60,6 +60,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
 		return next.handle(request).pipe(
 			catchError((error: unknown) => {
+				if (this.service.userState$.getValue().type === "connected") {
+					this.service.disconnectUser();
+				}
+
 				if (this.protected && AuthService.isAnUnauthorizedError(error)) {
 					const { url } = this.router.routerState.snapshot;
 					// TODO: better?

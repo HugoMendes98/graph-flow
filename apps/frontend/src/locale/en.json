@@ -41,6 +41,11 @@
 			}
 		}
 	},
+	"layout": {
+		"header": {
+			"profile": "Profile"
+		}
+	},
 	"views": {
 		"login": {
 			"being-redirected": "You are being redirected.",
