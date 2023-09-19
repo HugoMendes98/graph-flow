@@ -13,9 +13,11 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 
 	const dbHelper = DbE2eHelper.getHelper("base");
 	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<typeof dbHelper.db>;
+	const { users } = db;
+	const [user] = users;
 
 	beforeEach(async () => {
-		const [{ email, password }] = db.users;
+		const { email, password } = user;
 
 		await dbHelper.refresh();
 		await client.setAuth(email, password);
@@ -191,10 +193,9 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 				pagination: { total: beforeTotal }
 			} = await client.findMany();
 
-			const [, user] = db.users;
-			const toUpdate: UserUpdateDto = { email: `${user.email}.mail` };
+			const toUpdate: UserUpdateDto = { firstname: `${user.firstname || "abc"}.123` };
 			const updated = await client.update(user._id, toUpdate);
-			expect(updated.email).toBe(toUpdate.email);
+			expect(updated.firstname).toBe(toUpdate.firstname);
 			expect(updated._updated_at > user._updated_at).toBeTrue();
 
 			const {
@@ -208,48 +209,27 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 			expect(updated).toStrictEqual(found);
 		});
 
+		it("should not be able to update a user's email", async () => {
+			const toUpdate = { email: `abc.${user.email}` } satisfies Pick<UserDto, "email">;
+			const updated = await client.update(user._id, toUpdate);
+
+			expect(updated.email).toBe(user.email);
+			expect(updated.email).not.toBe(toUpdate.email);
+		});
+
+		it("should not be able to update another user (404)", async () => {
+			const { _id } = users.find(({ _id }) => _id !== user._id)!;
+
+			const response = await client
+				.updateResponse(_id, { firstname: "abc123" } satisfies UserUpdateDto)
+				.catch(({ response }: AxiosError) => response!);
+			expect(response.status).toBe(404);
+		});
+
 		it("should not update the date if there's no change", async () => {
-			const [, user] = db.users;
-			const toUpdate: UserUpdateDto = { email: user.email };
+			const toUpdate: UserUpdateDto = { firstname: user.firstname };
 			const updated = await client.update(user._id, toUpdate);
 			expect(updated).toStrictEqual(omit(user, ["password"]));
-		});
-
-		it("should fail when a uniqueness constraint is not respected", async () => {
-			const [user1, user2] = db.users;
-
-			const toUpdate: UserUpdateDto = { email: user1.email };
-			const response = await client
-				.updateResponse(user2._id, toUpdate)
-				.catch(({ response }: AxiosError) => response!);
-			expect(response.status).toBe(HttpStatusCode.Conflict);
-		});
-
-		// Use theses to test when the values are valid or not.
-		// Use another to determine the correct error(s) returned.
-		it("should fail with a BAD_REQUEST status code when the payload is invalid", async () => {
-			const [user] = db.users;
-			for (const toUpdate of [
-				{ email: "" },
-				{ email: "not an email" }
-			] satisfies UserUpdateDto[]) {
-				const response = await client
-					.updateResponse(user._id, toUpdate)
-					.catch(({ response }: AxiosError) => response!);
-				expect(response.status).toBe(HttpStatusCode.BadRequest);
-			}
-		});
-
-		it("should fail with a BAD_REQUEST status code when the payload is incorrectly typed", async () => {
-			const [user] = db.users;
-			for (const toUpdate of [
-				{ email: 123 as unknown as string }
-			] satisfies UserUpdateDto[]) {
-				const response = await client
-					.updateResponse(user._id, toUpdate)
-					.catch(({ response }: AxiosError) => response!);
-				expect(response.status).toBe(HttpStatusCode.BadRequest);
-			}
 		});
 	});
 
@@ -259,9 +239,10 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 				pagination: { total: beforeTotal }
 			} = await client.findMany();
 
-			const [, user] = db.users;
 			const deleted = await client.delete(user._id);
 			expect(deleted).toStrictEqual(omit(user, ["password"]));
+
+			await client.setAuth(users[1].email, users[1].password);
 
 			const {
 				data: after,
@@ -269,6 +250,15 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 			} = await client.findMany();
 			expect(afterTotal).toBe(beforeTotal - 1);
 			expect(after.some(({ _id }) => _id === deleted._id)).toBeFalse();
+		});
+
+		it("should not be able to delete another user (404)", async () => {
+			const { _id } = users.find(({ _id }) => _id !== user._id)!;
+
+			const response = await client
+				.deleteResponse(_id)
+				.catch(({ response }: AxiosError) => response!);
+			expect(response.status).toBe(404);
 		});
 
 		it("should not delete an unknown id", async () => {

@@ -1,9 +1,9 @@
 import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { UserUpdateDto } from "~/lib/common/app/user/dtos";
 import { omit } from "~/lib/common/utils/object-fns";
 
 import { UserModule } from "./user.module";
+import { UserUpdateEntity } from "./user.service";
 import { UserService } from "./user.service";
 import { DbTestHelper } from "../../../test/db-test";
 import { OrmModule } from "../../orm/orm.module";
@@ -114,7 +114,7 @@ describe("UserService", () => {
 
 				// Update an entity and check its content
 				const [user] = dbTest.db.users;
-				const toUpdate: UserUpdateDto = { email: `${user.email}-${user.email}` };
+				const toUpdate: UserUpdateEntity = { email: `${user.email}-${user.email}` };
 				const updated = await service.update(user._id, toUpdate);
 				expect(updated.email).toBe(toUpdate.email);
 
@@ -130,7 +130,7 @@ describe("UserService", () => {
 
 			it("should not update the date if there's no change", async () => {
 				const [, user] = dbTest.db.users;
-				const toUpdate: UserUpdateDto = { email: user.email };
+				const toUpdate: UserUpdateEntity = { email: user.email };
 				const updated = await service.update(user._id, toUpdate);
 				expect(updated.toJSON()).toStrictEqual(omit(user, ["password"]));
 			});
@@ -138,7 +138,7 @@ describe("UserService", () => {
 			it("should fail when a uniqueness constraint is not respected", async () => {
 				const [user1, user2] = dbTest.db.users;
 
-				const toUpdate: UserUpdateDto = { email: user1.email };
+				const toUpdate: UserUpdateEntity = { email: user1.email };
 				await expect(service.update(user2._id, toUpdate)).rejects.toThrow(
 					UniqueConstraintViolationException
 				);
