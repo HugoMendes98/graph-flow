@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	NotFoundException,
+	Param,
+	Patch,
+	Post,
+	Query
+} from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import {
 	UserCreateDto,
@@ -12,6 +22,7 @@ import { UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpo
 import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 import { UseAuth } from "../auth/auth.guard";
+import { AuthUser, AuthUserParam } from "../auth/auth.user.param";
 
 /**
  * The main controller for [users]{@link UserDto}.
@@ -51,14 +62,24 @@ export class UserController implements UserEndpoint<UserEntity> {
 	/** @inheritDoc */
 	@ApiOkResponse({ type: UserDto })
 	@Patch("/:id")
-	public update(@Param("id") id: number, @Body() body: UserUpdateDto) {
+	public update(
+		@Param("id") id: number,
+		@Body() body: UserUpdateDto,
+		@AuthUserParam() user?: AuthUser
+	) {
+		if (user?._id !== id) {
+			return Promise.reject(new NotFoundException());
+		}
 		return this.service.update(id, body);
 	}
 
 	/** @inheritDoc */
 	@ApiOkResponse({ type: UserDto })
 	@Delete("/:id")
-	public delete(@Param("id") id: number) {
+	public delete(@Param("id") id: number, @AuthUserParam() user?: AuthUser) {
+		if (user?._id !== id) {
+			return Promise.reject(new NotFoundException());
+		}
 		return this.service.delete(id);
 	}
 }
