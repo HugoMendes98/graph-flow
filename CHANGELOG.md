@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/HugoMendes98/graph-flow/compare/v0.2.1...v0.2.2) (2023-09-19)
+
+
+### Bug Fixes
+
+* **user:** forbid user update for other users ([414c83f](https://github.com/HugoMendes98/graph-flow/commit/414c83f5ef9753b23b62c5f945fe4832c46b0cae))
+
 ## [0.2.1](https://github.com/HugoMendes98/graph-flow/compare/v0.2.0...v0.2.1) (2023-09-17)
 
 
