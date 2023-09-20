@@ -8,6 +8,9 @@ import { EntityId } from "../../../../dtos/entity";
 import { GraphDto } from "../../../graph/dtos/graph.dto";
 import { PositionDto } from "../position.dto";
 
+/**
+ * Class for a "node-kind" of `Edge` type
+ */
 export class NodeKindEdgeDto extends NodeKindBaseDto {
 	/** @inheritDoc */
 	public override readonly type = NodeKindType.EDGE;

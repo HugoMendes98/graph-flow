@@ -2,10 +2,13 @@ import { OmitType, PartialType } from "@nestjs/mapped-types";
 import { Type as TypeTransformer } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 
-import { NODE_KIND_DTOS, NodeKindBaseDto, NodeKindDiscriminatorKey, NodeKindDto } from "./kind";
+import {
+	NODE_KIND_UPDATE_DTOS,
+	NodeKindBaseDto,
+	NodeKindDiscriminatorKey,
+	NodeKindUpdateDto
+} from "./kind";
 import { NodeCreateDto } from "./node.create.dto";
-
-export type NodeKindUpdateDto = Partial<NodeKindDto> & Pick<NodeKindDto, "type">;
 
 /**
  * DTO used to update [node]{@link NodeDto}
@@ -18,9 +21,9 @@ export class NodeUpdateDto extends PartialType(OmitType(NodeCreateDto, ["behavio
 	@TypeTransformer(() => NodeKindBaseDto, {
 		discriminator: {
 			property: "type" satisfies NodeKindDiscriminatorKey,
-			subTypes: NODE_KIND_DTOS.map(kind => ({
+			subTypes: NODE_KIND_UPDATE_DTOS.map(kind => ({
 				name: kind.TYPE,
-				value: PartialType(kind as never)
+				value: kind
 			}))
 		},
 		keepDiscriminatorProperty: true

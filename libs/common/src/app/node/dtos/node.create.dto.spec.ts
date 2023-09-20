@@ -1,0 +1,95 @@
+import { plainToInstance } from "class-transformer";
+
+import { NodeBehaviorTriggerDto, NodeBehaviorType, NodeBehaviorVariableDto } from "./behaviors";
+import { NodeTriggerType } from "./behaviors/triggers";
+import { NodeKindEdgeDto, NodeKindTemplateDto, NodeKindType } from "./kind";
+import { NodeCreateDto } from "./node.create.dto";
+import { transformOptions } from "../../../options";
+
+describe("NodeCreateDto", () => {
+	describe("Behavior property", () => {
+		it("should transform `behavior=VARIABLE` correctly", () => {
+			const toTransform = {
+				behavior: { type: NodeBehaviorType.VARIABLE, value: 10 },
+				kind: { active: true, type: NodeKindType.TEMPLATE },
+				name: "a node"
+			} as const satisfies NodeCreateDto;
+
+			const transformed = plainToInstance(
+				NodeCreateDto,
+				toTransform,
+				transformOptions
+			) as typeof toTransform;
+
+			expect(transformed.behavior).toBeInstanceOf(NodeBehaviorVariableDto);
+
+			expect(transformed.behavior.type).toBe(toTransform.behavior.type);
+			expect(transformed.behavior.value).toBe(toTransform.behavior.value);
+		});
+
+		it("should transform `behavior=TRIGGER` correctly", () => {
+			const toTransform = {
+				behavior: {
+					trigger: { cron: "* * * * *", type: NodeTriggerType.CRON },
+					type: NodeBehaviorType.TRIGGER
+				},
+				kind: { active: true, type: NodeKindType.TEMPLATE },
+				name: "a node"
+			} as const satisfies NodeCreateDto;
+
+			const transformed = plainToInstance(
+				NodeCreateDto,
+				toTransform,
+				transformOptions
+			) as typeof toTransform;
+
+			expect(transformed.behavior).toBeInstanceOf(NodeBehaviorTriggerDto);
+
+			expect(transformed.behavior.type).toBe(toTransform.behavior.type);
+			expect(transformed.behavior.trigger.type).toBe(toTransform.behavior.trigger.type);
+			expect(transformed.behavior.trigger.cron).toBe(toTransform.behavior.trigger.cron);
+		});
+	});
+
+	describe("Kind property", () => {
+		it("should transform `kind=EDGE` correctly", () => {
+			const toTransform = {
+				behavior: { type: NodeBehaviorType.VARIABLE, value: 0 },
+				kind: { __graph: 10, position: { x: 11, y: 12 }, type: NodeKindType.EDGE },
+				name: "a node"
+			} as const satisfies NodeCreateDto;
+
+			const transformed = plainToInstance(
+				NodeCreateDto,
+				toTransform,
+				transformOptions
+			) as typeof toTransform;
+
+			expect(transformed.kind).toBeInstanceOf(NodeKindEdgeDto);
+
+			expect(transformed.kind.type).toBe(toTransform.kind.type);
+			expect(transformed.kind.__graph).toBe(toTransform.kind.__graph);
+			expect(transformed.kind.position.x).toBe(toTransform.kind.position.x);
+			expect(transformed.kind.position.y).toBe(toTransform.kind.position.y);
+		});
+
+		it("should transform `kind=TEMPLATE` correctly", () => {
+			const toTransform = {
+				behavior: { type: NodeBehaviorType.VARIABLE, value: 0 },
+				kind: { active: true, type: NodeKindType.TEMPLATE },
+				name: "a node"
+			} as const satisfies NodeCreateDto;
+
+			const transformed = plainToInstance(
+				NodeCreateDto,
+				toTransform,
+				transformOptions
+			) as typeof toTransform;
+
+			expect(transformed.kind).toBeInstanceOf(NodeKindTemplateDto);
+
+			expect(transformed.kind.type).toBe(toTransform.kind.type);
+			expect(transformed.kind.active).toBe(toTransform.kind.active);
+		});
+	});
+});

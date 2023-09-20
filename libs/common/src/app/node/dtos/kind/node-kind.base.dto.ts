@@ -25,3 +25,7 @@ export abstract class NodeKindBaseDto {
  * The discriminator for the node kind
  */
 export type NodeKindDiscriminatorKey = keyof Pick<NodeKindBaseDto, "type">;
+/**
+ * The discriminator value for the node kind
+ */
+export const NODE_KIND_DISCRIMINATOR_KEY = "type" as const satisfies NodeKindDiscriminatorKey;
