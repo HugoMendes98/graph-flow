@@ -33,6 +33,6 @@ export class NodeKindEdgeDto extends NodeKindBaseDto<NodeKindType.EDGE> {
 	/**
 	 * The {@link GraphDto} this `graph-node` is connected to
 	 */
-	@DtoProperty({ forwardRef: true, type: () => GraphDto })
+	@DtoProperty({ expose: false, forwardRef: true, type: () => GraphDto })
 	public readonly graph?: GraphDto;
 }

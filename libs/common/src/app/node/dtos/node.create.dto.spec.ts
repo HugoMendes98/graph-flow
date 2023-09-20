@@ -1,10 +1,11 @@
 import { plainToInstance } from "class-transformer";
+import { validate } from "class-validator";
 
 import { NodeBehaviorTriggerDto, NodeBehaviorType, NodeBehaviorVariableDto } from "./behaviors";
 import { NodeTriggerCronDto, NodeTriggerType } from "./behaviors/triggers";
 import { NodeKindEdgeDto, NodeKindTemplateDto, NodeKindType } from "./kind";
 import { NodeCreateDto } from "./node.create.dto";
-import { transformOptions } from "../../../options";
+import { transformOptions, validatorOptions } from "../../../options";
 
 describe("NodeCreateDto", () => {
 	describe("Behavior property", () => {
@@ -72,6 +73,23 @@ describe("NodeCreateDto", () => {
 			expect(transformed.kind.__graph).toBe(toTransform.kind.__graph);
 			expect(transformed.kind.position.x).toBe(toTransform.kind.position.x);
 			expect(transformed.kind.position.y).toBe(toTransform.kind.position.y);
+		});
+
+		it("should validate `kind=EDGE` correctly", async () => {
+			const toTransform = {
+				behavior: { type: NodeBehaviorType.VARIABLE, value: 0 },
+				kind: { __graph: 10, position: { x: 11, y: 12 }, type: NodeKindType.EDGE },
+				name: "a node"
+			} as const satisfies NodeCreateDto;
+
+			const transformed = plainToInstance(
+				NodeCreateDto,
+				toTransform,
+				transformOptions
+			) as typeof toTransform;
+
+			const errors = await validate(transformed, validatorOptions);
+			expect(errors).toHaveLength(0);
 		});
 
 		it("should transform `kind=TEMPLATE` correctly", () => {
