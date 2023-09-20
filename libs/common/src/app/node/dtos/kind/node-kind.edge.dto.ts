@@ -11,10 +11,7 @@ import { PositionDto } from "../position.dto";
 /**
  * Class for a "node-kind" of `Edge` type
  */
-export class NodeKindEdgeDto extends NodeKindBaseDto {
-	/** @inheritDoc */
-	public override readonly type = NodeKindType.EDGE;
-
+export class NodeKindEdgeDto extends NodeKindBaseDto<NodeKindType.EDGE> {
 	/**
 	 * The [graph]{@link GraphDto} on which it is
 	 */

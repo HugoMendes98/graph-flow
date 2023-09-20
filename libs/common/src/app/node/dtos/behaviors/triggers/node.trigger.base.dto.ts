@@ -6,14 +6,7 @@ import { DtoProperty } from "../../../../../dtos/dto";
 /**
  * Base DTO for `node-trigger`
  */
-export abstract class NodeTriggerBaseDto {
-	/**
-	 * @returns the type of the DTO
-	 */
-	public static get TYPE(): NodeTriggerType {
-		return this.prototype.type;
-	}
-
+export abstract class NodeTriggerBaseDto<T extends NodeTriggerType = NodeTriggerType> {
 	/**
 	 * A unique identifier that determines the trigger.
 	 *
@@ -21,7 +14,7 @@ export abstract class NodeTriggerBaseDto {
 	 */
 	@DtoProperty()
 	@IsEnum(NodeTriggerType)
-	public abstract readonly type: NodeTriggerType;
+	public readonly type!: T;
 }
 
 /**

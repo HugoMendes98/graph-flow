@@ -8,10 +8,7 @@ import { EntityId } from "../../../../dtos/entity";
 /**
  * Behavior of a node that is a function
  */
-export class NodeBehaviorFunctionDto extends NodeBehaviorBaseDto {
-	/** @inheritDoc */
-	public override readonly type = NodeBehaviorType.FUNCTION;
-
+export class NodeBehaviorFunctionDto extends NodeBehaviorBaseDto<NodeBehaviorType.FUNCTION> {
 	// TODO: input/output, graph (same thing as for a workflow)
 
 	/**

@@ -1,7 +1,7 @@
 import { plainToInstance } from "class-transformer";
 
 import { NodeBehaviorTriggerDto, NodeBehaviorType, NodeBehaviorVariableDto } from "./behaviors";
-import { NodeTriggerType } from "./behaviors/triggers";
+import { NodeTriggerCronDto, NodeTriggerType } from "./behaviors/triggers";
 import { NodeKindEdgeDto, NodeKindTemplateDto, NodeKindType } from "./kind";
 import { NodeCreateDto } from "./node.create.dto";
 import { transformOptions } from "../../../options";
@@ -44,6 +44,7 @@ describe("NodeCreateDto", () => {
 			) as typeof toTransform;
 
 			expect(transformed.behavior).toBeInstanceOf(NodeBehaviorTriggerDto);
+			expect(transformed.behavior.trigger).toBeInstanceOf(NodeTriggerCronDto);
 
 			expect(transformed.behavior.type).toBe(toTransform.behavior.type);
 			expect(transformed.behavior.trigger.type).toBe(toTransform.behavior.trigger.type);

@@ -2,12 +2,12 @@ import { Type as TypeTransformer } from "class-transformer";
 import { IsString, MinLength, ValidateNested } from "class-validator";
 
 import {
-	NodeBehaviorBaseDto,
-	NodeBehaviorDiscriminatorKey
+	NODE_BEHAVIOR_DISCRIMINATOR_KEY,
+	NodeBehaviorBaseDto
 } from "./behaviors/node-behavior.base.dto";
 import { NodeBehaviorDto, NODE_BEHAVIOR_DTOS } from "./behaviors/node-behavior.dto";
 import { NodeInputDto } from "./input/node-input.dto";
-import { NODE_KIND_DTOS, NodeKindBaseDto, NodeKindDiscriminatorKey, NodeKindDto } from "./kind";
+import { NODE_KIND_DISCRIMINATOR_KEY, NODE_KIND_DTOS, NodeKindBaseDto, NodeKindDto } from "./kind";
 import { NodeOutputDto } from "./output/node-output.dto";
 import { DtoProperty } from "../../../dtos/dto";
 import { EntityDto } from "../../../dtos/entity";
@@ -34,15 +34,11 @@ export class NodeDto extends EntityDto {
 	 * possible useful content should be extract and be available in the flatten node DTO.
 	 */
 	// FIXME: Find query with anything that is not in the base type will probably fail
-	//	`type(): DtoType` should have a parameter of the raw data
 	@DtoProperty() // TODO: APIProperty with `anyOf`?
 	@TypeTransformer(() => NodeBehaviorBaseDto, {
 		discriminator: {
-			property: "type" satisfies NodeBehaviorDiscriminatorKey,
-			subTypes: NODE_BEHAVIOR_DTOS.map(behavior => ({
-				name: behavior.TYPE,
-				value: behavior
-			}))
+			property: NODE_BEHAVIOR_DISCRIMINATOR_KEY,
+			subTypes: NODE_BEHAVIOR_DTOS.slice()
 		},
 		keepDiscriminatorProperty: true
 	})
@@ -55,8 +51,8 @@ export class NodeDto extends EntityDto {
 	@DtoProperty()
 	@TypeTransformer(() => NodeKindBaseDto, {
 		discriminator: {
-			property: "type" satisfies NodeKindDiscriminatorKey,
-			subTypes: NODE_KIND_DTOS.map(kind => ({ name: kind.TYPE, value: kind }))
+			property: NODE_KIND_DISCRIMINATOR_KEY,
+			subTypes: NODE_KIND_DTOS.slice()
 		},
 		keepDiscriminatorProperty: true
 	})

@@ -8,21 +8,17 @@ import { NodeIoValue } from "../../io";
 /**
  * Base behavior of node that is a variable/parameter
  */
-export abstract class NodeBehaviorParameterBaseDto extends NodeBehaviorBaseDto {
-	/** @inheritDoc */
-	public abstract override readonly type:
+export abstract class NodeBehaviorParameterBaseDto<
+	T extends
 		| NodeBehaviorType.PARAMETER_IN
 		| NodeBehaviorType.PARAMETER_OUT
-		| NodeBehaviorType.VARIABLE;
-}
+		| NodeBehaviorType.VARIABLE
+> extends NodeBehaviorBaseDto<T> {}
 
 /**
  * Behavior of a node that is a `node-variable`
  */
-export class NodeBehaviorVariableDto extends NodeBehaviorParameterBaseDto {
-	/** @inheritDoc */
-	public override readonly type = NodeBehaviorType.VARIABLE;
-
+export class NodeBehaviorVariableDto extends NodeBehaviorParameterBaseDto<NodeBehaviorType.VARIABLE> {
 	// TODO: this is temporary
 	@DtoProperty()
 	@IsDefined()
@@ -32,10 +28,7 @@ export class NodeBehaviorVariableDto extends NodeBehaviorParameterBaseDto {
 /**
  * Behavior of a node that is an input parameter of `node-function`
  */
-export class NodeBehaviorParameterInputDto extends NodeBehaviorParameterBaseDto {
-	/** @inheritDoc */
-	public override readonly type = NodeBehaviorType.PARAMETER_IN;
-
+export class NodeBehaviorParameterInputDto extends NodeBehaviorParameterBaseDto<NodeBehaviorType.PARAMETER_IN> {
 	/**
 	 * Foreign key to the node-input
 	 */
@@ -46,10 +39,7 @@ export class NodeBehaviorParameterInputDto extends NodeBehaviorParameterBaseDto 
 /**
  * Behavior of a node that is an output parameter of `node-function`
  */
-export class NodeBehaviorParameterOutputDto extends NodeBehaviorParameterBaseDto {
-	/** @inheritDoc */
-	public override readonly type = NodeBehaviorType.PARAMETER_OUT;
-
+export class NodeBehaviorParameterOutputDto extends NodeBehaviorParameterBaseDto<NodeBehaviorType.PARAMETER_OUT> {
 	/**
 	 * Foreign key to the node-output
 	 */

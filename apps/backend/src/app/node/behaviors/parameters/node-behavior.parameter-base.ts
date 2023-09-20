@@ -14,4 +14,4 @@ export abstract class NodeBehaviorParameterBase<
 		T extends NodeBehaviorParameterType = NodeBehaviorParameterType
 	>
 	extends NodeBehaviorBase<T>
-	implements NodeBehaviorParameterBaseDto {}
+	implements NodeBehaviorParameterBaseDto<T> {}

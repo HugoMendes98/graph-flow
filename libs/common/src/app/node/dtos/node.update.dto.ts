@@ -1,5 +1,5 @@
 import { OmitType, PartialType } from "@nestjs/mapped-types";
-import { Type as TypeTransformer } from "class-transformer";
+import { Expose, Type as TypeTransformer } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 
 import {
@@ -17,14 +17,12 @@ import { NodeCreateDto } from "./node.create.dto";
  * Can not change the type of `kind`
  */
 export class NodeUpdateDto extends PartialType(OmitType(NodeCreateDto, ["behavior", "kind"])) {
+	@Expose()
 	@IsOptional()
 	@TypeTransformer(() => NodeKindBaseDto, {
 		discriminator: {
 			property: "type" satisfies NodeKindDiscriminatorKey,
-			subTypes: NODE_KIND_UPDATE_DTOS.map(kind => ({
-				name: kind.TYPE,
-				value: kind
-			}))
+			subTypes: NODE_KIND_UPDATE_DTOS.slice()
 		},
 		keepDiscriminatorProperty: true
 	})

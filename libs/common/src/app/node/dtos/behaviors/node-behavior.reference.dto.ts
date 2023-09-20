@@ -9,10 +9,7 @@ import type { NodeDto } from "../node.dto";
 /**
  * Behavior of a node that reference another one
  */
-export class NodeBehaviorReferenceDto extends NodeBehaviorBaseDto {
-	/** @inheritDoc */
-	public override readonly type = NodeBehaviorType.REFERENCE;
-
+export class NodeBehaviorReferenceDto extends NodeBehaviorBaseDto<NodeBehaviorType.REFERENCE> {
 	/**
 	 * The node that this behavior "references"
 	 */
