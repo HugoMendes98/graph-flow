@@ -1,5 +1,4 @@
 import { EventArgs, EventSubscriber, Reference } from "@mikro-orm/core";
-import { EntityName } from "@mikro-orm/nestjs";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { GraphNode } from "~/lib/common/app/graph/endpoints";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
@@ -10,7 +9,9 @@ import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 import { FindResultsDto } from "~/lib/common/dtos/find-results.dto";
 import { EntitiesToPopulate, EntityFilter, EntityFindParams } from "~/lib/common/endpoints";
 
+import { NodeReadonlyKindTypeException } from "./exceptions";
 import { NodeInputEntity, NodeInputCreate } from "./input";
+import { NODE_KIND_ENTITIES, NodeKindEntity } from "./kind";
 import { NodeEntity } from "./node.entity";
 import { NodeRepository } from "./node.repository";
 import { NodeOutputEntity, NodeOutputCreate } from "./output";
@@ -49,11 +50,27 @@ export class NodeService
 	) {
 		super(repository);
 
-		repository.getEntityManager().getEventManager().registerSubscriber(this);
+		const eventManager = repository.getEntityManager().getEventManager();
+		eventManager.registerSubscriber(this);
+		eventManager.registerSubscriber({
+			getSubscribedEntities: () => [...NODE_KIND_ENTITIES],
+
+			beforeUpdate(args: EventArgs<NodeKindEntity>): Promise<void> | void {
+				const { changeSet } = args;
+				if (!changeSet) {
+					return;
+				}
+
+				const { entity, originalEntity } = changeSet;
+				if (!originalEntity?.type || originalEntity.type !== entity.type) {
+					throw new NodeReadonlyKindTypeException();
+				}
+			}
+		});
 	}
 
 	/** @inheritDoc */
-	public getSubscribedEntities(): Array<EntityName<NodeEntity>> {
+	public getSubscribedEntities() {
 		return [NodeEntity];
 	}
 
@@ -137,7 +154,6 @@ export class NodeService
 			const reference = await this.findById(behavior.__node);
 
 			const em = this.repository.getEntityManager();
-
 			for (const [collection, entity] of [
 				[reference.inputs, NodeInputEntity],
 				[reference.outputs, NodeOutputEntity]
