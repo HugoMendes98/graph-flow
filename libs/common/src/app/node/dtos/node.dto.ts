@@ -7,7 +7,8 @@ import {
 } from "./behaviors/node-behavior.base.dto";
 import { NodeBehaviorDto, NODE_BEHAVIOR_DTOS } from "./behaviors/node-behavior.dto";
 import { NodeInputDto } from "./input/node-input.dto";
-import { NODE_KIND_DISCRIMINATOR_KEY, NODE_KIND_DTOS, NodeKindBaseDto, NodeKindDto } from "./kind";
+import { NODE_KIND_DISCRIMINATOR_KEY, NodeKindBaseDto } from "./kind/node-kind.base.dto";
+import { NODE_KIND_DTOS, NodeKindDto } from "./kind/node-kind.dto";
 import { NodeOutputDto } from "./output/node-output.dto";
 import { DtoProperty } from "../../../dtos/dto";
 import { EntityDto } from "../../../dtos/entity";

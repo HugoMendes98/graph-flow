@@ -5,7 +5,7 @@ import { GraphHttpClient } from "~/app/backend/e2e/http/clients";
 import { GraphNodeKindUpdateDto } from "~/lib/common/app/graph/dtos/node";
 import { generateGraphNodesEndpoint } from "~/lib/common/app/graph/endpoints";
 import { NodeQueryDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { omit } from "~/lib/common/utils/object-fns";
 
 describe("Backend HTTP GraphNodes", () => {

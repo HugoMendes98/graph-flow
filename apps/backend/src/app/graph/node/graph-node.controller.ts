@@ -17,7 +17,7 @@ import { GraphNodeUpdateDto } from "~/lib/common/app/graph/dtos/node";
 import { GraphNodeCreateDto } from "~/lib/common/app/graph/dtos/node/graph-node.create.dto";
 import { generateGraphNodesEndpoint, GraphNodeEndpoint } from "~/lib/common/app/graph/endpoints";
 import { NodeDto, NodeQueryDto } from "~/lib/common/app/node/dtos";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { UnshiftParameters } from "~/lib/common/types";
 

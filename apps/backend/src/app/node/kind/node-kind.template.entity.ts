@@ -1,5 +1,6 @@
 import { Entity, Property } from "@mikro-orm/core";
-import { NodeKindTemplateDto, NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindTemplateDto } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 
 import { NodeKindBaseEntity } from "./node-kind.base.entity";
 

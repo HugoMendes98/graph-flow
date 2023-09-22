@@ -1,8 +1,9 @@
 import { DbE2eHelper } from "~/app/backend/e2e/db-e2e/db-e2e.helper";
 import { NodeHttpClient } from "~/app/backend/e2e/http/clients/node.http-client";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
-import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
-import { NodeKindEdgeDto, NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
+import { NodeKindEdgeDto } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
 import { jsonify } from "~/lib/common/utils/jsonify";
 

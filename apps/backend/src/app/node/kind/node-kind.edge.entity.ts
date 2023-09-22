@@ -1,5 +1,6 @@
 import { Embedded, Entity } from "@mikro-orm/core";
-import { NodeKindEdgeDto, NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindEdgeDto } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import { NodeKindBaseEntity } from "./node-kind.base.entity";

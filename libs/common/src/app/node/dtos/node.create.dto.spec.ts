@@ -1,9 +1,11 @@
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 
-import { NodeBehaviorTriggerDto, NodeBehaviorType, NodeBehaviorVariableDto } from "./behaviors";
+import { NodeBehaviorTriggerDto, NodeBehaviorVariableDto } from "./behaviors";
+import { NodeBehaviorType } from "./behaviors/node-behavior.type";
 import { NodeTriggerCronDto, NodeTriggerType } from "./behaviors/triggers";
-import { NodeKindEdgeDto, NodeKindTemplateDto, NodeKindType } from "./kind";
+import { NodeKindEdgeDto, NodeKindTemplateDto } from "./kind";
+import { NodeKindType } from "./kind/node-kind.type";
 import { NodeCreateDto } from "./node.create.dto";
 import { transformOptions, validatorOptions } from "../../../options";
 

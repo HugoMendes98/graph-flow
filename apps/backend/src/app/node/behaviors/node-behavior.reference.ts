@@ -1,9 +1,7 @@
 import { Entity } from "@mikro-orm/core";
 import { NodeDto } from "~/lib/common/app/node/dtos";
-import {
-	NodeBehaviorReferenceDto as DTO,
-	NodeBehaviorType
-} from "~/lib/common/app/node/dtos/behaviors";
+import { NodeBehaviorReferenceDto as DTO } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import { NodeBehaviorBase } from "./node-behavior.base";

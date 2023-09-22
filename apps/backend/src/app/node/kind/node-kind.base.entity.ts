@@ -1,9 +1,6 @@
 import { Entity, Enum, OneToOne } from "@mikro-orm/core";
-import {
-	NodeKindBaseDto,
-	NodeKindDiscriminatorKey,
-	NodeKindType
-} from "~/lib/common/app/node/dtos/kind";
+import { NodeKindBaseDto, NodeKindDiscriminatorKey } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 
 import { NodeEntity } from "../node.entity";
 

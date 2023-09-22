@@ -1,7 +1,7 @@
 import { Test } from "@nestjs/testing";
 import { lastValueFrom, toArray } from "rxjs";
-import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
 
 import { GraphExecutorStartingNodeException } from "./exceptions";

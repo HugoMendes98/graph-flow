@@ -1,6 +1,6 @@
 import { plainToInstance } from "class-transformer";
 
-import { NodeKindType } from "./kind";
+import { NodeKindType } from "./kind/node-kind.type";
 import { NodeUpdateDto } from "./node.update.dto";
 import { transformOptions } from "../../../options";
 

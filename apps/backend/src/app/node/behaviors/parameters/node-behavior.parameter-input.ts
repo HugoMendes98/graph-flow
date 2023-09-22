@@ -1,8 +1,6 @@
 import { Entity } from "@mikro-orm/core";
-import {
-	NodeBehaviorParameterInputDto,
-	NodeBehaviorType
-} from "~/lib/common/app/node/dtos/behaviors";
+import { NodeBehaviorParameterInputDto } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 
 import { NodeBehaviorParameterBase } from "./node-behavior.parameter-base";
 import { ManyToOneFactory } from "../../../_lib/entity/decorators";
