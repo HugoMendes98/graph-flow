@@ -1,9 +1,7 @@
 import { Entity, OneToOne } from "@mikro-orm/core";
 import { applyDecorators } from "@nestjs/common";
-import {
-	NodeBehaviorFunctionDto as DTO,
-	NodeBehaviorType
-} from "~/lib/common/app/node/dtos/behaviors";
+import { NodeBehaviorFunctionDto as DTO } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 
 import { NodeBehaviorBase } from "./node-behavior.base";
 import { ManyToOneParams } from "../../_lib/entity/decorators";

@@ -19,7 +19,7 @@ import { ReadonlyPlugin } from "rete-readonly-plugin";
 import { bufferToggle, filter, map, Observable, Subject } from "rxjs";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
 import { GraphArc } from "~/lib/common/app/graph/endpoints";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { PositionDto } from "~/lib/common/app/node/dtos/position.dto";
 import { Node } from "~/lib/common/app/node/endpoints";
 import { ReteConnection, ReteInput, ReteNode, ReteOutput } from "~/lib/ng/lib/rete";

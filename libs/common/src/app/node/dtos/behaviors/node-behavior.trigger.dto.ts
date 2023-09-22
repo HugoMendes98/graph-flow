@@ -14,10 +14,7 @@ import { DtoProperty } from "../../../../dtos/dto";
 /**
  * Behavior of a node that is a trigger
  */
-export class NodeBehaviorTriggerDto extends NodeBehaviorBaseDto {
-	/** @inheritDoc */
-	public override readonly type = NodeBehaviorType.TRIGGER;
-
+export class NodeBehaviorTriggerDto extends NodeBehaviorBaseDto<NodeBehaviorType.TRIGGER> {
 	/**
 	 * The trigger behavior of the node
 	 */
@@ -25,10 +22,7 @@ export class NodeBehaviorTriggerDto extends NodeBehaviorBaseDto {
 	@TypeTransformer(() => NodeTriggerBaseDto, {
 		discriminator: {
 			property: "type" satisfies NodeTriggerDiscriminatorKey,
-			subTypes: NODE_TRIGGER_DTOS.map(trigger => ({
-				name: trigger.TYPE,
-				value: trigger
-			}))
+			subTypes: NODE_TRIGGER_DTOS.slice()
 		},
 		keepDiscriminatorProperty: true
 	})

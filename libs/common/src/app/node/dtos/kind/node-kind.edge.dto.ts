@@ -8,10 +8,10 @@ import { EntityId } from "../../../../dtos/entity";
 import { GraphDto } from "../../../graph/dtos/graph.dto";
 import { PositionDto } from "../position.dto";
 
-export class NodeKindEdgeDto extends NodeKindBaseDto {
-	/** @inheritDoc */
-	public override readonly type = NodeKindType.EDGE;
-
+/**
+ * Class for a "node-kind" of `Edge` type
+ */
+export class NodeKindEdgeDto extends NodeKindBaseDto<NodeKindType.EDGE> {
 	/**
 	 * The [graph]{@link GraphDto} on which it is
 	 */
@@ -31,8 +31,8 @@ export class NodeKindEdgeDto extends NodeKindBaseDto {
 	// Relations
 
 	/**
-	 * The {@lnk GraphDto} this `graph-node` is connected to
+	 * The {@link GraphDto} this `graph-node` is connected to
 	 */
-	@DtoProperty({ forwardRef: true, type: () => GraphDto })
+	@DtoProperty({ expose: false, forwardRef: true, type: () => GraphDto })
 	public readonly graph?: GraphDto;
 }

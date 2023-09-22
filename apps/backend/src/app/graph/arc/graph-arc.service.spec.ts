@@ -6,8 +6,8 @@ import {
 import { MethodNotAllowedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
-import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED, MockSeed } from "~/lib/common/seeds";
 
 import { GraphArcDifferentGraphException } from "./exceptions";

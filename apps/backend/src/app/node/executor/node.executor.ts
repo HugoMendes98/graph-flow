@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { filter, lastValueFrom, toArray } from "rxjs";
-import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
 import { castNodeIoValueTo, NODE_IO_VOID, NodeIoType, NodeIoValue } from "~/lib/common/app/node/io";
 import { EntityId } from "~/lib/common/dtos/entity";

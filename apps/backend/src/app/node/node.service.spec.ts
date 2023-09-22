@@ -2,11 +2,12 @@ import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GraphNode } from "~/lib/common/app/graph/endpoints";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
-import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
 
+import { NodeReadonlyKindTypeException } from "./exceptions";
 import { NodeInputRepository } from "./input";
 import { NodeKindEdgeEntity } from "./kind";
 import { NodeModule } from "./node.module";
@@ -289,6 +290,19 @@ describe("NodeService", () => {
 				expect(output.type).toBe(outputRef.type);
 				expect(output._created_at).not.toStrictEqual(outputRef._created_at);
 			}
+		});
+	});
+
+	describe("Kind", () => {
+		beforeEach(() => dbTest.refresh());
+
+		it("should not allow to change the type on an update", async () => {
+			const node = await service.findById(db.graph.nodes[0]._id);
+			expect(node.kind.type).toBe(NodeKindType.EDGE);
+
+			await expect(() =>
+				service.update(node._id, { kind: { active: true, type: NodeKindType.TEMPLATE } })
+			).rejects.toThrow(NodeReadonlyKindTypeException);
 		});
 	});
 

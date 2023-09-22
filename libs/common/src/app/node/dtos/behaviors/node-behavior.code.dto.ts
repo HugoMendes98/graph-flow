@@ -7,10 +7,7 @@ import { DtoProperty } from "../../../../dtos/dto";
 /**
  * Behavior of a node when it executes some code
  */
-export class NodeBehaviorCodeDto extends NodeBehaviorBaseDto {
-	/** @inheritDoc */
-	public override readonly type = NodeBehaviorType.CODE;
-
+export class NodeBehaviorCodeDto extends NodeBehaviorBaseDto<NodeBehaviorType.CODE> {
 	// TODO: languages, source code (, dependencies, docker, ...)
 
 	// TODO: this is temporary

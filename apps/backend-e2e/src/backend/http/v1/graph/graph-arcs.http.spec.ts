@@ -4,7 +4,7 @@ import { DbE2eHelper } from "~/app/backend/e2e/db-e2e/db-e2e.helper";
 import { GraphHttpClient } from "~/app/backend/e2e/http/clients";
 import { GraphArcQueryDto } from "~/lib/common/app/graph/dtos/arc";
 import { generateGraphArcsEndpoint } from "~/lib/common/app/graph/endpoints";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
 
 describe("Backend HTTP GraphArcs", () => {

@@ -1,9 +1,9 @@
 import { Entity, EntityOptions, Enum, OneToOne } from "@mikro-orm/core";
 import {
 	NodeBehaviorBaseDto,
-	NodeBehaviorDiscriminatorKey,
-	NodeBehaviorType
+	NodeBehaviorDiscriminatorKey
 } from "~/lib/common/app/node/dtos/behaviors";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 
 import { NodeEntity } from "../node.entity";
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Res, UseGuards } from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { CookieOptions } from "express-serve-static-core";
@@ -11,15 +11,8 @@ import { authOptions } from "~/lib/common/options";
 import { UseAuth } from "./auth.guard";
 import { AuthLocalGuard } from "./auth.local-guard";
 import { AuthService } from "./auth.service";
+import { AuthUser, AuthUserParam } from "./auth.user.param";
 import { UserEntity } from "../user/user.entity";
-
-declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace -- TODO: set it as a custom global type AND still working for e2e tests
-	namespace Express {
-		// eslint-disable-next-line @typescript-eslint/no-empty-interface -- For declaration merging
-		interface User extends UserEntity {}
-	}
-}
 
 /**
  * The controller for authentication.
@@ -47,9 +40,9 @@ export class AuthController implements AuthEndpoint {
 	@ApiOkResponse({ type: UserDto })
 	@Get(AuthEndpoints.PROFILE)
 	@UseAuth()
-	public getProfile(@Req() req?: Express.Request): Promise<UserDto> {
+	public getProfile(@AuthUserParam() user?: AuthUser): Promise<UserDto> {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- From decorator and the Guard
-		return Promise.resolve(req!.user!);
+		return Promise.resolve(user!);
 	}
 
 	/** @inheritDoc */
@@ -58,11 +51,11 @@ export class AuthController implements AuthEndpoint {
 	@UseGuards(AuthLocalGuard)
 	public login(
 		@Body() body: AuthLoginDto,
-		@Req() req?: Express.Request,
+		@AuthUserParam() user?: AuthUser,
 		@Res({ passthrough: true }) res?: Response
 	) {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- From guards and decorators (optional for the interface)
-		return this.loginOrRefresh(req!.user!, body, res!);
+		return this.loginOrRefresh(user!, body, res!);
 	}
 
 	/** @inheritDoc */
@@ -80,11 +73,11 @@ export class AuthController implements AuthEndpoint {
 	@UseAuth()
 	public refresh(
 		@Body() body: AuthRefreshDto,
-		@Req() req?: Express.Request,
+		@AuthUserParam() user?: AuthUser,
 		@Res({ passthrough: true }) res?: Response
 	) {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- From guards and decorators (optional for the interface)
-		return this.loginOrRefresh(req!.user!, body, res!);
+		return this.loginOrRefresh(user!, body, res!);
 	}
 
 	private loginOrRefresh(user: UserEntity, body: AuthRefreshDto, res: Response) {

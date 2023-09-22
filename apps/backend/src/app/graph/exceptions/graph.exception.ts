@@ -13,9 +13,6 @@ export class GraphException extends BadLogicException {
 	 * @param message An additional message to the exception
 	 */
 	public constructor(code: GraphErrorCode, message?: string) {
-		super({
-			code,
-			message
-		});
+		super({ code, message });
 	}
 }

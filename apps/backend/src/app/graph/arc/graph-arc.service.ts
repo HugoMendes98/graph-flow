@@ -10,7 +10,7 @@ import {
 import { graphHasCycle } from "~/lib/common/app/graph/algorithms";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
 import { getAdjacencyList } from "~/lib/common/app/graph/transformations";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { EntitiesToPopulate, EntityFilter, EntityFindParams } from "~/lib/common/endpoints";
 

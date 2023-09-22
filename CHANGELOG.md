@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.2.3](https://github.com/HugoMendes98/graph-flow/compare/v0.2.2...v0.2.3) (2023-09-22)
+
+
+### Bug Fixes
+
+* **http:** remove whitelist validation ([23b806c](https://github.com/HugoMendes98/graph-flow/commit/23b806c8d1b4d00368c0623770d5b9b53b618a66))
+* **node-kind:** disallow node-kind type change ([0fe35a2](https://github.com/HugoMendes98/graph-flow/commit/0fe35a2a35ebae4dce270c2771136f6e21930ac0))
+* **node:** correct nested discrimnated type (via `class-transformer`) ([70504d7](https://github.com/HugoMendes98/graph-flow/commit/70504d7c037d746df17e4c6839d09ec61a743926))
+
+
+### Code Refactors
+
+* remove enum type from barrel file ([ba46fa5](https://github.com/HugoMendes98/graph-flow/commit/ba46fa5f59ef6a0b9e27393ef79620ce3e11faaa))
+
+## [0.2.2](https://github.com/HugoMendes98/graph-flow/compare/v0.2.1...v0.2.2) (2023-09-19)
+
+
+### Bug Fixes
+
+* **user:** forbid user update for other users ([414c83f](https://github.com/HugoMendes98/graph-flow/commit/414c83f5ef9753b23b62c5f945fe4832c46b0cae))
+
 ## [0.2.1](https://github.com/HugoMendes98/graph-flow/compare/v0.2.0...v0.2.1) (2023-09-17)
 
 

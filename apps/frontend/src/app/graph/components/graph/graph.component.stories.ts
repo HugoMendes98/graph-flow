@@ -2,7 +2,7 @@ import { action } from "@storybook/addon-actions";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { Jsonify } from "type-fest";
 import { GraphDto } from "~/lib/common/app/graph/dtos";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
 
 import { GraphComponent } from "./graph.component";
