@@ -39,8 +39,8 @@ describe("Backend HTTP Nodes", () => {
 				const { behavior, kind, name } = await client.create(toCreate);
 
 				expect(name).toBe(toCreate.name);
-				expect(behavior).toBe(toCreate.behavior);
-				expect(kind).toBe(toCreate.kind);
+				expect(behavior).toStrictEqual(toCreate.behavior);
+				expect(kind).toStrictEqual(toCreate.kind);
 			}
 		});
 	});
