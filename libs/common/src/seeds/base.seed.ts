@@ -1,7 +1,7 @@
 import { MockSeed } from "./mock.seed";
-import { NodeBehaviorType } from "../app/node/dtos/behaviors";
+import { NodeBehaviorType } from "../app/node/dtos/behaviors/node-behavior.type";
 import { NodeTriggerType } from "../app/node/dtos/behaviors/triggers";
-import { NodeKindType } from "../app/node/dtos/kind";
+import { NodeKindType } from "../app/node/dtos/kind/node-kind.type";
 import { NodeIoType } from "../app/node/io";
 
 /** Sample date1 */

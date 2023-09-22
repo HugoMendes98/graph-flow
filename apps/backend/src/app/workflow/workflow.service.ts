@@ -1,7 +1,7 @@
 import { EventArgs, EventSubscriber, MikroORM, UseRequestContext } from "@mikro-orm/core";
 import { Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
-import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
 import { EntityId } from "~/lib/common/dtos/entity";
 

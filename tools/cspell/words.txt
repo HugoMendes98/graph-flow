@@ -6,6 +6,7 @@ embeddable
 endregion
 firstname
 fulltext
+jsonify
 lastname
 metatype
 mikro

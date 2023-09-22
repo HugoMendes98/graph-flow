@@ -4,9 +4,7 @@ import { NodeKindBaseDto } from "./node-kind.base.dto";
 import { NodeKindType } from "./node-kind.type";
 import { DtoProperty } from "../../../../dtos/dto";
 
-export class NodeKindTemplateDto extends NodeKindBaseDto {
-	public override readonly type = NodeKindType.TEMPLATE;
-
+export class NodeKindTemplateDto extends NodeKindBaseDto<NodeKindType.TEMPLATE> {
 	/**
 	 * If the template is active
 	 */

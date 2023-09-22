@@ -18,7 +18,7 @@ import {
 	GraphArcResultsDto
 } from "~/lib/common/app/graph/dtos/arc";
 import { generateGraphArcsEndpoint, GraphArcEndpoint } from "~/lib/common/app/graph/endpoints";
-import { NodeKindType } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { UnshiftParameters } from "~/lib/common/types";
 
