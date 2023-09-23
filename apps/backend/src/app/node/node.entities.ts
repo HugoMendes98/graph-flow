@@ -1,5 +1,4 @@
 import { NODE_BEHAVIOR_ENTITIES, NodeBehaviorBase } from "./behaviors";
-import { NodeBehaviorParameterBase } from "./behaviors/parameters";
 import { NodeInputEntity } from "./input";
 import { NODE_KIND_ENTITIES, NodeKindBaseEntity } from "./kind";
 import { NodeEntity } from "./node.entity";
@@ -13,7 +12,6 @@ export const NODE_ENTITIES = [
 
 	// Behavior
 	NodeBehaviorBase,
-	NodeBehaviorParameterBase,
 	...NODE_BEHAVIOR_ENTITIES,
 
 	NodeKindBaseEntity,

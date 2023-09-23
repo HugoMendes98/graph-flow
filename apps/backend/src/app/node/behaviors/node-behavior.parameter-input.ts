@@ -2,9 +2,9 @@ import { Entity } from "@mikro-orm/core";
 import { NodeBehaviorParameterInputDto } from "~/lib/common/app/node/dtos/behaviors";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 
-import { NodeBehaviorParameterBase } from "./node-behavior.parameter-base";
-import { ManyToOneFactory } from "../../../_lib/entity/decorators";
-import { NodeInputEntity } from "../../input";
+import { NodeBehaviorBase } from "./node-behavior.base";
+import { ManyToOneFactory } from "../../_lib/entity/decorators";
+import { NodeInputEntity } from "../input";
 
 /** @internal */
 const InputProperty = ManyToOneFactory(() => NodeInputEntity, {
@@ -17,7 +17,7 @@ const InputProperty = ManyToOneFactory(() => NodeInputEntity, {
  */
 @Entity({ discriminatorValue: NodeBehaviorType.PARAMETER_IN })
 export class NodeBehaviorParameterInput
-	extends NodeBehaviorParameterBase<NodeBehaviorType.PARAMETER_IN>
+	extends NodeBehaviorBase<NodeBehaviorType.PARAMETER_IN>
 	implements NodeBehaviorParameterInputDto
 {
 	/** @inheritDoc */

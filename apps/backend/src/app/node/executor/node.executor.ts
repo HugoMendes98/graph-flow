@@ -11,9 +11,13 @@ import type {
 	GraphExecuteNodeFinishState,
 	GraphExecuteState
 } from "../../graph/executor/graph.executor.state";
-import { NodeBehaviorCode, NodeBehaviorFunction, NodeBehaviorReference } from "../behaviors";
+import {
+	NodeBehaviorVariable,
+	NodeBehaviorCode,
+	NodeBehaviorFunction,
+	NodeBehaviorReference
+} from "../behaviors";
 import { NodeBehaviorTrigger } from "../behaviors/node-behavior.trigger";
-import { NodeBehaviorVariable } from "../behaviors/parameters";
 import { NodeInputEntity } from "../input";
 import { NodeEntity } from "../node.entity";
 import { NodeService } from "../node.service";

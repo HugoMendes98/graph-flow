@@ -12,7 +12,9 @@ export class GraphNodeKindUpdateDto extends PartialType(GraphNodeKindCreateDto) 
 /**
  * DTO to use when updating a `node` linked to a `graph`
  */
-export class GraphNodeUpdateDto extends PartialType(OmitType(GraphNodeCreateDto, ["kind"])) {
+export class GraphNodeUpdateDto extends PartialType(
+	OmitType(GraphNodeCreateDto, ["behavior", "kind"])
+) {
 	/**
 	 * The kind of `EDGE` type to update
 	 */

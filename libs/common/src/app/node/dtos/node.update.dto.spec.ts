@@ -1,10 +1,51 @@
 import { plainToInstance } from "class-transformer";
 
+import { NodeBehaviorTriggerUpdateDto, NodeBehaviorVariableUpdateDto } from "./behaviors";
+import { NodeBehaviorType } from "./behaviors/node-behavior.type";
+import { NodeTriggerCronDto, NodeTriggerType } from "./behaviors/triggers";
 import { NodeKindType } from "./kind/node-kind.type";
 import { NodeUpdateDto } from "./node.update.dto";
 import { transformOptions } from "../../../options";
 
 describe("NodeUpdateDto", () => {
+	describe("Behavior property", () => {
+		it("should transform `behavior=VARIABLE` correctly (partial update)", () => {
+			const toTransform = {
+				behavior: { type: NodeBehaviorType.VARIABLE },
+				name: "a node"
+			} as const satisfies NodeUpdateDto;
+
+			const transformed = plainToInstance(NodeUpdateDto, toTransform, transformOptions);
+
+			expect(transformed.behavior).toBeInstanceOf(NodeBehaviorVariableUpdateDto);
+			expect(transformed.behavior!.type).toBe(toTransform.behavior.type);
+			expect((transformed.behavior! as NodeBehaviorVariableUpdateDto).value).toBeUndefined();
+		});
+
+		it("should transform `behavior=TRIGGER` correctly (with nested trigger content)", () => {
+			const toTransform = {
+				behavior: {
+					trigger: { cron: "* * * * *", type: NodeTriggerType.CRON },
+					type: NodeBehaviorType.TRIGGER
+				},
+				name: "a node"
+			} as const satisfies NodeUpdateDto;
+
+			const transformed = plainToInstance(
+				NodeUpdateDto,
+				toTransform,
+				transformOptions
+			) as typeof toTransform;
+
+			expect(transformed.behavior).toBeInstanceOf(NodeBehaviorTriggerUpdateDto);
+			expect(transformed.behavior.trigger).toBeInstanceOf(NodeTriggerCronDto);
+
+			expect(transformed.behavior.type).toBe(toTransform.behavior.type);
+			expect(transformed.behavior.trigger.type).toBe(toTransform.behavior.trigger.type);
+			expect(transformed.behavior.trigger.cron).toBe(toTransform.behavior.trigger.cron);
+		});
+	});
+
 	describe("Kind property", () => {
 		it("should transform `kind=EDGE` correctly", () => {
 			const toTransform = {
