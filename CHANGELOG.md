@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.4](https://github.com/HugoMendes98/graph-flow/compare/v0.2.3...v0.2.4) (2023-09-23)
+
+
+### Bug Fixes
+
+* **node-behavior:** correct partial nested for `node-behavior` ([5a6d201](https://github.com/HugoMendes98/graph-flow/commit/5a6d201ecd809982a2f454ebf5f2880b03d4df56))
+
+
+### Code Refactors
+
+* **node-behavior:** flatten "parameters" dto and entities ([f3edddd](https://github.com/HugoMendes98/graph-flow/commit/f3eddddd57d837b179faabf376a6eb556dec5ecf))
+
 ## [0.2.3](https://github.com/HugoMendes98/graph-flow/compare/v0.2.2...v0.2.3) (2023-09-22)
 
 
