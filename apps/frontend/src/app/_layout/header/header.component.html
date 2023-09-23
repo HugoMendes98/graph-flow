@@ -24,14 +24,14 @@
 		<mat-icon>person</mat-icon>
 
 		<mat-menu #userMenu="matMenu">
-			<span disabled mat-menu-item>{{ user.email }}</span>
+			<span disabled mat-menu-item>{{ user | userDisplayName }}</span>
 
 			<mat-divider />
 
-			<a mat-menu-item routerLink="/auth/profile">
+			<button mat-menu-item type="button" (click)="openProfile(user)">
 				<mat-icon>account_circle</mat-icon>
-				<span translate>layout.header.profile</span>
-			</a>
+				<span translate>dialogs.profile.title</span>
+			</button>
 
 			<button mat-menu-item type="button" (click)="handleLogout()">
 				<mat-icon color="warn">logout</mat-icon>

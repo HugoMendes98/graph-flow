@@ -1,0 +1,42 @@
+<h2 mat-dialog-title translate>dialogs.profile.title</h2>
+
+<div mat-dialog-content>
+	<h4>{{ user | userDisplayName }}</h4>
+
+	<form class="flex flex-col gap-2" (ngSubmit)="requestStateUpdate$.request(form.value)">
+		<mat-form-field class="">
+			<mat-label translate>entities.user.email</mat-label>
+			<input matInput readonly [value]="user.email" />
+		</mat-form-field>
+
+		<div class="flex flex-row flex-wrap gap-x-2 gap-y-2">
+			<mat-form-field class="flex-1 user-names">
+				<mat-label translate>entities.user.firstname</mat-label>
+				<input matInput [formControl]="form.controls.firstname" />
+			</mat-form-field>
+
+			<mat-form-field class="flex-1 user-names">
+				<mat-label translate>entities.user.lastname</mat-label>
+				<input matInput [formControl]="form.controls.lastname" />
+			</mat-form-field>
+		</div>
+
+		<div class="flex justify-c-end px-4">
+			<button class="px-8" color="primary" mat-raised-button type="submit">
+				{{ "actions.update" | translate }}
+			</button>
+		</div>
+	</form>
+
+	<p>
+		{{ "dialogs.profile.user-created._1" | translate
+		}}<span class="font-italic">{{
+			user._created_at | date : ("formats.date" | translate)
+		}}</span
+		>{{ "dialogs.profile.user-created._2" | translate }}
+	</p>
+</div>
+
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close type="button">{{ "actions.close" | translate }}</button>
+</div>

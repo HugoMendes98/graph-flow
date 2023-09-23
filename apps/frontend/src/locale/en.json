@@ -1,13 +1,24 @@
 {
 	"actions": {
+		"close": "Close",
 		"login": "Login",
 		"logout": "Logout",
-		"ok": "Ok"
+		"ok": "Ok",
+		"update": "Update"
 	},
 	"components": {
 		"login": {
 			"login-fail": "The identification failed.",
 			"title": "Login"
+		}
+	},
+	"dialogs": {
+		"profile": {
+			"title": "Profile",
+			"user-created": {
+				"_1": "Your user was created the ",
+				"_2": "."
+			}
 		}
 	},
 	"entities": {
@@ -18,6 +29,8 @@
 		},
 		"user": {
 			"email": "Email",
+			"firstname": "First name",
+			"lastname": "Last name",
 			"password": "Password"
 		},
 		"workflow": {
@@ -33,6 +46,11 @@
 			"generic": "A network error occurred."
 		}
 	},
+	"formats": {
+		"date": "YYYY MM dd",
+		"datetime": "YYYY MM dd HH:mm:ss",
+		"time": "HH:mm:ss"
+	},
 	"interceptors": {
 		"auth": {
 			"redirect": {
@@ -41,17 +59,12 @@
 			}
 		}
 	},
-	"layout": {
-		"header": {
-			"profile": "Profile"
-		}
-	},
 	"views": {
 		"login": {
 			"being-redirected": "You are being redirected.",
 			"hello-user": {
-				"1": "Hello ",
-				"2": "!"
+				"_1": "Hello ",
+				"_2": "!"
 			}
 		}
 	}
