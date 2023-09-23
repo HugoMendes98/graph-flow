@@ -3,9 +3,9 @@ import { Expose, Type as TypeTransformer } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 
 import {
+	NODE_KIND_DISCRIMINATOR_KEY,
 	NODE_KIND_UPDATE_DTOS,
 	NodeKindBaseDto,
-	NodeKindDiscriminatorKey,
 	NodeKindUpdateDto
 } from "./kind";
 import { NodeCreateDto } from "./node.create.dto";
@@ -21,7 +21,7 @@ export class NodeUpdateDto extends PartialType(OmitType(NodeCreateDto, ["behavio
 	@IsOptional()
 	@TypeTransformer(() => NodeKindBaseDto, {
 		discriminator: {
-			property: "type" satisfies NodeKindDiscriminatorKey,
+			property: NODE_KIND_DISCRIMINATOR_KEY,
 			subTypes: NODE_KIND_UPDATE_DTOS.slice()
 		},
 		keepDiscriminatorProperty: true
