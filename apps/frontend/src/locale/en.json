@@ -22,6 +22,10 @@
 		}
 	},
 	"entities": {
+		"entity": {
+			"created_at": "Created at",
+			"id": "Id"
+		},
 		"node": {
 			"__meta": {
 				"plural": "Nodes"
@@ -36,7 +40,9 @@
 		"workflow": {
 			"__meta": {
 				"plural": "Workflows"
-			}
+			},
+			"active": "Active",
+			"name": "Name"
 		}
 	},
 	"errors": {
@@ -47,8 +53,8 @@
 		}
 	},
 	"formats": {
-		"date": "YYYY MM dd",
-		"datetime": "YYYY MM dd HH:mm:ss",
+		"date": "YYYY.MM.dd",
+		"datetime": "YYYY.MM.dd HH:mm:ss",
 		"time": "HH:mm:ss"
 	},
 	"interceptors": {

@@ -1,0 +1,16 @@
+<div
+	class="align-i-center flex flex-row gap-1"
+	role="button"
+	tabindex
+	[class.cursor-pointer]="!!updateDirection"
+	(click)="handleClick()"
+	(keydown.enter)="handleClick()"
+>
+	<ng-content [select]="contentChild" />
+
+	<ui-list-sort-icon
+		*ngIf="sortColumns && sortColumns.findIndexByColumn(column) as column"
+		[direction]="column.item.direction"
+		[order]="column.position + 1"
+	/>
+</div>

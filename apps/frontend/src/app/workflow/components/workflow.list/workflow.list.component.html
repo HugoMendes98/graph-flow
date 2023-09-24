@@ -1,0 +1,65 @@
+<table mat-table [dataSource]="dataSource$">
+	<ng-container [matColumnDef]="COLUMNS_ALL[0]">
+		<th *matHeaderCellDef mat-header-cell>
+			<ui-list-table-header
+				[column]="COLUMNS_ALL[0]"
+				[sortColumns]="query?.sort"
+				[updateDirection]="nextDirection"
+				(sort)="handleSort($event)"
+			>
+				<span translate>entities.entity.id</span>
+			</ui-list-table-header>
+		</th>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{ row._id }}</td>
+	</ng-container>
+
+	<ng-container [matColumnDef]="COLUMNS_ALL[1]">
+		<th *matHeaderCellDef mat-header-cell>
+			<ui-list-table-header
+				[column]="COLUMNS_ALL[1]"
+				[sortColumns]="query?.sort"
+				[updateDirection]="nextDirection"
+				(sort)="handleSort($event)"
+			>
+				<span translate>entities.workflow.active</span>
+			</ui-list-table-header>
+		</th>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
+			<mat-icon *ngIf="row.active" color="accent">check</mat-icon>
+			<mat-icon *ngIf="!row.active" color="warn">cancel</mat-icon>
+		</td>
+	</ng-container>
+
+	<ng-container [matColumnDef]="COLUMNS_ALL[2]">
+		<th *matHeaderCellDef mat-header-cell>
+			<ui-list-table-header
+				[column]="COLUMNS_ALL[2]"
+				[sortColumns]="query?.sort"
+				[updateDirection]="nextDirection"
+				(sort)="handleSort($event)"
+			>
+				<span translate>entities.workflow.name</span>
+			</ui-list-table-header>
+		</th>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{ row.name }}</td>
+	</ng-container>
+
+	<ng-container [matColumnDef]="COLUMNS_ALL[3]">
+		<th *matHeaderCellDef mat-header-cell>
+			<ui-list-table-header
+				[column]="COLUMNS_ALL[3]"
+				[sortColumns]="query?.sort"
+				[updateDirection]="nextDirection"
+				(sort)="handleSort($event)"
+			>
+				<span translate>entities.entity.created_at</span>
+			</ui-list-table-header>
+		</th>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
+			{{ row._created_at | date : ("formats.date" | translate) }}
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="columns" mat-header-row></tr>
+	<tr *matRowDef="let row; columns: columns" mat-row></tr>
+</table>

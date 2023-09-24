@@ -221,7 +221,7 @@
 		"frontend:start:prod": "npm run frontend:start -- --prod",
 		"frontend:storybook": "nx storybook frontend",
 		"frontend:storybook:build": "nx storybook-build frontend",
-		"frontend:storybook:generate": "nx g @nx/angular:stories frontend --interactionTests",
+		"frontend:storybook:generate": "nx g @nx/angular:stories ng --interactionTests && nx g @nx/angular:stories frontend --interactionTests",
 		"frontend:storybook:test": "nx storybook-test frontend",
 		"frontend:storybook:test:watch": "npm run frontend:storybook:test -- --watch",
 		"frontend:test": "nx run frontend:test",
