@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/HugoMendes98/graph-flow/compare/v0.2.4...v0.2.5) (2023-09-24)
+
+
+### Bug Fixes
+
+* **node-behavior:** disable creation of node parameters from DTO ([0713436](https://github.com/HugoMendes98/graph-flow/commit/07134363acc526d84cde7cfe64a5cb4691f72d20))
+
 ## [0.2.4](https://github.com/HugoMendes98/graph-flow/compare/v0.2.3...v0.2.4) (2023-09-23)
 
 
