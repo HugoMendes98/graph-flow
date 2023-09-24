@@ -1,7 +1,12 @@
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 
-import { NodeBehaviorTriggerDto, NodeBehaviorVariableDto } from "./behaviors";
+import {
+	NodeBehaviorParameterInputDto,
+	NodeBehaviorParameterOutputDto,
+	NodeBehaviorTriggerDto,
+	NodeBehaviorVariableDto
+} from "./behaviors";
 import { NodeBehaviorType } from "./behaviors/node-behavior.type";
 import { NodeTriggerCronDto, NodeTriggerType } from "./behaviors/triggers";
 import { NodeKindEdgeDto, NodeKindTemplateDto } from "./kind";
@@ -52,6 +57,28 @@ describe("NodeCreateDto", () => {
 			expect(transformed.behavior.type).toBe(toTransform.behavior.type);
 			expect(transformed.behavior.trigger.type).toBe(toTransform.behavior.trigger.type);
 			expect(transformed.behavior.trigger.cron).toBe(toTransform.behavior.trigger.cron);
+		});
+
+		it("should fail when creating PARAMETER nodes", async () => {
+			const nodeIn: NodeCreateDto = {
+				behavior: { __node_input: 1, type: NodeBehaviorType.PARAMETER_IN },
+				kind: { active: false, type: NodeKindType.TEMPLATE },
+				name: "node"
+			};
+
+			const transformedIn = plainToInstance(NodeCreateDto, nodeIn, transformOptions);
+			expect(transformedIn.behavior).not.toBeInstanceOf(NodeBehaviorParameterInputDto);
+			expect(await validate(transformedIn)).toHaveLength(1);
+
+			const nodeOut: NodeCreateDto = {
+				behavior: { __node_output: 1, type: NodeBehaviorType.PARAMETER_OUT },
+				kind: { active: false, type: NodeKindType.TEMPLATE },
+				name: "node"
+			};
+
+			const transformedOut = plainToInstance(NodeCreateDto, nodeOut, transformOptions);
+			expect(transformedOut.behavior).not.toBeInstanceOf(NodeBehaviorParameterOutputDto);
+			expect(await validate(transformedOut)).toHaveLength(1);
 		});
 	});
 
