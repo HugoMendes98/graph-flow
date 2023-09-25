@@ -4,9 +4,10 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
+import { RouterModule } from "@angular/router";
 import { map, Observable } from "rxjs";
 import { Workflow } from "~/lib/common/app/workflow/endpoints";
-import { EntityFindResult } from "~/lib/common/endpoints";
+import { EntityFindQuery, EntityFindResult } from "~/lib/common/endpoints";
 import { MatCellDefDirective } from "~/lib/ng/lib/directives";
 import { ListSortIconComponent } from "~/lib/ng/lib/mat-list/components/list-sort-icon/list-sort-icon.component";
 import { ListTableHeaderComponent } from "~/lib/ng/lib/mat-list/components/list-table-header/list-table-header.component";
@@ -54,10 +55,22 @@ export interface WorkflowListQuery {
 		MatIconModule,
 		MatBadgeModule,
 		ListSortIconComponent,
-		ListTableHeaderComponent
+		ListTableHeaderComponent,
+		RouterModule
 	]
 })
 export class WorkflowListComponent implements OnChanges {
+	public static listQueryToApiQuery(query: WorkflowListQuery): EntityFindQuery<Workflow> {
+		const { sort = new ListSortColumns() } = query;
+
+		return { order: sort.columns.map(({ column, direction }) => ({ [column]: direction })) };
+	}
+
+	// TODO: loading/error state
+
+	/**
+	 * The data to display
+	 */
 	@Input({ required: true })
 	public state$!: Observable<
 		RequestStateWithSnapshot<EntityFindResult<Workflow>, HttpErrorResponse>
@@ -70,6 +83,9 @@ export class WorkflowListComponent implements OnChanges {
 	 */
 	@Input()
 	public columns: readonly WorkflowListColumn[] = WORKFLOW_LIST_COLUMNS.slice();
+
+	@Input()
+	public rowUrl?: (workflow: Workflow) => string;
 
 	/**
 	 * Custom query to show in the table.

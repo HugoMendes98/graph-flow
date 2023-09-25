@@ -61,5 +61,10 @@
 	</ng-container>
 
 	<tr *matHeaderRowDef="columns" mat-header-row></tr>
-	<tr *matRowDef="let row; columns: columns" mat-row></tr>
+	<tr
+		*matRowDef="let row; columns: columns"
+		mat-row
+		[ngClass]="{ 'cursor-pointer hover:bg-on-app-background': !!rowUrl }"
+		[routerLink]="rowUrl && rowUrl(row)"
+	></tr>
 </table>

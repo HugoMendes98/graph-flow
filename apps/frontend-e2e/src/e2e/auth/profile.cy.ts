@@ -24,7 +24,7 @@ describe("Profile", () => {
 
 		/* ==== Generated with Cypress Studio ==== */
 		cy.get(".mat-toolbar .mat-mdc-button-touch-target").click();
-		cy.get('[type="button"] > .mat-mdc-menu-item-text > span').click();
+		cy.get("[role=menu] > div > button:nth-of-type(2)").click();
 		/* ==== End Cypress Studio ==== */
 
 		cy.reload();
@@ -39,7 +39,7 @@ describe("Profile", () => {
 
 			/* ==== Generated with Cypress Studio ==== */
 			cy.get(".mat-toolbar .mat-mdc-button-touch-target").click();
-			cy.get(".cdk-focused > .mat-mdc-menu-item-text > span").click();
+			cy.get("[role=menu] > div > button:nth-of-type(1)").click();
 			/* ==== End Cypress Studio ==== */
 		});
 

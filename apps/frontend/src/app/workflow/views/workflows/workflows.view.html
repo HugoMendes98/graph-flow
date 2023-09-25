@@ -1,1 +1,7 @@
-<p>Workflows</p>
+<app-workflow-list
+	class="m-4"
+	[query]="listQuery()"
+	[rowUrl]="workflowUrl"
+	[state$]="workflowsState$"
+	(queryChange)="handleQueryChange($event)"
+/>

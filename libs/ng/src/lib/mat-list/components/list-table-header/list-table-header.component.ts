@@ -17,12 +17,12 @@ export class ListTableHeaderComponent<COLUMN extends number | string, ORDER exte
 	/**
 	 * Creates a {@link ListSortColumns}'s update
 	 *
-	 * @param ascFirst to set `ASC` before `DESC
+	 * @param descFirst to set `ASC` before `DESC
 	 * @returns Function to pass to a {@link ListSortColumns}'s update
 	 */
-	public static DEFAULT_NEXT_DIRECTION(ascFirst?: boolean) {
-		const order: ListSortOrderValueDefault[] = ["desc", "asc"];
-		const [first, second] = ascFirst ? order.slice().reverse() : order;
+	public static DEFAULT_NEXT_DIRECTION(descFirst?: boolean) {
+		const order: ListSortOrderValueDefault[] = ["asc", "desc"];
+		const [first, second] = descFirst ? order.slice().reverse() : order;
 
 		return (
 			direction: ListSortOrderValueDefault | false

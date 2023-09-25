@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
 
 import { WorkflowsView } from "./workflows.view";
 
@@ -8,7 +9,7 @@ describe("WorkflowsView", () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [WorkflowsView]
+			imports: [RouterTestingModule, WorkflowsView]
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(WorkflowsView);
