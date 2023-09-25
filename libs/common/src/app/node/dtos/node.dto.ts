@@ -1,11 +1,7 @@
 import { Type as TypeTransformer } from "class-transformer";
 import { IsString, MinLength, ValidateNested } from "class-validator";
 
-import {
-	NODE_BEHAVIOR_DISCRIMINATOR_KEY,
-	NodeBehaviorBaseDto
-} from "./behaviors/node-behavior.base.dto";
-import { NodeBehaviorDto, NODE_BEHAVIOR_DTOS } from "./behaviors/node-behavior.dto";
+import { NodeBehaviorDto } from "./behaviors/node-behavior.dto";
 import { NodeInputDto } from "./input/node-input.dto";
 import { NODE_KIND_DISCRIMINATOR_KEY, NodeKindBaseDto } from "./kind/node-kind.base.dto";
 import { NODE_KIND_DTOS, NodeKindDto } from "./kind/node-kind.dto";
@@ -36,14 +32,6 @@ export class NodeDto extends EntityDto {
 	 */
 	// FIXME: Find query with anything that is not in the base type will probably fail
 	@DtoProperty() // TODO: APIProperty with `anyOf`?
-	@TypeTransformer(() => NodeBehaviorBaseDto, {
-		discriminator: {
-			property: NODE_BEHAVIOR_DISCRIMINATOR_KEY,
-			subTypes: NODE_BEHAVIOR_DTOS.slice()
-		},
-		keepDiscriminatorProperty: true
-	})
-	@ValidateNested()
 	public readonly behavior!: NodeBehaviorDto;
 
 	/**

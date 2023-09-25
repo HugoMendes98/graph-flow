@@ -1,7 +1,7 @@
 import { EventArgs, EventSubscriber, Reference } from "@mikro-orm/core";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { GraphNode } from "~/lib/common/app/graph/endpoints";
-import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
+import { NodeCreateDto, NodeDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { EntityId } from "~/lib/common/dtos/entity";
@@ -29,12 +29,17 @@ import {
 	GraphNodeTriggerInWorkflowException
 } from "../graph/node/exceptions";
 
+/** Interface to create {@link NodeEntity} */
+export interface NodeCreateEntity
+	extends Omit<NodeCreateDto, "behavior">,
+		Pick<NodeDto, "behavior"> {}
+
 /**
  * Service to manages [nodes]{@link NodeEntity}.
  */
 @Injectable()
 export class NodeService
-	extends EntityService<NodeEntity, NodeCreateDto, NodeUpdateDto>
+	extends EntityService<NodeEntity, NodeCreateEntity, NodeUpdateDto>
 	implements EventSubscriber<NodeEntity>
 {
 	/**
@@ -138,7 +143,7 @@ export class NodeService
 	}
 
 	public override async create<P extends EntitiesToPopulate<NodeEntity>>(
-		toCreate: NodeCreateDto,
+		toCreate: NodeCreateEntity,
 		options?: EntityServiceCreateOptions<NodeEntity, P>
 	): Promise<EntityLoaded<NodeEntity, P>> {
 		return super.create(toCreate, options).then(async created => {

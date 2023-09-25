@@ -20,9 +20,8 @@ import { DiscriminatedType } from "../../../../types";
 export const NODE_BEHAVIOR_DTOS = [
 	{ name: NodeBehaviorType.CODE, value: NodeBehaviorCodeDto },
 	{ name: NodeBehaviorType.FUNCTION, value: NodeBehaviorFunctionDto },
-	// It is not possible to create parameters from DTO
-	// { name: NodeBehaviorType.PARAMETER_IN, value: NodeBehaviorParameterInputDto },
-	// { name: NodeBehaviorType.PARAMETER_OUT, value: NodeBehaviorParameterOutputDto },
+	{ name: NodeBehaviorType.PARAMETER_IN, value: NodeBehaviorParameterInputDto },
+	{ name: NodeBehaviorType.PARAMETER_OUT, value: NodeBehaviorParameterOutputDto },
 	{ name: NodeBehaviorType.REFERENCE, value: NodeBehaviorReferenceDto },
 	{ name: NodeBehaviorType.TRIGGER, value: NodeBehaviorTriggerDto },
 	{ name: NodeBehaviorType.VARIABLE, value: NodeBehaviorVariableDto }
