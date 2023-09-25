@@ -40,7 +40,16 @@ jobs:
         run: npm run test:ci
 
       - name: Tests e2e
-        run: npm run test:e2e -- --no-video
+        run: npm run test:e2e -- --video
+
+      - name: Upload Cypress artifacts in case of error
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          if-no-files-found: warn
+          name: cypress-logs
+          path: dist/cypress/apps/frontend-e2e/
+          retention-days: 7
 
       - name: Comments coverage
         run: npm run compodoc:coverage
