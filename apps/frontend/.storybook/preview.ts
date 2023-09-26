@@ -1,5 +1,6 @@
 import { importProvidersFrom } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterTestingModule } from "@angular/router/testing";
 import { setCompodocJson } from "@storybook/addon-docs/angular";
 import { applicationConfig, Preview } from "@storybook/angular";
 import { ApiTestingModule } from "~/lib/ng/lib/api/testing";
@@ -13,7 +14,12 @@ export default {
 	decorators: [
 		applicationConfig({
 			providers: [
-				importProvidersFrom(ApiTestingModule, AppTranslationModule, BrowserAnimationsModule)
+				importProvidersFrom(
+					ApiTestingModule,
+					AppTranslationModule,
+					BrowserAnimationsModule,
+					RouterTestingModule
+				)
 			]
 		})
 	],

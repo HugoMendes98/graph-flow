@@ -4,7 +4,7 @@
 	<h4>{{ user | userDisplayName }}</h4>
 
 	<form class="flex flex-col gap-2" (ngSubmit)="requestStateUpdate$.request(form.value)">
-		<mat-form-field class="">
+		<mat-form-field>
 			<mat-label translate>entities.user.email</mat-label>
 			<input matInput readonly [value]="user.email" />
 		</mat-form-field>

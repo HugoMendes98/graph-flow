@@ -57,8 +57,8 @@ export class ProfileDialog {
 		config?: Omit<MatDialogConfig, "data">
 	) {
 		return matDialog.open<ProfileDialog, unknown, ProfileDialogResult>(ProfileDialog, {
-			data,
-			...config
+			...config,
+			data
 		});
 	}
 

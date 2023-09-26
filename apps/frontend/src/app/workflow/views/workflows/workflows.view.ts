@@ -1,7 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, signal } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatDialog } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
-import { filter, Subscription } from "rxjs";
+import { filter, lastValueFrom, Subscription } from "rxjs";
 import { Workflow } from "~/lib/common/app/workflow/endpoints";
 import { isOrderValue, OrderValue } from "~/lib/common/endpoints";
 import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
@@ -10,6 +14,7 @@ import {
 	ListSortOrderValueDefault
 } from "~/lib/ng/lib/mat-list/list-sort.columns";
 import { RequestStateSubject } from "~/lib/ng/lib/request-state";
+import { TranslationModule } from "~/lib/ng/lib/translation";
 
 import {
 	WorkflowListColumn,
@@ -30,7 +35,14 @@ type WorkflowsViewQueryParam = WorkflowsViewQueryParamSort;
 	styleUrls: ["./workflows.view.scss"],
 	templateUrl: "./workflows.view.html",
 
-	imports: [CommonModule, WorkflowListComponent]
+	imports: [
+		CommonModule,
+		WorkflowListComponent,
+		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
+		TranslationModule
+	]
 })
 export class WorkflowsView implements OnInit, OnDestroy {
 	protected readonly workflowsState$ = new RequestStateSubject(
@@ -53,11 +65,13 @@ export class WorkflowsView implements OnInit, OnDestroy {
 	 * @param workflowApi injected
 	 * @param router injected
 	 * @param activatedRoute injected
+	 * @param matDialog injected
 	 */
 	public constructor(
 		private readonly workflowApi: WorkflowApiService,
 		private readonly router: Router,
-		private readonly activatedRoute: ActivatedRoute
+		private readonly activatedRoute: ActivatedRoute,
+		private readonly matDialog: MatDialog
 	) {}
 
 	/** @inheritDoc */
@@ -86,6 +100,23 @@ export class WorkflowsView implements OnInit, OnDestroy {
 	/** @internal */
 	protected workflowUrl({ _id }: Workflow) {
 		return `/workflows/${_id}`;
+	}
+
+	/**
+	 * Open the create dialog
+	 */
+	protected async openCreateDialog() {
+		const { WorkflowCreateDialog } = await import(
+			"../../dialogs/workflow-create.dialog/workflow-create.dialog"
+		);
+
+		await lastValueFrom(WorkflowCreateDialog.open(this.matDialog).afterClosed()).then(
+			result => {
+				if (result) {
+					void this.router.navigateByUrl(this.workflowUrl(result.created));
+				}
+			}
+		);
 	}
 
 	/**

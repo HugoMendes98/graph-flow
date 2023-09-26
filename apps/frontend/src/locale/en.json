@@ -1,6 +1,7 @@
 {
 	"actions": {
 		"close": "Close",
+		"create": "Create",
 		"login": "Login",
 		"logout": "Logout",
 		"ok": "Ok",
@@ -19,6 +20,10 @@
 				"_1": "Your user was created the ",
 				"_2": "."
 			}
+		},
+		"workflow-create": {
+			"name-unique": "The name must be unique",
+			"title": "Create a workflow"
 		}
 	},
 	"entities": {
@@ -72,6 +77,9 @@
 				"_1": "Hello ",
 				"_2": "!"
 			}
+		},
+		"workflows": {
+			"subtitle": "List, view and edit workflows"
 		}
 	}
 }
