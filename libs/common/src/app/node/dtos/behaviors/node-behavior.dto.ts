@@ -41,6 +41,7 @@ export type NodeBehaviorDto =
 	| InstanceType<(typeof NODE_BEHAVIOR_DTOS)[number]["value"]>
 	| NodeBehaviorParameterInputDto
 	| NodeBehaviorParameterOutputDto;
+
 /**
  * The union type of all "update-behavior"s
  */

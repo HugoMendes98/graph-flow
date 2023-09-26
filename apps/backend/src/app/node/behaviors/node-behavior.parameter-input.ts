@@ -4,7 +4,7 @@ import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-beha
 
 import { NodeBehaviorBase } from "./node-behavior.base";
 import { ManyToOneFactory } from "../../_lib/entity/decorators";
-import { NodeInputEntity } from "../input";
+import { NodeInputEntity } from "../input/node-input.entity";
 
 /** @internal */
 const InputProperty = ManyToOneFactory(() => NodeInputEntity, {

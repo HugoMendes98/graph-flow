@@ -8,11 +8,11 @@ import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
 
 import { NodeReadonlyKindTypeException } from "./exceptions";
-import { NodeInputRepository } from "./input";
+import { NodeInputRepository } from "./input/node-input.repository";
 import { NodeKindEdgeEntity } from "./kind";
 import { NodeModule } from "./node.module";
 import { NodeService } from "./node.service";
-import { NodeOutputRepository } from "./output";
+import { NodeOutputRepository } from "./output/node-output.repository";
 import { PositionEmbeddable } from "./position.embeddable";
 import { DbTestHelper } from "../../../test/db-test";
 import { OrmModule } from "../../orm/orm.module";

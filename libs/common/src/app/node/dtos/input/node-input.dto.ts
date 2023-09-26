@@ -18,7 +18,7 @@ export class NodeInputDto extends EntityDto {
 	public readonly __node!: EntityId;
 
 	/**
-	 * When the node is a reference, the input is linked to an ref input
+	 * When the node is a reference, the input is linked to a ref input
 	 */
 	@DtoProperty({ nullable: true, type: () => Number })
 	public readonly __ref!: EntityId | null;

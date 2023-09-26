@@ -10,11 +10,13 @@ import { FindResultsDto } from "~/lib/common/dtos/find-results.dto";
 import { EntitiesToPopulate, EntityFilter, EntityFindParams } from "~/lib/common/endpoints";
 
 import { NodeReadonlyKindTypeException } from "./exceptions";
-import { NodeInputEntity, NodeInputCreate } from "./input";
+import { NodeInputEntity } from "./input/node-input.entity";
+import { NodeInputCreate } from "./input/node-input.types";
 import { NODE_KIND_ENTITIES, NodeKindEntity } from "./kind";
 import { NodeEntity } from "./node.entity";
 import { NodeRepository } from "./node.repository";
-import { NodeOutputEntity, NodeOutputCreate } from "./output";
+import { NodeOutputEntity } from "./output/node-output.entity";
+import { NodeOutputCreate } from "./output/node-output.types";
 import {
 	EntityLoaded,
 	EntityService,
