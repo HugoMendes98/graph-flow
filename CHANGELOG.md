@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.6](https://github.com/HugoMendes98/graph-flow/compare/v0.2.5...v0.2.6) (2023-09-26)
+
+
+### Bug Fixes
+
+* **api:** add `Boolean` as an orderable property ([e5784fa](https://github.com/HugoMendes98/graph-flow/commit/e5784fabfe2ef7126cc17530a64b1ea6d4107d3e))
+
 ## [0.2.5](https://github.com/HugoMendes98/graph-flow/compare/v0.2.4...v0.2.5) (2023-09-24)
 
 
