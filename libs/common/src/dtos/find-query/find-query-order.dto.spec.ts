@@ -29,6 +29,8 @@ describe("FindQueryOrderDto", () => {
 				type: () => String
 			})
 			public f!: string | null;
+			@DtoProperty()
+			public g!: boolean;
 		}
 
 		const FlatOrderDto = FindQueryOrderDtoOf(FlatDto);
@@ -38,7 +40,7 @@ describe("FindQueryOrderDto", () => {
 		it("should be valid", () => {
 			const orders: Array<InstanceType<typeof FlatOrderDto>> = [
 				{ a: "asc", b: "desc", c: "asc_nf", d: "desc_nf" },
-				{ e: "asc_nl", f: "desc_nl" },
+				{ e: "asc_nl", f: "desc_nl", g: "asc" },
 				{}
 			];
 
