@@ -39,7 +39,7 @@ export function FindQueryOrderDtoOf<T extends object>(dto: Type<T>): Type<Entity
 
 				// We suppose that Object is a union or a "bad" type definition
 				// undefined for null
-				if ([String, Date, Number, Object, undefined].includes(type as never)) {
+				if ([Boolean, String, Date, Number, Object, undefined].includes(type as never)) {
 					decorators.push(IsIn(OrderValues));
 				} else {
 					const nestedType = generateOrderClass(type);
