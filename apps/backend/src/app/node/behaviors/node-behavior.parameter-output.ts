@@ -2,9 +2,9 @@ import { Entity } from "@mikro-orm/core";
 import { NodeBehaviorParameterOutputDto } from "~/lib/common/app/node/dtos/behaviors";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 
-import { NodeBehaviorParameterBase } from "./node-behavior.parameter-base";
-import { ManyToOneFactory } from "../../../_lib/entity/decorators";
-import { NodeOutputEntity } from "../../output";
+import { NodeBehaviorBase } from "./node-behavior.base";
+import { ManyToOneFactory } from "../../_lib/entity/decorators";
+import { NodeOutputEntity } from "../output";
 
 /** @internal */
 const OutputProperty = ManyToOneFactory(() => NodeOutputEntity, {
@@ -17,7 +17,7 @@ const OutputProperty = ManyToOneFactory(() => NodeOutputEntity, {
  */
 @Entity({ discriminatorValue: NodeBehaviorType.PARAMETER_OUT })
 export class NodeBehaviorParameterOutput
-	extends NodeBehaviorParameterBase<NodeBehaviorType.PARAMETER_OUT>
+	extends NodeBehaviorBase<NodeBehaviorType.PARAMETER_OUT>
 	implements NodeBehaviorParameterOutputDto
 {
 	/** @inheritDoc */

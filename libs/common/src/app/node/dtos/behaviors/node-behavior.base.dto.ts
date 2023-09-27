@@ -2,6 +2,7 @@ import { IsEnum } from "class-validator";
 
 import { NodeBehaviorType } from "./node-behavior.type";
 import { DtoProperty } from "../../../../dtos/dto";
+import { omit } from "../../../../utils/object-fns";
 
 /**
  * Base behavior of any node
@@ -13,7 +14,7 @@ export abstract class NodeBehaviorBaseDto<T extends NodeBehaviorType = NodeBehav
 	 * It must be defined when extended.
 	 */
 	@DtoProperty()
-	@IsEnum(NodeBehaviorType)
+	@IsEnum(omit(NodeBehaviorType, ["PARAMETER_IN", "PARAMETER_OUT"]))
 	public readonly type!: T;
 }
 

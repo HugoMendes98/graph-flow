@@ -9,12 +9,12 @@ import { NodeExecutor } from "./node.executor";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
 import { GraphModule } from "../../graph/graph.module";
-import { NodeBehaviorTrigger } from "../behaviors/node-behavior.trigger";
 import {
 	NodeBehaviorParameterInput,
 	NodeBehaviorParameterOutput,
 	NodeBehaviorVariable
-} from "../behaviors/parameters";
+} from "../behaviors";
+import { NodeBehaviorTrigger } from "../behaviors/node-behavior.trigger";
 import { NodeModule } from "../node.module";
 import { NodeService } from "../node.service";
 

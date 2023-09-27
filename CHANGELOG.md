@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.2.6](https://github.com/HugoMendes98/graph-flow/compare/v0.2.5...v0.2.6) (2023-09-26)
+
+
+### Bug Fixes
+
+* **api:** add `Boolean` as an orderable property ([e5784fa](https://github.com/HugoMendes98/graph-flow/commit/e5784fabfe2ef7126cc17530a64b1ea6d4107d3e))
+
+## [0.2.5](https://github.com/HugoMendes98/graph-flow/compare/v0.2.4...v0.2.5) (2023-09-24)
+
+
+### Bug Fixes
+
+* **node-behavior:** disable creation of node parameters from DTO ([0713436](https://github.com/HugoMendes98/graph-flow/commit/07134363acc526d84cde7cfe64a5cb4691f72d20))
+
+## [0.2.4](https://github.com/HugoMendes98/graph-flow/compare/v0.2.3...v0.2.4) (2023-09-23)
+
+
+### Bug Fixes
+
+* **node-behavior:** correct partial nested for `node-behavior` ([5a6d201](https://github.com/HugoMendes98/graph-flow/commit/5a6d201ecd809982a2f454ebf5f2880b03d4df56))
+
+
+### Code Refactors
+
+* **node-behavior:** flatten "parameters" dto and entities ([f3edddd](https://github.com/HugoMendes98/graph-flow/commit/f3eddddd57d837b179faabf376a6eb556dec5ecf))
+
 ## [0.2.3](https://github.com/HugoMendes98/graph-flow/compare/v0.2.2...v0.2.3) (2023-09-22)
 
 
