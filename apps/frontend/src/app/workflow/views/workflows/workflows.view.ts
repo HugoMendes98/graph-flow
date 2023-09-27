@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
 import { filter, lastValueFrom, Subscription } from "rxjs";
@@ -40,6 +40,7 @@ type WorkflowsViewQueryParam = WorkflowsViewQueryParamSort;
 		WorkflowListComponent,
 		MatCardModule,
 		MatButtonModule,
+		MatDialogModule,
 		MatIconModule,
 		TranslationModule
 	]
