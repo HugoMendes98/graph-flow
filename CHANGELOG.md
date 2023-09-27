@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.0](https://github.com/HugoMendes98/graph-flow/compare/v0.2.6...v0.3.0) (2023-09-27)
+
+
+### Features
+
+* **profile:** add a dialog allowing to change the names of the connected user ([f8667eb](https://github.com/HugoMendes98/graph-flow/commit/f8667ebacf2223beacb66d7519ae4207f4222c58))
+* **views/workflows:** can create a workflow ([67c4ac9](https://github.com/HugoMendes98/graph-flow/commit/67c4ac9f9c996a011028c465cd85067ede2bf70f))
+* **views/workflows:** list all workflows with `sort` "filter" ([c1eacde](https://github.com/HugoMendes98/graph-flow/commit/c1eacde38be3c16db71e5256d6c614a9e44bbe28))
+
 ## [0.2.6](https://github.com/HugoMendes98/graph-flow/compare/v0.2.5...v0.2.6) (2023-09-26)
 
 
