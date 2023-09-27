@@ -158,6 +158,13 @@ export const BASE_SEED = {
 
 				_created_at: date1,
 				_updated_at: date1
+			},
+			{
+				// empty workflow 3
+				_id: 4,
+
+				_created_at: date1,
+				_updated_at: date1
 			}
 		],
 		nodes: [
@@ -890,6 +897,16 @@ export const BASE_SEED = {
 			__graph: 3,
 			active: false,
 			name: "Empty graph"
+		},
+		{
+			_id: 3,
+
+			_created_at: date1,
+			_updated_at: date1,
+
+			__graph: 4,
+			active: false,
+			name: "Empty graph 2"
 		}
 	]
 } as const satisfies MockSeed;

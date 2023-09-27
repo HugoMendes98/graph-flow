@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { TranslateTestingModule } from "ngx-translate-testing";
-import { ApiModule } from "~/lib/ng/lib/api";
 
 import { LoginView } from "./login.view";
 
@@ -11,12 +10,7 @@ describe("LoginView", () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [
-				ApiModule.forRoot({ client: { url: "" } }),
-				LoginView,
-				NoopAnimationsModule,
-				TranslateTestingModule.withTranslations({})
-			]
+			imports: [LoginView, NoopAnimationsModule, TranslateTestingModule.withTranslations({})]
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(LoginView);

@@ -8,7 +8,14 @@ const config: StorybookConfig = {
 	],
 	docs: { autodocs: true },
 	framework: { name: "@storybook/angular", options: {} },
-	stories: ["../src/app/**/*.stories.@(js|jsx|ts|tsx|mdx)"]
+	stories: [
+		"../src/app/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+		{
+			directory: "../../../libs/ng",
+			titlePrefix: "Ng"
+			// files: "./src/**/*.stories.@(js|jsx|ts|tsx|mdx)"
+		}
+	]
 };
 export default config;
 

@@ -56,7 +56,8 @@ export class AuthService {
 	 * @returns UrlTree for the login view
 	 */
 	public static createLoginUrlTree(router: Router, redirectUrl?: string) {
-		const queryParams: Pick<LoginView, "redirectUrl"> = redirectUrl ? { redirectUrl } : {};
+		const queryParams: Pick<LoginView, "redirectUrl"> =
+			redirectUrl && redirectUrl !== "/" ? { redirectUrl } : {};
 		return router.createUrlTree(["/auth/login"], { queryParams });
 	}
 
@@ -104,6 +105,15 @@ export class AuthService {
 	}
 
 	/**
+	 * Logs out the connected user
+	 *
+	 * @returns the updated state
+	 */
+	public logout() {
+		return this.apiService.logout().then(() => this.disconnectUser());
+	}
+
+	/**
 	 * Refreshes the current connection
 	 *
 	 * @returns the connected user
@@ -112,6 +122,20 @@ export class AuthService {
 		return this.apiService
 			.refresh({ cookie: true })
 			.then(success => this.onAuthSuccess(success));
+	}
+
+	/**
+	 * Disconnects user from the service.
+	 * No request made
+	 *
+	 * @returns the state after the "logout"
+	 */
+	public disconnectUser() {
+		const { user } = this.userState.getValue();
+
+		const state: AuthUserStateUnconnected = { user };
+		this.userState.next({ ...state, type: "unconnected" });
+		return state;
 	}
 
 	/**

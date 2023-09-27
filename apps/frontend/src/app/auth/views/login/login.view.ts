@@ -4,6 +4,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
+import { UserDto } from "~/lib/common/app/user/dtos";
 import { RequestStateSubject } from "~/lib/ng/lib/request-state/request-state.subject";
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
@@ -38,6 +39,12 @@ export class LoginView implements OnInit, OnDestroy {
 	);
 	protected loginState = this.loginState$.getValue();
 
+	/**
+	 * Is currently redirecting ?
+	 * If yes, the connected user is set
+	 */
+	protected redirecting: UserDto | false = false;
+
 	private readonly subscription = new Subscription();
 
 	/**
@@ -55,6 +62,13 @@ export class LoginView implements OnInit, OnDestroy {
 
 	/** @inheritDoc */
 	public ngOnInit() {
+		const state = this.service.userState$.getValue();
+		if (state.type === "connected") {
+			// Redirect to the profile if already connected
+			this.redirect(state.user, this.redirectUrl ?? "/auth/profile");
+			return;
+		}
+
 		this.subscription.add(this.loginState$.subscribe(state => (this.loginState = state)));
 	}
 	/** @inheritDoc */
@@ -70,16 +84,14 @@ export class LoginView implements OnInit, OnDestroy {
 	protected handleLoginSubmit(login: AuthLogin) {
 		this.loginState$
 			.request(login)
-			.then(() => {
-				setTimeout(
-					() =>
-						void this.router.navigateByUrl(this.redirectUrl ?? "/", {
-							replaceUrl: true
-						}),
-					1250
-				);
-			})
+			.then(({ user }) => this.redirect(user, this.redirectUrl))
 			// Avoid uncaught error in console
 			.catch(() => void 0);
+	}
+
+	private redirect(user: UserDto, redirectUrl = "/") {
+		this.redirecting = user;
+		// Some time to let the animation
+		setTimeout(() => void this.router.navigateByUrl(redirectUrl, { replaceUrl: true }), 1250);
 	}
 }

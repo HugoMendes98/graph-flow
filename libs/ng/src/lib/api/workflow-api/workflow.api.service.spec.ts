@@ -1,14 +1,14 @@
 import { TestBed } from "@angular/core/testing";
 
 import { WorkflowApiService } from "./workflow.api.service";
-import { ApiModule } from "../api.module";
+import { ApiTestingModule } from "../testing";
 
 describe("WorkflowApiService", () => {
 	let service: WorkflowApiService;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			imports: [ApiModule.forRoot({ client: { url: "" } })]
+			imports: [ApiTestingModule]
 		});
 		service = TestBed.inject(WorkflowApiService);
 	});
