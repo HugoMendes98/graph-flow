@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.1](https://github.com/HugoMendes98/graph-flow/compare/v0.3.0...v0.3.1) (2023-09-29)
+
+
+### Bug Fixes
+
+* **api/query:** correct `order` and `where` for discriminated types ([3df2437](https://github.com/HugoMendes98/graph-flow/commit/3df2437de645addbee855dc5bced0522b5fb0b03))
+* **api:** set back stricter query validation (no extraneous values) ([0c55926](https://github.com/HugoMendes98/graph-flow/commit/0c55926957be6fcf783e731287dc9b8a2c648544))
+
 ## [0.3.0](https://github.com/HugoMendes98/graph-flow/compare/v0.2.6...v0.3.0) (2023-09-27)
 
 
