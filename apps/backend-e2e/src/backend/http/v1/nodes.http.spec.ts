@@ -1,6 +1,6 @@
 import { DbE2eHelper } from "~/app/backend/e2e/db-e2e/db-e2e.helper";
 import { NodeHttpClient } from "~/app/backend/e2e/http/clients/node.http-client";
-import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
+import { NodeCreateDto, NodeQueryDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeKindEdgeDto } from "~/lib/common/app/node/dtos/kind";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
@@ -18,6 +18,23 @@ describe("Backend HTTP Nodes", () => {
 
 		await dbHelper.refresh();
 		await client.setAuth(email, password);
+	});
+
+	describe("GET", () => {
+		it("should filter by kind type", async () => {
+			const type = NodeKindType.TEMPLATE;
+			const expected = db.graph.nodes.filter(({ kind }) => kind.type === type);
+
+			const { data, pagination } = await client.findMany({
+				params: { where: { kind: { type } } } satisfies NodeQueryDto
+			});
+			expect(pagination.total).toBe(expected.length);
+
+			const expectedIds = expected.map(({ _id }) => _id).sort();
+			const dataIds = data.map(({ _id }) => _id).sort();
+
+			expect(dataIds).toStrictEqual(expectedIds);
+		});
 	});
 
 	describe("POST", () => {

@@ -6,7 +6,8 @@ import { transformOptions, validatorOptions } from "../../options";
 import { DtoProperty } from "../dto";
 
 describe("FindQueryWhereDto", () => {
-	const validate = (object: object) => validateSync(object, validatorOptions);
+	const validate = (object: object) =>
+		validateSync(object, { ...validatorOptions, forbidNonWhitelisted: true, whitelist: true });
 
 	describe("Validation on a flat DTO", () => {
 		class FlatDto {
@@ -78,7 +79,7 @@ describe("FindQueryWhereDto", () => {
 			};
 
 			const errors = validate(transform(where));
-			expect(errors).toHaveLength(3);
+			expect(errors).toHaveLength(4);
 
 			const errA = errors.find(
 				({ property }) => property === ("a" satisfies keyof FlatWhereDto)
@@ -86,20 +87,20 @@ describe("FindQueryWhereDto", () => {
 			const errD = errors.find(
 				({ property }) => property === ("d" satisfies keyof FlatWhereDto)
 			);
-			// const errE = errors.find(
-			// 	({ property }) => property === ("e" satisfies keyof FlatWhereDto)
-			// );
+			const errE = errors.find(
+				({ property }) => property === ("e" satisfies keyof FlatWhereDto)
+			);
 			const errF = errors.find(
 				({ property }) => property === ("f" satisfies keyof FlatWhereDto)
 			);
 			expect(errA).toBeDefined();
 			expect(errD).toBeDefined();
-			// expect(errE).toBeDefined();
+			expect(errE).toBeDefined();
 			expect(errF).toBeDefined();
 
 			expect(errA?.children?.[0].constraints).toHaveProperty(IS_NUMBER);
 			expect(errD?.children?.[0].constraints).toHaveProperty(IS_DATE);
-			// expect(errE?.children?.[0].constraints).toHaveProperty("whitelistValidation");
+			expect(errE?.children?.[0].constraints).toHaveProperty("whitelistValidation");
 			expect(errF?.children?.[0].constraints).toHaveProperty(IS_STRING);
 		});
 	});
@@ -136,8 +137,76 @@ describe("FindQueryWhereDto", () => {
 			];
 
 			for (const where of wheres) {
-				const errors = validateSync(transform(where));
+				const errors = validate(transform(where));
 				expect(errors).toHaveLength(0);
+			}
+		});
+	});
+
+	describe("Validation with discriminated types", () => {
+		abstract class NestedBase<T extends 1 | 2 | 3> {
+			@DtoProperty()
+			public type!: T;
+		}
+		class Nested1 extends NestedBase<1> {
+			@DtoProperty() public a!: string;
+			@DtoProperty() public bool!: boolean;
+		}
+		class Nested2 extends NestedBase<2> {
+			@DtoProperty() public b!: string;
+		}
+		class Nested3 extends NestedBase<3> {
+			@DtoProperty() public c!: string;
+		}
+
+		type Nested = Nested1 | Nested2 | Nested3;
+		class Dto {
+			@DtoProperty({
+				discriminator: {
+					property: "type",
+					subTypes: [
+						{ name: 1, value: Nested1 },
+						{ name: 2, value: Nested2 },
+						{ name: 3, value: Nested3 }
+					]
+				},
+				type: () => NestedBase
+			})
+			public nested!: Nested;
+		}
+
+		class NestedWhereDto extends FindQueryWhereDtoOf(Dto) {}
+		const transform = (object: object) =>
+			plainToInstance(NestedWhereDto, object, {
+				...transformOptions,
+				excludeExtraneousValues: false
+			});
+
+		it("should be valid", () => {
+			const wheres: NestedWhereDto[] = [
+				{ nested: { type: 1 } },
+				{ nested: { b: "a", type: 2 } },
+				{ nested: { c: { $ne: "v" }, type: 3 } },
+				{ nested: { type: { $ne: 2 } } }
+			];
+			for (const where of wheres) {
+				const errors = validate(transform(where));
+				expect(errors).toHaveLength(0);
+			}
+		});
+
+		it("should not be valid", () => {
+			const wheres: NestedWhereDto[] = [
+				// Wrong type TODO: as discriminated property with possible values?
+				{ nested: { type: 4 as never } },
+				{ nested: { c: { $ne: 1 as unknown as string }, type: 3 } },
+				// // Wrong discrimination
+				{ nested: { a: "a", type: 2 } },
+				{ nested: { c: "a", type: { $ne: 2 } } }
+			];
+			for (const where of wheres) {
+				const errors = validate(transform(where));
+				expect(errors).toHaveLength(1);
 			}
 		});
 	});

@@ -1,5 +1,4 @@
 import { IntersectionType, OmitType, PartialType, PickType } from "@nestjs/mapped-types";
-import { Type as TypeTransformer } from "class-transformer";
 import { ValidateNested } from "class-validator";
 
 import { NodeBehaviorBaseDto } from "./node-behavior.base.dto";
@@ -20,13 +19,12 @@ export class NodeBehaviorTriggerDto extends NodeBehaviorBaseDto<NodeBehaviorType
 	/**
 	 * The trigger behavior of the node
 	 */
-	@DtoProperty() // TODO: APIProperty with `anyOf`?
-	@TypeTransformer(() => NodeTriggerBaseDto, {
+	@DtoProperty({
 		discriminator: {
 			property: "type" satisfies NodeTriggerDiscriminatorKey,
 			subTypes: NODE_TRIGGER_DTOS.slice()
 		},
-		keepDiscriminatorProperty: true
+		type: () => NodeTriggerBaseDto
 	})
 	@ValidateNested()
 	public readonly trigger!: NodeTriggerDto;

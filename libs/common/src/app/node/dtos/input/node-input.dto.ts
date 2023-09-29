@@ -45,9 +45,6 @@ export class NodeInputDto extends EntityDto {
 	/**
 	 * Foreign data of the {@link NodeDto} it is connected
 	 */
-	@DtoProperty({
-		forwardRef: true,
-		type: () => NodeDto
-	})
+	@DtoProperty({ type: () => NodeDto })
 	public readonly node?: NodeDto;
 }

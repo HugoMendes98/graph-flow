@@ -44,7 +44,7 @@ export class WorkflowDto extends EntityDto {
 	/**
 	 * The data to the {@link GraphDto}
 	 */
-	@DtoProperty({ forwardRef: true, type: () => GraphDto })
+	@DtoProperty({ type: () => GraphDto })
 	public readonly graph?: GraphDto[][number];
 
 	// `GraphDto[][number]` hack for metadata circular dependency

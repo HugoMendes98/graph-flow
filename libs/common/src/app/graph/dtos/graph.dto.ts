@@ -14,10 +14,6 @@ export class GraphDto extends EntityDto {
 	/**
 	 * The possible linked workflow
 	 */
-	@DtoProperty({
-		forwardRef: true,
-		nullable: true,
-		type: () => WorkflowDto
-	})
+	@DtoProperty({ nullable: true, type: () => WorkflowDto })
 	public readonly workflow?: WorkflowDto | null;
 }

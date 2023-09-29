@@ -1,5 +1,7 @@
+autodocs
 autoincrement
 compodoc
+datetime
 dockerode
 dtos
 embeddable
@@ -10,4 +12,5 @@ jsonify
 lastname
 metatype
 mikro
+storysource
 styleguide

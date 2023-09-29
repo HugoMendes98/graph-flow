@@ -1,7 +1,14 @@
 import { Singleton } from "@heap-code/singleton";
 import type { Type } from "@nestjs/common";
 import { Expose, plainToInstance, Transform, Type as TypeTransformer } from "class-transformer";
-import { IsArray, isDateString, isObject, IsOptional, ValidateNested } from "class-validator";
+import {
+	IsArray,
+	isDateString,
+	isObject,
+	IsOptional,
+	NotEquals,
+	ValidateNested
+} from "class-validator";
 
 import {
 	WhereDateDto,
@@ -12,7 +19,119 @@ import {
 	WhereStringNullableDto
 } from "./where";
 import { EntityFilter, EntityFilterLogicalOperators } from "../../endpoints";
-import { dtoStorage } from "../dto";
+import { DtoPropertyOptions, dtoStorage, DtoType } from "../dto";
+
+export const UNKNOWN_DISCRIMINATED_TYPE = Symbol("unknown-type");
+
+// Gets the "base" DTO for a given type
+/** @internal */
+function getWhereDtoType(type: DtoType, options: DtoPropertyOptions<object> = {}) {
+	const { nullable } = options;
+
+	switch (type) {
+		case Date:
+			return nullable ? WhereDateNullableDto : WhereDateDto;
+		case Number:
+			return nullable ? WhereNumberNullableDto : WhereNumberDto;
+		case String:
+			return nullable ? WhereStringNullableDto : WhereStringDto;
+	}
+
+	// eslint-disable-next-line no-use-before-define -- created below
+	return generateWhereType(type, class NestedWhereDto {});
+}
+
+/** @internal */
+function transformWhereDto<T extends object>(
+	typeSingleton: Singleton<DtoType<T>>,
+	value: unknown,
+	options: DtoPropertyOptions<object> = {}
+): unknown {
+	if (value === undefined) {
+		return value;
+	}
+
+	// No need to get the type when undefined
+	const sourceType = typeSingleton.get();
+
+	// For "Primitive" types
+	switch (
+		!isObject(value) &&
+		(sourceType as unknown as typeof Date | typeof Number | typeof String)
+	) {
+		// Get back to this function with an object (for transformation)
+		case Date:
+			return transformWhereDto(
+				typeSingleton,
+				{
+					$eq: isDateString(value) ? new Date(value as string) : (value as never)
+				} satisfies WhereDateDto,
+				options
+			);
+		case Number:
+			return transformWhereDto(
+				typeSingleton,
+				{ $eq: value === null ? null : +value } satisfies WhereNumberNullableDto,
+				options
+			);
+		case String:
+			return transformWhereDto(
+				typeSingleton,
+				{ $eq: value as string } satisfies WhereStringDto,
+				options
+			);
+
+		case false:
+			break;
+	}
+
+	const { discriminator } = options;
+	if (value !== null && discriminator) {
+		const { property, subTypes } = discriminator;
+		const discriminatedProperty = value[property];
+		const propertyType = typeof discriminatedProperty;
+
+		// Only narrow type if the discriminator is "usable"
+		if (propertyType === "boolean" || propertyType === "number" || propertyType === "string") {
+			const subType = subTypes.find(({ name }) => name === discriminatedProperty);
+			if (subType) {
+				return plainToInstance(getWhereDtoType(subType.value), value);
+			}
+
+			return UNKNOWN_DISCRIMINATED_TYPE;
+		}
+	}
+
+	return plainToInstance(getWhereDtoType(sourceType, options), value);
+}
+
+/** @internal */
+function generateWhereType(source: DtoType, target: Type<unknown>) {
+	for (const key of dtoStorage.getPropertyKeys(source)) {
+		const type = new Singleton(() =>
+			dtoStorage.getPropertyType(source.prototype as Type<unknown>, key)
+		);
+		const options = dtoStorage.getPropertyOptions(source.prototype as Type<unknown>, key);
+
+		Reflect.decorate(
+			[
+				Expose(),
+				IsOptional(),
+				Transform(({ key, obj }) =>
+					transformWhereDto(type, (obj as Record<string, unknown>)[key], options)
+				),
+				NotEquals(UNKNOWN_DISCRIMINATED_TYPE, {
+					message: "The discriminated type was not determined"
+				}),
+				ValidateNested()
+			],
+			target.prototype as object,
+			key
+		);
+	}
+
+	return target;
+}
 
 /**
  * Generates a [EntityFilter]{@link EntityFilter}
@@ -44,112 +163,6 @@ export function FindQueryWhereDtoOf<T extends object>(dto: Type<T>): Type<Entity
 		public $or?;
 	}
 
-	const generateClass = (source: Type<unknown>, target: Type<unknown>) => {
-		const keys = dtoStorage.getPropertyKeys(source);
-
-		for (const key of keys) {
-			const decorators: PropertyDecorator[] = [Expose(), IsOptional()];
-
-			if (dtoStorage.getPropertyOptions(source.prototype as Type<unknown>, key)?.forwardRef) {
-				const singleton = new Singleton(() =>
-					generateClass(
-						dtoStorage.getPropertyType(source.prototype as Type<unknown>, key),
-						// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- class constructed in the function
-						class NestedWhereDto {}
-					)
-				);
-
-				decorators.push(
-					TypeTransformer(() => singleton.get()),
-					ValidateNested()
-				);
-			} else {
-				const type = dtoStorage.getPropertyType(source.prototype as Type<unknown>, key);
-				const { nullable } =
-					dtoStorage.getPropertyOptions(source.prototype as Type<unknown>, key) ?? {};
-
-				if ([Date, Number, String].includes(type as never)) {
-					decorators.push(IsOptional(), ValidateNested());
-
-					switch (type) {
-						case Date: {
-							const classType = nullable ? WhereDateNullableDto : WhereDateDto;
-							decorators.push(
-								Transform(({ key, obj, value }) => {
-									if (isObject(value)) {
-										// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Given object is an object (already transformed, but empty)
-										return plainToInstance(classType, obj[key]);
-									}
-
-									if (value === undefined) {
-										return undefined;
-									}
-
-									return plainToInstance(classType, {
-										$eq: isDateString(value)
-											? new Date(value as string)
-											: (value as never)
-									} satisfies WhereDateDto);
-								})
-							);
-							break;
-						}
-						case Number: {
-							const classType = nullable ? WhereNumberNullableDto : WhereNumberDto;
-							decorators.push(
-								Transform(({ key, obj, value }) => {
-									if (isObject(value)) {
-										// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Given object is an object (already transformed, but empty)
-										return plainToInstance(classType, obj[key]);
-									}
-
-									if (value === undefined) {
-										return undefined;
-									}
-
-									return plainToInstance(classType, {
-										$eq: value === null ? null : +value
-									} satisfies WhereNumberNullableDto);
-								})
-							);
-							break;
-						}
-						case String: {
-							const classType = nullable ? WhereStringNullableDto : WhereStringDto;
-							decorators.push(
-								Transform(({ key, obj, value }) => {
-									if (isObject(value)) {
-										// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- Given object is an object (already transformed, but empty)
-										return plainToInstance(classType, obj[key]);
-									}
-
-									if (value === undefined) {
-										return undefined;
-									}
-
-									return plainToInstance(classType, {
-										$eq: value as string
-									} satisfies WhereStringDto);
-								})
-							);
-							break;
-						}
-					}
-				} else {
-					// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- class constructed in the function
-					const nestedType = generateClass(type, class NestedWhereDto {});
-					decorators.push(
-						TypeTransformer(() => nestedType),
-						ValidateNested()
-					);
-				}
-			}
-
-			Reflect.decorate(decorators, target.prototype as object, key);
-		}
-
-		return target;
-	};
-
-	return generateClass(dto, WhereDto) as never;
+	Object.defineProperty(WhereDto, "name", { value: `${WhereDto.name}${dto.name}` });
+	return generateWhereType(dto, WhereDto) as never;
 }

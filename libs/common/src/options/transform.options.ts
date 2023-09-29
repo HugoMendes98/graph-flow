@@ -7,7 +7,8 @@ import { ClassTransformOptions } from "class-transformer";
 export const transformOptions = Object.freeze<ClassTransformOptions>({
 	// Do not activate or too much data will be converted (example in query params)
 	enableImplicitConversion: false,
-	excludeExtraneousValues: true,
+	// So `class-validator` fails for unknown properties
+	// excludeExtraneousValues: true,
 	exposeUnsetFields: false,
 	strategy: "excludeAll"
 });
