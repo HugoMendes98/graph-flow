@@ -1,6 +1,6 @@
 // This is highly inspired by tailwind (https://tailwindcss.com/)
 
-@mixin base($spacing, $prefix: "", $pseudo: "") {
+@mixin base($spacing, $colors: (), $prefix: "", $pseudo: "") {
 	$prefix: if($prefix == "", "", "#{$prefix}\\:");
 	$pseudo: if($pseudo == "", "", ":#{$pseudo}");
 
@@ -253,5 +253,11 @@
 
 	.#{$prefix}color-black#{$pseudo} {
 		color: #1c1c1e;
+	}
+
+	@each $name, $value in $colors {
+		.#{$prefix}bg-#{$name}#{$pseudo} {
+			background-color: $value;
+		}
 	}
 }

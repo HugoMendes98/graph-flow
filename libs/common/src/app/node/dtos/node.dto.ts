@@ -1,4 +1,3 @@
-import { Type as TypeTransformer } from "class-transformer";
 import { IsString, MinLength, ValidateNested } from "class-validator";
 
 import { NodeBehaviorDto } from "./behaviors/node-behavior.dto";
@@ -31,19 +30,25 @@ export class NodeDto extends EntityDto {
 	 * possible useful content should be extract and be available in the flatten node DTO.
 	 */
 	// FIXME: Find query with anything that is not in the base type will probably fail
-	@DtoProperty() // TODO: APIProperty with `anyOf`?
+	@DtoProperty({
+		discriminator: {
+			property: NODE_BEHAVIOR_DISCRIMINATOR_KEY,
+			subTypes: NODE_BEHAVIOR_DTOS.slice()
+		},
+		type: () => NodeBehaviorBaseDto
+	})
+	@ValidateNested()
 	public readonly behavior!: NodeBehaviorDto;
 
 	/**
 	 * The kind of this node
 	 */
-	@DtoProperty()
-	@TypeTransformer(() => NodeKindBaseDto, {
+	@DtoProperty({
 		discriminator: {
 			property: NODE_KIND_DISCRIMINATOR_KEY,
 			subTypes: NODE_KIND_DTOS.slice()
 		},
-		keepDiscriminatorProperty: true
+		type: () => NodeKindBaseDto
 	})
 	@ValidateNested()
 	public readonly kind!: NodeKindDto;
@@ -55,22 +60,14 @@ export class NodeDto extends EntityDto {
 	 *
 	 * Automatically managed most of the time
 	 */
-	@DtoProperty({
-		array: true,
-		forwardRef: true,
-		type: () => NodeInputDto
-	})
+	@DtoProperty({ array: true, type: () => NodeInputDto })
 	public readonly inputs!: readonly NodeInputDto[];
 	/**
 	 * All [outputs]{@link NodeOutputDto} linked to this node.
 	 *
 	 * Automatically managed most of the time
 	 */
-	@DtoProperty({
-		array: true,
-		forwardRef: true,
-		type: () => NodeOutputDto
-	})
+	@DtoProperty({ array: true, type: () => NodeOutputDto })
 	public readonly outputs!: readonly NodeOutputDto[];
 
 	/**
@@ -78,10 +75,6 @@ export class NodeDto extends EntityDto {
 	 *
 	 * Note: Node is the owning side
 	 */
-	@DtoProperty({
-		array: true,
-		forwardRef: true,
-		type: () => CategoryDto
-	})
+	@DtoProperty({ array: true, type: () => CategoryDto })
 	public readonly categories?: readonly CategoryDto[];
 }

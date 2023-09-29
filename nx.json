@@ -42,7 +42,10 @@
 			"inputs": ["default", "^production"]
 		},
 		"lint": {
-			"inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+			"inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
+			"options": {
+				"maxWarnings": 15
+			}
 		},
 		"storybook-build": {
 			"inputs": [

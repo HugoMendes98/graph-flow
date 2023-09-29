@@ -53,7 +53,7 @@ class DtoStorage {
 	 * @throws DtoError when the source is undefined
 	 * @returns The know properties of the given class
 	 */
-	public getPropertyKeys(source: Type<unknown>): Set<DtoPropertyKey> {
+	public getPropertyKeys(source: DtoType): Set<DtoPropertyKey> {
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Can happen when reading a class with circular import.
 		if (source === null || source === undefined) {
 			throw new DtoError(
@@ -85,20 +85,6 @@ class DtoStorage {
 	}
 
 	/**
-	 * Validates the given options.
-	 * No type test when the [forwardRef]{@link forwardRef} options is set.
-	 *
-	 * @param options The options to validate
-	 * @throws DtoError
-	 */
-	public validatePropertyOptions(options?: DtoPropertyOptions) {
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Wrong type definition
-		if (options?.type && !options.forwardRef && !options.type()) {
-			throw new DtoError("Can do nothing with a `null` only type.");
-		}
-	}
-
-	/**
 	 * Store data for property.
 	 *
 	 * @param target The target to store the metadata
@@ -122,21 +108,30 @@ class DtoStorage {
 	 * @throws DtoError
 	 * @returns The type found for the property
 	 */
-	public getPropertyType(source: Type<unknown>, propertyKey: DtoPropertyKey): DtoType {
+	public getPropertyType<T = object>(
+		source: Type<unknown>,
+		propertyKey: DtoPropertyKey
+	): DtoType<T> {
 		const options = this.getPropertyOptions(source, propertyKey);
 
 		if (options?.type) {
-			return options.type();
+			// TODO: a way to get from the class-transformer directly or use the DtoDecorator to set class-transformer
+			const forwardType = options.type();
+			if (forwardType === null) {
+				throw new DtoError("Can do nothing with a `null` only type or unknown type.");
+			}
+
+			return forwardType;
 		}
 
-		const type = Reflect.getMetadata("design:type", source, propertyKey) as
+		const metadataType = Reflect.getMetadata("design:type", source, propertyKey) as
 			| Type<unknown>
 			| undefined;
-		if (type === undefined) {
+		if (metadataType === undefined) {
 			throw new DtoError("Can do nothing with a `null` only type or unknown type.");
 		}
 
-		return type;
+		return metadataType as DtoType<T>;
 	}
 
 	/**
@@ -144,9 +139,12 @@ class DtoStorage {
 	 * @param propertyKey The key of the property to search
 	 * @returns The Option, if found,
 	 */
-	public getPropertyOptions(source: Type<unknown>, propertyKey: DtoPropertyKey) {
+	public getPropertyOptions<T = never, P extends Extract<keyof T, string> = never>(
+		source: Type<unknown>,
+		propertyKey: DtoPropertyKey
+	) {
 		return Reflect.getMetadata(this.META_INFO, source, propertyKey) as
-			| DtoPropertyOptions
+			| DtoPropertyOptions<T, P>
 			| undefined;
 	}
 }

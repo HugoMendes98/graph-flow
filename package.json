@@ -18,6 +18,7 @@
 		"@angular/platform-browser": "16.2.3",
 		"@angular/platform-browser-dynamic": "16.2.3",
 		"@angular/router": "16.2.3",
+		"@colsen1991/ngx-translate-extract-marker": "^2.0.8",
 		"@heap-code/concurrency-synchronization": "^1.0.1",
 		"@heap-code/singleton": "^1.1.1",
 		"@mikro-orm/cli": "^5.7.14",
@@ -220,7 +221,7 @@
 		"frontend:start:prod": "npm run frontend:start -- --prod",
 		"frontend:storybook": "nx storybook frontend",
 		"frontend:storybook:build": "nx storybook-build frontend",
-		"frontend:storybook:generate": "nx g @nx/angular:stories frontend --interactionTests",
+		"frontend:storybook:generate": "nx g @nx/angular:stories ng --interactionTests && nx g @nx/angular:stories frontend --interactionTests",
 		"frontend:storybook:test": "nx storybook-test frontend",
 		"frontend:storybook:test:watch": "npm run frontend:storybook:test -- --watch",
 		"frontend:test": "nx run frontend:test",
@@ -248,5 +249,5 @@
 		"test:ci": "nx run-many --target=test --configuration ci --ci --parallel=4 --runInBand",
 		"test:e2e": "nx run-many --target=e2e --parallel=false --runInBand"
 	},
-	"version": "0.2.5"
+	"version": "0.3.1"
 }

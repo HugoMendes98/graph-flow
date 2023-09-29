@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.3.1](https://github.com/HugoMendes98/graph-flow/compare/v0.3.0...v0.3.1) (2023-09-29)
+
+
+### Bug Fixes
+
+* **api/query:** correct `order` and `where` for discriminated types ([3df2437](https://github.com/HugoMendes98/graph-flow/commit/3df2437de645addbee855dc5bced0522b5fb0b03))
+* **api:** set back stricter query validation (no extraneous values) ([0c55926](https://github.com/HugoMendes98/graph-flow/commit/0c55926957be6fcf783e731287dc9b8a2c648544))
+
+## [0.3.0](https://github.com/HugoMendes98/graph-flow/compare/v0.2.6...v0.3.0) (2023-09-27)
+
+
+### Features
+
+* **profile:** add a dialog allowing to change the names of the connected user ([f8667eb](https://github.com/HugoMendes98/graph-flow/commit/f8667ebacf2223beacb66d7519ae4207f4222c58))
+* **views/workflows:** can create a workflow ([67c4ac9](https://github.com/HugoMendes98/graph-flow/commit/67c4ac9f9c996a011028c465cd85067ede2bf70f))
+* **views/workflows:** list all workflows with `sort` "filter" ([c1eacde](https://github.com/HugoMendes98/graph-flow/commit/c1eacde38be3c16db71e5256d6c614a9e44bbe28))
+
+## [0.2.6](https://github.com/HugoMendes98/graph-flow/compare/v0.2.5...v0.2.6) (2023-09-26)
+
+
+### Bug Fixes
+
+* **api:** add `Boolean` as an orderable property ([e5784fa](https://github.com/HugoMendes98/graph-flow/commit/e5784fabfe2ef7126cc17530a64b1ea6d4107d3e))
+
 ## [0.2.5](https://github.com/HugoMendes98/graph-flow/compare/v0.2.4...v0.2.5) (2023-09-24)
 
 

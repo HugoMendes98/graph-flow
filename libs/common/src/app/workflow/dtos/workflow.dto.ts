@@ -4,6 +4,8 @@ import { DtoProperty } from "../../../dtos/dto";
 import { EntityDto } from "../../../dtos/entity";
 import { GraphDto } from "../../graph/dtos/graph.dto";
 
+export const WORKFLOW_NAME_MIN_LENGTH = 2;
+
 /**
  * DTO for workflow entities
  */
@@ -32,7 +34,7 @@ export class WorkflowDto extends EntityDto {
 	 */
 	@DtoProperty()
 	@IsString()
-	@MinLength(2)
+	@MinLength(WORKFLOW_NAME_MIN_LENGTH)
 	public name!: string;
 
 	// TODO: link a workflow to categories?
@@ -42,7 +44,7 @@ export class WorkflowDto extends EntityDto {
 	/**
 	 * The data to the {@link GraphDto}
 	 */
-	@DtoProperty({ forwardRef: true, type: () => GraphDto })
+	@DtoProperty({ type: () => GraphDto })
 	public readonly graph?: GraphDto[][number];
 
 	// `GraphDto[][number]` hack for metadata circular dependency

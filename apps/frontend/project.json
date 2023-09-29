@@ -55,6 +55,7 @@
 			"defaultConfiguration": "production",
 			"executor": "@angular-devkit/build-angular:browser",
 			"options": {
+				"allowedCommonJsDependencies": ["validator"],
 				"assets": ["apps/frontend/src/favicon.ico", "apps/frontend/src/assets"],
 				"index": "apps/frontend/src/index.html",
 				"inlineStyleLanguage": "scss",

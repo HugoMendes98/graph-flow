@@ -4,6 +4,7 @@ import { plainToInstance, instanceToPlain } from "class-transformer";
 import { ValidatorOptions } from "class-validator";
 import { deepmerge } from "deepmerge-ts";
 import { transformOptions, validatorOptions } from "~/lib/common/options";
+import { jsonify } from "~/lib/common/utils/jsonify";
 
 /**
  * The validation pipe for the application.
@@ -47,6 +48,9 @@ export class AppValidationPipe extends ValidationPipe {
 				...this.transformOptions,
 				enableImplicitConversion: true
 			});
+
+			// Need to re-serialize to use the correct types below
+			value = jsonify(value);
 		}
 
 		return instanceToPlain(await super.transform(value, metadata), transformOptions) as never;

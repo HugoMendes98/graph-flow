@@ -1,0 +1,73 @@
+<h2 mat-dialog-title translate>dialogs.workflow-create.title</h2>
+
+<div mat-dialog-content>
+	<form class="flex flex-col gap-2" (ngSubmit)="handleSubmit()">
+		<mat-form-field>
+			<mat-label translate>entities.workflow.name</mat-label>
+			<input matInput [formControl]="form.controls.name" />
+
+			<button
+				*ngIf="form.controls.name.value.length"
+				mat-icon-button
+				matIconSuffix
+				type="button"
+				(click)="form.controls.name.setValue('')"
+			>
+				<mat-icon>close</mat-icon>
+			</button>
+
+			<mat-error>{{ form.controls.name.errors | translateControlError }}</mat-error>
+		</mat-form-field>
+
+		<div *ngIf="unique$ | async as event" class="flex flex-row gap-1 mb-2">
+			<mat-icon>info</mat-icon>
+			<span translate>dialogs.workflow-create.name-unique</span>
+
+			<mat-spinner
+				*ngIf="event.type === 'verifying'"
+				color="accent"
+				diameter="18"
+				mode="indeterminate"
+			/>
+
+			<ng-container *ngIf="event.type === 'verified'">
+				<mat-icon
+					*ngIf="event.state.state === 'success' && event.state.data"
+					color="primary"
+				>
+					check
+				</mat-icon>
+
+				<mat-icon
+					*ngIf="
+						event.state.state === 'failed' ||
+						(event.state.state === 'success' && !event.state.data)
+					"
+					color="warn"
+				>
+					close
+				</mat-icon>
+			</ng-container>
+		</div>
+
+		<div class="flex justify-c-end px-4">
+			<button
+				class="flex flex-row"
+				color="primary"
+				mat-raised-button
+				type="submit"
+				[disabled]="form.invalid"
+			>
+				<mat-icon>add</mat-icon>
+
+				{{ "actions.create" | translate }}
+			</button>
+		</div>
+
+		<!-- TODO: show loading or error  -->
+	</form>
+</div>
+
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close type="button">{{ "actions.close" | translate }}</button>
+</div>

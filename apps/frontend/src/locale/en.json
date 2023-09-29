@@ -1,7 +1,11 @@
 {
 	"actions": {
+		"close": "Close",
+		"create": "Create",
 		"login": "Login",
-		"ok": "Ok"
+		"logout": "Logout",
+		"ok": "Ok",
+		"update": "Update"
 	},
 	"components": {
 		"login": {
@@ -9,10 +13,41 @@
 			"title": "Login"
 		}
 	},
+	"dialogs": {
+		"profile": {
+			"title": "Profile",
+			"user-created": {
+				"_1": "Your user was created the ",
+				"_2": "."
+			}
+		},
+		"workflow-create": {
+			"name-unique": "The name must be unique",
+			"title": "Create a workflow"
+		}
+	},
 	"entities": {
+		"entity": {
+			"created_at": "Created at",
+			"id": "Id"
+		},
+		"node": {
+			"__meta": {
+				"plural": "Nodes"
+			}
+		},
 		"user": {
 			"email": "Email",
+			"firstname": "First name",
+			"lastname": "Last name",
 			"password": "Password"
+		},
+		"workflow": {
+			"__meta": {
+				"plural": "Workflows"
+			},
+			"active": "Active",
+			"name": "Name"
 		}
 	},
 	"errors": {
@@ -21,6 +56,11 @@
 			"500": "A server error occurred.",
 			"generic": "A network error occurred."
 		}
+	},
+	"formats": {
+		"date": "YYYY.MM.dd",
+		"datetime": "YYYY.MM.dd HH:mm:ss",
+		"time": "HH:mm:ss"
 	},
 	"interceptors": {
 		"auth": {
@@ -34,9 +74,12 @@
 		"login": {
 			"being-redirected": "You are being redirected.",
 			"hello-user": {
-				"1": "Hello ",
-				"2": "!"
+				"_1": "Hello ",
+				"_2": "!"
 			}
+		},
+		"workflows": {
+			"subtitle": "List, view and edit workflows"
 		}
 	}
 }

@@ -11,6 +11,7 @@
 		"../src/**/*.stories.mdx",
 		"../src/**/*.component.ts",
 		"*.ts",
-		"*.js"
+		"*.js",
+		"../../../libs/ng/src/**/*.stories.ts"
 	]
 }
