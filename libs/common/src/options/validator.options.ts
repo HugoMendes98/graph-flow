@@ -5,9 +5,8 @@ import { ValidatorOptions } from "class-validator";
  * when using the `class-validator` [validate]{@link validateSync} functions.
  */
 export const validatorOptions = Object.freeze<ValidatorOptions>({
-	// Thanks to class-transformer unwanted properties will be removed
-	// forbidNonWhitelisted: true,
-
+	// Useful for query validation (to determine how to write queries)
+	forbidNonWhitelisted: true,
 	forbidUnknownValues: true,
 	skipNullProperties: false,
 	whitelist: true

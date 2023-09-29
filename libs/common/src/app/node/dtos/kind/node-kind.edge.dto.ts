@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNumber, Min, ValidateNested } from "class-validator";
+import { IsNumber, IsOptional, Min, ValidateNested } from "class-validator";
 
 import { NodeKindBaseDto } from "./node-kind.base.dto";
 import { NodeKindType } from "./node-kind.type";
@@ -34,5 +34,6 @@ export class NodeKindEdgeDto extends NodeKindBaseDto<NodeKindType.EDGE> {
 	 * The {@link GraphDto} this `graph-node` is connected to
 	 */
 	@DtoProperty({ expose: false, type: () => GraphDto })
+	@IsOptional() // FIXME: Use a `createDto` instead
 	public readonly graph?: GraphDto;
 }

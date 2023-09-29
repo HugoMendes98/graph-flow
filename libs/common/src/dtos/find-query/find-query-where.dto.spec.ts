@@ -150,6 +150,7 @@ describe("FindQueryWhereDto", () => {
 		}
 		class Nested1 extends NestedBase<1> {
 			@DtoProperty() public a!: string;
+			@DtoProperty() public bool!: boolean;
 		}
 		class Nested2 extends NestedBase<2> {
 			@DtoProperty() public b!: string;
