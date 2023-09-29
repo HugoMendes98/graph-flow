@@ -22,10 +22,6 @@ export class CategoryDto extends EntityDto {
 	/**
 	 * All [nodes]{@link NodeDto} linked to this category
 	 */
-	@DtoProperty({
-		array: true,
-		forwardRef: true,
-		type: () => NodeDto
-	})
+	@DtoProperty({ array: true, type: () => NodeDto })
 	public readonly nodes?: NodeDto[];
 }

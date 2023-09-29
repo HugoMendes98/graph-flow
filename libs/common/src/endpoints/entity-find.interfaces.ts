@@ -17,7 +17,7 @@ export interface EntityFindParams<T> {
 	 *
 	 * The order of the array defines the ordering.
 	 */
-	order?: Array<EntityOrder<T>>;
+	order?: ReadonlyArray<EntityOrder<T>>;
 	/**
 	 * Skip some entities
 	 */

@@ -30,12 +30,12 @@ export class GraphArcDto extends EntityDto {
 	/**
 	 * The [graph-node-output]{@link NodeOutputDto} linked to this arc
 	 */
-	@DtoProperty({ forwardRef: true, type: () => NodeOutputDto })
+	@DtoProperty({ type: () => NodeOutputDto })
 	public readonly from?: NodeOutputDto;
 
 	/**
 	 * The [graph-node-input]{@link NodeInputDto} linked to this arc
 	 */
-	@DtoProperty({ forwardRef: true, type: () => NodeInputDto })
+	@DtoProperty({ type: () => NodeInputDto })
 	public readonly to?: NodeInputDto;
 }
