@@ -1,13 +1,14 @@
 import { Expose, Type } from "class-transformer";
-import { IsArray, IsBoolean, IsDate, IsOptional } from "class-validator";
+import { IsArray, IsDate, IsOptional } from "class-validator";
 
+import { WhereBaseDto } from "./where-base.dto";
 import { EntityFilterValue } from "../../../endpoints";
 import { CanBeNull } from "../../../utils/validations";
 
 /**
  * Validation class for nullable `Date` properties.
  */
-export class WhereDateNullableDto implements EntityFilterValue<Date> {
+export class WhereDateNullableDto extends WhereBaseDto implements EntityFilterValue<Date> {
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */
@@ -24,16 +25,6 @@ export class WhereDateNullableDto implements EntityFilterValue<Date> {
 	@IsDate()
 	@IsOptional()
 	public $ne?: Date | null;
-
-	/**
-	 * Search for records whose value exists (!= null).
-	 *
-	 * It can also be tested with `$eq = null` or `$ne = null`.
-	 */
-	@Expose()
-	@IsBoolean()
-	@IsOptional()
-	public $exists?: boolean;
 
 	/**
 	 * Search for records whose value is greater than the given one.
