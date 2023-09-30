@@ -11,6 +11,8 @@ import {
 } from "class-validator";
 
 import {
+	WhereBooleanDto,
+	WhereBooleanNullableDto,
 	WhereDateDto,
 	WhereDateNullableDto,
 	WhereNumberDto,
@@ -29,6 +31,8 @@ function getWhereDtoType(type: DtoType, options: DtoPropertyOptions<object> = {}
 	const { nullable } = options;
 
 	switch (type) {
+		case Boolean:
+			return nullable ? WhereBooleanNullableDto : WhereBooleanDto;
 		case Date:
 			return nullable ? WhereDateNullableDto : WhereDateDto;
 		case Number:
@@ -57,9 +61,15 @@ function transformWhereDto<T extends object>(
 	// For "Primitive" types
 	switch (
 		!isObject(value) &&
-		(sourceType as unknown as typeof Date | typeof Number | typeof String)
+		(sourceType as unknown as typeof Boolean | typeof Date | typeof Number | typeof String)
 	) {
 		// Get back to this function with an object (for transformation)
+		case Boolean:
+			return transformWhereDto(
+				typeSingleton,
+				{ $eq: value as boolean } satisfies WhereBooleanDto,
+				options
+			);
 		case Date:
 			return transformWhereDto(
 				typeSingleton,
@@ -88,7 +98,9 @@ function transformWhereDto<T extends object>(
 	const { discriminator } = options;
 	if (value !== null && discriminator) {
 		const { property, subTypes } = discriminator;
-		const discriminatedProperty = value[property];
+		const discriminatedProperty = isObject(value[property])
+			? (value[property] as WhereNumberDto | WhereStringDto).$eq
+			: value[property];
 		const propertyType = typeof discriminatedProperty;
 
 		// Only narrow type if the discriminator is "usable"

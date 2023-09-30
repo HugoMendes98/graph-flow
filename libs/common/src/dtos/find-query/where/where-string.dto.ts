@@ -1,13 +1,14 @@
 import { Expose, Type } from "class-transformer";
-import { IsArray, IsBoolean, IsOptional, IsString } from "class-validator";
+import { IsArray, IsOptional, IsString } from "class-validator";
 
+import { WhereBaseDto } from "./where-base.dto";
 import { EntityFilterValue } from "../../../endpoints";
 import { CanBeNull } from "../../../utils/validations";
 
 /**
  * Validation class for nullable `string` properties.
  */
-export class WhereStringNullableDto implements EntityFilterValue<string> {
+export class WhereStringNullableDto extends WhereBaseDto implements EntityFilterValue<string> {
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */
@@ -24,16 +25,6 @@ export class WhereStringNullableDto implements EntityFilterValue<string> {
 	@IsOptional()
 	@IsString()
 	public $ne?: string | null;
-
-	/**
-	 * Search for records whose value exists (!= null).
-	 *
-	 * It can also be tested with `$eq = null` or `$ne = null`.
-	 */
-	@Expose()
-	@IsBoolean()
-	@IsOptional()
-	public $exists?: boolean;
 
 	/**
 	 * Search for records whose value is greater than the given one.
