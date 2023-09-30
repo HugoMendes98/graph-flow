@@ -3,11 +3,11 @@ import { IS_NUMBER, IS_STRING, IS_DATE, validateSync } from "class-validator";
 
 import { FindQueryWhereDtoOf } from "./find-query-where.dto";
 import { transformOptions, validatorOptions } from "../../options";
+import { omit } from "../../utils/object-fns";
 import { DtoProperty } from "../dto";
 
 describe("FindQueryWhereDto", () => {
-	const validate = (object: object) =>
-		validateSync(object, { ...validatorOptions, forbidNonWhitelisted: true, whitelist: true });
+	const validate = (object: object) => validateSync(object, validatorOptions);
 
 	describe("Validation on a flat DTO", () => {
 		class FlatDto {
@@ -33,7 +33,7 @@ describe("FindQueryWhereDto", () => {
 
 		class FlatWhereDto extends FindQueryWhereDtoOf(FlatDto) {}
 		const transform = (object: object) =>
-			plainToInstance(FlatWhereDto, object, transformOptions);
+			plainToInstance(FlatWhereDto, object, omit(transformOptions, ["strategy"]));
 
 		it("should be valid (without logical)", () => {
 			const wheres: FlatWhereDto[] = [
@@ -177,10 +177,7 @@ describe("FindQueryWhereDto", () => {
 
 		class NestedWhereDto extends FindQueryWhereDtoOf(Dto) {}
 		const transform = (object: object) =>
-			plainToInstance(NestedWhereDto, object, {
-				...transformOptions,
-				excludeExtraneousValues: false
-			});
+			plainToInstance(NestedWhereDto, object, omit(transformOptions, ["strategy"]));
 
 		it("should be valid", () => {
 			const wheres: NestedWhereDto[] = [

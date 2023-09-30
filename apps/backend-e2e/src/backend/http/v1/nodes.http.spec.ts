@@ -36,6 +36,19 @@ describe("Backend HTTP Nodes", () => {
 			expect(dataIds).toStrictEqual(expectedIds);
 		});
 
+		it("should filter by number property", async () => {
+			const expected = db.graph.nodes.filter(({ _id }) => _id >= 10);
+
+			const { data } = await client.findMany({
+				params: { where: { _id: { $gte: 10 } } } satisfies NodeQueryDto
+			});
+			expect(data).toHaveLength(expected.length);
+
+			const expectedIds = expected.map(({ _id }) => _id).sort();
+			const dataIds = data.map(({ _id }) => _id).sort();
+			expect(dataIds).toStrictEqual(expectedIds);
+		});
+
 		it("should filter by boolean property", async () => {
 			const type = NodeKindType.TEMPLATE;
 			const expected = db.graph.nodes.filter(({ kind }) => kind.type === type && kind.active);

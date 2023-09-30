@@ -1,6 +1,12 @@
 import { Singleton } from "@heap-code/singleton";
 import type { Type } from "@nestjs/common";
-import { Expose, plainToInstance, Transform, Type as TypeTransformer } from "class-transformer";
+import {
+	ClassTransformOptions,
+	Expose,
+	plainToInstance,
+	Transform,
+	Type as TypeTransformer
+} from "class-transformer";
 import {
 	IsArray,
 	isDateString,
@@ -24,6 +30,12 @@ import { EntityFilter, EntityFilterLogicalOperators } from "../../endpoints";
 import { DtoPropertyOptions, dtoStorage, DtoType } from "../dto";
 
 export const UNKNOWN_DISCRIMINATED_TYPE = Symbol("unknown-type");
+
+/** @internal */
+interface Options {
+	dto?: DtoPropertyOptions<object>;
+	transformer?: ClassTransformOptions;
+}
 
 // Gets the "base" DTO for a given type
 /** @internal */
@@ -49,7 +61,7 @@ function getWhereDtoType(type: DtoType, options: DtoPropertyOptions<object> = {}
 function transformWhereDto<T extends object>(
 	typeSingleton: Singleton<DtoType<T>>,
 	value: unknown,
-	options: DtoPropertyOptions<object> = {}
+	options: Options
 ): unknown {
 	if (value === undefined) {
 		return value;
@@ -95,7 +107,9 @@ function transformWhereDto<T extends object>(
 			break;
 	}
 
-	const { discriminator } = options;
+	const { dto = {}, transformer } = options;
+	const { discriminator } = dto;
+
 	if (value !== null && discriminator) {
 		const { property, subTypes } = discriminator;
 		const discriminatedProperty = isObject(value[property])
@@ -107,14 +121,14 @@ function transformWhereDto<T extends object>(
 		if (propertyType === "boolean" || propertyType === "number" || propertyType === "string") {
 			const subType = subTypes.find(({ name }) => name === discriminatedProperty);
 			if (subType) {
-				return plainToInstance(getWhereDtoType(subType.value), value);
+				return plainToInstance(getWhereDtoType(subType.value), value, transformer);
 			}
 
 			return UNKNOWN_DISCRIMINATED_TYPE;
 		}
 	}
 
-	return plainToInstance(getWhereDtoType(sourceType, options), value);
+	return plainToInstance(getWhereDtoType(sourceType, dto), value, transformer);
 }
 
 /** @internal */
@@ -123,14 +137,17 @@ function generateWhereType(source: DtoType, target: Type<unknown>) {
 		const type = new Singleton(() =>
 			dtoStorage.getPropertyType(source.prototype as Type<unknown>, key)
 		);
-		const options = dtoStorage.getPropertyOptions(source.prototype as Type<unknown>, key);
+		const dtoOptions = dtoStorage.getPropertyOptions(source.prototype as Type<unknown>, key);
 
 		Reflect.decorate(
 			[
 				Expose(),
 				IsOptional(),
-				Transform(({ key, obj }) =>
-					transformWhereDto(type, (obj as Record<string, unknown>)[key], options)
+				Transform(({ key, obj, options }) =>
+					transformWhereDto(type, (obj as Record<string, unknown>)[key], {
+						dto: dtoOptions,
+						transformer: options
+					})
 				),
 				NotEquals(UNKNOWN_DISCRIMINATED_TYPE, {
 					message: "The discriminated type was not determined"
