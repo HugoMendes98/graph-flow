@@ -249,5 +249,5 @@
 		"test:ci": "nx run-many --target=test --configuration ci --ci --parallel=4 --runInBand",
 		"test:e2e": "nx run-many --target=e2e --parallel=false --runInBand"
 	},
-	"version": "0.3.1"
+	"version": "0.3.2"
 }
