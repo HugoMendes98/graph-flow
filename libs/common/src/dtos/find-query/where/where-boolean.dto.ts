@@ -5,6 +5,8 @@ import { WhereBaseDto } from "./where-base.dto";
 import { EntityFilterValue } from "../../../endpoints";
 import { CanBeNull } from "../../../utils/validations";
 
+const INVALID_BOOL = Symbol("invalid-bool");
+
 /**
  * Transform to a boolean value, also from string
  *
@@ -12,7 +14,12 @@ import { CanBeNull } from "../../../utils/validations";
  * @returns the transform decorator
  */
 const TransformBoolean = (nullable: boolean) =>
-	Transform(({ value }) => {
+	Transform(({ key, obj, options: { enableImplicitConversion } }) => {
+		const value = (obj as Record<string, unknown>)[key];
+		if (!enableImplicitConversion && typeof value === "string") {
+			return INVALID_BOOL;
+		}
+
 		switch (value) {
 			case "true":
 			case true:
@@ -27,9 +34,10 @@ const TransformBoolean = (nullable: boolean) =>
 				if (nullable) {
 					return null;
 				}
+				break;
 		}
 
-		return "invalid";
+		return INVALID_BOOL;
 	});
 
 /**
