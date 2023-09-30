@@ -49,7 +49,7 @@ export interface DtoPropertyOptions<T = never, P extends Extract<keyof T, string
 	 * Discriminator is used by:
 	 * - Transformation: passed to `class-transformer`
 	 * - Order: define valid properties. It can not narrow which ones though.
-	 * - Where: If the property is set, narrow to the correct type (when explicit != {$eq:2})
+	 * - Where: If the property is set, narrow to the correct type (when explicit, `type: 2` or `type: { $eq: 2 }` )
 	 *
 	 * /!\ Only works with manual `type` and an object type
 	 */

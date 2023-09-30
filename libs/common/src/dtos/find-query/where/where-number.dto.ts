@@ -1,13 +1,14 @@
 import { Expose, Type } from "class-transformer";
-import { IsArray, IsBoolean, IsNumber, IsOptional } from "class-validator";
+import { IsArray, IsNumber, IsOptional } from "class-validator";
 
+import { WhereBaseDto } from "./where-base.dto";
 import { EntityFilterValue } from "../../../endpoints";
 import { CanBeNull } from "../../../utils/validations";
 
 /**
  * Validation class for nullable `number` properties.
  */
-export class WhereNumberNullableDto implements EntityFilterValue<number> {
+export class WhereNumberNullableDto extends WhereBaseDto implements EntityFilterValue<number> {
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */
@@ -26,16 +27,6 @@ export class WhereNumberNullableDto implements EntityFilterValue<number> {
 	@IsOptional()
 	@Type(() => Number)
 	public $ne?: number | null;
-
-	/**
-	 * Search for records whose value exists (!= null).
-	 *
-	 * It can also be tested with `$eq = null` or `$ne = null`.
-	 */
-	@Expose()
-	@IsBoolean()
-	@IsOptional()
-	public $exists?: boolean;
 
 	/**
 	 * Search for records whose value is greater than the given one.

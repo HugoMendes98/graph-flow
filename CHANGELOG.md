@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.3](https://github.com/HugoMendes98/graph-flow/compare/v0.3.2...v0.3.3) (2023-09-30)
+
+
+### Bug Fixes
+
+* **api/query:** correct implicit conversion ([5859ae4](https://github.com/HugoMendes98/graph-flow/commit/5859ae4c8d1943b11f6f2d25bf055d9c01c1b018))
+
+## [0.3.2](https://github.com/HugoMendes98/graph-flow/compare/v0.3.1...v0.3.2) (2023-09-30)
+
+
+### Bug Fixes
+
+* **api/query:** add boolean filter + discrimnation of determined type (`{$eq: 1 }`) ([2890007](https://github.com/HugoMendes98/graph-flow/commit/2890007bac4ef28ea2f34598d658f2ed34ce4da8))
+
 ## [0.3.1](https://github.com/HugoMendes98/graph-flow/compare/v0.3.0...v0.3.1) (2023-09-29)
 
 

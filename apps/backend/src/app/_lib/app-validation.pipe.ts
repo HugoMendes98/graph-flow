@@ -5,6 +5,7 @@ import { ValidatorOptions } from "class-validator";
 import { deepmerge } from "deepmerge-ts";
 import { transformOptions, validatorOptions } from "~/lib/common/options";
 import { jsonify } from "~/lib/common/utils/jsonify";
+import { omit } from "~/lib/common/utils/object-fns";
 
 /**
  * The validation pipe for the application.
@@ -45,7 +46,7 @@ export class AppValidationPipe extends ValidationPipe {
 			// So it can be more easily used in the query parameters when writing a query
 			// TODO: remove (and re-add the HTTPQueryDecoder?)
 			value = plainToInstance(metadata.metatype, value, {
-				...this.transformOptions,
+				...omit(this.transformOptions, ["strategy"]),
 				enableImplicitConversion: true
 			});
 

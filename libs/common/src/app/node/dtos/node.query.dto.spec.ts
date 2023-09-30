@@ -1,10 +1,11 @@
 import { plainToInstance } from "class-transformer";
+import { validateSync } from "class-validator";
 
 import { NodeBehaviorType } from "./behaviors/node-behavior.type";
 import { NodeKindType } from "./kind/node-kind.type";
 import { NodeQueryDto } from "./node.query.dto";
 import { EntityFilterValue } from "../../../endpoints";
-import { transformOptions } from "../../../options";
+import { transformOptions, validatorOptions } from "../../../options";
 
 describe("NodeQueryDto", () => {
 	it("should convert discriminated types (where)", () => {
@@ -18,12 +19,14 @@ describe("NodeQueryDto", () => {
 		).toBe(toTransform1.where.behavior.type);
 
 		const toTransform2 = {
-			where: { kind: { type: NodeKindType.TEMPLATE } }
+			where: { kind: { active: { $ne: false }, type: NodeKindType.TEMPLATE } }
 		} as const satisfies NodeQueryDto;
 		const transformed2 = plainToInstance(NodeQueryDto, toTransform2, transformOptions);
 		expect(
 			(transformed2.where?.kind?.type as EntityFilterValue<unknown> | undefined)?.$eq
 		).toBe(toTransform2.where.kind.type);
+
+		expect(validateSync(transformed2, validatorOptions)).toHaveLength(0);
 	});
 
 	it("should convert discriminated types (order)", () => {
