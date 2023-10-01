@@ -11,6 +11,21 @@
 					"extractLicenses": true,
 					"inspect": false,
 					"optimization": true
+				},
+				"test-e2e": {
+					"debug": false,
+					"fileReplacements": [
+						{
+							"replace": "apps/backend/src/main.ts",
+							"with": "apps/backend/src/main.e2e.ts"
+						},
+						{
+							"replace": "apps/backend/src/config.ts",
+							"with": "apps/backend/src/config.e2e.ts"
+						}
+					],
+					"inspect": false,
+					"optimization": false
 				}
 			},
 			"executor": "@nx/webpack:webpack",
@@ -66,6 +81,9 @@
 			"configurations": {
 				"production": {
 					"buildTarget": "backend:build:production"
+				},
+				"test-e2e": {
+					"buildTarget": "backend:build:test-e2e"
 				}
 			},
 			"executor": "@nx/js:node",
