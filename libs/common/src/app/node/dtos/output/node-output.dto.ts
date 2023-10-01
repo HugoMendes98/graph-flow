@@ -18,7 +18,7 @@ export class NodeOutputDto extends EntityDto {
 	public readonly __node!: EntityId;
 
 	/**
-	 * When the node is a reference, the output is linked to an ref output
+	 * When the node is a reference, the output is linked to a ref output
 	 */
 	@DtoProperty({ nullable: true, type: () => Number })
 	public readonly __ref!: EntityId | null;

@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.5](https://github.com/HugoMendes98/graph-flow/compare/v0.3.4...v0.3.5) (2023-10-01)
+
+
+### Bug Fixes
+
+* **node/io:** create inputs and outputs for `node-function` on parameters creation ([245f56f](https://github.com/HugoMendes98/graph-flow/commit/245f56f3c5070eb19a396161c21c9f49e4536a83))
+* **node/io:** create inputs and outputs when creating a node ([1c75e51](https://github.com/HugoMendes98/graph-flow/commit/1c75e51213ce9bb995803a1b532480c14d364479))
+* **node/io:** disable creation of `node-parameters` as template ([326d035](https://github.com/HugoMendes98/graph-flow/commit/326d0358b065979c8597d7f1d4ad082044260007))
+
 ## [0.3.4](https://github.com/HugoMendes98/graph-flow/compare/v0.3.3...v0.3.4) (2023-10-01)
 
 

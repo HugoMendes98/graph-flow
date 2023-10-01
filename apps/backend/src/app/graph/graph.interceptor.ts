@@ -34,7 +34,7 @@ export class GraphInterceptor implements NestInterceptor {
 	 */
 	public static readonly PATH_PARAM = "graphId";
 	/**
-	 * The "token" it uses to share the found {@link GraphEntity}
+	 * The "token" it uses to share the found {@link GraphEntity} through request
 	 */
 	public static readonly GRAPH_TOKEN = `__graph__`;
 

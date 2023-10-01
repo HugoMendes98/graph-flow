@@ -18,10 +18,11 @@ import {
 	NodeBehaviorReference
 } from "../behaviors";
 import { NodeBehaviorTrigger } from "../behaviors/node-behavior.trigger";
-import { NodeInputEntity } from "../input";
+import { NodeInputEntity } from "../input/node-input.entity";
 import { NodeEntity } from "../node.entity";
 import { NodeService } from "../node.service";
-import { NodeOutputEntity, NodeOutputRepository } from "../output";
+import { NodeOutputEntity } from "../output/node-output.entity";
+import { NodeOutputRepository } from "../output/node-output.repository";
 
 /**
  * The output from an executed node with its value

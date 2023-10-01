@@ -1,3 +1,5 @@
+import { OmitType } from "@nestjs/mapped-types";
+
 import { NodeBehaviorBaseDto } from "./node-behavior.base.dto";
 import { NodeBehaviorType } from "./node-behavior.type";
 import { DtoProperty } from "../../../../dtos/dto";
@@ -12,3 +14,10 @@ export class NodeBehaviorParameterInputDto extends NodeBehaviorBaseDto<NodeBehav
 	@DtoProperty()
 	public readonly __node_input!: number;
 }
+
+/**
+ * Dto to create node of `parameter-in` behavior
+ */
+export class NodeBehaviorParameterInputCreateDto extends OmitType(NodeBehaviorParameterInputDto, [
+	"__node_input"
+]) {}

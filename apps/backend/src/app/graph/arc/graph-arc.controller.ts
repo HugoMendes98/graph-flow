@@ -28,7 +28,9 @@ import { UseAuth } from "../../auth/auth.guard";
 import { GraphEntity } from "../graph.entity";
 import { ApiGraphParam, GraphInterceptedParam, GraphInterceptor } from "../graph.interceptor";
 
+/** @internal */
 type EndpointBase = GraphArcEndpoint<GraphArcEntity>;
+/** @internal */
 type EndpointTransformed = {
 	// Adds a Graph as a first parameter for each function
 	[K in keyof EndpointBase]: UnshiftParameters<EndpointBase[K], [GraphEntity]>;
@@ -101,7 +103,7 @@ export class GraphArcController implements EndpointTransformed {
 				for (const kind of [arc.from.node.kind, arc.to.node.kind]) {
 					if (kind.type !== NodeKindType.EDGE || kind.__graph !== graph._id) {
 						throw new NotFoundException(
-							`No GraphArc{id:${id}} found in graph{id:${graph._id}}`
+							`No GraphArc{id:${id}} found in Graph{id:${graph._id}}`
 						);
 					}
 				}

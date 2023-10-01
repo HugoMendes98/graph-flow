@@ -1,8 +1,8 @@
 import { NODE_BEHAVIOR_ENTITIES, NodeBehaviorBase } from "./behaviors";
-import { NodeInputEntity } from "./input";
+import { NodeInputEntity } from "./input/node-input.entity";
 import { NODE_KIND_ENTITIES, NodeKindBaseEntity } from "./kind";
 import { NodeEntity } from "./node.entity";
-import { NodeOutputEntity } from "./output";
+import { NodeOutputEntity } from "./output/node-output.entity";
 
 /**
  * All entities (classes) linked to {@link NodeEntity}

@@ -1,30 +1,33 @@
-import { Entity } from "@mikro-orm/core";
-import { NodeBehaviorParameterOutputDto } from "~/lib/common/app/node/dtos/behaviors";
+import { Entity, OneToOne, Property } from "@mikro-orm/core";
+import { NodeBehaviorParameterOutputDto as DTO } from "~/lib/common/app/node/dtos/behaviors";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 
 import { NodeBehaviorBase } from "./node-behavior.base";
-import { ManyToOneFactory } from "../../_lib/entity/decorators";
-import { NodeOutputEntity } from "../output";
+import { NodeOutputEntity } from "../output/node-output.entity";
 
 /** @internal */
-const OutputProperty = ManyToOneFactory(() => NodeOutputEntity, {
-	fieldName: "__node_output" satisfies keyof NodeBehaviorParameterOutputDto,
-	onUpdateIntegrity: "cascade"
-});
+const fieldName = "__node_output" satisfies keyof DTO;
+const type = NodeBehaviorType.PARAMETER_OUT;
 
 /**
  * Node behavior of `PARAMETER_OUT` type
  */
-@Entity({ discriminatorValue: NodeBehaviorType.PARAMETER_OUT })
-export class NodeBehaviorParameterOutput
-	extends NodeBehaviorBase<NodeBehaviorType.PARAMETER_OUT>
-	implements NodeBehaviorParameterOutputDto
-{
+@Entity({ discriminatorValue: type })
+export class NodeBehaviorParameterOutput extends NodeBehaviorBase<typeof type> implements DTO {
 	/** @inheritDoc */
-	@OutputProperty({ foreign: false })
+	@Property({ fieldName, formula: alias => `${alias}.${fieldName}`, persist: false })
 	public readonly __node_output!: number;
 
 	/** @inheritDoc */
-	@OutputProperty({ foreign: true })
+	@OneToOne(() => NodeOutputEntity, {
+		fieldName,
+		hidden: true,
+		mapToPk: false,
+		nullable: false,
+		onUpdateIntegrity: "cascade",
+		owner: true,
+		persist: true,
+		unique: true
+	})
 	public readonly nodeOutput?: NodeOutputEntity;
 }

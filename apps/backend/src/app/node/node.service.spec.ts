@@ -7,12 +7,12 @@ import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
 
-import { NodeReadonlyKindTypeException } from "./exceptions";
-import { NodeInputRepository } from "./input";
+import { NodeNoTemplateParameterException, NodeReadonlyKindTypeException } from "./exceptions";
+import { NodeInputRepository } from "./input/node-input.repository";
 import { NodeKindEdgeEntity } from "./kind";
 import { NodeModule } from "./node.module";
 import { NodeService } from "./node.service";
-import { NodeOutputRepository } from "./output";
+import { NodeOutputRepository } from "./output/node-output.repository";
 import { PositionEmbeddable } from "./position.embeddable";
 import { DbTestHelper } from "../../../test/db-test";
 import { OrmModule } from "../../orm/orm.module";
@@ -263,33 +263,25 @@ describe("NodeService", () => {
 		});
 	});
 
-	describe("Behavior: 'Reference'", () => {
-		beforeEach(() => dbTest.refresh());
+	describe("Behavior", () => {
+		it("should not allow to create template `PARAMETER_IN`", async () => {
+			await expect(() =>
+				service.create({
+					behavior: { type: NodeBehaviorType.PARAMETER_IN },
+					kind: { active: false, type: NodeKindType.TEMPLATE },
+					name: "a node"
+				})
+			).rejects.toThrow(NodeNoTemplateParameterException);
+		});
 
-		it("should copy inputs/outputs on creation", async () => {
-			const reference = await service.findById(db.graph.nodes[0]._id);
-
-			const { inputs, outputs } = await service.create({
-				behavior: { __node: reference._id, type: NodeBehaviorType.REFERENCE },
-				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
-				name: `${reference.name} (ref)`
-			});
-
-			expect(inputs).toHaveLength(reference.inputs.length);
-			expect(outputs).toHaveLength(reference.outputs.length);
-
-			for (const [i, input] of inputs.getItems().entries()) {
-				const inputRef = reference.inputs[i];
-				expect(input.__ref).toBe(inputRef._id);
-				expect(input.type).toBe(inputRef.type);
-				expect(input._created_at).not.toStrictEqual(inputRef._created_at);
-			}
-			for (const [i, output] of outputs.getItems().entries()) {
-				const outputRef = reference.outputs[i];
-				expect(output.__ref).toBe(outputRef._id);
-				expect(output.type).toBe(outputRef.type);
-				expect(output._created_at).not.toStrictEqual(outputRef._created_at);
-			}
+		it("should not allow to create template `PARAMETER_OUT`", async () => {
+			await expect(() =>
+				service.create({
+					behavior: { type: NodeBehaviorType.PARAMETER_OUT },
+					kind: { active: false, type: NodeKindType.TEMPLATE },
+					name: "a node"
+				})
+			).rejects.toThrow(NodeNoTemplateParameterException);
 		});
 	});
 
