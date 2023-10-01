@@ -59,8 +59,6 @@ export const Primary: Story = {
 		state$
 	}
 };
-export const Clean: Story = {
-	args: {
-		state$
-	}
-};
+export const Clean: Story = { args: { state$ } };
+
+export const ChangeColumns: Story = { args: { columns: ["name", "active", "_id"], state$ } };

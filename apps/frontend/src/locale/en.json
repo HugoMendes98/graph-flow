@@ -34,6 +34,25 @@
 		"node": {
 			"__meta": {
 				"plural": "Nodes"
+			},
+			"behavior": {
+				"__meta": {
+					"singular": "Behavior"
+				}
+			},
+			"inputs": {
+				"__meta": {
+					"plural": "Inputs"
+				}
+			},
+			"kind": {
+				"active": "Active"
+			},
+			"name": "Name",
+			"outputs": {
+				"__meta": {
+					"plural": "Outputs"
+				}
 			}
 		},
 		"user": {

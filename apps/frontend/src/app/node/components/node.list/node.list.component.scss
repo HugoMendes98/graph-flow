@@ -1,0 +1,25 @@
+mat-icon {
+	transform: scale(1);
+	transition: transform linear 150ms;
+
+	&.expanded {
+		transform: scale(1, -1);
+	}
+}
+
+div.node-preview {
+	app-graph-node-preview {
+		height: 200px;
+		width: 100%;
+
+		border: 2px solid var(--mat-table-row-item-outline-color);
+		border-radius: 6px;
+	}
+}
+
+button.node-edit {
+	bottom: 10px;
+	right: 10px;
+
+	position: absolute;
+}

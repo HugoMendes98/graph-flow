@@ -1,0 +1,145 @@
+<table class="p-2" mat-table multiTemplateDataRows [dataSource]="dataSource$">
+	<ng-container [matColumnDef]="COLUMNS_NODE[0]">
+		<th *matHeaderCellDef mat-header-cell>
+			<ui-list-table-header
+				[column]="COLUMNS_NODE[0]"
+				[sortColumns]="query?.sort"
+				[updateDirection]="nextDirection"
+				(sort)="handleSort($event)"
+			>
+				<span translate>entities.entity.id</span>
+			</ui-list-table-header>
+		</th>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{ row._id }}</td>
+	</ng-container>
+
+	<ng-container [matColumnDef]="COLUMNS_NODE[1]">
+		<th *matHeaderCellDef mat-header-cell>
+			<ui-list-table-header
+				[column]="COLUMNS_NODE[1]"
+				[sortColumns]="query?.sort"
+				[updateDirection]="nextDirection"
+				(sort)="handleSort($event)"
+			>
+				<span translate>entities.node.name</span>
+			</ui-list-table-header>
+		</th>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{ row.name }}</td>
+	</ng-container>
+
+	<ng-container [matColumnDef]="COLUMNS_NODE[2]">
+		<th *matHeaderCellDef mat-header-cell>
+			<ui-list-table-header
+				[column]="COLUMNS_NODE[2]"
+				[sortColumns]="query?.sort"
+				[updateDirection]="nextDirection"
+				(sort)="handleSort($event)"
+			>
+				<span translate>entities.node.behavior.__meta.singular</span>
+			</ui-list-table-header>
+		</th>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{ row.behavior.type }}</td>
+	</ng-container>
+
+	<ng-container [matColumnDef]="COLUMNS_NODE[3]">
+		<th *matHeaderCellDef mat-header-cell>
+			<ui-list-table-header
+				[column]="COLUMNS_NODE[3]"
+				[sortColumns]="query?.sort"
+				[updateDirection]="nextDirection"
+				(sort)="handleSort($event)"
+			>
+				<span translate>entities.node.kind.active</span>
+			</ui-list-table-header>
+		</th>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
+			<ng-container [ngSwitch]="row.kind.type === 'template' ? row.kind.active : null">
+				<mat-icon *ngSwitchCase="true" color="accent">check</mat-icon>
+				<mat-icon *ngSwitchCase="false" color="warn">cancel</mat-icon>
+			</ng-container>
+		</td>
+	</ng-container>
+
+	<ng-container [matColumnDef]="COLUMNS_ADDITIONAL[0]">
+		<th *matHeaderCellDef mat-header-cell>
+			<div class="flex flex-col gap-1 p-1">
+				<span class="align-i-center flex flex-row gap-1">
+					<mat-icon>exit_to_app</mat-icon>
+					<span translate>entities.node.inputs.__meta.plural</span>
+				</span>
+
+				<span class="align-i-center flex flex-row gap-1">
+					<mat-icon>output</mat-icon>
+					<span translate>entities.node.outputs.__meta.plural</span>
+				</span>
+			</div>
+		</th>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
+			<div class="flex flex-col gap-1 p-1">
+				<span class="align-i-center flex flex-row gap-1">
+					<mat-icon>exit_to_app</mat-icon>
+					<span>{{ row.inputs.length }}</span>
+				</span>
+
+				<span class="align-i-center flex flex-row gap-1">
+					<mat-icon>output</mat-icon>
+					<span>{{ row.outputs.length }}</span>
+				</span>
+			</div>
+		</td>
+	</ng-container>
+
+	<ng-container [matColumnDef]="COLUMNS_ADDITIONAL[1]">
+		<th *matHeaderCellDef aria-label="row actions" mat-header-cell></th>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
+			<button
+				mat-icon-button
+				type="button"
+				(click)="$event.stopPropagation(); handleExpansion(row)"
+			>
+				<mat-icon [class.expanded]="expanded === row._id">expand_more</mat-icon>
+			</button>
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="columns" mat-header-row></tr>
+	<tr
+		*matRowDef="let row; columns: columns"
+		mat-row
+		[ngClass]="{ 'cursor-pointer hover:bg-on-app-background': onRowClick !== null }"
+		(click)="handleRowClick(row)"
+	></tr>
+
+	<ng-container matColumnDef="expanded">
+		<td
+			*matCellDef="let row; dataSource: dataSource$"
+			mat-cell
+			[attr.colspan]="columns.length + 1"
+		>
+			<!-- Use of `ngIg` + animation for DOM removal -->
+			<div
+				*ngIf="expanded === row._id"
+				class="mx-4 my-2 node-preview relative"
+				[@previewExpansion]=""
+			>
+				<app-graph-node-preview [node]="row" />
+
+				<button
+					*ngIf="previewEditUrl"
+					class="node-edit"
+					color="primary"
+					mat-mini-fab
+					type="button"
+					[routerLink]="previewEditUrl(row)"
+				>
+					<mat-icon>edit</mat-icon>
+				</button>
+			</div>
+		</td>
+	</ng-container>
+	<tr
+		*matRowDef="let row; columns: isExpansionEnabled ? ['expanded'] : []"
+		mat-row
+		style="height: 0"
+	></tr>
+</table>
