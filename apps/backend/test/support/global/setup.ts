@@ -2,13 +2,13 @@ import Dockerode = require("dockerode");
 import { Config } from "jest";
 
 import { LoggerTest } from "./logger-test";
-import { configTest } from "../config.test";
+import { config as configE2e } from "../../../src/config.e2e";
 import { GlobalThis } from "../global-this.type";
 
 export async function globalSetup(logger: LoggerTest) {
 	const docker = new Dockerode();
 	const imageTag = "postgres:15-alpine";
-	const { name, password, port, username } = configTest.db;
+	const { name, password, port, username } = configE2e.db;
 
 	const existing = await docker.listContainers().then(containers => {
 		for (const container of containers) {
@@ -60,7 +60,7 @@ export async function globalSetup(logger: LoggerTest) {
 				"5432/tcp": [
 					{
 						HostIP: "127.0.0.1",
-						HostPort: configTest.db.port.toString()
+						HostPort: configE2e.db.port.toString()
 					}
 				]
 			}
@@ -72,7 +72,7 @@ export async function globalSetup(logger: LoggerTest) {
 	await container.start();
 
 	await new Promise<void>((resolve, reject) => {
-		const timeout = 2500;
+		const timeout = 5000;
 		const timeoutId = setTimeout(() => {
 			reject(
 				new Error(`Did not succeed to determine if psql is ready in less than ${timeout}ms`)

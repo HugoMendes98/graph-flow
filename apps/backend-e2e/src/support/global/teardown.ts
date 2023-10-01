@@ -22,9 +22,22 @@ export async function globalTeardown(params?: GlobalTeardownParams) {
 
 	if (watch) {
 		logger.log(`Backend not closed in watch mode`);
+
+		for (const eventType of [
+			`exit`,
+			`SIGINT`,
+			`SIGUSR1`,
+			`SIGUSR2`,
+			`uncaughtException`,
+			`SIGTERM`
+		]) {
+			process.on(eventType, () => {
+				(globalThis as unknown as GlobalThis).jest_config.backend.kill();
+			});
+		}
 	} else {
 		logger.log(`Closing backend app`);
-		await app.close();
+		app.kill();
 	}
 
 	await teardownBackend(logger.line());

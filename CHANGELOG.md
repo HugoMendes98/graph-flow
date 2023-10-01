@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.4](https://github.com/HugoMendes98/graph-flow/compare/v0.3.3...v0.3.4) (2023-10-01)
+
+
+### Code Refactors
+
+* **e2e:** set e2e as detached processes ([77bb5ae](https://github.com/HugoMendes98/graph-flow/commit/77bb5aedd6d58e070059ded86886ab70091a9f3e))
+
 ## [0.3.3](https://github.com/HugoMendes98/graph-flow/compare/v0.3.2...v0.3.3) (2023-09-30)
 
 

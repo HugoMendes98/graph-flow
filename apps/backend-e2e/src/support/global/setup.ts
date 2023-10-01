@@ -1,20 +1,17 @@
 // This import must be the first one to use correct tsconfig paths
 import "./register-tsconfig";
-// And this one to override the app configuration
-import "~/app/backend/test/support/setup";
 
-import { INestApplication } from "@nestjs/common";
+import { ChildProcess, execSync, spawn } from "child_process";
 import { Config } from "jest";
-import { bootstrap } from "~/app/backend/app/bootstrap";
-import { DbTestHelper } from "~/app/backend/test/db-test";
-import { configTest } from "~/app/backend/test/support/config.test";
+import * as path from "path";
+import waitFor from "wait-port";
+import { config } from "~/app/backend/app/config.e2e";
 import { LoggerTest } from "~/app/backend/test/support/global/logger-test";
 import { globalSetup as setupBackend } from "~/app/backend/test/support/global/setup";
 
-import { e2eAppHook } from "./e2e-app.hook";
 import { GlobalThis } from "../global-this.type";
 
-let app: INestApplication | null = null;
+let app: { command: ChildProcess; kill: () => void } | null = null;
 
 export interface GlobalSetupParams {
 	prefix?: string;
@@ -31,25 +28,40 @@ export async function globalSetup(params?: GlobalSetupParams) {
 		if (!watch) {
 			throw new Error("The app was already set when setting up!");
 		}
-
-		// Would be better to not do it,`jest` uses the same "node session" for this file
-		// and Mikro-orm changes its metadata when creating an app.
-		// So the app can not be recreated
-		logger.log(`Backend already set up is watch mode`);
 	} else {
-		logger.log(`Bootstrapping backend app`);
-		app = await bootstrap();
+		const command = spawn("nx", ["run", "backend:serve:test-e2e", "--no-inspect"], {
+			cwd: path.join(__dirname, "../../../../../"),
+			detached: false
+		});
+		app = {
+			command,
+			kill: () => {
+				if (command.killed) {
+					return;
+				}
 
-		logger.log(`Add E2E app hooks`);
-		e2eAppHook(app);
+				const output = execSync(
+					`pstree -p ${command.pid!} | grep -o '([0-9]\\+)' | grep -o '[0-9]\\+'`
+				);
+				const ids = output
+					.toString()
+					.split("\n")
+					.filter(pid => pid.trim());
 
-		const { globalPrefix, name, port } = configTest.host;
+				// FIXME: Nx create subprocess https://github.com/nrwl/nx/issues/11058
+				for (const pid of ids.slice().reverse()) {
+					execSync(`(kill ${pid} 2>&1) > /dev/null || exit 0`);
+				}
 
-		// FIXME: remove once migration is on ready
-		await new DbTestHelper(app, { sample: "empty" }).refresh();
+				command.kill("SIGTERM");
+			}
+		};
 
-		await app.listen(port, name);
-		logger.log(`E2E app running and listening at 'http://${name}:${port}${globalPrefix}'`);
+		command.stdout.on("data", (data: string) => logger.log("backend |", `${data}`));
+		command.stderr.on("data", (data: string) => logger.error("backend |", `${data}`));
+
+		logger.log("Waiting for backend");
+		await waitFor({ host: config.host.name, port: config.host.port, timeout: 30000 });
 	}
 
 	(globalThis as unknown as GlobalThis).jest_config.backend = app;
