@@ -6,8 +6,8 @@ import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 import { GraphArcRepository } from "./graph-arc.repository";
 import { EntityBase } from "../../_lib/entity";
 import { ManyToOneFactory, ManyToOneParams } from "../../_lib/entity/decorators";
-import { NodeInputEntity } from "../../node/input";
-import { NodeOutputEntity } from "../../node/output";
+import { NodeInputEntity } from "../../node/input/node-input.entity";
+import { NodeOutputEntity } from "../../node/output/node-output.entity";
 
 /**
  * Decorator for the "from" relation

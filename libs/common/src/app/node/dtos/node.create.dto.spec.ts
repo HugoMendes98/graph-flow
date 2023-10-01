@@ -61,7 +61,10 @@ describe("NodeCreateDto", () => {
 
 		it("should fail when creating PARAMETER nodes", async () => {
 			const nodeIn: NodeCreateDto = {
-				behavior: { __node_input: 1, type: NodeBehaviorType.PARAMETER_IN },
+				behavior: {
+					__node_input: 1,
+					type: NodeBehaviorType.PARAMETER_IN
+				} satisfies NodeBehaviorParameterInputDto as never,
 				kind: { active: false, type: NodeKindType.TEMPLATE },
 				name: "node"
 			};
@@ -71,7 +74,10 @@ describe("NodeCreateDto", () => {
 			expect(await validate(transformedIn)).toHaveLength(1);
 
 			const nodeOut: NodeCreateDto = {
-				behavior: { __node_output: 1, type: NodeBehaviorType.PARAMETER_OUT },
+				behavior: {
+					__node_output: 1,
+					type: NodeBehaviorType.PARAMETER_OUT
+				} satisfies NodeBehaviorParameterOutputDto as never,
 				kind: { active: false, type: NodeKindType.TEMPLATE },
 				name: "node"
 			};

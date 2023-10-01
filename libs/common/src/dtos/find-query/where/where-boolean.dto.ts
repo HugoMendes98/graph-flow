@@ -5,6 +5,7 @@ import { WhereBaseDto } from "./where-base.dto";
 import { EntityFilterValue } from "../../../endpoints";
 import { CanBeNull } from "../../../utils/validations";
 
+/** @internal */
 const INVALID_BOOL = Symbol("invalid-bool");
 
 /**
