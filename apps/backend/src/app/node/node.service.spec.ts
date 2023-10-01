@@ -7,7 +7,7 @@ import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
 
-import { NodeReadonlyKindTypeException } from "./exceptions";
+import { NodeNoTemplateParameterException, NodeReadonlyKindTypeException } from "./exceptions";
 import { NodeInputRepository } from "./input/node-input.repository";
 import { NodeKindEdgeEntity } from "./kind";
 import { NodeModule } from "./node.module";
@@ -260,6 +260,28 @@ describe("NodeService", () => {
 				});
 				expect(total).toBe(0);
 			}
+		});
+	});
+
+	describe("Behavior", () => {
+		it("should not allow to create template `PARAMETER_IN`", async () => {
+			await expect(() =>
+				service.create({
+					behavior: { type: NodeBehaviorType.PARAMETER_IN },
+					kind: { active: false, type: NodeKindType.TEMPLATE },
+					name: "a node"
+				})
+			).rejects.toThrow(NodeNoTemplateParameterException);
+		});
+
+		it("should not allow to create template `PARAMETER_OUT`", async () => {
+			await expect(() =>
+				service.create({
+					behavior: { type: NodeBehaviorType.PARAMETER_OUT },
+					kind: { active: false, type: NodeKindType.TEMPLATE },
+					name: "a node"
+				})
+			).rejects.toThrow(NodeNoTemplateParameterException);
 		});
 	});
 

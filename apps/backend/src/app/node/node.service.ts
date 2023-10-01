@@ -10,7 +10,7 @@ import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 import { FindResultsDto } from "~/lib/common/dtos/find-results.dto";
 import { EntitiesToPopulate, EntityFilter, EntityFindParams } from "~/lib/common/endpoints";
 
-import { NodeReadonlyKindTypeException } from "./exceptions";
+import { NodeNoTemplateParameterException, NodeReadonlyKindTypeException } from "./exceptions";
 import { NodeInputEntity } from "./input/node-input.entity";
 import { NodeInputCreate } from "./input/node-input.types";
 import { NODE_KIND_ENTITIES, NodeKindEntity } from "./kind";
@@ -83,6 +83,14 @@ export class NodeService
 	/** @inheritDoc */
 	public async beforeCreate(args: EventArgs<NodeEntity>) {
 		const { behavior, kind } = args.entity;
+
+		if (
+			kind.type === NodeKindType.TEMPLATE &&
+			(behavior.type === NodeBehaviorType.PARAMETER_IN ||
+				behavior.type === NodeBehaviorType.PARAMETER_OUT)
+		) {
+			throw new NodeNoTemplateParameterException();
+		}
 
 		if (behavior.type !== NodeBehaviorType.TRIGGER || kind.type !== NodeKindType.EDGE) {
 			// Nothing to verify it the node is not a `trigger`
