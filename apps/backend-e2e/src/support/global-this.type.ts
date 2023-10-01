@@ -1,4 +1,4 @@
-import { INestApplicationContext } from "@nestjs/common/interfaces/nest-application-context.interface";
+import { ChildProcess } from "child_process";
 import { GlobalThis as GlobalThisBase } from "~/app/backend/test/support/global-this.type";
 
 interface JestE2eConfig {
@@ -7,7 +7,7 @@ interface JestE2eConfig {
 	 *
 	 * @example
 	 */
-	backend: INestApplicationContext;
+	backend: { command: ChildProcess; kill: () => void };
 }
 
 export interface GlobalThis extends GlobalThisBase {

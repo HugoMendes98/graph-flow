@@ -1,9 +1,9 @@
 import { AxiosHeaders, AxiosError, HttpStatusCode } from "axios";
 import { parse as cookieParser } from "cookie";
 import { Jsonify } from "type-fest";
+import { config as configE2e } from "~/app/backend/app/config.e2e";
 import { DbE2eHelper } from "~/app/backend/e2e/db-e2e/db-e2e.helper";
 import { AuthHttpClient } from "~/app/backend/e2e/http/clients";
-import { configTest } from "~/app/backend/test/support/config.test";
 import { AuthLoginDto, AuthRefreshDto } from "~/lib/common/app/auth/dtos";
 import { authOptions } from "~/lib/common/options";
 import { BASE_SEED } from "~/lib/common/seeds";
@@ -19,7 +19,7 @@ describe("Backend HTTP Auth", () => {
 
 	describe("Login", () => {
 		it("should return an access token with its expire time", async () => {
-			const timeoutMs = configTest.authentication.timeout * 1000;
+			const timeoutMs = configE2e.authentication.timeout * 1000;
 
 			for (const user of users) {
 				const now = new Date().getTime();
@@ -57,7 +57,7 @@ describe("Backend HTTP Auth", () => {
 			expect(cookie.Expires).toBeDateString();
 
 			const expires_at = new Date(cookie.Expires).getTime();
-			const timeoutMs = configTest.authentication.timeout * 1000;
+			const timeoutMs = configE2e.authentication.timeout * 1000;
 
 			expect(expires_at).toBeGreaterThanOrEqual(now + timeoutMs - 1500);
 			expect(expires_at).toBeLessThanOrEqual(now + timeoutMs + 1500);

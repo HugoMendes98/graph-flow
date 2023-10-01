@@ -1,12 +1,12 @@
 import { Singleton } from "@heap-code/singleton";
 import axios from "axios";
+import { config as ConfigE2e } from "~/app/backend/app/config.e2e";
 import { DbTestHelper, DbTestSample } from "~/app/backend/test/db-test";
-import { configTest } from "~/app/backend/test/support/config.test";
 import { BASE_SEED, EMPTY_SEED, MockSeed } from "~/lib/common/seeds";
 
 import { E2E_ENDPOINT_DB_SEEDING, E2eEndpointDbSeedingBody } from "../e2e.endpoints";
 
-const { name, port } = configTest.host;
+const { name, port } = ConfigE2e.host;
 const baseURL = `http://${name}:${port}`;
 
 const dbSamples: Record<DbTestSample, MockSeed> = {
