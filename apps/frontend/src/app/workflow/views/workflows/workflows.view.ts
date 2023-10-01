@@ -108,14 +108,16 @@ export class WorkflowsView implements OnInit, OnDestroy {
 	 */
 	protected async openCreateDialog() {
 		const { WorkflowCreateDialog } = await import(
-			"../../dialogs/workflow-create.dialog/workflow-create.dialog"
+			"../../dialogs/workflow-create/workflow-create.dialog"
 		);
 
 		await lastValueFrom(WorkflowCreateDialog.open(this.matDialog).afterClosed()).then(
 			result => {
-				if (result) {
-					void this.router.navigateByUrl(this.workflowUrl(result.created));
+				if (!result) {
+					return;
 				}
+
+				void this.router.navigateByUrl(this.workflowUrl(result.created));
 			}
 		);
 	}

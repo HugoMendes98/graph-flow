@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
-import { filter, Subscription } from "rxjs";
+import { filter, lastValueFrom, Subscription } from "rxjs";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { Node } from "~/lib/common/app/node/endpoints";
 import { isOrderValue, OrderValue } from "~/lib/common/endpoints";
@@ -17,10 +18,10 @@ import {
 import { RequestStateSubject } from "~/lib/ng/lib/request-state";
 
 import {
-	NodeListComponent,
-	NodeListQuery,
+	NODE_LIST_COLUMNS_SORTABLE,
 	NodeListColumnSortable,
-	NODE_LIST_COLUMNS_SORTABLE
+	NodeListComponent,
+	NodeListQuery
 } from "../../components/node.list/node.list.component";
 
 /** Query Params of this view */
@@ -36,7 +37,14 @@ type NodesViewQueryParam = NodesViewQueryParamSort;
 	styleUrls: ["./nodes.view.scss"],
 	templateUrl: "./nodes.view.html",
 
-	imports: [CommonModule, MatButtonModule, MatIconModule, NodeListComponent, TranslateModule]
+	imports: [
+		CommonModule,
+		MatButtonModule,
+		MatDialogModule,
+		MatIconModule,
+		NodeListComponent,
+		TranslateModule
+	]
 })
 export class NodesView implements OnInit, OnDestroy {
 	protected readonly nodesState$ = new RequestStateSubject(
@@ -61,11 +69,13 @@ export class NodesView implements OnInit, OnDestroy {
 	 * @param nodeApi injected
 	 * @param router injected
 	 * @param activatedRoute injected
+	 * @param matDialog injected
 	 */
 	public constructor(
 		private readonly nodeApi: NodeApiService,
 		private readonly router: Router,
-		private readonly activatedRoute: ActivatedRoute
+		private readonly activatedRoute: ActivatedRoute,
+		private readonly matDialog: MatDialog
 	) {}
 
 	public ngOnInit() {
@@ -93,6 +103,22 @@ export class NodesView implements OnInit, OnDestroy {
 	/** @internal */
 	protected nodeUrl({ _id }: Node) {
 		return `/nodes/${_id}`;
+	}
+
+	protected async openCreateDialog() {
+		const { NodeCreateDialog } = await import("../../dialogs/node-create/node-create.dialog");
+
+		await lastValueFrom(
+			NodeCreateDialog.open(this.matDialog, {
+				initialData: { kind: { active: false, type: NodeKindType.TEMPLATE } }
+			}).afterClosed()
+		).then(result => {
+			if (!result) {
+				return;
+			}
+
+			void this.router.navigateByUrl(this.nodeUrl(result.created));
+		});
 	}
 
 	/**
