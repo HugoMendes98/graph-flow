@@ -97,6 +97,9 @@
 				"_2": "!"
 			}
 		},
+		"nodes": {
+			"subtitle": "List of re-usable nodes."
+		},
 		"workflows": {
 			"subtitle": "List, view and edit workflows"
 		}

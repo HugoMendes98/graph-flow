@@ -46,10 +46,10 @@ export const NODE_LIST_COLUMNS = [
 
 /** Type of the node-list columns */
 export type NodeListColumn = (typeof NODE_LIST_COLUMNS)[number];
-export type NodeListSortableColumn = (typeof NODE_LIST_COLUMNS_SORTABLE)[number];
+export type NodeListColumnSortable = (typeof NODE_LIST_COLUMNS_SORTABLE)[number];
 
 /** The sort type for a NodeList  */
-export type NodeListSort = ListSortColumns<NodeListSortableColumn>;
+export type NodeListSort = ListSortColumns<NodeListColumnSortable>;
 
 /**
  * The query to display in the list.
