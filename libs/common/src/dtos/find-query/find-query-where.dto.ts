@@ -29,6 +29,7 @@ import {
 import { EntityFilter, EntityFilterLogicalOperators } from "../../endpoints";
 import { DtoPropertyOptions, dtoStorage, DtoType } from "../dto";
 
+/** Unique symbol when no discriminated type is found */
 export const UNKNOWN_DISCRIMINATED_TYPE = Symbol("unknown-type");
 
 /** @internal */

@@ -87,7 +87,7 @@ describe("NodeOutput", () => {
 			const [output] = outputs.getItems();
 			expect(output.__ref).toBeNull();
 			expect(output.name).toBe("");
-			expect(output.type).toBe(NodeIoType.NUMBER);
+			expect(output.type).toBe(NodeIoType.ANY);
 
 			// No output for parameter-out
 			expect(parameterOut.outputs).toHaveLength(0);

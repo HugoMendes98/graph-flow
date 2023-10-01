@@ -85,7 +85,7 @@ describe("NodeInput", () => {
 			const [output] = inputs.getItems();
 			expect(output.__ref).toBeNull();
 			expect(output.name).toBe("");
-			expect(output.type).toBe(NodeIoType.NUMBER);
+			expect(output.type).toBe(NodeIoType.ANY);
 		});
 
 		it("should copy inputs for `REFERENCE`", async () => {
