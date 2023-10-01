@@ -1,6 +1,10 @@
 import { IsString, MinLength, ValidateNested } from "class-validator";
 
-import { NodeBehaviorDto } from "./behaviors/node-behavior.dto";
+import {
+	NODE_BEHAVIOR_DISCRIMINATOR_KEY,
+	NodeBehaviorBaseDto
+} from "./behaviors/node-behavior.base.dto";
+import { NODE_BEHAVIOR_DTOS, NodeBehaviorDto } from "./behaviors/node-behavior.dto";
 import { NodeInputDto } from "./input/node-input.dto";
 import { NODE_KIND_DISCRIMINATOR_KEY, NodeKindBaseDto } from "./kind/node-kind.base.dto";
 import { NODE_KIND_DTOS, NodeKindDto } from "./kind/node-kind.dto";

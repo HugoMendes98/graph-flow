@@ -1,9 +1,10 @@
 import { EventArgs, EventSubscriber, Reference } from "@mikro-orm/core";
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { GraphNode } from "~/lib/common/app/graph/endpoints";
-import { NodeCreateDto, NodeDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
+import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
+import { NodeIoType } from "~/lib/common/app/node/io";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 import { FindResultsDto } from "~/lib/common/dtos/find-results.dto";
@@ -32,9 +33,7 @@ import {
 } from "../graph/node/exceptions";
 
 /** Interface to create {@link NodeEntity} */
-export interface NodeCreateEntity
-	extends Omit<NodeCreateDto, "behavior">,
-		Pick<NodeDto, "behavior"> {}
+export type NodeCreateEntity = NodeCreateDto;
 
 /**
  * Service to manages [nodes]{@link NodeEntity}.
@@ -149,37 +148,30 @@ export class NodeService
 		options?: EntityServiceCreateOptions<NodeEntity, P>
 	): Promise<EntityLoaded<NodeEntity, P>> {
 		return super.create(toCreate, options).then(async created => {
-			const { behavior } = created;
-			if (behavior.type !== NodeBehaviorType.REFERENCE) {
-				return created;
-			}
-
-			// "Copy" inputs and outputs
-
-			// TODO: in another function
-			// FIXME: in the `afterCreate` hook. (Currently an error with seeding)
-			const reference = await this.findById(behavior.__node);
+			const inputs = await this.getInputsOnCreation(created);
+			const outputs = await this.getOutputsOnCreation(created);
 
 			const em = this.repository.getEntityManager();
-			for (const [collection, entity] of [
-				[reference.inputs, NodeInputEntity],
-				[reference.outputs, NodeOutputEntity]
-			] as const) {
-				for (const { _id, name, type } of collection) {
-					em.create(entity, {
-						__node: created._id,
-						__ref: _id,
-						name,
-						type
-					} satisfies NodeInputCreate | NodeOutputCreate as never);
-				}
+			for (const input of inputs) {
+				em.create(NodeInputEntity, {
+					...input,
+					__node: created._id
+				} satisfies NodeInputCreate as never);
+			}
+			for (const output of outputs) {
+				em.create(NodeOutputEntity, {
+					...output,
+					__node: created._id
+				} satisfies NodeOutputCreate as never);
 			}
 
-			await em.flush();
+			if (outputs.length + inputs.length > 0) {
+				await em.flush();
 
-			// Fill the values
-			await created.inputs.init();
-			await created.outputs.init();
+				// "Refresh" relations
+				await created.inputs.init();
+				await created.outputs.init();
+			}
 
 			return created;
 		});
@@ -225,5 +217,73 @@ export class NodeService
 			await this.repository.getEntityManager().persistAndFlush(node);
 			return node;
 		});
+	}
+
+	/**
+	 * Determines the inputs that must be set on a node-behavior creation.
+	 *
+	 * @param node just created
+	 * @returns the inputs that should be created
+	 */
+	private async getInputsOnCreation(
+		node: NodeEntity
+	): Promise<Array<Omit<NodeInputCreate, "__node">>> {
+		const { behavior } = node;
+		switch (behavior.type) {
+			case NodeBehaviorType.REFERENCE: {
+				const { inputs } = await this.findById(behavior.__node);
+				return inputs.getItems().map(({ _id, name, type }) => ({
+					__ref: _id,
+					name: `*${name}`,
+					type
+				}));
+			}
+
+			case NodeBehaviorType.PARAMETER_OUT:
+				return [{ __ref: null, name: "", type: NodeIoType.ANY }];
+			case NodeBehaviorType.VARIABLE:
+				return [{ __ref: null, name: "", type: NodeIoType.VOID }];
+
+			// No inputs by default
+			case NodeBehaviorType.CODE:
+			case NodeBehaviorType.FUNCTION:
+			case NodeBehaviorType.PARAMETER_IN:
+			case NodeBehaviorType.TRIGGER:
+				return [];
+		}
+	}
+
+	/**
+	 * Determines the outputs that must be set on a node-behavior creation.
+	 *
+	 * @param node just created
+	 * @returns the outputs that should be created
+	 */
+	private async getOutputsOnCreation(
+		node: NodeEntity
+	): Promise<Array<Omit<NodeOutputCreate, "__node">>> {
+		const { behavior } = node;
+		switch (behavior.type) {
+			case NodeBehaviorType.REFERENCE: {
+				const { outputs } = await this.findById(behavior.__node);
+				return outputs.getItems().map(({ _id, name, type }) => ({
+					__ref: _id,
+					name: `*${name}`,
+					type
+				}));
+			}
+
+			case NodeBehaviorType.TRIGGER:
+				return [{ __ref: null, name: "", type: NodeIoType.NUMBER }];
+
+			case NodeBehaviorType.CODE:
+			case NodeBehaviorType.PARAMETER_IN:
+			case NodeBehaviorType.VARIABLE:
+				return [{ __ref: null, name: "", type: NodeIoType.ANY }];
+
+			case NodeBehaviorType.FUNCTION: // No inputs by default
+			case NodeBehaviorType.PARAMETER_OUT:
+				return [];
+		}
 	}
 }

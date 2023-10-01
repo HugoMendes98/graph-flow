@@ -2,9 +2,18 @@ import type { Type } from "@nestjs/common";
 
 import { NodeBehaviorBaseDto } from "./node-behavior.base.dto";
 import { NodeBehaviorCodeDto } from "./node-behavior.code.dto";
-import { NodeBehaviorFunctionDto } from "./node-behavior.function.dto";
-import { NodeBehaviorParameterInputDto } from "./node-behavior.parameter-input.dto";
-import { NodeBehaviorParameterOutputDto } from "./node-behavior.parameter-output.dto";
+import {
+	NodeBehaviorFunctionCreateDto,
+	NodeBehaviorFunctionDto
+} from "./node-behavior.function.dto";
+import {
+	NodeBehaviorParameterInputCreateDto,
+	NodeBehaviorParameterInputDto
+} from "./node-behavior.parameter-input.dto";
+import {
+	NodeBehaviorParameterOutputCreateDto,
+	NodeBehaviorParameterOutputDto
+} from "./node-behavior.parameter-output.dto";
 import { NodeBehaviorReferenceDto } from "./node-behavior.reference.dto";
 import { NodeBehaviorTriggerDto, NodeBehaviorTriggerUpdateDto } from "./node-behavior.trigger.dto";
 import { NodeBehaviorType } from "./node-behavior.type";
@@ -27,6 +36,16 @@ export const NODE_BEHAVIOR_DTOS = [
 	{ name: NodeBehaviorType.VARIABLE, value: NodeBehaviorVariableDto }
 ] as const satisfies ReadonlyArray<DiscriminatedType<Type<NodeBehaviorBaseDto>, NodeBehaviorType>>;
 
+export const NODE_BEHAVIOR_CREATE_DTOS = [
+	{ name: NodeBehaviorType.CODE, value: NodeBehaviorCodeDto },
+	{ name: NodeBehaviorType.FUNCTION, value: NodeBehaviorFunctionCreateDto },
+	{ name: NodeBehaviorType.PARAMETER_IN, value: NodeBehaviorParameterInputCreateDto },
+	{ name: NodeBehaviorType.PARAMETER_OUT, value: NodeBehaviorParameterOutputCreateDto },
+	{ name: NodeBehaviorType.REFERENCE, value: NodeBehaviorReferenceDto },
+	{ name: NodeBehaviorType.TRIGGER, value: NodeBehaviorTriggerDto },
+	{ name: NodeBehaviorType.VARIABLE, value: NodeBehaviorVariableDto }
+] as const satisfies ReadonlyArray<DiscriminatedType<Type<NodeBehaviorBaseDto>, NodeBehaviorType>>;
+
 export const NODE_BEHAVIOR_UPDATE_DTOS = [
 	// input/output parameters, references can not be changed
 	{ name: NodeBehaviorType.TRIGGER, value: NodeBehaviorTriggerUpdateDto },
@@ -37,10 +56,14 @@ export const NODE_BEHAVIOR_UPDATE_DTOS = [
 /**
  * The union type of all node behaviors
  */
-export type NodeBehaviorDto =
-	| InstanceType<(typeof NODE_BEHAVIOR_DTOS)[number]["value"]>
-	| NodeBehaviorParameterInputDto
-	| NodeBehaviorParameterOutputDto;
+export type NodeBehaviorDto = InstanceType<(typeof NODE_BEHAVIOR_DTOS)[number]["value"]>;
+
+/**
+ * The union type of all "create-behavior"s
+ */
+export type NodeBehaviorCreateDto = InstanceType<
+	(typeof NODE_BEHAVIOR_CREATE_DTOS)[number]["value"]
+>;
 
 /**
  * The union type of all "update-behavior"s

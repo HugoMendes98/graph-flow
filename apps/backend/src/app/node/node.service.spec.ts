@@ -263,36 +263,6 @@ describe("NodeService", () => {
 		});
 	});
 
-	describe("Behavior: 'Reference'", () => {
-		beforeEach(() => dbTest.refresh());
-
-		it("should copy inputs/outputs on creation", async () => {
-			const reference = await service.findById(db.graph.nodes[0]._id);
-
-			const { inputs, outputs } = await service.create({
-				behavior: { __node: reference._id, type: NodeBehaviorType.REFERENCE },
-				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
-				name: `${reference.name} (ref)`
-			});
-
-			expect(inputs).toHaveLength(reference.inputs.length);
-			expect(outputs).toHaveLength(reference.outputs.length);
-
-			for (const [i, input] of inputs.getItems().entries()) {
-				const inputRef = reference.inputs[i];
-				expect(input.__ref).toBe(inputRef._id);
-				expect(input.type).toBe(inputRef.type);
-				expect(input._created_at).not.toStrictEqual(inputRef._created_at);
-			}
-			for (const [i, output] of outputs.getItems().entries()) {
-				const outputRef = reference.outputs[i];
-				expect(output.__ref).toBe(outputRef._id);
-				expect(output.type).toBe(outputRef.type);
-				expect(output._created_at).not.toStrictEqual(outputRef._created_at);
-			}
-		});
-	});
-
 	describe("Kind", () => {
 		beforeEach(() => dbTest.refresh());
 

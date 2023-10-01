@@ -22,9 +22,10 @@ describe("NodeInput", () => {
 		}).compile();
 
 		nodeService = module.get(NodeService);
-
 		dbTest = new DbTestHelper(module, { sample: "empty" });
 	});
+
+	afterAll(() => dbTest.close());
 
 	describe("On node creation", () => {
 		const partialCreate: Omit<NodeCreateEntity, "behavior"> = {
@@ -100,7 +101,7 @@ describe("NodeInput", () => {
 					const { inputs } = await nodeService.create({
 						behavior: { __node: reference._id, type: NodeBehaviorType.REFERENCE },
 						kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
-						name: `${reference.name} (ref)`
+						name: `*${reference.name}`
 					});
 
 					expect(inputs).toHaveLength(reference.inputs.length);
