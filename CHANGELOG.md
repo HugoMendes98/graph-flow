@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.0](https://github.com/HugoMendes98/graph-flow/compare/v0.3.5...v0.4.0) (2023-10-02)
+
+
+### Features
+
+* **views/node:** list all `template` nodes ([18e3b3d](https://github.com/HugoMendes98/graph-flow/commit/18e3b3de5112ee33feb9ae7dcd62d940ba029e7e))
+* **views/nodes:** add a node-list component with node-preview when expanded ([d1a5d99](https://github.com/HugoMendes98/graph-flow/commit/d1a5d9930d8cda156b8a37eb5b58e42fa2332067))
+* **views/nodes:** can create a node template ([171bf3f](https://github.com/HugoMendes98/graph-flow/commit/171bf3f18ff0b9e97e333e959ae96e91df660063))
+
 ## [0.3.5](https://github.com/HugoMendes98/graph-flow/compare/v0.3.4...v0.3.5) (2023-10-01)
 
 
