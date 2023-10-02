@@ -4,18 +4,17 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
 import { filter, lastValueFrom, Subscription } from "rxjs";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { Node } from "~/lib/common/app/node/endpoints";
 import { isOrderValue, OrderValue } from "~/lib/common/endpoints";
 import { NodeApiService } from "~/lib/ng/lib/api/node-api";
-import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
 import {
 	ListSortColumns,
 	ListSortOrderValueDefault
 } from "~/lib/ng/lib/mat-list/list-sort.columns";
 import { RequestStateSubject } from "~/lib/ng/lib/request-state";
+import { TranslationModule } from "~/lib/ng/lib/translation";
 
 import {
 	NODE_LIST_COLUMNS_SORTABLE,
@@ -43,12 +42,12 @@ type NodesViewQueryParam = NodesViewQueryParamSort;
 		MatDialogModule,
 		MatIconModule,
 		NodeListComponent,
-		TranslateModule
+		TranslationModule
 	]
 })
 export class NodesView implements OnInit, OnDestroy {
 	protected readonly nodesState$ = new RequestStateSubject(
-		({ where = {}, ...query }: Parameters<WorkflowApiService["findAndCount"]>[0] = {}) =>
+		({ where = {}, ...query }: Parameters<NodeApiService["findAndCount"]>[0] = {}) =>
 			this.nodeApi.findAndCount({
 				...query,
 				where: { $and: [{ kind: { type: NodeKindType.TEMPLATE } }, where] }
@@ -78,6 +77,7 @@ export class NodesView implements OnInit, OnDestroy {
 		private readonly matDialog: MatDialog
 	) {}
 
+	/** @inheritDoc */
 	public ngOnInit() {
 		this.subscription.add(
 			this.activatedRoute.queryParams

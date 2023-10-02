@@ -53,15 +53,17 @@ describe("Workflows list", () => {
 			/* ==== Generated with Cypress Studio ==== */
 			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center").click();
 			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center").click();
+			// Makes wait for the query parameters
+			cy.location("search").should("contains", `_id=desc`);
 			cy.get(".mdc-data-table__content > :nth-child(1) > .cdk-column-_id").should(
 				"have.text",
 				max
 			);
-			cy.get(".cdk-column-name > ui-list-table-header > .align-i-center > span").click();
+			cy.get(".cdk-column-name > ui-list-table-header > .align-i-center").click();
 			/* ==== End Cypress Studio ==== */
 
-			// eslint-disable-next-line cypress/no-unnecessary-waiting -- Sometimes, it does not wait for the queryParams to be set before reload (?)
-			cy.wait(50);
+			// Makes wait for the query parameters
+			cy.location("search").should("contains", `name=asc`);
 			cy.reload();
 
 			/* ==== Generated with Cypress Studio ==== */

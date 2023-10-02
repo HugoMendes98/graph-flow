@@ -70,18 +70,18 @@ export class NodeOutputService {
 	 * @param toUpdate data to update
 	 * @returns the updated output
 	 */
-	public updateFromNode(
+	public async updateFromNode(
 		node: NodeEntity,
 		id: EntityId,
 		toUpdate: NodeOutputUpdateDto
 	): Promise<NodeOutputEntity> {
+		await this.findOneWithNodeId(node._id, id);
+
 		const type = node.behavior.type;
 		if (areNodeOutputsReadonlyOnUpdate(type)) {
-			return Promise.reject(
-				new NodeOutputReadonlyException(NodeErrorCode.OUTPUTS_READONLY_UPDATE, type)
-			);
+			throw new NodeOutputReadonlyException(NodeErrorCode.OUTPUTS_READONLY_UPDATE, type);
 		}
 
-		throw new Error();
+		return this.entityService.update(id, toUpdate);
 	}
 }

@@ -1,8 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { NodeInputCreateDto, NodeInputUpdateDto } from "~/lib/common/app/node/dtos/input";
+import { NodeErrorCode } from "~/lib/common/app/node/error-codes";
+import {
+	areNodeInputsReadonlyOnCreate,
+	areNodeInputsReadonlyOnDelete,
+	areNodeInputsReadonlyOnUpdate
+} from "~/lib/common/app/node/io/input";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { EntitiesToPopulate } from "~/lib/common/endpoints";
 
+import { NodeInputReadonlyException } from "./exceptions";
 import { NodeInputEntity } from "./node-input.entity";
 import { NodeInputRepository } from "./node-input.repository";
 import { EntityService, EntityServiceFindOptions } from "../../_lib/entity";
@@ -73,11 +80,20 @@ export class NodeInputService {
 	 * @param toCreate input to create
 	 * @returns the created input
 	 */
-	public createFromNode(
+	public async createFromNode(
 		node: NodeEntity,
 		toCreate: NodeInputCreateDto
 	): Promise<NodeInputEntity> {
-		throw new Error();
+		const type = node.behavior.type;
+		if (areNodeInputsReadonlyOnCreate(type)) {
+			throw new NodeInputReadonlyException(NodeErrorCode.INPUTS_READONLY_CREATE, type);
+		}
+
+		return this.entityService.create({
+			...toCreate,
+			__node: node._id,
+			__ref: null
+		});
 	}
 
 	/**
@@ -89,12 +105,19 @@ export class NodeInputService {
 	 * @param toUpdate data to update
 	 * @returns the updated input
 	 */
-	public updateFromNode(
+	public async updateFromNode(
 		node: NodeEntity,
 		id: EntityId,
 		toUpdate: NodeInputUpdateDto
 	): Promise<NodeInputEntity> {
-		throw new Error();
+		await this.findOneWithNodeId(node._id, id);
+
+		const type = node.behavior.type;
+		if (areNodeInputsReadonlyOnUpdate(type)) {
+			throw new NodeInputReadonlyException(NodeErrorCode.INPUTS_READONLY_UPDATE, type);
+		}
+
+		return this.entityService.update(id, toUpdate);
 	}
 
 	/**
@@ -105,7 +128,14 @@ export class NodeInputService {
 	 * @param id of the input to delete
 	 * @returns the deleted input
 	 */
-	public deleteFromNode(node: NodeEntity, id: EntityId): Promise<NodeInputEntity> {
-		throw new Error();
+	public async deleteFromNode(node: NodeEntity, id: EntityId): Promise<NodeInputEntity> {
+		await this.findOneWithNodeId(node._id, id);
+
+		const type = node.behavior.type;
+		if (areNodeInputsReadonlyOnDelete(type)) {
+			throw new NodeInputReadonlyException(NodeErrorCode.INPUTS_READONLY_DELETE, type);
+		}
+
+		return this.entityService.delete(id);
 	}
 }
