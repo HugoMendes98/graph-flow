@@ -1,6 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { Component, Inject } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+	FormControl,
+	FormGroup,
+	FormsModule,
+	ReactiveFormsModule,
+	Validators
+} from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import {
 	MAT_DIALOG_DATA,
@@ -9,23 +15,38 @@ import {
 	MatDialogModule,
 	MatDialogRef
 } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
 import type { NODE_NAME_MIN_LENGTH, NodeCreateDto } from "~/lib/common/app/node/dtos";
+import {
+	NODE_BEHAVIOR_TYPES,
+	NodeBehaviorType
+} from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
+import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers/node.trigger.type";
 import { Node } from "~/lib/common/app/node/endpoints";
 import { NodeApiService } from "~/lib/ng/lib/api/node-api";
 import { FormControlsFrom } from "~/lib/ng/lib/forms";
 import { RequestStateSubject } from "~/lib/ng/lib/request-state";
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
+import { NodeBehaviorComponent } from "../../components/node-behavior/node-behavior.component";
+
 /**
  * Data send when opening the dialog
  */
 export interface NodeCreateDialogData {
 	/**
-	 * Initial data passed to the form.
-	 *
-	 * The kind of the node is necessary
+	 * Array of authorized types
 	 */
-	initialData: Partial<NodeCreateDto> & Pick<NodeCreateDto, "kind">;
+	behaviorTypes?: readonly NodeBehaviorType[];
+	/**
+	 * Initial data passed to the form.
+	 * The kind of the node is mandatory.
+	 *
+	 * Note!: only the type of behavior is taken
+	 */
+	initialData: Partial<Pick<NodeCreateDto, "behavior" | "name">> & Pick<NodeCreateDto, "kind">;
 }
 /**
  * The possible (when not canceled) results from the dialog
@@ -42,9 +63,41 @@ export interface NodeCreateDialogResult {
 	styleUrls: ["./node-create.dialog.scss"],
 	templateUrl: "./node-create.dialog.html",
 
-	imports: [CommonModule, TranslationModule, MatButtonModule, MatDialogModule]
+	imports: [
+		CommonModule,
+		TranslationModule,
+		MatButtonModule,
+		MatDialogModule,
+		MatInputModule,
+		ReactiveFormsModule,
+		MatIconModule,
+		FormsModule,
+		NodeBehaviorComponent,
+		MatSelectModule
+	]
 })
 export class NodeCreateDialog {
+	// This dialog is currently very simple
+	//  TODO: a more complex dialog that allows to already:
+	//  - Create `variable` with it's type and value
+	//  - Create `code` preview
+	//  - Create `trigger` and subtypes
+
+	/** Default behavior types when creating a node template */
+	public static readonly NODE_TEMPLATE_BEHAVIOR_TYPES = NODE_BEHAVIOR_TYPES.filter(
+		(
+			type
+		): type is Exclude<
+			NodeBehaviorType,
+			| NodeBehaviorType.PARAMETER_IN
+			| NodeBehaviorType.PARAMETER_OUT
+			| NodeBehaviorType.REFERENCE
+		> =>
+			type !== NodeBehaviorType.PARAMETER_IN &&
+			type !== NodeBehaviorType.PARAMETER_OUT &&
+			type !== NodeBehaviorType.REFERENCE
+	);
+
 	/**
 	 * Opens this dialog
 	 *
@@ -64,7 +117,7 @@ export class NodeCreateDialog {
 				// Some default values
 				maxWidth: "600px",
 				minWidth: "350px",
-				width: "50%",
+				width: "40%",
 
 				...config,
 				data
@@ -76,7 +129,15 @@ export class NodeCreateDialog {
 		this.nodeApi.create(body)
 	);
 
-	protected readonly form: FormGroup<FormControlsFrom<Omit<NodeCreateDto, "kind">>>;
+	/** Creating form */
+	protected readonly form: FormGroup<
+		FormControlsFrom<Pick<NodeCreateDto, "name">> & {
+			behavior: FormControl<Exclude<NodeBehaviorType, NodeBehaviorType.REFERENCE>>;
+		}
+	>;
+	protected readonly BEHAVIOR_TYPES: ReadonlyArray<
+		Exclude<NodeBehaviorType, NodeBehaviorType.REFERENCE>
+	>;
 
 	private readonly kind: NodeCreateDto["kind"];
 
@@ -92,12 +153,31 @@ export class NodeCreateDialog {
 		private readonly matDialogRef: MatDialogRef<NodeCreateDialog, NodeCreateDialogResult>,
 		private readonly nodeApi: NodeApiService
 	) {
-		const { kind, name } = dialogData.initialData;
+		const {
+			behaviorTypes = NODE_BEHAVIOR_TYPES,
+			initialData: { behavior, kind, name }
+		} = dialogData;
 
+		this.BEHAVIOR_TYPES = behaviorTypes.filter(
+			(type): type is Exclude<NodeBehaviorType, NodeBehaviorType.REFERENCE> =>
+				type !== NodeBehaviorType.REFERENCE
+		);
 		this.kind = kind;
+
 		this.form = new FormGroup({
-			// TODO
-			behavior: new FormControl(),
+			behavior: new FormControl(
+				(behavior?.type ?? null) as Exclude<NodeBehaviorType, NodeBehaviorType.REFERENCE>,
+				{
+					nonNullable: true,
+					validators: [
+						Validators.required,
+						control =>
+							behaviorTypes.includes(control.value as never)
+								? null
+								: { "invalid-type": { type: control.value as never } }
+					]
+				}
+			),
 			name: new FormControl(name ?? "", {
 				nonNullable: true,
 				validators: [
@@ -108,13 +188,36 @@ export class NodeCreateDialog {
 		});
 	}
 
+	/** Handle the form submit */
 	protected handleSubmit() {
 		if (this.form.invalid) {
 			return;
 		}
 
+		const { behavior, name } = this.form.getRawValue();
 		void this.requestCreate$
-			.request({ ...this.form.getRawValue(), kind: this.kind })
+			.request({
+				behavior: this.getDefaultBehavior(behavior),
+				kind: this.kind,
+				name
+			})
 			.then(created => this.matDialogRef.close({ created }));
+	}
+
+	private getDefaultBehavior(
+		type: Exclude<NodeBehaviorType, NodeBehaviorType.REFERENCE>
+	): NodeCreateDto["behavior"] {
+		switch (type) {
+			case NodeBehaviorType.CODE:
+				return { code: "", type };
+			case NodeBehaviorType.FUNCTION:
+			case NodeBehaviorType.PARAMETER_IN:
+			case NodeBehaviorType.PARAMETER_OUT:
+				return { type };
+			case NodeBehaviorType.TRIGGER:
+				return { trigger: { cron: "* * * * 5", type: NodeTriggerType.CRON }, type };
+			case NodeBehaviorType.VARIABLE:
+				return { type, value: "" };
+		}
 	}
 }

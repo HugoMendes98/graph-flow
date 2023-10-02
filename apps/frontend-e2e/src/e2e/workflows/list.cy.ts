@@ -60,6 +60,8 @@ describe("Workflows list", () => {
 			cy.get(".cdk-column-name > ui-list-table-header > .align-i-center > span").click();
 			/* ==== End Cypress Studio ==== */
 
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- Sometimes, it does not wait for the queryParams to be set before reload (?)
+			cy.wait(50);
 			cy.reload();
 
 			/* ==== Generated with Cypress Studio ==== */
@@ -70,9 +72,9 @@ describe("Workflows list", () => {
 			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center .mat-icon").should(
 				"be.visible"
 			);
-			cy.get(
-				".cdk-column-name > ui-list-table-header > .align-i-center > .ng-star-inserted > .mat-icon"
-			).should("be.visible");
+			cy.get(".cdk-column-name > ui-list-table-header > .align-i-center .mat-icon").should(
+				"be.visible"
+			);
 			/* ==== End Cypress Studio ==== */
 		});
 	});

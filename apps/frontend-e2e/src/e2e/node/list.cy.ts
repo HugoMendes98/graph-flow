@@ -15,6 +15,26 @@ describe("Nodes list", () => {
 		cy.authConnectAs(email, password);
 	});
 
+	it("should open a node's page", () => {
+		cy.visit("/nodes");
+
+		// The selected node
+		const { _id } = nodes[1];
+
+		/* ==== Generated with Cypress Studio ==== */
+		cy.get(".mdc-data-table__content > :nth-child(3) > .cdk-column-_id").should(
+			"have.text",
+			_id
+		);
+		cy.get(".mdc-data-table__content > :nth-child(3) > .cdk-column-_id").click();
+		cy.get(
+			".mdc-data-table__content > :nth-child(4) .node-edit > .mat-mdc-button-touch-target"
+		).click();
+		/* ==== End Cypress Studio ==== */
+
+		cy.location("pathname").should("eq", `/nodes/${_id}`);
+	});
+
 	describe("Sort", () => {
 		beforeEach(() => cy.visit("/nodes"));
 
@@ -61,6 +81,8 @@ describe("Nodes list", () => {
 			cy.get(".cdk-column-name > ui-list-table-header > .align-i-center > span").click();
 			/* ==== End Cypress Studio ==== */
 
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- Sometimes, it does not wait for the queryParams to be set before reload (?)
+			cy.wait(50);
 			cy.reload();
 
 			/* ==== Generated with Cypress Studio ==== */
@@ -71,30 +93,52 @@ describe("Nodes list", () => {
 			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center .mat-icon").should(
 				"be.visible"
 			);
-			cy.get(
-				".cdk-column-name > ui-list-table-header > .align-i-center > .ng-star-inserted > .mat-icon"
-			).should("be.visible");
+			cy.get(".cdk-column-name > ui-list-table-header > .align-i-center .mat-icon").should(
+				"be.visible"
+			);
 			/* ==== End Cypress Studio ==== */
 		});
 	});
 
-	it("should open a node's page", () => {
-		cy.visit("/nodes");
+	describe("Create a Node", () => {
+		beforeEach(() => {
+			cy.dbRefresh("base");
 
-		// The selected node
-		const { _id } = nodes[1];
+			// Visit after dbRefresh to avoid a 500 error
+			cy.visit("/nodes");
+			cy.get("ng-component.ng-star-inserted > .flex-col > .flex-row > button").click();
+		});
 
-		/* ==== Generated with Cypress Studio ==== */
-		cy.get(".mdc-data-table__content > :nth-child(3) > .cdk-column-_id").should(
-			"have.text",
-			_id
-		);
-		cy.get(".mdc-data-table__content > :nth-child(3) > .cdk-column-_id").click();
-		cy.get(
-			".mdc-data-table__content > :nth-child(4) .node-edit > .mat-mdc-button-touch-target"
-		).click();
-		/* ==== End Cypress Studio ==== */
+		it("should create a new node", () => {
+			const newId = Math.max(...db.graph.nodes.map(({ _id }) => _id)) + 1;
+			const newName = "My new Node";
 
-		cy.location("pathname").should("eq", `/nodes/${_id}`);
+			/* ==== Generated with Cypress Studio ==== */
+			cy.get(".mat-mdc-dialog-container #mat-input-0").type(newName);
+			cy.get(".mat-mdc-dialog-container .mat-mdc-select-placeholder").click();
+			cy.get(".mat-mdc-select-panel #mat-option-1").click();
+			cy.get(".mat-mdc-dialog-container form button[type=submit]").click();
+			/* ==== End Cypress Studio ==== */
+
+			cy.location("pathname").should("eq", `/nodes/${newId}`);
+
+			/* ==== Generated with Cypress Studio ==== */
+			cy.get('.mat-toolbar [routerlink="/nodes"]').click();
+			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center > span").click();
+			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center > span").click();
+			cy.get(".mdc-data-table__content > :nth-child(1) > .cdk-column-_id").should(
+				"have.text",
+				newId
+			);
+			cy.get(".mdc-data-table__content > :nth-child(1) > .cdk-column-name").should(
+				"have.text",
+				newName
+			);
+			cy.get(".mdc-data-table__content > :nth-child(1) > .cdk-column-behavior-type").should(
+				"have.text",
+				"function"
+			);
+			/* ==== End Cypress Studio ==== */
+		});
 	});
 });

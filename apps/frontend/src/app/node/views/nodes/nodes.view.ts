@@ -110,6 +110,7 @@ export class NodesView implements OnInit, OnDestroy {
 
 		await lastValueFrom(
 			NodeCreateDialog.open(this.matDialog, {
+				behaviorTypes: NodeCreateDialog.NODE_TEMPLATE_BEHAVIOR_TYPES,
 				initialData: { kind: { active: false, type: NodeKindType.TEMPLATE } }
 			}).afterClosed()
 		).then(result => {

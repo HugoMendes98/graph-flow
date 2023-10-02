@@ -123,6 +123,7 @@ export class WorkflowCreateDialog {
 		this.workflowApi.create(body)
 	);
 
+	/** Creating form */
 	protected readonly form: FormGroup<FormControlsFrom<WorkflowCreateDto>>;
 	protected readonly unique$: Observable<WorkflowUniqueState>;
 
@@ -206,6 +207,7 @@ export class WorkflowCreateDialog {
 		).pipe(distinctUntilChanged());
 	}
 
+	/** Handle the form submit */
 	protected handleSubmit() {
 		if (this.form.invalid) {
 			return;

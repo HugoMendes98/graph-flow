@@ -11,10 +11,12 @@ export enum NodeBehaviorType {
 	VARIABLE = "variable"
 }
 
-/**
- * Subtypes for parameters
- */
-export type NodeBehaviorParameterType =
-	| NodeBehaviorType.PARAMETER_IN
-	| NodeBehaviorType.PARAMETER_OUT
-	| NodeBehaviorType.VARIABLE;
+export const NODE_BEHAVIOR_TYPES = [
+	NodeBehaviorType.CODE,
+	NodeBehaviorType.FUNCTION,
+	NodeBehaviorType.PARAMETER_IN,
+	NodeBehaviorType.PARAMETER_OUT,
+	NodeBehaviorType.REFERENCE,
+	NodeBehaviorType.TRIGGER,
+	NodeBehaviorType.VARIABLE
+] as const satisfies readonly NodeBehaviorType[];

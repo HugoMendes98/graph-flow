@@ -14,6 +14,10 @@
 		}
 	},
 	"dialogs": {
+		"node-create": {
+			"behavior-hint": "Created with default values. It can be changed later.",
+			"title": "Create a node"
+		},
 		"profile": {
 			"title": "Profile",
 			"user-created": {
