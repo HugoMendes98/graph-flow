@@ -13,7 +13,6 @@ import { NodeCreateEntity, NodeService } from "../node.service";
 
 describe("NodeInput", () => {
 	let nodeService: NodeService;
-
 	let dbTest: DbTestHelper;
 
 	beforeAll(async () => {

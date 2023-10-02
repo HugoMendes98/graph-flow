@@ -6,6 +6,7 @@ import { DbTestSample } from "./db-test.sample";
 import { MockedDbSeeder } from "../../src/orm/seeders/_lib/mocked-db.seeder";
 import { DbBaseSeeder } from "../../src/orm/seeders/db.base.seeder";
 import { DbEmptySeeder } from "../../src/orm/seeders/db.empty.seeder";
+import { DbOnlyNodesSeeder } from "../../src/orm/seeders/db.only-nodes.seeder";
 
 export interface DbTestHelperParams {
 	/**
@@ -45,6 +46,9 @@ export class DbTestHelper {
 				break;
 			case "empty":
 				this.seeder = DbEmptySeeder;
+				break;
+			case "only-nodes":
+				this.seeder = DbOnlyNodesSeeder;
 				break;
 
 			default:

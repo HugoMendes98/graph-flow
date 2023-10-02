@@ -1,6 +1,10 @@
-export type DbTestSample = "base" | "empty";
+export type DbTestSample = "base" | "empty" | "only-nodes";
 
-export const DB_TEST_SAMPLE_VALUES = ["base", "empty"] as const satisfies readonly DbTestSample[];
+export const DB_TEST_SAMPLE_VALUES = [
+	"base",
+	"empty",
+	"only-nodes"
+] as const satisfies readonly DbTestSample[];
 
 /**
  * @param value The value to test

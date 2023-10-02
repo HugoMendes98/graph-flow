@@ -42,11 +42,7 @@ export class NodeInputController implements EndpointTransformed {
 	@ApiNodeParam()
 	@Post()
 	public create(@NodeInterceptedParam() node: NodeEntity, @Body() body: NodeInputCreateDto) {
-		return this.service.create({
-			...body,
-			__node: node._id,
-			__ref: null
-		});
+		return this.service.createFromNode(node, body);
 	}
 
 	@ApiNodeParam()
@@ -57,15 +53,13 @@ export class NodeInputController implements EndpointTransformed {
 		@Param("id") id: number,
 		@Body() body: NodeInputUpdateDto
 	) {
-		return this.service
-			.findByNodeId(node._id, id)
-			.then(({ _id }) => this.service.update(_id, body));
+		return this.service.updateFromNode(node, id, body);
 	}
 
 	@ApiNodeParam()
 	@ApiOkResponse({ type: NodeInputDto })
 	@Delete("/:id")
 	public delete(@NodeInterceptedParam() node: NodeEntity, @Param("id") id: number) {
-		return this.service.findByNodeId(node._id, id).then(({ _id }) => this.service.delete(_id));
+		return this.service.deleteFromNode(node, id);
 	}
 }
