@@ -1,8 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { NodeOutputCreateDto, NodeOutputUpdateDto } from "~/lib/common/app/node/dtos/output";
+import { NodeErrorCode } from "~/lib/common/app/node/error-codes";
+import { areNodeOutputsReadonlyOnUpdate } from "~/lib/common/app/node/io/output";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { EntitiesToPopulate } from "~/lib/common/endpoints";
 
+import { NodeOutputReadonlyException } from "./exceptions";
 import { NodeOutputEntity } from "./node-output.entity";
 import { NodeOutputRepository } from "./node-output.repository";
 import { EntityService, EntityServiceFindOptions } from "../../_lib/entity";
@@ -72,6 +75,13 @@ export class NodeOutputService {
 		id: EntityId,
 		toUpdate: NodeOutputUpdateDto
 	): Promise<NodeOutputEntity> {
+		const type = node.behavior.type;
+		if (areNodeOutputsReadonlyOnUpdate(type)) {
+			return Promise.reject(
+				new NodeOutputReadonlyException(NodeErrorCode.OUTPUTS_READONLY_UPDATE, type)
+			);
+		}
+
 		throw new Error();
 	}
 }

@@ -5,14 +5,14 @@ import { NodeIoType } from "~/lib/common/app/node/io";
 import { ONLY_NODES_SEED } from "~/lib/common/seeds";
 import { omit } from "~/lib/common/utils/object-fns";
 
-import { NodeInputReadonlyException as NodeOutputReadonlyException } from "./exceptions";
+import { NodeInputReadonlyException } from "./exceptions";
 import { NodeInputService } from "./node-input.service";
 import { DbTestHelper } from "../../../../test/db-test";
 import { OrmModule } from "../../../orm/orm.module";
 import { NodeModule } from "../node.module";
 import { NodeService } from "../node.service";
 
-describe("NodeOutputService", () => {
+describe("NodeInputService", () => {
 	let service: NodeInputService;
 	let nodeService: NodeService;
 	let dbTest: DbTestHelper;
@@ -88,7 +88,7 @@ describe("NodeOutputService", () => {
 			const toCreate: NodeInputCreateDto = { name: "1", type: NodeIoType.STRING };
 			for (const node of Object.values(omit(nodes, ["nodeCode"]))) {
 				await expect(() => service.createFromNode(node, toCreate)).rejects.toThrow(
-					NodeOutputReadonlyException
+					NodeInputReadonlyException
 				);
 			}
 		});
@@ -102,8 +102,8 @@ describe("NodeOutputService", () => {
 
 			const toUpdate: NodeInputUpdateDto = { name: "1", type: NodeIoType.STRING };
 			for (const node of [nodeCode, nodeParameterOut]) {
-				const [output] = node.inputs.getItems();
-				const updated = await service.updateFromNode(node, output._id, toUpdate);
+				const [input] = node.inputs.getItems();
+				const updated = await service.updateFromNode(node, input._id, toUpdate);
 
 				expect(updated.name).toBe(toUpdate.name);
 				expect(updated.type).toBe(toUpdate.type);
@@ -115,10 +115,10 @@ describe("NodeOutputService", () => {
 
 			const toUpdate: NodeInputUpdateDto = { name: "1", type: NodeIoType.STRING };
 			for (const node of [nodeFunction, nodeReference, nodeVariable]) {
-				const [output] = node.inputs.getItems();
+				const [input] = node.inputs.getItems();
 				await expect(() =>
-					service.updateFromNode(node, output._id, toUpdate)
-				).rejects.toThrow(NodeOutputReadonlyException);
+					service.updateFromNode(node, input._id, toUpdate)
+				).rejects.toThrow(NodeInputReadonlyException);
 			}
 		});
 	});
@@ -145,7 +145,7 @@ describe("NodeOutputService", () => {
 			for (const node of [nodeFunction, nodeParameterOut, nodeReference, nodeVariable]) {
 				await expect(() =>
 					service.deleteFromNode(node, node.inputs.getItems()[0]._id)
-				).rejects.toThrow(NodeOutputReadonlyException);
+				).rejects.toThrow(NodeInputReadonlyException);
 			}
 		});
 	});
