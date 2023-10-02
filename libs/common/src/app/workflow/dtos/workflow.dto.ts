@@ -4,6 +4,7 @@ import { DtoProperty } from "../../../dtos/dto";
 import { EntityDto } from "../../../dtos/entity";
 import { GraphDto } from "../../graph/dtos/graph.dto";
 
+/** Minimal length for a workflow's name */
 export const WORKFLOW_NAME_MIN_LENGTH = 2;
 
 /**

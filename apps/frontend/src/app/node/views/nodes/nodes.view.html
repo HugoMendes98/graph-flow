@@ -1,1 +1,26 @@
-<p>nodes view</p>
+<div class="flex flex-col gap-4 md:mx-8 mx-2 my-4 sm:mx-4">
+	<h1 translate>entities.node.__meta.plural</h1>
+
+	<div class="flex flex-row flex-wrap gap-2 justify-c-end">
+		<h4 class="flex-1" translate>views.nodes.subtitle</h4>
+
+		<button
+			class="align-s-end"
+			color="primary"
+			mat-raised-button
+			type="button"
+			(click)="openCreateDialog()"
+		>
+			<mat-icon>add_circle</mat-icon>
+			<span translate>actions.create</span>
+		</button>
+	</div>
+</div>
+
+<app-node-list
+	class="mb-4 md:mx-8 sm:mx-4"
+	[previewEditUrl]="nodeUrl"
+	[query]="listQuery()"
+	[state$]="nodesState$"
+	(queryChange)="handleQueryChange($event)"
+/>

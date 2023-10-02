@@ -17,6 +17,7 @@ import { RequestStateSubject } from "~/lib/ng/lib/request-state";
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
 import {
+	WORKFLOW_LIST_COLUMNS,
 	WorkflowListColumn,
 	WorkflowListComponent,
 	WorkflowListQuery
@@ -57,7 +58,6 @@ export class WorkflowsView implements OnInit, OnDestroy {
 	 * Used to avoid unnecessary request when it's only query params change from this same view.
 	 */
 	private readonly INTERNAL_NAVIGATION = {};
-
 	private readonly subscription = new Subscription();
 
 	/**
@@ -108,14 +108,16 @@ export class WorkflowsView implements OnInit, OnDestroy {
 	 */
 	protected async openCreateDialog() {
 		const { WorkflowCreateDialog } = await import(
-			"../../dialogs/workflow-create.dialog/workflow-create.dialog"
+			"../../dialogs/workflow-create/workflow-create.dialog"
 		);
 
 		await lastValueFrom(WorkflowCreateDialog.open(this.matDialog).afterClosed()).then(
 			result => {
-				if (result) {
-					void this.router.navigateByUrl(this.workflowUrl(result.created));
+				if (!result) {
+					return;
 				}
+
+				void this.router.navigateByUrl(this.workflowUrl(result.created));
 			}
 		);
 	}
@@ -147,16 +149,16 @@ export class WorkflowsView implements OnInit, OnDestroy {
 
 	// TODO: remove it from this component (lib?)
 	private queryParamsToListQuery(queryParams: WorkflowsViewQueryParam): WorkflowListQuery {
+		// TODO: use a lib (dot-object like)
 		const sortQP = Object.entries(queryParams)
 			.filter(([key, value]) => key.startsWith(SORT_PARAM_SUFFIX) && isOrderValue(value))
-			.map(([key, value]) => [key.slice(SORT_PARAM_SUFFIX.length), value]) as Array<
-			[WorkflowListColumn, ListSortOrderValueDefault]
-		>;
+			.map(([key, value]) => [key.slice(SORT_PARAM_SUFFIX.length), value])
+			.filter((element): element is [WorkflowListColumn, ListSortOrderValueDefault] =>
+				WORKFLOW_LIST_COLUMNS.includes(element[0] as never)
+			);
 
 		return {
-			sort: new ListSortColumns<WorkflowListColumn>(
-				sortQP.map(([column, direction]) => ({ column, direction }))
-			)
+			sort: new ListSortColumns(sortQP.map(([column, direction]) => ({ column, direction })))
 		};
 	}
 

@@ -122,7 +122,7 @@ export class WorkflowListComponent implements OnChanges {
 
 	/** @inheritDoc */
 	public ngOnChanges(changes: SimpleChanges) {
-		if (("state$" satisfies keyof WorkflowListComponent) in changes) {
+		if (("state$" satisfies keyof this) in changes) {
 			this.dataSource$ = this.state$.pipe(map(({ snapshot: { data } }) => data?.data ?? []));
 		}
 	}

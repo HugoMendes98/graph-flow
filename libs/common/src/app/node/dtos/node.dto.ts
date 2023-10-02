@@ -13,6 +13,9 @@ import { DtoProperty } from "../../../dtos/dto";
 import { EntityDto } from "../../../dtos/entity";
 import { CategoryDto } from "../../category/dtos/category.dto";
 
+/** Minimal length for a node's name */
+export const NODE_NAME_MIN_LENGTH = 2;
+
 /**
  * DTO for node entities.
  *
@@ -24,7 +27,7 @@ export class NodeDto extends EntityDto {
 	 */
 	@DtoProperty()
 	@IsString()
-	@MinLength(2)
+	@MinLength(NODE_NAME_MIN_LENGTH)
 	public name!: string;
 
 	/**

@@ -14,6 +14,10 @@
 		}
 	},
 	"dialogs": {
+		"node-create": {
+			"behavior-hint": "Created with default values. It can be changed later.",
+			"title": "Create a node"
+		},
 		"profile": {
 			"title": "Profile",
 			"user-created": {
@@ -34,6 +38,25 @@
 		"node": {
 			"__meta": {
 				"plural": "Nodes"
+			},
+			"behavior": {
+				"__meta": {
+					"singular": "Behavior"
+				}
+			},
+			"inputs": {
+				"__meta": {
+					"plural": "Inputs"
+				}
+			},
+			"kind": {
+				"active": "Active"
+			},
+			"name": "Name",
+			"outputs": {
+				"__meta": {
+					"plural": "Outputs"
+				}
 			}
 		},
 		"user": {
@@ -77,6 +100,9 @@
 				"_1": "Hello ",
 				"_2": "!"
 			}
+		},
+		"nodes": {
+			"subtitle": "List of re-usable nodes."
 		},
 		"workflows": {
 			"subtitle": "List, view and edit workflows"

@@ -1,0 +1,52 @@
+<h2 mat-dialog-title translate>dialogs.node-create.title</h2>
+
+<div mat-dialog-content>
+	<form class="flex flex-col gap-2" (ngSubmit)="handleSubmit()">
+		<mat-form-field>
+			<mat-label translate>entities.node.name</mat-label>
+			<input matInput [formControl]="form.controls.name" />
+
+			<button
+				*ngIf="form.controls.name.value"
+				mat-icon-button
+				matIconSuffix
+				type="button"
+				(click)="form.controls.name.setValue('')"
+			>
+				<mat-icon>close</mat-icon>
+			</button>
+
+			<mat-error>{{ form.controls.name.errors | translateControlError }}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field>
+			<mat-label translate>entities.node.behavior.__meta.singular</mat-label>
+			<mat-select [formControl]="form.controls.behavior">
+				<mat-option *ngFor="let type of BEHAVIOR_TYPES" [value]="type">
+					{{ type }}
+				</mat-option>
+			</mat-select>
+
+			<mat-hint translate>dialogs.node-create.behavior-hint</mat-hint>
+		</mat-form-field>
+
+		<div class="flex justify-c-end px-4">
+			<button
+				class="flex flex-row"
+				color="primary"
+				mat-raised-button
+				type="submit"
+				[disabled]="form.invalid"
+			>
+				<mat-icon>add</mat-icon>
+				{{ "actions.create" | translate }}
+			</button>
+		</div>
+
+		<!-- TODO: show loading or error  -->
+	</form>
+</div>
+
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close type="button">{{ "actions.close" | translate }}</button>
+</div>

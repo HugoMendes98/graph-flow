@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 import { WorkflowCreateDialog, WorkflowCreateDialogData } from "./workflow-create.dialog";
 
-describe("WorkflowCreateDialogComponent", () => {
+describe("WorkflowCreateDialog", () => {
 	let component: WorkflowCreateDialog;
 	let fixture: ComponentFixture<WorkflowCreateDialog>;
 
