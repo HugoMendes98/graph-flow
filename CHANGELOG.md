@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/HugoMendes98/graph-flow/compare/v0.4.0...v0.4.1) (2023-10-03)
+
+
+### Bug Fixes
+
+* **node/io:** restrict creation/update/deletion of node inputs/outputs ([6648bd3](https://github.com/HugoMendes98/graph-flow/commit/6648bd3b033e534edfc9082a29905e9ed5550170))
+
 ## [0.4.0](https://github.com/HugoMendes98/graph-flow/compare/v0.3.5...v0.4.0) (2023-10-02)
 
 
