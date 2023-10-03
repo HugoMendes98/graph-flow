@@ -40,7 +40,7 @@ jobs:
         run: npm run test:ci
 
       - name: Tests e2e
-        run: npm run test:e2e -- --video
+        run: npm run test:e2e
 
       - name: Upload Cypress artifacts in case of error
         uses: actions/upload-artifact@v3

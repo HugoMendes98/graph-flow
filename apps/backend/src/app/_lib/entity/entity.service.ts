@@ -108,6 +108,24 @@ export abstract class EntityService<
 	}
 
 	/**
+	 * Find one entity by a filter.
+	 * Throws a Mikro-orm error when not found
+	 *
+	 * @param where filter
+	 * @param options Some options when loading an entity
+	 * @returns The found entity
+	 */
+	public findOne<P extends EntitiesToPopulate<T>>(
+		where: EntityFilter<T>,
+		options?: EntityServiceFindOptions<T, P>
+	) {
+		return this.repository.findOneOrFail(where as never, {
+			populate:
+				options?.populate && (entityToPopulateToRelationsKeys(options.populate) as never)
+		}) as Promise<EntityLoaded<T, P>>;
+	}
+
+	/**
 	 * Find one entity by its id
 	 *
 	 * @param id Entity id to find
@@ -118,17 +136,11 @@ export abstract class EntityService<
 		id: EntityId,
 		options?: EntityServiceFindOptions<T, P>
 	) {
-		return this.repository.findOneOrFail(
-			{
-				_id: { $eq: id }
-				// It seems there's an error when using calculated generic type
-			} satisfies FilterQuery<EntityBase> as FilterQuery<T>,
-			{
-				populate:
-					options?.populate &&
-					(entityToPopulateToRelationsKeys(options.populate) as never)
-			}
-		) as Promise<EntityLoaded<T, P>>;
+		return this.findOne<P>(
+			// It seems there's an error when using calculated generic type
+			{ _id: { $eq: id } } satisfies FilterQuery<EntityBase> as never,
+			options
+		);
 	}
 
 	/**

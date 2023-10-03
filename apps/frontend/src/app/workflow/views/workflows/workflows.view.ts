@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -38,12 +37,11 @@ type WorkflowsViewQueryParam = WorkflowsViewQueryParamSort;
 
 	imports: [
 		CommonModule,
-		WorkflowListComponent,
-		MatCardModule,
 		MatButtonModule,
 		MatDialogModule,
 		MatIconModule,
-		TranslationModule
+		TranslationModule,
+		WorkflowListComponent
 	]
 })
 export class WorkflowsView implements OnInit, OnDestroy {

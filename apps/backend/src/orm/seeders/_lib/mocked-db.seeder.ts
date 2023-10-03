@@ -8,7 +8,9 @@ import { AuthService } from "../../../app/auth/auth.service";
 import { CategoryEntity } from "../../../app/category/category.entity";
 import { GraphArcEntity } from "../../../app/graph/arc/graph-arc.entity";
 import { GraphEntity } from "../../../app/graph/graph.entity";
+import { NodeInputEntity } from "../../../app/node/input/node-input.entity";
 import { NodeEntity } from "../../../app/node/node.entity";
+import { NodeOutputEntity } from "../../../app/node/output/node-output.entity";
 import { UserEntity } from "../../../app/user/user.entity";
 import { WorkflowEntity } from "../../../app/workflow/workflow.entity";
 
@@ -82,19 +84,16 @@ export abstract class MockedDbSeeder extends Seeder {
 			// Confirm new rows
 			await em.flush();
 
-			// Need to update the sequence when entities are added manually
-			const primaryKey: keyof EntityBase = "_id";
-			// // TODO: better (if the table name is set manually)
-			const tblName = em.config.getNamingStrategy().classToTableName(entity.name);
-			await em
-				.getConnection()
-				.execute(
-					`SELECT SETVAL('${tblName}_${primaryKey}_seq', (SELECT MAX(${primaryKey}) from "${tblName}"))`
-				);
-
+			await this.updateSequence(em, entity);
 			// Confirm sequence update
 			await em.flush();
 		}
+
+		// Missing entities
+		await this.updateSequence(em, NodeInputEntity);
+		await this.updateSequence(em, NodeOutputEntity);
+		// Flush before removing the replica role
+		await em.flush();
 
 		// Enable FK checks
 		await em.getConnection().execute("SET session_replication_role = 'origin';");
@@ -108,5 +107,17 @@ export abstract class MockedDbSeeder extends Seeder {
 		}
 
 		// Seeder always flush at the end
+	}
+
+	private updateSequence(em: EntityManager, entity: typeof EntityBase) {
+		// Need to update the sequence when entities are added manually
+		const primaryKey: keyof EntityBase = "_id";
+		// // TODO: better (if the table name is set manually)
+		const tblName = em.config.getNamingStrategy().classToTableName(entity.name);
+		return em
+			.getConnection()
+			.execute(
+				`SELECT SETVAL('${tblName}_${primaryKey}_seq', (SELECT MAX(${primaryKey}) from "${tblName}"))`
+			);
 	}
 }

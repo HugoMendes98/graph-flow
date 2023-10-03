@@ -42,8 +42,6 @@ export class NodeOutputController implements EndpointTransformed {
 		@Param("id") id: number,
 		@Body() body: NodeOutputUpdateDto
 	) {
-		return this.service
-			.findByNodeId(node._id, id)
-			.then(({ _id }) => this.service.update(_id, body));
+		return this.service.updateFromNode(node, id, body);
 	}
 }
