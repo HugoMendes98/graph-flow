@@ -44,6 +44,18 @@ body {
 			@include ng.tw-base(utils.$spacing, $colors, "#{$breakpoint}-max");
 		}
 	}
+
+	// To center correctly something on
+	.absolute-centered {
+		left: 50%;
+		top: 50%;
+
+		transform: translate(-50%, -50%);
+	}
+
+	.mat-mdc-tab-body-wrapper {
+		flex: 1;
+	}
 }
 
 // By default, all routed component take all the remaining place

@@ -17,7 +17,18 @@
 		visibility: hidden;
 	}
 
+	// Size related
+	.#{$prefix}h-100#{$pseudo} {
+		height: 100%;
+	}
+	.#{$prefix}w-100#{$pseudo} {
+		width: 100%;
+	}
+
 	// position related
+	.#{$prefix}absolute#{$pseudo} {
+		position: absolute;
+	}
 	.#{$prefix}fixed#{$pseudo} {
 		position: fixed;
 	}
@@ -173,6 +184,10 @@
 		text-align: right;
 	}
 
+	.#{$prefix}text-underline#{$pseudo} {
+		text-decoration: underline;
+	}
+
 	// cursor related
 	.#{$prefix}cursor-default#{$pseudo} {
 		cursor: default;
@@ -242,6 +257,10 @@
 		}
 		.#{$prefix}pl-#{$size}#{$pseudo} {
 			padding-left: $value;
+		}
+
+		.#{$prefix}border-radius-#{$size}#{$pseudo} {
+			border-radius: $value;
 		}
 	}
 

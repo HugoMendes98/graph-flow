@@ -78,7 +78,8 @@
 			"400": "The request is mal-formed.",
 			"500": "A server error occurred.",
 			"generic": "A network error occurred."
-		}
+		},
+		"occurred": "An error occurred."
 	},
 	"formats": {
 		"date": "YYYY.MM.dd",
@@ -103,6 +104,15 @@
 		},
 		"nodes": {
 			"subtitle": "List of re-usable nodes."
+		},
+		"workflow": {
+			"tab": {
+				"graph": "Graph",
+				"workflow": {
+					"_1": "Workflow ",
+					"_2": ""
+				}
+			}
 		},
 		"workflows": {
 			"subtitle": "List, view and edit workflows"

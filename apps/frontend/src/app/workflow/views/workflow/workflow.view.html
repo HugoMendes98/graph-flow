@@ -1,17 +1,37 @@
-<div *ngIf="requestState$ | async as state" class="flex flex-1 flex-col">
-	<div *ngIf="state.state === 'init'">Init</div>
+<mat-tab-group backgroundColor="warn" class="flex flex-1" headerPosition="below" selectedIndex="1">
+	<mat-tab *ngIf="requestState$ | async as state" bodyClass="flex-1">
+		<ng-template matTabLabel>
+			<ng-container *ngIf="requestState().snapshot.data as workflow; else noWorkflow">
+				<span class="font-italic">{{ workflow.name }}</span>
+			</ng-container>
 
-	<div *ngIf="state.state === 'loading'">Loading</div>
+			<ng-template #noWorkflow>
+				<ng-container *ngIf="requestState().state === 'failed'; else loading">
+					<mat-icon>error</mat-icon>
+					<span class="ml-2" translate>errors.occurred</span>
+				</ng-container>
 
-	<pre *ngIf="state.state === 'failed'">{{ state.error | json }}</pre>
+				<ng-template #loading>
+					<mat-progress-spinner color="accent" diameter="24" mode="indeterminate" />
+				</ng-template>
+			</ng-template>
+		</ng-template>
 
-	<app-graph
-		*ngIf="state.state === 'success'"
-		class="flex-1"
-		[actions]="getActions(state.data.workflow)"
-		[arcs]="state.data.arcs"
-		[nodes]="state.data.nodes"
-		[readonly]="false"
-		(nodeMoved)="handleNodeMove(state.data.workflow, $event)"
-	></app-graph>
-</div>
+		<ng-template matTabContent>
+			<!-- TODO -->
+		</ng-template>
+	</mat-tab>
+
+	<mat-tab bodyClass="flex-1">
+		<ng-template matTabLabel>
+			<mat-icon>account_tree</mat-icon>
+			<span class="ml-2" translate>views.workflow.tab.graph</span>
+		</ng-template>
+
+		<ng-template matTabContent>
+			<app-graph class="flex-1 h-100" [arcs]="[]" [nodes]="[]" [readonly]="true"></app-graph>
+
+			<!-- TODO -->
+		</ng-template>
+	</mat-tab>
+</mat-tab-group>

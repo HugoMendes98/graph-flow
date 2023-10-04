@@ -1,0 +1,46 @@
+<mat-card>
+	<!-- TODO: more description -->
+
+	<mat-card-header class="m-2 mb-4">
+		<mat-card-title class="mb-1 text-3xl" translate>cards.http-error.title</mat-card-title>
+		<mat-card-subtitle translate>
+			<ng-container [ngSwitch]="error.status">
+				<span *ngSwitchCase="400" translate>errors.http.400</span>
+				<span *ngSwitchCase="404" translate>errors.http.404</span>
+				<span *ngSwitchCase="500" translate>errors.http.500</span>
+				<span *ngSwitchDefault translate>errors.http.generic</span>
+			</ng-container>
+		</mat-card-subtitle>
+	</mat-card-header>
+
+	<mat-card-content class="flex flex-col gap-2">
+		<div
+			class="align-i-center error-description flex flex-row flex-wrap gap-4 px-4"
+			[ngSwitch]="error.status"
+		>
+			<ng-container *ngSwitchCase="400">
+				<mat-icon color="warn">front_hand</mat-icon>
+				<p class="flex-1 text-right" translate>cards.http-error.errors.400.description</p>
+			</ng-container>
+
+			<ng-container *ngSwitchCase="404">
+				<mat-icon color="warn">visibility_off</mat-icon>
+				<p class="flex-1 text-right" translate>cards.http-error.errors.404.description</p>
+			</ng-container>
+
+			<ng-container *ngSwitchCase="500">
+				<mat-icon color="warn">storage</mat-icon>
+				<p class="flex-1 text-right" translate>cards.http-error.errors.500.description</p>
+			</ng-container>
+
+			<ng-container *ngSwitchDefault>
+				<mat-icon color="warn">wifi_off</mat-icon>
+				<p class="flex-1 text-right" translate>
+					cards.http-error.errors.generic.description
+				</p>
+			</ng-container>
+		</div>
+
+		<ng-content [select]="actions" />
+	</mat-card-content>
+</mat-card>
