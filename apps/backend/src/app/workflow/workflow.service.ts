@@ -1,4 +1,4 @@
-import { EventArgs, EventSubscriber, MikroORM, UseRequestContext } from "@mikro-orm/core";
+import { CreateRequestContext, EventArgs, EventSubscriber, MikroORM } from "@mikro-orm/core";
 import { Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
@@ -10,6 +10,7 @@ import { WorkflowEntity } from "./workflow.entity";
 import { WorkflowRepository } from "./workflow.repository";
 import { EntityService } from "../_lib/entity";
 import { GraphService } from "../graph/graph.service";
+import { NodeBehaviorTrigger } from "../node/behaviors/node-behavior.trigger";
 import { NodeService } from "../node/node.service";
 
 /**
@@ -53,7 +54,7 @@ export class WorkflowService
 		}
 
 		if (changeSet.payload.active === true) {
-			await this.getTrigger(entity).catch((error: unknown) => {
+			await this.findTrigger(entity).catch((error: unknown) => {
 				if (error instanceof NotFoundException) {
 					throw new WorkflowNoTriggerException(error.message);
 				}
@@ -64,7 +65,7 @@ export class WorkflowService
 	}
 
 	/** @inheritDoc */
-	@UseRequestContext()
+	@CreateRequestContext()
 	public async onModuleInit() {
 		const { data: workflows } = await this.findAndCount({ active: true });
 
@@ -81,12 +82,6 @@ export class WorkflowService
 		});
 	}
 
-	private async registerWorkflow(workflow: WorkflowEntity) {
-		const trigger = await this.getTrigger(workflow);
-
-		// TODO
-	}
-
 	/**
 	 * Gets the trigger node for the given workflow
 	 *
@@ -94,7 +89,7 @@ export class WorkflowService
 	 * @throws NotFoundException when no trigger is found
 	 * @returns the trigger node for the given workflow
 	 */
-	private async getTrigger(workflow: WorkflowEntity) {
+	public async findTrigger(workflow: WorkflowEntity) {
 		const { __graph, _id } = workflow;
 
 		const { data } = await this.nodeService.findAndCount(
@@ -119,6 +114,16 @@ export class WorkflowService
 			throw new NotFoundException(`No trigger found for the workflow ${_id}`);
 		}
 
-		return data[0];
+		const [node] = data;
+		return {
+			node,
+			trigger: node.behavior as NodeBehaviorTrigger
+		};
+	}
+
+	private async registerWorkflow(workflow: WorkflowEntity) {
+		const trigger = await this.findTrigger(workflow);
+
+		// TODO
 	}
 }

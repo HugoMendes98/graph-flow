@@ -73,7 +73,7 @@ export class GraphExecutor implements OnModuleInit {
 	 *
 	 * @param params parameters with the graph and the starting nodes
 	 * @param options additional options
-	 * @returns Promise when initialized that returns an finish-able observable with events
+	 * @returns Promise when initialized that returns a finish-able observable with events
 	 */
 	public async execute(
 		params: GraphExecuteParams,

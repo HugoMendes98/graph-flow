@@ -26,3 +26,4 @@ export interface GraphExecuteNodeFinishState
 }
 
 export type GraphExecuteState = GraphExecuteNodeFinishState | GraphExecuteNodeStartingState;
+export type GraphExecuteStateType = GraphExecuteState["type"];
