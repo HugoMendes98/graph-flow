@@ -175,6 +175,18 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 		);
 	}
 
+	public ngOnChanges(changes: SimpleChanges) {
+		// TODO: with a `set` on the input ?
+		const simpleChange = changes["readonly" satisfies keyof this];
+		if ((simpleChange as unknown) && this.rete) {
+			if (simpleChange.currentValue ?? true) {
+				this.rete.readonly.enable();
+			} else {
+				this.rete.readonly.disable();
+			}
+		}
+	}
+
 	/** @inheritDoc */
 	public async ngAfterViewInit() {
 		const area = new AreaPlugin<Schemes, AreaExtra>(this.container.nativeElement);
@@ -341,18 +353,6 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 
 		area.destroy();
 		await editor.clear();
-	}
-
-	public ngOnChanges(changes: SimpleChanges) {
-		// TODO: with a `set` on the input ?
-		const simpleChange = changes["readonly" satisfies keyof this];
-		if ((simpleChange as unknown) && this.rete) {
-			if (simpleChange.currentValue ?? true) {
-				this.rete.readonly.enable();
-			} else {
-				this.rete.readonly.disable();
-			}
-		}
 	}
 
 	// TODO: some buttons/actions:

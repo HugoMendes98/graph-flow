@@ -20,7 +20,7 @@ export class AuthLocalGuard extends AuthGuard(STRATEGY_LOCAL_NAME) {
 		// To use the pipe before the guard
 		// https://github.com/nestjs/nest/issues/767
 		const body = (await this.pipe.transform(
-			this.getRequest<import("express").Request>(context).body,
+			(this.getRequest(context) as import("express").Request).body,
 			{ metatype: AuthLoginDto, type: "body" }
 		)) as AuthLoginDto;
 

@@ -56,7 +56,7 @@
 			</ui-list-table-header>
 		</th>
 		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
-			{{ row._created_at | date : ("formats.date" | translate) }}
+			{{ row._created_at | date: ("formats.date" | translate) }}
 		</td>
 	</ng-container>
 

@@ -28,7 +28,10 @@ export class DbE2eHelper implements Omit<DbTestHelper, "close" | "transformTo"> 
 		return this.helpers.get(sample)!.get();
 	}
 
-	protected constructor(private readonly sample: DbTestSample, public readonly db: MockSeed) {}
+	protected constructor(
+		private readonly sample: DbTestSample,
+		public readonly db: MockSeed
+	) {}
 
 	public async refresh(): Promise<void> {
 		return axios.get(E2E_ENDPOINT_DB_SEEDING, {
