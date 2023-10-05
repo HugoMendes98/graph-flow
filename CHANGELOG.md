@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/HugoMendes98/graph-flow/compare/v0.4.1...v0.4.2) (2023-10-05)
+
+
+### Bug Fixes
+
+* update dependencies ([#18](https://github.com/HugoMendes98/graph-flow/issues/18)) ([1fa0a8f](https://github.com/HugoMendes98/graph-flow/commit/1fa0a8f1e17827926ce390812bd1e83f2075beba))
+
 ## [0.4.1](https://github.com/HugoMendes98/graph-flow/compare/v0.4.0...v0.4.1) (2023-10-03)
 
 
