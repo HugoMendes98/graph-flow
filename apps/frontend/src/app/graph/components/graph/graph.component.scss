@@ -38,8 +38,13 @@
 			linear-gradient(90deg, $color-major $line-width, transparent $line-width),
 			linear-gradient($color-minor $line-width, transparent $line-width),
 			linear-gradient(90deg, $color-minor $line-width, transparent $line-width);
-		background-position: 0 0, $line-offset $line-offset;
-		background-size: $grid-major $grid-major, $grid-major $grid-major, $grid-size $grid-size,
+		background-position:
+			0 0,
+			$line-offset $line-offset;
+		background-size:
+			$grid-major $grid-major,
+			$grid-major $grid-major,
+			$grid-size $grid-size,
 			$grid-size $grid-size;
 
 		// Visible on light and dark mode

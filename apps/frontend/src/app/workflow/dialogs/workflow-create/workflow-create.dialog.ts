@@ -188,7 +188,7 @@ export class WorkflowCreateDialog {
 					({
 						input,
 						type: input.length > this.NAME_MIN_LENGTH ? "verifying" : "ignore"
-					} satisfies WorkflowUniqueStatePreload)
+					}) satisfies WorkflowUniqueStatePreload
 			)
 		);
 
@@ -197,7 +197,7 @@ export class WorkflowCreateDialog {
 			debounceTime(500),
 			tap(({ input }) => void requestState$.request(input)),
 			switchMap(() => requestState$),
-			map(state => ({ state, type: "verified" } satisfies WorkflowUniqueStateVerified))
+			map(state => ({ state, type: "verified" }) satisfies WorkflowUniqueStateVerified)
 		);
 
 		this.unique$ = merge(
