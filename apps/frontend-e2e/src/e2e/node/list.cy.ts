@@ -132,6 +132,9 @@ describe("Nodes list", () => {
 			cy.get('.mat-toolbar [routerlink="/nodes"]').click();
 			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center > span").click();
 			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center > span").click();
+			// Makes wait for the query parameters FIXME: why is it needed here?
+			cy.location("search").should("contains", `_id=desc`);
+
 			cy.get(".mdc-data-table__content > :nth-child(1) > .cdk-column-_id").should(
 				"have.text",
 				newId

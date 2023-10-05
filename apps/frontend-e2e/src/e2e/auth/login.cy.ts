@@ -5,11 +5,9 @@ describe("Auth", () => {
 	const dbHelper = DbE2eHelper.getHelper("base");
 	const db = dbHelper.db as typeof BASE_SEED;
 
-	const [workflow] = db.workflows;
-
 	const pathLogin = "/auth/login";
 	/** a path to a protected content */
-	const pathProtected = `/workflows/${workflow._id}?param1=1&param2=2`;
+	const pathProtected = `/workflows`;
 
 	before(() => dbHelper.refresh());
 
@@ -88,21 +86,11 @@ describe("Auth", () => {
 			cy.authConnectAs(email, password);
 			cy.visit(pathProtected);
 
-			const sckInput = () =>
-				cy
-					.findByText("Make SQL query")
-					.parent()
-					.children(".input")
-					.first()
-					.children(".input-socket");
-
-			// This removes the arc
-			sckInput().click();
+			cy.get("ng-component.ng-star-inserted > .flex-col > .flex-row > button").click();
+			cy.get(".mat-mdc-dialog-container #mat-input-0").type("newName");
 
 			cy.authDisconnect();
-
-			// This tries to add it back
-			sckInput().click();
+			cy.get(".mat-mdc-dialog-container form button[type=submit]").click();
 
 			// eslint-disable-next-line cypress/no-unnecessary-waiting -- Wait if there is a "redirection loop"
 			cy.wait(125);

@@ -27,9 +27,8 @@ export type EntityRelationKeysDeep<T extends EntityBase, D extends Depth[number]
 	| (D extends never
 			? never
 			: {
-					[K in EntityRelationKeys<T>]: NonNullable<
-						T[K]
-					> extends infer U extends EntityBase
+					[K in EntityRelationKeys<T>]: NonNullable<T[K]> extends infer U extends
+						EntityBase
 						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
 						: NonNullable<T[K]> extends Collection<infer U extends EntityBase>
 						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
