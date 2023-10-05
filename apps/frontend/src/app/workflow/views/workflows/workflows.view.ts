@@ -52,9 +52,7 @@ export class WorkflowsView implements OnInit, OnDestroy {
 
 	protected readonly listQuery = signal<WorkflowListQuery>({});
 
-	/**
-	 * Used to avoid unnecessary request when it's only query params change from this same view.
-	 */
+	/** Used to avoid unnecessary request when it's only query params change from this same view. */
 	private readonly INTERNAL_NAVIGATION = {};
 	private readonly subscription = new Subscription();
 

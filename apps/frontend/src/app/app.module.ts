@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ApiModule } from "~/lib/ng/lib/api";
 
 import { AppComponent } from "./app.component";
+import { AppRouteReuseStrategy } from "./app.route-reuse-strategy";
 import { AuthInterceptor } from "./auth/auth.interceptor";
 import { AuthModule } from "./auth/auth.module";
 import { AuthService } from "./auth/auth.service";
@@ -22,6 +23,7 @@ import { AppTranslationModule } from "../lib/translation";
 		BrowserModule
 	],
 	providers: [
+		AppRouteReuseStrategy.PROVIDER,
 		{
 			deps: [AuthInterceptor, AuthService],
 			multi: true,

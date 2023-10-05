@@ -1,23 +1,26 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { MatTabsModule } from "@angular/material/tabs";
-import { delayWhen, of, timer } from "rxjs";
-import { Workflow } from "~/lib/common/app/workflow/endpoints";
+import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { delayWhen, of, Subscription, timer } from "rxjs";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { ApiModule } from "~/lib/ng/lib/api";
-import { GraphApiService } from "~/lib/ng/lib/api/graph-api/graph.api.service";
 import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
 import { RequestStateSubject } from "~/lib/ng/lib/request-state/request-state.subject";
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
-import {
-	GraphActions,
-	GraphComponent,
-	NodeMoved
-} from "../../../graph/components/graph/graph.component";
+import { GraphComponent } from "../../../graph/components/graph/graph.component";
+
+/**
+ * Data to set on the Route configuration
+ */
+export interface WorkflowViewRouteData {
+	/** Set the view on the graph tab */
+	graph: boolean;
+}
 
 @Component({
 	standalone: true,
@@ -31,10 +34,11 @@ import {
 		MatIconModule,
 		MatProgressSpinnerModule,
 		MatTabsModule,
+		RouterModule,
 		TranslationModule
 	]
 })
-export class WorkflowView {
+export class WorkflowView implements OnInit, OnDestroy {
 	protected readonly requestState$ = new RequestStateSubject((workflowId: EntityId) =>
 		this.service.findById(workflowId)
 	);
@@ -48,6 +52,12 @@ export class WorkflowView {
 			initialValue: this.requestState$.getValue()
 		}
 	);
+
+	@ViewChild(MatTabGroup, { static: true })
+	private readonly matTab!: MatTabGroup;
+
+	/** Used to avoid unnecessary request when it's only query params change from this same view. */
+	private readonly subscription = new Subscription();
 
 	/**
 	 * The id of the workflow to load
@@ -63,30 +73,38 @@ export class WorkflowView {
 	 * Constructor with "dependency injection"
 	 *
 	 * @param service injected
-	 * @param graphApi injected
+	 * @param activatedRoute injected
+	 * @param router injected
 	 */
 	public constructor(
 		private readonly service: WorkflowApiService,
-		private readonly graphApi: GraphApiService
+		private readonly activatedRoute: ActivatedRoute,
+		private readonly router: Router
 	) {}
 
-	protected handleNodeMove(workflow: Workflow, nodeMoved: NodeMoved) {
-		// TODO: this is temporary
-		void this.graphApi
-			.forNodes(workflow.__graph)
-			.update(nodeMoved.node._id, { kind: { position: nodeMoved.current } });
+	/** @inheritDoc */
+	public ngOnInit() {
+		this.subscription.add(
+			this.activatedRoute.data.subscribe(data => {
+				this.matTab.selectedIndex = (data as WorkflowViewRouteData).graph ? 1 : 0;
+			})
+		);
+
+		this.matTab._handleClick = (_1, _2, index) => {
+			const { selectedIndex } = this.matTab;
+			if (selectedIndex === index) {
+				// Same index? Do nothing
+				return;
+			}
+
+			void this.router.navigate([selectedIndex ? "../" : "./graph"], {
+				relativeTo: this.activatedRoute
+			});
+		};
 	}
 
-	protected getActions(workflow: Workflow): GraphActions {
-		// TODO: this is temporary
-		const { __graph } = workflow;
-		const arcApi = this.graphApi.forArcs(__graph);
-
-		return {
-			arc: {
-				create: toCreate => arcApi.create(toCreate),
-				remove: arc => arcApi.delete(arc._id).then(() => void 0)
-			}
-		};
+	/** @inheritDoc */
+	public ngOnDestroy() {
+		this.subscription.unsubscribe();
 	}
 }
