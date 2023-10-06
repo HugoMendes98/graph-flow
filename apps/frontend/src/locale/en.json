@@ -1,5 +1,6 @@
 {
 	"actions": {
+		"back": "Back",
 		"close": "Close",
 		"create": "Create",
 		"login": "Login",
@@ -107,11 +108,7 @@
 		},
 		"workflow": {
 			"tab": {
-				"graph": "Graph",
-				"workflow": {
-					"_1": "Workflow ",
-					"_2": ""
-				}
+				"graph": "Graph"
 			}
 		},
 		"workflows": {

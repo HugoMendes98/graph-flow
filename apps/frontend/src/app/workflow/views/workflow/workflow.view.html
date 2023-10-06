@@ -35,3 +35,12 @@
 		</ng-template>
 	</mat-tab>
 </mat-tab-group>
+
+<ui-request-state-wrapper class="absolute absolute-centered" [requestState]="requestState()">
+	<mat-card-actions *ngIf="requestState().snapshot.error?.status === 404">
+		<button color="primary" mat-flat-button routerLink="/workflows" type="button">
+			<mat-icon>arrow_back</mat-icon>
+			<span translate>actions.back</span>
+		</button>
+	</mat-card-actions>
+</ui-request-state-wrapper>

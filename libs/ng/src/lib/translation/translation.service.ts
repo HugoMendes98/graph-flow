@@ -27,25 +27,19 @@ export class TranslationService {
 		if (errors === null) {
 			return of("");
 		}
-
-		type T = Record<
-			keyof Pick<TranslateService, "stream">,
-			(...params: Parameters<typeof this.translate.stream>) => Observable<string>
-		>;
-
 		if (errors["required"] !== undefined) {
-			return (this.translate as T).stream("errors.validation.required");
+			return this.translate.stream("errors.validation.required") as Observable<string>;
 		}
 		if (errors["email"] !== undefined) {
-			return (this.translate as T).stream("errors.validation.email");
+			return this.translate.stream("errors.validation.email") as Observable<string>;
 		}
 		if (errors["minlength"] !== undefined) {
-			return (this.translate as T).stream(
+			return this.translate.stream(
 				"errors.validation.minlength",
 				errors["minlength"] as never
-			);
+			) as Observable<string>;
 		}
 
-		return (this.translate as T).stream("errors.validation.invalid");
+		return this.translate.stream("errors.validation.invalid") as Observable<string>;
 	}
 }

@@ -48,6 +48,10 @@ describe("Workflow view", () => {
 			"contain",
 			"An error occurred"
 		);
+		cy.get("mat-card .mat-mdc-card-subtitle > .ng-star-inserted").should(
+			"have.text",
+			"The resource was not found."
+		);
 		/* ==== End Cypress Studio ==== */
 	});
 });

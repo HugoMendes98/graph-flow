@@ -1,6 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
@@ -9,6 +11,7 @@ import { delayWhen, of, Subscription, timer } from "rxjs";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { ApiModule } from "~/lib/ng/lib/api";
 import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
+import { RequestStateWrapperComponent } from "~/lib/ng/lib/request-state/components/request-state-wrapper/request-state-wrapper.component";
 import { RequestStateSubject } from "~/lib/ng/lib/request-state/request-state.subject";
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
@@ -31,10 +34,13 @@ export interface WorkflowViewRouteData {
 		ApiModule,
 		CommonModule,
 		GraphComponent,
+		MatButtonModule,
+		MatCardModule,
 		MatIconModule,
 		MatProgressSpinnerModule,
 		MatTabsModule,
 		RouterModule,
+		RequestStateWrapperComponent,
 		TranslationModule
 	]
 })
