@@ -9,9 +9,9 @@ import { GraphDto } from "../../../graph/dtos/graph.dto";
 import { PositionDto } from "../position.dto";
 
 /**
- * Class for a "node-kind" of `Edge` type
+ * Class for a "node-kind" of `VERTEX` type
  */
-export class NodeKindEdgeDto extends NodeKindBaseDto<NodeKindType.EDGE> {
+export class NodeKindVertexDto extends NodeKindBaseDto<NodeKindType.VERTEX> {
 	/**
 	 * The [graph]{@link GraphDto} on which it is
 	 */

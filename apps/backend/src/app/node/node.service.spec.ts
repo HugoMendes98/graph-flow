@@ -9,7 +9,7 @@ import { BASE_SEED } from "~/lib/common/seeds";
 
 import { NodeNoTemplateParameterException, NodeReadonlyKindTypeException } from "./exceptions";
 import { NodeInputRepository } from "./input/node-input.repository";
-import { NodeKindEdgeEntity } from "./kind";
+import { NodeKindVertexEntity } from "./kind";
 import { NodeModule } from "./node.module";
 import { NodeService } from "./node.service";
 import { NodeOutputRepository } from "./output/node-output.repository";
@@ -192,7 +192,11 @@ describe("NodeService", () => {
 						trigger: { cron: "* * * * *", type: NodeTriggerType.CRON },
 						type: NodeBehaviorType.TRIGGER
 					},
-					kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+					kind: {
+						__graph: graph._id,
+						position: { x: 0, y: 0 },
+						type: NodeKindType.VERTEX
+					},
 					name: "new-trigger"
 				})
 			).rejects.toThrow(GraphNodeTriggerInWorkflowException);
@@ -208,7 +212,11 @@ describe("NodeService", () => {
 						trigger: { cron: "* * * * *", type: NodeTriggerType.CRON },
 						type: NodeBehaviorType.TRIGGER
 					},
-					kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+					kind: {
+						__graph: graph._id,
+						position: { x: 0, y: 0 },
+						type: NodeKindType.VERTEX
+					},
 					name: "new-trigger"
 				})
 			).rejects.toThrow(GraphNodeTriggerInFunctionException);
@@ -230,7 +238,7 @@ describe("NodeService", () => {
 
 			const node = await service.findById(db.graph.nodes[4]._id);
 			// For test verification; do not use a possibly used node if it is "locked"
-			const { __graph } = node.kind as NodeKindEdgeEntity;
+			const { __graph } = node.kind as NodeKindVertexEntity;
 			expect(__graph).toBe(2);
 
 			const { inputs, outputs } = node;
@@ -290,7 +298,7 @@ describe("NodeService", () => {
 
 		it("should not allow to change the type on an update", async () => {
 			const node = await service.findById(db.graph.nodes[0]._id);
-			expect(node.kind.type).toBe(NodeKindType.EDGE);
+			expect(node.kind.type).toBe(NodeKindType.VERTEX);
 
 			await expect(() =>
 				service.update(node._id, { kind: { active: true, type: NodeKindType.TEMPLATE } })
@@ -376,7 +384,7 @@ describe("NodeService", () => {
 				};
 
 				const updated = await service.update(_id, {
-					kind: { position, type: NodeKindType.EDGE }
+					kind: { position, type: NodeKindType.VERTEX }
 				});
 
 				expect((updated as unknown as GraphNode).kind.position.x).toBe(position.x);

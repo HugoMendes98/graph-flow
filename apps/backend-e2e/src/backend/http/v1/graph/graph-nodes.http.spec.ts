@@ -17,7 +17,7 @@ describe("Backend HTTP GraphNodes", () => {
 	const { graphs, nodes } = db.graph;
 	const [graphRef] = graphs;
 	const nodesRef = nodes
-		.filter(({ kind }) => kind.type === NodeKindType.EDGE && kind.__graph === graphRef._id)
+		.filter(({ kind }) => kind.type === NodeKindType.VERTEX && kind.__graph === graphRef._id)
 		.map(node => omit(node, ["__categories"]));
 
 	const client = graphClient.forNodes(graphRef._id);
@@ -69,7 +69,7 @@ describe("Backend HTTP GraphNodes", () => {
 
 		it("should fail when getting one from another graph", async () => {
 			const node = nodes.find(
-				({ kind }) => kind.type === NodeKindType.EDGE && kind.__graph !== graphRef._id
+				({ kind }) => kind.type === NodeKindType.VERTEX && kind.__graph !== graphRef._id
 			);
 			expect(node).toBeDefined();
 
@@ -94,7 +94,7 @@ describe("Backend HTTP GraphNodes", () => {
 			} as const satisfies GraphNodeKindUpdateDto["position"];
 
 			const updated = await client.update(node._id, {
-				kind: { position, type: NodeKindType.EDGE }
+				kind: { position, type: NodeKindType.VERTEX }
 			} satisfies NodeUpdateDto);
 
 			expect(updated.kind.position.x).toBe(position.x);

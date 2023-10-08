@@ -9,7 +9,7 @@ import {
 } from "./behaviors";
 import { NodeBehaviorType } from "./behaviors/node-behavior.type";
 import { NodeTriggerCronDto, NodeTriggerType } from "./behaviors/triggers";
-import { NodeKindEdgeDto, NodeKindTemplateDto } from "./kind";
+import { NodeKindVertexDto, NodeKindTemplateDto } from "./kind";
 import { NodeKindType } from "./kind/node-kind.type";
 import { NodeCreateDto } from "./node.create.dto";
 import { transformOptions, validatorOptions } from "../../../options";
@@ -89,10 +89,10 @@ describe("NodeCreateDto", () => {
 	});
 
 	describe("Kind property", () => {
-		it("should transform `kind=EDGE` correctly", () => {
+		it("should transform `kind=VERTEX` correctly", () => {
 			const toTransform = {
 				behavior: { type: NodeBehaviorType.VARIABLE, value: 0 },
-				kind: { __graph: 10, position: { x: 11, y: 12 }, type: NodeKindType.EDGE },
+				kind: { __graph: 10, position: { x: 11, y: 12 }, type: NodeKindType.VERTEX },
 				name: "a node"
 			} as const satisfies NodeCreateDto;
 
@@ -102,7 +102,7 @@ describe("NodeCreateDto", () => {
 				transformOptions
 			) as typeof toTransform;
 
-			expect(transformed.kind).toBeInstanceOf(NodeKindEdgeDto);
+			expect(transformed.kind).toBeInstanceOf(NodeKindVertexDto);
 
 			expect(transformed.kind.type).toBe(toTransform.kind.type);
 			expect(transformed.kind.__graph).toBe(toTransform.kind.__graph);
@@ -110,10 +110,10 @@ describe("NodeCreateDto", () => {
 			expect(transformed.kind.position.y).toBe(toTransform.kind.position.y);
 		});
 
-		it("should validate `kind=EDGE` correctly", async () => {
+		it("should validate `kind=VERTEX` correctly", async () => {
 			const toTransform = {
 				behavior: { type: NodeBehaviorType.VARIABLE, value: 0 },
-				kind: { __graph: 10, position: { x: 11, y: 12 }, type: NodeKindType.EDGE },
+				kind: { __graph: 10, position: { x: 11, y: 12 }, type: NodeKindType.VERTEX },
 				name: "a node"
 			} as const satisfies NodeCreateDto;
 

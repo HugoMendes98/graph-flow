@@ -97,7 +97,7 @@ export class NodeService
 			throw new NodeNoTemplateParameterException();
 		}
 
-		if (behavior.type !== NodeBehaviorType.TRIGGER || kind.type !== NodeKindType.EDGE) {
+		if (behavior.type !== NodeBehaviorType.TRIGGER || kind.type !== NodeKindType.VERTEX) {
 			// Nothing to verify it the node is not a `trigger`
 			return;
 		}
@@ -119,7 +119,7 @@ export class NodeService
 			} = await this.findAndCount(
 				{
 					behavior: { type: NodeBehaviorType.TRIGGER },
-					kind: { __graph: kind.__graph, type: NodeKindType.EDGE }
+					kind: { __graph: kind.__graph, type: NodeKindType.VERTEX }
 				},
 				{ limit: 0 }
 			);
@@ -148,7 +148,7 @@ export class NodeService
 	) {
 		// GraphNodeDto
 		return this.findAndCount(
-			{ $and: [{ kind: { __graph: graphId, type: NodeKindType.EDGE } }, where] },
+			{ $and: [{ kind: { __graph: graphId, type: NodeKindType.VERTEX } }, where] },
 			params,
 			options
 		) as Promise<
@@ -313,7 +313,7 @@ export class NodeService
 		const { behavior, kind } = toCreate;
 
 		if (
-			kind.type === NodeKindType.EDGE &&
+			kind.type === NodeKindType.VERTEX &&
 			(behavior.type === NodeBehaviorType.PARAMETER_IN ||
 				behavior.type === NodeBehaviorType.PARAMETER_OUT)
 		) {

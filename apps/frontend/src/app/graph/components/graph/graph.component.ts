@@ -229,7 +229,7 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 
 		for (const node of this.nodes) {
 			const { kind } = node;
-			if (kind.type !== NodeKindType.EDGE) {
+			if (kind.type !== NodeKindType.VERTEX) {
 				continue;
 			}
 

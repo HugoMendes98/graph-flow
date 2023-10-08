@@ -101,7 +101,7 @@ export class GraphArcController implements EndpointTransformed {
 			.findById(id, { populate: { from: { node: true }, to: { node: true } } })
 			.then(arc => {
 				for (const kind of [arc.from.node.kind, arc.to.node.kind]) {
-					if (kind.type !== NodeKindType.EDGE || kind.__graph !== graph._id) {
+					if (kind.type !== NodeKindType.VERTEX || kind.__graph !== graph._id) {
 						throw new NotFoundException(
 							`No GraphArc{id:${id}} found in Graph{id:${graph._id}}`
 						);
