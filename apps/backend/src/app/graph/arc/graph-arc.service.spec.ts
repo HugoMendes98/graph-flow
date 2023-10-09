@@ -51,7 +51,11 @@ describe("GraphArcService", () => {
 			const variable1 = await nodeService.create(
 				{
 					behavior: { __node: var1._id, type: NodeBehaviorType.REFERENCE },
-					kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+					kind: {
+						__graph: graph._id,
+						position: { x: 0, y: 0 },
+						type: NodeKindType.VERTEX
+					},
 					name: "Var1"
 				},
 				{ findOptions: { populate: { inputs: true, outputs: true } } }
@@ -59,7 +63,11 @@ describe("GraphArcService", () => {
 			const variable2 = await nodeService.create(
 				{
 					behavior: { __node: var2._id, type: NodeBehaviorType.REFERENCE },
-					kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+					kind: {
+						__graph: graph._id,
+						position: { x: 0, y: 0 },
+						type: NodeKindType.VERTEX
+					},
 					name: "Var2"
 				},
 				{ findOptions: { populate: { inputs: true, outputs: true } } }
@@ -67,7 +75,11 @@ describe("GraphArcService", () => {
 			const code = await nodeService.create(
 				{
 					behavior: { __node: nCode._id, type: NodeBehaviorType.REFERENCE },
-					kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+					kind: {
+						__graph: graph._id,
+						position: { x: 0, y: 0 },
+						type: NodeKindType.VERTEX
+					},
 					name: "code"
 				},
 				{ findOptions: { populate: { inputs: true, outputs: true } } }

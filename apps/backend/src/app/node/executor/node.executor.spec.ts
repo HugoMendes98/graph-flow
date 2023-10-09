@@ -250,7 +250,7 @@ describe("NodeExecutor", () => {
 		it("should execute a `node-function` reference ('Integer division')", async () => {
 			const node = await service.create({
 				behavior: { __node: db.graph.nodes[7]._id, type: NodeBehaviorType.REFERENCE },
-				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
 				name: "fn ref"
 			});
 			expect(node.behavior.type).toBe(NodeBehaviorType.REFERENCE);
@@ -285,7 +285,7 @@ describe("NodeExecutor", () => {
 			const nodeRef = await service.findById(db.graph.nodes[0]._id);
 			const node = await service.create({
 				behavior: { __node: nodeRef._id, type: NodeBehaviorType.REFERENCE },
-				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
 				name: "var ref"
 			});
 			expect(nodeRef.behavior.type).toBe(NodeBehaviorType.VARIABLE);

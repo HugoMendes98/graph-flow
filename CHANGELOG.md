@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.3](https://github.com/HugoMendes98/graph-flow/compare/v0.4.2...v0.4.3) (2023-10-09)
+
+
+### Code Refactors
+
+* use the correct name for a node inside a graph (`edge` -> `vertex`) ([fa22602](https://github.com/HugoMendes98/graph-flow/commit/fa22602ab4a45011a020cb9e12ebb4c1f9dd4e11))
+
 ## [0.4.2](https://github.com/HugoMendes98/graph-flow/compare/v0.4.1...v0.4.2) (2023-10-05)
 
 

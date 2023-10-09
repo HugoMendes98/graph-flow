@@ -16,7 +16,7 @@ export class GraphNodeUpdateDto extends PartialType(
 	OmitType(GraphNodeCreateDto, ["behavior", "kind"])
 ) {
 	/**
-	 * The kind of `EDGE` type to update
+	 * The kind of `VERTEX` type to update
 	 */
 	@Expose()
 	@Type(() => GraphNodeKindUpdateDto)

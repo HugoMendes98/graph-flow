@@ -18,7 +18,7 @@ describe("Backend HTTP GraphArcs", () => {
 	const arcsRef = arcs.filter(({ __to }) =>
 		nodes.some(
 			({ inputs, kind }) =>
-				kind.type === NodeKindType.EDGE &&
+				kind.type === NodeKindType.VERTEX &&
 				kind.__graph === graphRef._id &&
 				inputs.some(({ _id }) => _id === __to)
 		)

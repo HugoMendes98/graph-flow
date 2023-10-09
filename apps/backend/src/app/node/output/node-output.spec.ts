@@ -67,7 +67,7 @@ describe("NodeOutput", () => {
 			const kind: NodeCreateEntity["kind"] = {
 				__graph: (nodeFn.behavior as NodeBehaviorFunctionDto).__graph,
 				position: { x: 0, y: 0 },
-				type: NodeKindType.EDGE
+				type: NodeKindType.VERTEX
 			};
 
 			const parameterIn = await nodeService.create({
@@ -105,7 +105,7 @@ describe("NodeOutput", () => {
 					const reference = await nodeService.findById(db.graph.nodes[0]._id);
 					const { outputs } = await nodeService.create({
 						behavior: { __node: reference._id, type: NodeBehaviorType.REFERENCE },
-						kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+						kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
 						name: `*${reference.name}`
 					});
 

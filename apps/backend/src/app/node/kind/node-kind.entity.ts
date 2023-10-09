@@ -1,14 +1,14 @@
 import { Type } from "@nestjs/common";
 
 import { NodeKindBaseEntity } from "./node-kind.base.entity";
-import { NodeKindEdgeEntity } from "./node-kind.edge.entity";
 import { NodeKindTemplateEntity } from "./node-kind.template.entity";
+import { NodeKindVertexEntity } from "./node-kind.vertex.entity";
 
 /**
  * All subtypes for node kind
  */
 export const NODE_KIND_ENTITIES = [
-	NodeKindEdgeEntity,
+	NodeKindVertexEntity,
 	NodeKindTemplateEntity
 ] as const satisfies ReadonlyArray<Type<NodeKindBaseEntity>>;
 
