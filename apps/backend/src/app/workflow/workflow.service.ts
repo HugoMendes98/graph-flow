@@ -8,6 +8,7 @@ import { EntityId } from "~/lib/common/dtos/entity";
 import { WorkflowNoTriggerException } from "./exceptions";
 import { WorkflowEntity } from "./workflow.entity";
 import { WorkflowRepository } from "./workflow.repository";
+import { WorkflowScheduler } from "./workflow.scheduler";
 import { EntityService } from "../_lib/entity";
 import { GraphService } from "../graph/graph.service";
 import { NodeBehaviorTrigger } from "../node/behaviors/node-behavior.trigger";
@@ -26,6 +27,7 @@ export class WorkflowService
 	 *
 	 * @param repository injected
 	 * @param orm injected
+	 * @param workflowScheduler injected
 	 * @param graphService injected
 	 * @param nodeService injected
 	 */
@@ -33,6 +35,7 @@ export class WorkflowService
 		repository: WorkflowRepository,
 		// For `@UseRequestContext`
 		private readonly orm: MikroORM,
+		private readonly workflowScheduler: WorkflowScheduler,
 		private readonly graphService: GraphService,
 		private readonly nodeService: NodeService
 	) {
@@ -69,7 +72,7 @@ export class WorkflowService
 	public async onModuleInit() {
 		const { data: workflows } = await this.findAndCount({ active: true });
 
-		await Promise.all(workflows.map(workflow => this.registerWorkflow(workflow)));
+		await Promise.all(workflows.map(workflow => this.workflowScheduler.register(workflow)));
 	}
 
 	/** @inheritDoc */
@@ -119,11 +122,5 @@ export class WorkflowService
 			node,
 			trigger: node.behavior as NodeBehaviorTrigger
 		};
-	}
-
-	private async registerWorkflow(workflow: WorkflowEntity) {
-		const trigger = await this.findTrigger(workflow);
-
-		// TODO
 	}
 }

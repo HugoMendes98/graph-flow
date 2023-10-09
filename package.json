@@ -33,6 +33,7 @@
 		"@nestjs/jwt": "^10.1.0",
 		"@nestjs/passport": "^10.0.0",
 		"@nestjs/platform-express": "^10.1.2",
+		"@nestjs/schedule": "^3.0.4",
 		"@nestjs/swagger": "^7.1.4",
 		"@nestjs/terminus": "^10.0.1",
 		"@ngx-translate/core": "^15.0.0",

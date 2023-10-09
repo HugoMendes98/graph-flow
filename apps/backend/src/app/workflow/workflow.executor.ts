@@ -30,4 +30,16 @@ export class WorkflowExecutor {
 		const { node } = await this.service.findTrigger(workflow);
 		return this.graphExecutor.execute({ graphId: workflow.__graph, startAt: [node._id] });
 	}
+
+	/**
+	 * Executes a workflow and logs each event
+	 *
+	 * @see execute
+	 * @param workflow to execute
+	 * @returns Promise when initialized that returns a finish-able observable with events
+	 */
+	public executeAndLog(workflow: WorkflowEntity) {
+		// TODO
+		return this.execute(workflow);
+	}
 }
