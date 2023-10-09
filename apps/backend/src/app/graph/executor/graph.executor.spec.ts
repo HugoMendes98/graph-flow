@@ -80,7 +80,7 @@ describe("GraphExecutor", () => {
 
 		const nodeUnconnected = await nodeService.create({
 			behavior: { type: NodeBehaviorType.VARIABLE, value: 0 },
-			kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.EDGE },
+			kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
 			name: "unconnected"
 		});
 

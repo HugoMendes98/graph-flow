@@ -110,7 +110,7 @@ export class WorkflowService
 					// 	}
 					// }
 				],
-				kind: { __graph, type: NodeKindType.EDGE }
+				kind: { __graph, type: NodeKindType.VERTEX }
 			},
 			{ limit: 1 }
 		);

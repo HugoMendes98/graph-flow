@@ -73,7 +73,7 @@ export class GraphNodeController implements EndpointTransformed {
 	public create(@GraphInterceptedParam() graph: GraphEntity, @Body() body: GraphNodeCreateDto) {
 		return this.service.create({
 			...body,
-			kind: { __graph: graph._id, position: body.kind.position, type: NodeKindType.EDGE }
+			kind: { __graph: graph._id, position: body.kind.position, type: NodeKindType.VERTEX }
 		});
 	}
 
@@ -88,7 +88,7 @@ export class GraphNodeController implements EndpointTransformed {
 		return this.validateNodeId(graph, id).then(({ _id, kind }) =>
 			this.service.update(_id, {
 				...body,
-				kind: { ...kind, ...body.kind, type: NodeKindType.EDGE }
+				kind: { ...kind, ...body.kind, type: NodeKindType.VERTEX }
 			})
 		);
 	}
@@ -104,7 +104,7 @@ export class GraphNodeController implements EndpointTransformed {
 		// Determine if the graph contains the node that is being manipulated
 		return this.service.findById(id).then(node => {
 			const { kind } = node;
-			if (kind.type !== NodeKindType.EDGE || kind.__graph !== graph._id) {
+			if (kind.type !== NodeKindType.VERTEX || kind.__graph !== graph._id) {
 				throw new NotFoundException(`No Node{id:${id}} found in graph{id:${graph._id}}`);
 			}
 
