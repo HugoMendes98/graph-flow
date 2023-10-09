@@ -1,18 +1,18 @@
 import type { Type } from "@nestjs/common";
 
 import { NodeKindBaseDto } from "./node-kind.base.dto";
-import { NodeKindEdgeDto } from "./node-kind.edge.dto";
-import { NodeKindEdgeUpdateDto } from "./node-kind.edge.update.dto";
 import { NodeKindTemplateDto } from "./node-kind.template.dto";
 import { NodeKindTemplateUpdateDto } from "./node-kind.template.update.dto";
 import { NodeKindType } from "./node-kind.type";
+import { NodeKindVertexDto } from "./node-kind.vertex.dto";
+import { NodeKindVertexUpdateDto } from "./node-kind.vertex.update.dto";
 import { DiscriminatedType } from "../../../../types";
 
 /**
  * All the possible node kinds  (to generate type and subTypes)
  */
 export const NODE_KIND_DTOS = [
-	{ name: NodeKindType.EDGE, value: NodeKindEdgeDto },
+	{ name: NodeKindType.VERTEX, value: NodeKindVertexDto },
 	{ name: NodeKindType.TEMPLATE, value: NodeKindTemplateDto }
 ] as const satisfies ReadonlyArray<DiscriminatedType<Type<NodeKindBaseDto>, NodeKindType>>;
 
@@ -20,7 +20,7 @@ export const NODE_KIND_DTOS = [
  * All the possible node kinds for update
  */
 export const NODE_KIND_UPDATE_DTOS = [
-	{ name: NodeKindType.EDGE, value: NodeKindEdgeUpdateDto },
+	{ name: NodeKindType.VERTEX, value: NodeKindVertexUpdateDto },
 	{ name: NodeKindType.TEMPLATE, value: NodeKindTemplateUpdateDto }
 ] as const satisfies ReadonlyArray<DiscriminatedType<Type<NodeKindBaseDto>, NodeKindType>>;
 

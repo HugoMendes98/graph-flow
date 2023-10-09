@@ -13,7 +13,7 @@ const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "actions" | "arc
 	>;
 
 	const nodes = gNodes.filter(
-		({ kind }) => kind.type === NodeKindType.EDGE && kind.__graph === graph._id
+		({ kind }) => kind.type === NodeKindType.VERTEX && kind.__graph === graph._id
 	);
 
 	const arcs = gArcs.filter(({ __from, __to }) =>

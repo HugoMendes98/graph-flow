@@ -72,7 +72,7 @@ export class GraphArcService
 		const { kind: nodeAKind } = nodeA;
 		const { kind: nodeBKind } = nodeB;
 
-		if (nodeAKind.type !== NodeKindType.EDGE || nodeBKind.type !== NodeKindType.EDGE) {
+		if (nodeAKind.type !== NodeKindType.VERTEX || nodeBKind.type !== NodeKindType.VERTEX) {
 			throw new NotImplementedException();
 		}
 
@@ -115,8 +115,8 @@ export class GraphArcService
 			{
 				$and: [where],
 				$or: [
-					{ from: { node: { kind: { __graph: graphId, type: NodeKindType.EDGE } } } },
-					{ to: { node: { kind: { __graph: graphId, type: NodeKindType.EDGE } } } }
+					{ from: { node: { kind: { __graph: graphId, type: NodeKindType.VERTEX } } } },
+					{ to: { node: { kind: { __graph: graphId, type: NodeKindType.VERTEX } } } }
 				]
 			},
 			params,

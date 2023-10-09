@@ -1,5 +1,5 @@
 import { Embedded, Entity } from "@mikro-orm/core";
-import { NodeKindEdgeDto } from "~/lib/common/app/node/dtos/kind";
+import { NodeKindVertexDto } from "~/lib/common/app/node/dtos/kind";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { EntityId } from "~/lib/common/dtos/entity";
 
@@ -11,21 +11,21 @@ import { PositionEmbeddable } from "../position.embeddable";
 /**
  * Type for this discriminated entity
  */
-const type = NodeKindType.EDGE;
+const type = NodeKindType.VERTEX;
 
 /** @internal */
 const GraphProperty = ManyToOneFactory(() => GraphEntity, {
-	fieldName: "__graph" satisfies keyof NodeKindEdgeDto,
+	fieldName: "__graph" satisfies keyof NodeKindVertexDto,
 	onUpdateIntegrity: "cascade"
 });
 
 /**
- * The entity for a `node-kind` of `EDGE` type
+ * The entity for a `node-kind` of `VERTEX` type
  */
 @Entity({ discriminatorValue: type })
-export class NodeKindEdgeEntity
-	extends NodeKindBaseEntity<typeof NodeKindType.EDGE>
-	implements NodeKindEdgeDto
+export class NodeKindVertexEntity
+	extends NodeKindBaseEntity<typeof NodeKindType.VERTEX>
+	implements NodeKindVertexDto
 {
 	/** @inheritDoc */
 	@GraphProperty({ foreign: false })

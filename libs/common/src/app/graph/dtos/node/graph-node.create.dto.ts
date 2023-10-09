@@ -9,12 +9,12 @@ import {
 	NodeBehaviorBaseDto,
 	NodeBehaviorDto
 } from "../../../node/dtos/behaviors";
-import { NodeKindEdgeDto } from "../../../node/dtos/kind";
+import { NodeKindVertexDto } from "../../../node/dtos/kind";
 
 /**
  * DTO to use when creating a `node-kind` to a `node` linked to a `graph`
  */
-export class GraphNodeKindCreateDto extends PickType(NodeKindEdgeDto, ["position"]) {}
+export class GraphNodeKindCreateDto extends PickType(NodeKindVertexDto, ["position"]) {}
 
 /**
  * DTO to use when creating a `node` linked to a `graph`
@@ -37,7 +37,7 @@ export class GraphNodeCreateDto
 	public readonly behavior!: NodeBehaviorDto;
 
 	/**
-	 * The kind of `EDGE` type to create
+	 * The kind of `VERTEX` type to create
 	 */
 	@Expose()
 	@Type(() => GraphNodeKindCreateDto)

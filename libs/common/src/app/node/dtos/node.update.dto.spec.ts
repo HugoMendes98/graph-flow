@@ -47,9 +47,9 @@ describe("NodeUpdateDto", () => {
 	});
 
 	describe("Kind property", () => {
-		it("should transform `kind=EDGE` correctly", () => {
+		it("should transform `kind=VERTEX` correctly", () => {
 			const toTransform = {
-				kind: { position: { x: 11, y: 12 }, type: NodeKindType.EDGE },
+				kind: { position: { x: 11, y: 12 }, type: NodeKindType.VERTEX },
 				name: "a node"
 			} as const satisfies NodeUpdateDto;
 
@@ -66,7 +66,7 @@ describe("NodeUpdateDto", () => {
 			// -----------------
 
 			const toTransformPartially = {
-				kind: { type: NodeKindType.EDGE },
+				kind: { type: NodeKindType.VERTEX },
 				name: "a node"
 			} as const satisfies NodeUpdateDto;
 
