@@ -49,7 +49,7 @@ describe("WorkflowExecutor", () => {
 		const kind: NodeCreateEntity["kind"] = {
 			__graph,
 			position: { x: 0, y: 0 },
-			type: NodeKindType.EDGE
+			type: NodeKindType.VERTEX
 		};
 		const nodeTrigger = await nodeService.create({
 			behavior: {
