@@ -40,7 +40,7 @@ describe("WorkflowExecutor", () => {
 
 	afterAll(() => dbTest.close());
 
-	it("should execute a workflow", async () => {
+	it("should execute a workflow and received the time of execution", async () => {
 		await dbTest.refresh();
 
 		const { __graph, _id } = await service.create({ name: "workflow" });
@@ -73,6 +73,7 @@ describe("WorkflowExecutor", () => {
 			name: "",
 			type: NodeIoType.NUMBER
 		});
+		const [nodeCodeOutput] = nodeCode.outputs.getItems();
 		await graphArcService.create({
 			__from: nodeTrigger.outputs.getItems()[0]._id,
 			__to: nodeCodeInput._id
@@ -83,7 +84,16 @@ describe("WorkflowExecutor", () => {
 			"node-finish": [],
 			"node-starting": []
 		};
-		await lastValueFrom(state$.pipe(tap(state => trace[state.type].push(state.node._id))));
+
+		// --- Test execution states
+		const beforeExecutionTime = new Date().getTime();
+
+		const finalState = await lastValueFrom(
+			state$.pipe(tap(state => trace[state.type].push(state.node._id)))
+		);
+		if (finalState.type !== "node-finish") {
+			throw new Error("Not the correct final state");
+		}
 
 		expect(trace["node-starting"]).toHaveLength(2);
 		expect(trace["node-finish"]).toHaveLength(2);
@@ -91,5 +101,20 @@ describe("WorkflowExecutor", () => {
 		const expected = [nodeTrigger._id, nodeCode._id].sort();
 		expect(trace["node-starting"].slice().sort()).toStrictEqual(expected);
 		expect(trace["node-finish"].slice().sort()).toStrictEqual(expected);
+
+		// --- Test executed value
+
+		const finalOutput = finalState.outputs.find(
+			output => output.output._id === nodeCodeOutput._id
+		);
+		expect(finalOutput).toBeDefined();
+
+		const finalValue = finalOutput!.value as string;
+		const [value, time] = finalValue.split("-").map(v => +v);
+		expect(value).toBe(random);
+
+		// 100ms
+		expect(time).toBeGreaterThanOrEqual(beforeExecutionTime);
+		expect(time).toBeLessThanOrEqual(beforeExecutionTime + 100);
 	});
 });

@@ -1,9 +1,12 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 
 import { WorkflowEntity } from "./workflow.entity";
 import { WorkflowService } from "./workflow.service";
 import { GraphExecutor } from "../graph/executor/graph.executor";
 
+/**
+ * Internal to Workflow module, so no data integrity tested.
+ */
 @Injectable()
 export class WorkflowExecutor {
 	/**
@@ -13,6 +16,7 @@ export class WorkflowExecutor {
 	 * @param graphExecutor injected
 	 */
 	public constructor(
+		@Inject(forwardRef(() => WorkflowService))
 		private readonly service: WorkflowService,
 		private readonly graphExecutor: GraphExecutor
 	) {}
