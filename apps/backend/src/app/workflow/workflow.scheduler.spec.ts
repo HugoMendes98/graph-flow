@@ -45,28 +45,30 @@ describe("WorkflowScheduler", () => {
 
 	afterAll(() => dbTest.close());
 
-	it("should execute a scheduled workflow", async () => {
-		const getCode = () => {
-			const { db } = getConfiguration();
-			const rawContent = fs
-				.readFileSync(path.resolve("libs/common/src/seeds/codes/create-graph.js"))
-				.toString();
+	const getCode = () => {
+		const { db } = getConfiguration();
+		const rawContent = fs
+			.readFileSync(path.resolve("libs/common/src/seeds/codes/create-graph.js"))
+			.toString();
 
-			const value = 1000 + Math.floor(10e5 * Math.random());
-			const code = rawContent
-				.replace("$[{_dbName}]", db.name)
-				.replace("$[{_dbHost}]", db.host)
-				.replace("$[{_dbPass}]", db.password)
-				.replace('"$[{_dbPort}]"', db.port.toString())
-				.replace("$[{_dbUser}]", db.username)
-				.replace('"$[{_value}]"', value.toString());
+		const value = 1000 + Math.floor(10e5 * Math.random());
+		const code = rawContent
+			.replace("$[{_dbName}]", db.name)
+			.replace("$[{_dbHost}]", db.host)
+			.replace("$[{_dbPass}]", db.password)
+			.replace('"$[{_dbPort}]"', db.port.toString())
+			.replace("$[{_dbUser}]", db.username)
+			.replace('"$[{_value}]"', value.toString());
 
-			return { code, value };
-		};
+		return { code, value };
+	};
 
+	const seed = async () => {
 		await dbTest.refresh();
 
-		const { code, value } = getCode();
+		const codeContend = getCode();
+		const { code } = codeContend;
+
 		const { __graph, _id } = await service.create({ name: "workflow" });
 
 		const kind: NodeCreateEntity["kind"] = {
@@ -97,13 +99,26 @@ describe("WorkflowScheduler", () => {
 			__to: nodeCodeInput._id
 		});
 
+		return {
+			code: codeContend,
+			nodeCode,
+			nodeTrigger,
+			workflow: await service.findById(_id)
+		};
+	};
+
+	it("should execute a scheduled workflow", async () => {
+		const {
+			code: { value },
+			workflow
+		} = await seed();
+
 		const {
 			pagination: { total: totalBefore }
 		} = await graphService.findAndCount();
 
 		// ----- Tests
 
-		const workflow = await service.findById(_id);
 		await scheduler.register(workflow);
 		await new Promise(resolve => setTimeout(resolve, 1020));
 		const {
@@ -116,6 +131,18 @@ describe("WorkflowScheduler", () => {
 
 		expect(scheduler.isRegistered(workflow)).toBeTrue();
 		await scheduler.unregister(workflow);
+		expect(scheduler.isRegistered(workflow)).toBeFalse();
+	});
+
+	it("should register and unregister by (de)activating a workflow", async () => {
+		const { workflow } = await seed();
+
+		expect(scheduler.isRegistered(workflow)).toBeFalse();
+
+		await service.update(workflow._id, { active: true });
+		expect(scheduler.isRegistered(workflow)).toBeTrue();
+
+		await service.update(workflow._id, { active: false });
 		expect(scheduler.isRegistered(workflow)).toBeFalse();
 	});
 });
