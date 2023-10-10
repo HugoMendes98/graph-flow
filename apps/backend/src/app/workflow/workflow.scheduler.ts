@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { SchedulerRegistry } from "@nestjs/schedule";
 import { CronJob } from "cron";
 import { EntityId } from "~/lib/common/dtos/entity";
@@ -10,6 +10,8 @@ import { WorkflowService } from "./workflow.service";
 /**
  * Class to schedule workflows.
  * Only for `node-trigger` of CRON type (for now)
+ *
+ * Internal to Workflow module, so no data integrity tested.
  */
 @Injectable()
 export class WorkflowScheduler {
@@ -22,7 +24,9 @@ export class WorkflowScheduler {
 	 */
 	public constructor(
 		private readonly scheduler: SchedulerRegistry,
+		@Inject(forwardRef(() => WorkflowService))
 		private readonly service: WorkflowService,
+		@Inject(forwardRef(() => WorkflowExecutor))
 		private readonly executor: WorkflowExecutor
 	) {}
 

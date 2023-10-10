@@ -1,5 +1,6 @@
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Module } from "@nestjs/common";
+import { ScheduleModule } from "@nestjs/schedule";
 
 import { WorkflowController } from "./workflow.controller";
 import { WorkflowEntity } from "./workflow.entity";
@@ -15,7 +16,12 @@ import { NodeModule } from "../node/node.module";
 @Module({
 	controllers: [WorkflowController],
 	exports: [WorkflowService],
-	imports: [GraphModule, MikroOrmModule.forFeature([WorkflowEntity]), NodeModule],
+	imports: [
+		GraphModule,
+		MikroOrmModule.forFeature([WorkflowEntity]),
+		NodeModule,
+		ScheduleModule.forRoot()
+	],
 	providers: [WorkflowExecutor, WorkflowScheduler, WorkflowService]
 })
 export class WorkflowModule {}

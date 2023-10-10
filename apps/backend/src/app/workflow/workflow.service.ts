@@ -1,5 +1,5 @@
 import { CreateRequestContext, EventArgs, EventSubscriber, MikroORM } from "@mikro-orm/core";
-import { Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
+import { forwardRef, Inject, Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
@@ -35,6 +35,7 @@ export class WorkflowService
 		repository: WorkflowRepository,
 		// For `@UseRequestContext`
 		private readonly orm: MikroORM,
+		@Inject(forwardRef(() => WorkflowScheduler))
 		private readonly workflowScheduler: WorkflowScheduler,
 		private readonly graphService: GraphService,
 		private readonly nodeService: NodeService
