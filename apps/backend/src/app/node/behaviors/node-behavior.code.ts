@@ -1,4 +1,4 @@
-import { Entity, Property } from "@mikro-orm/core";
+import { Entity, Property, types } from "@mikro-orm/core";
 import { NodeBehaviorCodeDto as DTO } from "~/lib/common/app/node/dtos/behaviors";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 
@@ -8,6 +8,6 @@ const type = NodeBehaviorType.CODE;
 
 @Entity({ discriminatorValue: type })
 export class NodeBehaviorCode extends NodeBehaviorBase<typeof type> implements DTO {
-	@Property()
+	@Property({ type: types.text })
 	public code!: string;
 }
