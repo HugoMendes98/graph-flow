@@ -63,7 +63,7 @@ describe("WorkflowScheduler", () => {
 		return { code, value };
 	};
 
-	const seed = async () => {
+	const seed = async (cron: string) => {
 		await dbTest.refresh();
 
 		const codeContend = getCode();
@@ -78,7 +78,7 @@ describe("WorkflowScheduler", () => {
 		};
 		const nodeTrigger = await nodeService.create({
 			behavior: {
-				trigger: { cron: CronExpression.EVERY_SECOND, type: NodeTriggerType.CRON },
+				trigger: { cron, type: NodeTriggerType.CRON },
 				type: NodeBehaviorType.TRIGGER
 			},
 			kind,
@@ -111,7 +111,7 @@ describe("WorkflowScheduler", () => {
 		const {
 			code: { value },
 			workflow
-		} = await seed();
+		} = await seed(CronExpression.EVERY_SECOND);
 
 		const {
 			pagination: { total: totalBefore }
@@ -135,7 +135,7 @@ describe("WorkflowScheduler", () => {
 	});
 
 	it("should register and unregister by (de)activating a workflow", async () => {
-		const { workflow } = await seed();
+		const { workflow } = await seed(CronExpression.EVERY_YEAR);
 
 		expect(scheduler.isRegistered(workflow)).toBeFalse();
 

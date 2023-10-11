@@ -69,6 +69,23 @@ export class WorkflowService
 	}
 
 	/** @inheritDoc */
+	public async afterUpdate(args: EventArgs<WorkflowEntity>) {
+		const { changeSet, entity } = args;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Always defined on update
+		const { originalEntity, payload } = changeSet!;
+
+		const { active } = payload;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Entity always defined on update
+		if (typeof active === "boolean" && active !== originalEntity!.active) {
+			if (active) {
+				await this.workflowScheduler.register(entity);
+			} else {
+				await this.workflowScheduler.unregister(entity);
+			}
+		}
+	}
+
+	/** @inheritDoc */
 	@CreateRequestContext()
 	public async onModuleInit() {
 		const { data: workflows } = await this.findAndCount({ active: true });
