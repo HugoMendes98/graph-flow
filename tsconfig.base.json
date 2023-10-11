@@ -13,7 +13,6 @@
 		"noImplicitAny": false,
 		"noImplicitOverride": true,
 		"paths": {
-			"@nna/plugin": ["libs/plugin/src/*"],
 			"~/lib/common/*": ["libs/common/src/*"],
 			"~/lib/ng/*": ["libs/ng/src/*"]
 		},

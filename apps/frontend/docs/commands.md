@@ -170,22 +170,6 @@ especially the [generators](https://nx.dev/packages/angular/generators).
 
 > Also see the [structure](./styleguide.md#structure) of the code.
 
-#### Generate views
-
-Views can be generated with the following command:
-
-```bash
-nx g @nna/plugin:view --project=frontend <view>
-```
-
-To generate a _dev_ view:
-
-```bash
-nx g @nna/plugin:view --project=frontend --dev <view>
-```
-
-> It uses the [plugin](../../../libs/plugin/docs/commands.md#generate-views) of the project.
-
 #### Generate components
 
 Components can be generated with the following command:
