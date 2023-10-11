@@ -21,7 +21,6 @@ This file describes the commands that can be run for this application.
     - [Storybook](#storybook)
   - [Code generation](#code-generation)
     - [Generate Angular files](#generate-angular-files)
-      - [Generate views](#generate-views)
       - [Generate components](#generate-components)
     - [Create stories (Storybook)](#create-stories-storybook)
     - [I18n](#i18n)

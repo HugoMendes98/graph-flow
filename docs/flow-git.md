@@ -9,7 +9,6 @@ How to use _git_ with this project.
 <!-- TOC -->
 * [Git flow](#git-flow)
   * [Branch naming](#branch-naming)
-    * [Reserved names](#reserved-names)
     * [Work branches](#work-branches)
     * [Fix branches](#fix-branches)
     * [Documentation branches](#documentation-branches)
@@ -47,23 +46,6 @@ There are 2 main branches on which modifications are (normally) not directly app
 > > * The **CI** has just been set on a _production server_. The change: increase timeout
 > > * An update of an infrastructure needs to change some parameters.
 > >     The change: update configuration/environment values
-
-### Reserved names
-
-There's also some reserved names as 2nd level directory, such as:
-
-* Shared
-  * `common`
-  * `ng`
-  * `plugin`
-* Application
-  * `back`
-  * `front`
-
-Use theses when a modification concerns only one of the previous.
-Use none if it uses many of them.
-
-> These names can be used as a 2nd level directory for any of the following sections.
 
 ### Work branches
 
@@ -122,10 +104,23 @@ Except for the previous reserved names feel free to use other names for other ki
 Use commitizen:
 
 ```bash
-git cz
+npx cz
 ```
 
-<!-- TODO: complete -->
+The scope can be freely chosen.
+
+> **Warning:**  
+> Do not use a `fix` type for something that is not yet merged (on "your" working branch).
+>
+> Example:
+>
+> * A new feature is implemented:  
+> `feat(login): can login`
+> * Then, even before it is ready to merge, a bug is fixed  
+> `chore(login): do not return the sent password on login`
+>
+> Keep in mind that the `fix` type will appear in the **CHANGELOG**.  
+> It would be strange if a `Bug fixes` section appears for a bug that never occurred.
 
 ## Merge/Pull Request
 
@@ -171,13 +166,14 @@ There is no answer to this here.
 It is up to the team (or the reviewers of a **PR**) to define it.
 
 > Keep in mind that a _squash_ leaves a cleaner history,
-> but removes information about it.
+> but removes information about it.  
+> It also can generate an incomplete CHANGELOG.
 
 ### After merging
 
-After merging, the branch must be deleted, unless the code is deployed.  
-In which case, manual tests must be performed on the server(s) **before** deleting the branch.  
-If an error is found, then the _merge_ is revert.
+After merging, the branch must be deleted.  
+In which case, manual tests must be performed on the server(s).  
+If an error is found, then the _merge_ is revert or a _fix_ branch is created.
 
 > The purpose of these manual tests is to ensure that the deployment worked
 > and that no obvious errors occur.
