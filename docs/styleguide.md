@@ -184,6 +184,31 @@ It should be used, with the `JSDoc`, to explain some lines,
 explain why some decision have been made,
 summary optimized instructions, ... .
 
+#### Comments on dependency injection constructor
+
+`Angular` and `NestJS` use dependency injection.  
+So the comments in the constructor are not very important.
+
+They can simply set to one of the following:
+
+```typescript
+@Injectable()
+class MyInjectable1 {
+  /**
+   * Constructor with "dependency injection"
+   * 
+   * @param service injected
+   */
+  public constructor(private readonly service: MyService) {}
+}
+
+@Injectable()
+class MyInjectable2 {
+  /** @internal */
+  public constructor(private readonly service: MyService) {}
+}
+```
+
 ## Specific categories or files
 
 ### Documentation
