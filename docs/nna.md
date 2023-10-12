@@ -98,7 +98,7 @@ or a harder _pull from upstream_ with a lot of conflicts.
 
 ## TODOs
 
-Check this [file](./nna/todos.md) for what are the next steps of this boilerplate.
+Check this [here](https://github.com/orgs/heap-code/projects/2) for what are the next steps of this boilerplate.
 
 ## Contribution
 

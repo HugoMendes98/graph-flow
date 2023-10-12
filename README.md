@@ -1,15 +1,18 @@
-# Nx-NestJS-Angular
+# GraphFlow
 
-A boilerplate structure for a backend, frontend and back-office applications.
+Create, modify and execute workflows by editing graphs.
 
 [![CI](https://github.com/HugoMendes98/Nx-NestJS-Angular/actions/workflows/ci.yml/badge.svg)](https://github.com/HugoMendes98/Nx-NestJS-Angular/actions/workflows/ci.yml)
 
-| Code            | Jest coverage                                                            |
-|-----------------|--------------------------------------------------------------------------|
-| `libs/common`       | ![common-jest coverage](./.badges/libs/common/code/coverage.svg)     |
-| `libs/ng`           | ![ng-jest coverage](./.badges/libs/ng/code/coverage.svg)             |
-| `apps/backend`      | ![backend-jest coverage](./.badges/apps/backend/code/coverage.svg)   |
-| `apps/frontend`     | ![frontend-jest coverage](./.badges/apps/frontend/code/coverage.svg) |
+| Code            | Jest coverage                                                        |
+|-----------------|----------------------------------------------------------------------|
+| `libs/common`   | ![common-jest coverage](./.badges/libs/common/code/coverage.svg)     |
+| `libs/ng`       | ![ng-jest coverage](./.badges/libs/ng/code/coverage.svg)             |
+| `apps/backend`  | ![backend-jest coverage](./.badges/apps/backend/code/coverage.svg)   |
+| `apps/frontend` | ![frontend-jest coverage](./.badges/apps/frontend/code/coverage.svg) |
+
+> **Note**:  
+> There are e2e tests, so the coverage for `ng` and `frontend` is not very representative.
 
 | App             | Comment coverage                                               |
 |-----------------|----------------------------------------------------------------|
@@ -18,14 +21,15 @@ A boilerplate structure for a backend, frontend and back-office applications.
 
 ## Description
 
-This section should contain a description of the project.
+The purpose of `GraphFlow` is to be able to create workflows by editing graphs.  
 
-As this is the base repository of the boilerplate,
-all its "`README`" is available [here](./docs/nna.md).  
-All other text are part of the boilerplate.
+The graphs are composed of nodes that can be created and reused by many workflows.
+The nodes can be simple variables, execute some custom code or even be functions
+that themselves consist of a graph.
 
-It can also use the [specifications file](./docs/specifications.md)
-to more technically describe the project.
+### Context
+
+This work was carried out as a final project for the 2023 bachelor's degree.
 
 ## Requirements
 
