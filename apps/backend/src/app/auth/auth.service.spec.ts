@@ -23,9 +23,10 @@ describe("AuthService", () => {
 		dbTest = new DbTestHelper(module);
 		service = module.get(AuthService);
 		userService = module.get(UserService);
-	});
 
-	beforeEach(() => (db = dbTest.db as typeof BASE_SEED));
+		db = dbTest.db as typeof BASE_SEED;
+		await dbTest.refresh();
+	});
 
 	afterAll(() => dbTest.close());
 

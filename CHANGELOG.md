@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.5.1](https://github.com/HugoMendes98/graph-flow/compare/v0.5.0...v0.5.1) (2023-10-12)
+
+
+### Documentation
+
+* add a small project description ([8e60e57](https://github.com/HugoMendes98/graph-flow/commit/8e60e57a9b56c4132333159cf93bf83a0176e7b1))
+* **boiler:** remove `back-office` boiler doc and update `git commit message` doc ([b1c66a6](https://github.com/HugoMendes98/graph-flow/commit/b1c66a6ef49d993414edbb439afa9e4a037f2acc))
+
+## [0.5.0](https://github.com/HugoMendes98/graph-flow/compare/v0.4.3...v0.5.0) (2023-10-11)
+
+
+### Features
+
+* **scheduler/workflow:** execute a workflow by its CRON ([57dae4d](https://github.com/HugoMendes98/graph-flow/commit/57dae4db6768e81a66ec8cfb264c63b295166280))
+* **scheduler/workflow:** register and unregister a workflow by the `activate` property ([de336fb](https://github.com/HugoMendes98/graph-flow/commit/de336fb5b7821ad01d6acaf168c227fca88d4617))
+
+
+### Bug Fixes
+
+* **graph/executor:** allow to subscribe before events are fired from a graph execution ([0a9eba2](https://github.com/HugoMendes98/graph-flow/commit/0a9eba2edda9c537fad800af942e189f53844ebf))
+* **node-code:** change code type to text ([c7c6a8b](https://github.com/HugoMendes98/graph-flow/commit/c7c6a8b7c6596ce1e4beef99b0df4f07bed0d211))
+* **node/executor:** await for `node-code` execution for async js code ([000ec8a](https://github.com/HugoMendes98/graph-flow/commit/000ec8a70d893850164a37e6180a21468060d297))
+
 ## [0.4.3](https://github.com/HugoMendes98/graph-flow/compare/v0.4.2...v0.4.3) (2023-10-09)
 
 

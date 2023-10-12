@@ -12,7 +12,6 @@ This file describes the styleguide applied to the project.
   * [Eslint](#eslint)
   * [Global](#global)
     * [Ordering](#ordering)
-      * [Decorators](#decorators)
       * [Class member ordering](#class-member-ordering)
     * [_Non-private_ accessors naming](#non-private-accessors-naming)
       * [What are _non-private_ accessors?](#what-are-non-private-accessors)
@@ -58,26 +57,6 @@ It also avoids conflicts with _git_.
 The ordering is applied to almost all files (_typescript_, _json_, _scss_, ...).
 
 > Always prefer the alphabetical order if none other order takes place.
-
-#### Decorators
-
-Unless the order matters, set the decorators in alphabetical order.
-
-```typescript
-@DecoratorClassA
-@DecoratorClassB
-class MyClass {
-  @DecoratorPropertyA 
-  @DecoratorPropertyB 
-  public property1: number;
-  
-  @DecoratorPropertyC 
-  @DecoratorPropertyA // This decorator must be applied before C
-  public property2: number;
-}
-```
-
-> If the order matters, a comment is mandatory.
 
 #### Class member ordering
 
@@ -204,6 +183,31 @@ As read in the previous section, commenting the code is highly encouraged.
 It should be used, with the `JSDoc`, to explain some lines,
 explain why some decision have been made,
 summary optimized instructions, ... .
+
+#### Comments on dependency injection constructor
+
+`Angular` and `NestJS` use dependency injection.  
+So the comments in the constructor are not very important.
+
+They can simply set to one of the following:
+
+```typescript
+@Injectable()
+class MyInjectable1 {
+  /**
+   * Constructor with "dependency injection"
+   * 
+   * @param service injected
+   */
+  public constructor(private readonly service: MyService) {}
+}
+
+@Injectable()
+class MyInjectable2 {
+  /** @internal */
+  public constructor(private readonly service: MyService) {}
+}
+```
 
 ## Specific categories or files
 

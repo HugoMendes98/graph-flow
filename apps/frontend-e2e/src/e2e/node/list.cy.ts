@@ -130,8 +130,11 @@ describe("Nodes list", () => {
 
 			/* ==== Generated with Cypress Studio ==== */
 			cy.get('.mat-toolbar [routerlink="/nodes"]').click();
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center > span").click();
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center > span").click();
+			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center").click();
+			// Makes wait for the query parameters FIXME: why is it needed here?
+			cy.location("search").should("contains", `_id=asc`);
+
+			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center").click();
 			// Makes wait for the query parameters FIXME: why is it needed here?
 			cy.location("search").should("contains", `_id=desc`);
 

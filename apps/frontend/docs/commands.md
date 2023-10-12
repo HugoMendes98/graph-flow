@@ -21,7 +21,6 @@ This file describes the commands that can be run for this application.
     - [Storybook](#storybook)
   - [Code generation](#code-generation)
     - [Generate Angular files](#generate-angular-files)
-      - [Generate views](#generate-views)
       - [Generate components](#generate-components)
     - [Create stories (Storybook)](#create-stories-storybook)
     - [I18n](#i18n)
@@ -169,22 +168,6 @@ The latest proposes a lot of commands,
 especially the [generators](https://nx.dev/packages/angular/generators).
 
 > Also see the [structure](./styleguide.md#structure) of the code.
-
-#### Generate views
-
-Views can be generated with the following command:
-
-```bash
-nx g @nna/plugin:view --project=frontend <view>
-```
-
-To generate a _dev_ view:
-
-```bash
-nx g @nna/plugin:view --project=frontend --dev <view>
-```
-
-> It uses the [plugin](../../../libs/plugin/docs/commands.md#generate-views) of the project.
 
 #### Generate components
 

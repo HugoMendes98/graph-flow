@@ -120,7 +120,7 @@ export class NodeExecutor {
 		switch (behavior.type) {
 			case NodeBehaviorType.CODE: {
 				// Always execute the node
-				const value = this.executeCode(
+				const value = await this.executeCode(
 					behavior,
 					getValues().map(({ value }) => value)
 				);
@@ -170,9 +170,10 @@ export class NodeExecutor {
 		}
 	}
 
-	private executeCode(behavior: NodeBehaviorCode, inputs: readonly NodeIoValue[]): NodeIoValue {
+	private executeCode(behavior: NodeBehaviorCode, inputs: readonly NodeIoValue[]) {
 		// TODO: better
-		return (eval(behavior.code) as (...inputs: NodeIoValue[]) => NodeIoValue)(...inputs);
+		type Fn = (...inputs: NodeIoValue[]) => Promise<NodeIoValue>;
+		return (eval(behavior.code) as Fn)(...inputs);
 	}
 
 	private async executeFunction(

@@ -9,7 +9,6 @@ This file describes the commands that can be run with the project.
 <!-- TOC -->
 * [Commands](#commands)
   * [Nx Commands](#nx-commands)
-    * [Nx Lint](#nx-lint)
     * [Nx Graph](#nx-graph)
   * [NPM commands](#npm-commands)
     * [Lint](#lint)
@@ -27,15 +26,6 @@ However, it is recommended to use [NPM commands](#npm-commands)
 as they are manually added and confirmed.  
 `Nx` can still be used.
 In fact if a _running_ `Nx` command is really useful, it should probably be a NPM command too.
-
-### Nx Lint
-
-There are commands in `npm` to lint the code.
-There is another one that be useful, if only some library or application code is modified:
-
-```bash
-nx lint
-```
 
 ### Nx Graph
 
@@ -108,12 +98,6 @@ And its corrector:
 npm run lint:style:fix
 ```
 
-> These commands are important but are not optimized.
-> They test all the files from the root of this project.  
->
-> If an application is modified, it is recommended to run the linter of that application
-> or the [nx lint](#nx-lint).
-
 ### Test
 
 It is possible to run the tests of this project with 2 commands.
@@ -151,7 +135,6 @@ Check the following files for their specific commands.
 * Libraries
   * `common`: see [commands](../libs/common/docs/commands.md).
   * `ng`: see [commands](../libs/ng/docs/commands.md).
-  * `plugin`: see [commands](../libs/plugin/docs/commands.md).
 * Application
   * `backend`: see [commands](../apps/backend/docs/commands.md).
   * `frontend`: see [commands](../apps/frontend/docs/commands.md).

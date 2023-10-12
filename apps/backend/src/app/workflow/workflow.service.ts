@@ -1,5 +1,5 @@
-import { EventArgs, EventSubscriber, MikroORM, UseRequestContext } from "@mikro-orm/core";
-import { Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
+import { CreateRequestContext, EventArgs, EventSubscriber, MikroORM } from "@mikro-orm/core";
+import { forwardRef, Inject, Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
@@ -8,8 +8,10 @@ import { EntityId } from "~/lib/common/dtos/entity";
 import { WorkflowNoTriggerException } from "./exceptions";
 import { WorkflowEntity } from "./workflow.entity";
 import { WorkflowRepository } from "./workflow.repository";
+import { WorkflowScheduler } from "./workflow.scheduler";
 import { EntityService } from "../_lib/entity";
 import { GraphService } from "../graph/graph.service";
+import { NodeBehaviorTrigger } from "../node/behaviors/node-behavior.trigger";
 import { NodeService } from "../node/node.service";
 
 /**
@@ -25,6 +27,7 @@ export class WorkflowService
 	 *
 	 * @param repository injected
 	 * @param orm injected
+	 * @param workflowScheduler injected
 	 * @param graphService injected
 	 * @param nodeService injected
 	 */
@@ -32,6 +35,8 @@ export class WorkflowService
 		repository: WorkflowRepository,
 		// For `@UseRequestContext`
 		private readonly orm: MikroORM,
+		@Inject(forwardRef(() => WorkflowScheduler))
+		private readonly workflowScheduler: WorkflowScheduler,
 		private readonly graphService: GraphService,
 		private readonly nodeService: NodeService
 	) {
@@ -53,7 +58,7 @@ export class WorkflowService
 		}
 
 		if (changeSet.payload.active === true) {
-			await this.getTrigger(entity).catch((error: unknown) => {
+			await this.findTrigger(entity).catch((error: unknown) => {
 				if (error instanceof NotFoundException) {
 					throw new WorkflowNoTriggerException(error.message);
 				}
@@ -64,11 +69,28 @@ export class WorkflowService
 	}
 
 	/** @inheritDoc */
-	@UseRequestContext()
+	public async afterUpdate(args: EventArgs<WorkflowEntity>) {
+		const { changeSet, entity } = args;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Always defined on update
+		const { originalEntity, payload } = changeSet!;
+
+		const { active } = payload;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Entity always defined on update
+		if (typeof active === "boolean" && active !== originalEntity!.active) {
+			if (active) {
+				await this.workflowScheduler.register(entity);
+			} else {
+				await this.workflowScheduler.unregister(entity);
+			}
+		}
+	}
+
+	/** @inheritDoc */
+	@CreateRequestContext()
 	public async onModuleInit() {
 		const { data: workflows } = await this.findAndCount({ active: true });
 
-		await Promise.all(workflows.map(workflow => this.registerWorkflow(workflow)));
+		await Promise.all(workflows.map(workflow => this.workflowScheduler.register(workflow)));
 	}
 
 	/** @inheritDoc */
@@ -81,12 +103,6 @@ export class WorkflowService
 		});
 	}
 
-	private async registerWorkflow(workflow: WorkflowEntity) {
-		const trigger = await this.getTrigger(workflow);
-
-		// TODO
-	}
-
 	/**
 	 * Gets the trigger node for the given workflow
 	 *
@@ -94,7 +110,7 @@ export class WorkflowService
 	 * @throws NotFoundException when no trigger is found
 	 * @returns the trigger node for the given workflow
 	 */
-	private async getTrigger(workflow: WorkflowEntity) {
+	public async findTrigger(workflow: WorkflowEntity) {
 		const { __graph, _id } = workflow;
 
 		const { data } = await this.nodeService.findAndCount(
@@ -119,6 +135,10 @@ export class WorkflowService
 			throw new NotFoundException(`No trigger found for the workflow ${_id}`);
 		}
 
-		return data[0];
+		const [node] = data;
+		return {
+			node,
+			trigger: node.behavior as NodeBehaviorTrigger
+		};
 	}
 }
