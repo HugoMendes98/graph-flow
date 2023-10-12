@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.1](https://github.com/HugoMendes98/graph-flow/compare/v0.5.0...v0.5.1) (2023-10-12)
+
+
+### Documentation
+
+* add a small project description ([8e60e57](https://github.com/HugoMendes98/graph-flow/commit/8e60e57a9b56c4132333159cf93bf83a0176e7b1))
+* **boiler:** remove `back-office` boiler doc and update `git commit message` doc ([b1c66a6](https://github.com/HugoMendes98/graph-flow/commit/b1c66a6ef49d993414edbb439afa9e4a037f2acc))
+
 ## [0.5.0](https://github.com/HugoMendes98/graph-flow/compare/v0.4.3...v0.5.0) (2023-10-11)
 
 
