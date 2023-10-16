@@ -29,8 +29,8 @@ export const DevInitializerProvider: Provider = {
 };
 
 @NgModule({
-	declarations: [DevView],
 	imports: [
+		DevView,
 		RouterModule.forChild([
 			{
 				children: devRoutes,
