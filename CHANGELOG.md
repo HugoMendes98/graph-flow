@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2](https://github.com/HugoMendes98/graph-flow/compare/v0.5.1...v0.5.2) (2023-10-16)
+
+
+### Bug Fixes
+
+* correct frontend dev mode ([1fed9e7](https://github.com/HugoMendes98/graph-flow/commit/1fed9e78fbf6bc2b4d37981ca5814eb96d629848))
+
 ## [0.5.1](https://github.com/HugoMendes98/graph-flow/compare/v0.5.0...v0.5.1) (2023-10-12)
 
 
