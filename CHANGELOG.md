@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/HugoMendes98/graph-flow/compare/v0.5.2...v0.5.3) (2023-10-18)
+
+
+### Code Refactors
+
+* **graph/executor:** rewrite `execute` method with resolver and add more execution states ([49c6ce3](https://github.com/HugoMendes98/graph-flow/commit/49c6ce3534ec7c72454ead630c8f9293ec587e48))
+
 ## [0.5.2](https://github.com/HugoMendes98/graph-flow/compare/v0.5.1...v0.5.2) (2023-10-16)
 
 
