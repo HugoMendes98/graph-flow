@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.5](https://github.com/HugoMendes98/graph-flow/compare/v0.5.4...v0.5.5) (2023-10-18)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency @swc/core to v1.3.93 ([b7cd6c7](https://github.com/HugoMendes98/graph-flow/commit/b7cd6c7d72d4362ea1a0c4aaf8bf16aeaef9016f))
+* **deps:** Update jest monorepo ([086ea35](https://github.com/HugoMendes98/graph-flow/commit/086ea35d2e9b79aea2a8d784a7832ea6a285b9c2))
+
 ## [0.5.4](https://github.com/HugoMendes98/graph-flow/compare/v0.5.3...v0.5.4) (2023-10-18)
 
 
