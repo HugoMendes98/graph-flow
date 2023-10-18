@@ -26,9 +26,6 @@ jobs:
       - name: Install packages
         run: npm ci
 
-      - name: Run normal tests to populate nx cache
-        run: npm run test
-
       - name: Generate code coverage summary
         run: npm run test:ci
 
