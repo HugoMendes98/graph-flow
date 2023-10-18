@@ -8,7 +8,7 @@ import { EntityId } from "~/lib/common/dtos/entity";
 import { NodeExecutorMissingInputException } from "./exceptions";
 import { GraphExecutor } from "../../graph/executor/graph.executor";
 import type {
-	GraphExecuteNodeFinishState,
+	GraphExecuteResolutionEndState,
 	GraphExecuteState
 } from "../../graph/executor/graph.executor.state";
 import {
@@ -209,8 +209,8 @@ export class NodeExecutor {
 		return lastValueFrom(
 			executeState$.pipe(
 				filter(
-					(state: GraphExecuteState): state is GraphExecuteNodeFinishState =>
-						state.type === "node-finish" && outputIds.includes(state.node._id)
+					(state: GraphExecuteState): state is GraphExecuteResolutionEndState =>
+						state.type === "resolution-end" && outputIds.includes(state.node._id)
 				),
 				toArray()
 			)

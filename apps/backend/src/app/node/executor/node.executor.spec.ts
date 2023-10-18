@@ -135,10 +135,12 @@ describe("NodeExecutor", () => {
 			});
 			expect(outputs).toHaveLength(2);
 
-			const [
-				{ output: quotientOutput, value: quotient },
-				{ output: remainderOutput, value: remainder }
-			] = outputs;
+			const { output: quotientOutput, value: quotient } = outputs.find(
+				({ output }) => output._id === fnQuotient._id
+			)!;
+			const { output: remainderOutput, value: remainder } = outputs.find(
+				({ output }) => output._id === fnRemainder._id
+			)!;
 
 			// The values are correct
 			expect(quotient).toBe(divisor === 0 ? 0 : Math.floor(dividend / divisor));
