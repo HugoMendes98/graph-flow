@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.4](https://github.com/HugoMendes98/graph-flow/compare/v0.5.3...v0.5.4) (2023-10-18)
+
+
+### Bug Fixes
+
+* **deps:** Update angularmaterial monorepo to v16.2.8 ([d9f387e](https://github.com/HugoMendes98/graph-flow/commit/d9f387ea0d63066340665797c1c5903ddba110b6))
+
 ## [0.5.3](https://github.com/HugoMendes98/graph-flow/compare/v0.5.2...v0.5.3) (2023-10-18)
 
 
