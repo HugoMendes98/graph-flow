@@ -37,9 +37,6 @@ describe("GraphExecutor", () => {
 
 	afterAll(() => dbTest.close());
 
-	// eslint-disable-next-line jest/expect-expect -- TODO
-	it.skip("should execute a graph for a workflow", () => void 0);
-
 	it("should execute a graph for a `node-function` ('Integer division')", async () => {
 		const [graph] = db.graph.graphs;
 		const { data: nodes } = await nodeService.findByGraph(graph._id);
@@ -61,10 +58,10 @@ describe("GraphExecutor", () => {
 
 		const states = await lastValueFrom(state$.pipe(toArray()));
 
-		expect(states).toHaveLength(nodes.length * 2);
+		expect(states).toHaveLength(nodes.length * 4);
 		for (const { _id } of nodes) {
-			// Each node is called 2 times
-			expect(states.filter(({ node }) => node._id === _id)).toHaveLength(2);
+			// Each node is called 4 times (resolution + propagation)
+			expect(states.filter(({ node }) => node._id === _id)).toHaveLength(4);
 		}
 	});
 

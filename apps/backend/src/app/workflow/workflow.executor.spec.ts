@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { lastValueFrom, tap } from "rxjs";
+import { filter, lastValueFrom, tap } from "rxjs";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
@@ -11,7 +11,10 @@ import { WorkflowService } from "./workflow.service";
 import { DbTestHelper } from "../../../test/db-test";
 import { OrmModule } from "../../orm/orm.module";
 import { GraphArcService } from "../graph/arc/graph-arc.service";
-import { GraphExecuteStateType } from "../graph/executor/graph.executor.state";
+import {
+	GraphExecuteResolutionEndState,
+	GraphExecuteStateType
+} from "../graph/executor/graph.executor.state";
 import { NodeInputService } from "../node/input/node-input.service";
 import { NodeCreateEntity, NodeService } from "../node/node.service";
 
@@ -79,37 +82,42 @@ describe("WorkflowExecutor", () => {
 			__to: nodeCodeInput._id
 		});
 
+		const beforeExecutionTime = new Date().getTime();
 		const state$ = await service.findById(_id).then(w => executor.execute(w));
 		const trace: Record<GraphExecuteStateType, number[]> = {
-			"node-finish": [],
-			"node-starting": []
+			"propagation-enter": [],
+			"propagation-leave": [],
+			"resolution-end": [],
+			"resolution-start": []
 		};
 
 		// --- Test execution states
-		const beforeExecutionTime = new Date().getTime();
 
 		const finalState = await lastValueFrom(
-			state$.pipe(tap(state => trace[state.type].push(state.node._id)))
+			state$.pipe(
+				tap(state => trace[state.type].push(state.node._id)),
+				filter(
+					(state): state is GraphExecuteResolutionEndState =>
+						state.type === "resolution-end"
+				)
+			)
 		);
-		if (finalState.type !== "node-finish") {
-			throw new Error("Not the correct final state");
-		}
 
-		expect(trace["node-starting"]).toHaveLength(2);
-		expect(trace["node-finish"]).toHaveLength(2);
+		expect(trace["resolution-start"]).toHaveLength(2);
+		expect(trace["resolution-end"]).toHaveLength(2);
 
 		const expected = [nodeTrigger._id, nodeCode._id].sort();
-		expect(trace["node-starting"].slice().sort()).toStrictEqual(expected);
-		expect(trace["node-finish"].slice().sort()).toStrictEqual(expected);
+		expect(trace["resolution-start"].slice().sort()).toStrictEqual(expected);
+		expect(trace["resolution-end"].slice().sort()).toStrictEqual(expected);
 
 		// --- Test executed value
 
 		const finalOutput = finalState.outputs.find(
 			output => output.output._id === nodeCodeOutput._id
-		);
+		)!;
 		expect(finalOutput).toBeDefined();
 
-		const finalValue = finalOutput!.value as string;
+		const finalValue = finalOutput.value as string;
 		const [value, time] = finalValue.split("-").map(v => +v);
 		expect(value).toBe(random);
 

@@ -19,7 +19,6 @@
 		"@angular/platform-browser-dynamic": "^16.2.3",
 		"@angular/router": "^16.2.3",
 		"@colsen1991/ngx-translate-extract-marker": "^2.0.8",
-		"@heap-code/concurrency-synchronization": "^1.0.1",
 		"@heap-code/singleton": "^1.1.1",
 		"@mikro-orm/cli": "^5.7.14",
 		"@mikro-orm/core": "^5.7.14",
@@ -56,6 +55,7 @@
 		"rete-readonly-plugin": "^2.0.0",
 		"rxjs": "~7.8.1",
 		"treeverse": "^3.0.0",
+		"ts-pattern": "^5.0.5",
 		"tslib": "^2.6.2",
 		"zone.js": "~0.13.0"
 	},
@@ -72,6 +72,7 @@
 		"@compodoc/compodoc": "^1.1.19",
 		"@cspell/eslint-plugin": "^7.3.7",
 		"@darraghor/eslint-plugin-nestjs-typed": "^3.22.6",
+		"@heap-code/concurrency-synchronization": "^1.0.1",
 		"@nestjs/cli": "^10.1.10",
 		"@nestjs/schematics": "^10.0.1",
 		"@nestjs/testing": "^10.1.2",
