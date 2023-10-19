@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.6](https://github.com/HugoMendes98/graph-flow/compare/v0.5.5...v0.5.6) (2023-10-19)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency @compodoc/compodoc to v1.1.22 ([5e0db85](https://github.com/HugoMendes98/graph-flow/commit/5e0db853268284376873d6ad464d0b76867b71a2))
+* **deps:** Update dependency webpack to v5.89.0 ([caf0f91](https://github.com/HugoMendes98/graph-flow/commit/caf0f91178bde710bdc579fb6d5e87e58196031a))
+* **deps:** Update storybook monorepo to v7.5.1 ([abe8cea](https://github.com/HugoMendes98/graph-flow/commit/abe8cea0b26f2fcc7a96d78c7284e52712547cac))
+
 ## [0.5.5](https://github.com/HugoMendes98/graph-flow/compare/v0.5.4...v0.5.5) (2023-10-18)
 
 
