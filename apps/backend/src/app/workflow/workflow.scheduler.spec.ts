@@ -43,6 +43,7 @@ describe("WorkflowScheduler", () => {
 		nodeService = module.get(NodeService);
 	});
 
+	beforeEach(() => dbTest.refresh());
 	afterAll(() => dbTest.close());
 
 	const getCode = () => {
@@ -64,8 +65,6 @@ describe("WorkflowScheduler", () => {
 	};
 
 	const seed = async (cron: string) => {
-		await dbTest.refresh();
-
 		const codeContend = getCode();
 		const { code } = codeContend;
 
@@ -120,7 +119,7 @@ describe("WorkflowScheduler", () => {
 		// ----- Tests
 
 		await scheduler.register(workflow);
-		await new Promise(resolve => setTimeout(resolve, 1020));
+		await new Promise(resolve => setTimeout(resolve, 1250));
 		const {
 			data: [graphTest],
 			pagination: { total: totalAfter }
