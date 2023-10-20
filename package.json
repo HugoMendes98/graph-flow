@@ -120,7 +120,7 @@
 		"comment-json": "^4.2.3",
 		"cypress": "^12.17.2",
 		"cz-conventional-changelog": "^3.3.0",
-		"dockerode": "^3.3.4",
+		"dockerode": "^4.0.0",
 		"eslint": "^8.46.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-cypress": "^2.14.0",
