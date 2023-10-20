@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.5.9](https://github.com/HugoMendes98/graph-flow/compare/v0.5.8...v0.5.9) (2023-10-20)
+
+
+### Bug Fixes
+
+* **deps:** Update actions/checkout action to v4 ([116af1b](https://github.com/HugoMendes98/graph-flow/commit/116af1b2d646f2edd02783441389f332f4f5c804))
+* **deps:** Update dependency dockerode to v4 ([a884ed5](https://github.com/HugoMendes98/graph-flow/commit/a884ed5c76c0dfce0c266eef4c5a2bbe5e48d4ad))
+* **deps:** Update dependency nx-stylelint to v16 ([7b9ce94](https://github.com/HugoMendes98/graph-flow/commit/7b9ce94cdb3c3a0efd978d585798ea0e0fab2e59))
+* **deps:** Update Linting packages ([3d2d5ff](https://github.com/HugoMendes98/graph-flow/commit/3d2d5ff161d32af9376b1ffea60ba4c118000d6d))
+* **deps:** Update nrwl monorepo to v16.10.0 ([0369f70](https://github.com/HugoMendes98/graph-flow/commit/0369f70cb1f7ef4bb850417c1b2627d48681379a))
+
 ## [0.5.8](https://github.com/HugoMendes98/graph-flow/compare/v0.5.7...v0.5.8) (2023-10-20)
 
 
