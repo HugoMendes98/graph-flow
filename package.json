@@ -154,7 +154,7 @@
 		"ngx-translate-testing": "^7.0.0",
 		"nx": "16.10.0",
 		"nx-cloud": "16.5.2",
-		"nx-stylelint": "^15.0.0",
+		"nx-stylelint": "^16.0.0",
 		"prettier": "^3.0.3",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
