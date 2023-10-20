@@ -21,5 +21,6 @@
 			]
 		}
 	],
+	"rebaseWhen": "behind-base-branch",
 	"unicodeEmoji": true
 }
