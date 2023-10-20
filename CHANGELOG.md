@@ -1,5 +1,64 @@
 # Changelog
 
+## [0.5.9](https://github.com/HugoMendes98/graph-flow/compare/v0.5.8...v0.5.9) (2023-10-20)
+
+
+### Bug Fixes
+
+* **deps:** Update actions/checkout action to v4 ([116af1b](https://github.com/HugoMendes98/graph-flow/commit/116af1b2d646f2edd02783441389f332f4f5c804))
+* **deps:** Update dependency dockerode to v4 ([a884ed5](https://github.com/HugoMendes98/graph-flow/commit/a884ed5c76c0dfce0c266eef4c5a2bbe5e48d4ad))
+* **deps:** Update dependency nx-stylelint to v16 ([7b9ce94](https://github.com/HugoMendes98/graph-flow/commit/7b9ce94cdb3c3a0efd978d585798ea0e0fab2e59))
+* **deps:** Update Linting packages ([3d2d5ff](https://github.com/HugoMendes98/graph-flow/commit/3d2d5ff161d32af9376b1ffea60ba4c118000d6d))
+* **deps:** Update nrwl monorepo to v16.10.0 ([0369f70](https://github.com/HugoMendes98/graph-flow/commit/0369f70cb1f7ef4bb850417c1b2627d48681379a))
+
+## [0.5.8](https://github.com/HugoMendes98/graph-flow/compare/v0.5.7...v0.5.8) (2023-10-20)
+
+
+### Bug Fixes
+
+* **deps:** Update Linting packages ([#41](https://github.com/HugoMendes98/graph-flow/issues/41)) ([8b1f8e2](https://github.com/HugoMendes98/graph-flow/commit/8b1f8e2881de2f4f02443baae276d70c47f3c19c))
+
+## [0.5.7](https://github.com/HugoMendes98/graph-flow/compare/v0.5.6...v0.5.7) (2023-10-20)
+
+
+### Bug Fixes
+
+* **deps:** Update angularmaterial monorepo to v16.2.9 ([74bc87d](https://github.com/HugoMendes98/graph-flow/commit/74bc87d8c20acecc67dfed92155ae63f2bb056e8))
+* **deps:** Update dependency nx-cloud to v16.5.2 ([1a2e7d7](https://github.com/HugoMendes98/graph-flow/commit/1a2e7d794e87991a62f53a74fc15e8c675b15827))
+* **deps:** Update mikro-orm monorepo to v5.8.10 ([a1f3b62](https://github.com/HugoMendes98/graph-flow/commit/a1f3b62ca6fdc9c8804f3004d08a147b57462f31))
+* **scheduler:** ignore errors of scheduled workflow ([8162069](https://github.com/HugoMendes98/graph-flow/commit/8162069a66c67350fd175d6d57ff294893d7d598))
+
+## [0.5.6](https://github.com/HugoMendes98/graph-flow/compare/v0.5.5...v0.5.6) (2023-10-19)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency @compodoc/compodoc to v1.1.22 ([5e0db85](https://github.com/HugoMendes98/graph-flow/commit/5e0db853268284376873d6ad464d0b76867b71a2))
+* **deps:** Update dependency webpack to v5.89.0 ([caf0f91](https://github.com/HugoMendes98/graph-flow/commit/caf0f91178bde710bdc579fb6d5e87e58196031a))
+* **deps:** Update storybook monorepo to v7.5.1 ([abe8cea](https://github.com/HugoMendes98/graph-flow/commit/abe8cea0b26f2fcc7a96d78c7284e52712547cac))
+
+## [0.5.5](https://github.com/HugoMendes98/graph-flow/compare/v0.5.4...v0.5.5) (2023-10-18)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency @swc/core to v1.3.93 ([b7cd6c7](https://github.com/HugoMendes98/graph-flow/commit/b7cd6c7d72d4362ea1a0c4aaf8bf16aeaef9016f))
+* **deps:** Update jest monorepo ([086ea35](https://github.com/HugoMendes98/graph-flow/commit/086ea35d2e9b79aea2a8d784a7832ea6a285b9c2))
+
+## [0.5.4](https://github.com/HugoMendes98/graph-flow/compare/v0.5.3...v0.5.4) (2023-10-18)
+
+
+### Bug Fixes
+
+* **deps:** Update angularmaterial monorepo to v16.2.8 ([d9f387e](https://github.com/HugoMendes98/graph-flow/commit/d9f387ea0d63066340665797c1c5903ddba110b6))
+
+## [0.5.3](https://github.com/HugoMendes98/graph-flow/compare/v0.5.2...v0.5.3) (2023-10-18)
+
+
+### Code Refactors
+
+* **graph/executor:** rewrite `execute` method with resolver and add more execution states ([49c6ce3](https://github.com/HugoMendes98/graph-flow/commit/49c6ce3534ec7c72454ead630c8f9293ec587e48))
+
 ## [0.5.2](https://github.com/HugoMendes98/graph-flow/compare/v0.5.1...v0.5.2) (2023-10-16)
 
 

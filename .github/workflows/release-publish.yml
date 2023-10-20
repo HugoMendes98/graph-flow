@@ -13,7 +13,7 @@ jobs:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -25,9 +25,6 @@ jobs:
 
       - name: Install packages
         run: npm ci
-
-      - name: Run normal tests to populate nx cache
-        run: npm run test
 
       - name: Generate code coverage summary
         run: npm run test:ci

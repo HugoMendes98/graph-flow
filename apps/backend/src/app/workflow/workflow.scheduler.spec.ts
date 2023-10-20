@@ -43,6 +43,7 @@ describe("WorkflowScheduler", () => {
 		nodeService = module.get(NodeService);
 	});
 
+	beforeEach(() => dbTest.refresh());
 	afterAll(() => dbTest.close());
 
 	const getCode = () => {
@@ -64,8 +65,6 @@ describe("WorkflowScheduler", () => {
 	};
 
 	const seed = async (cron: string) => {
-		await dbTest.refresh();
-
 		const codeContend = getCode();
 		const { code } = codeContend;
 
@@ -120,7 +119,34 @@ describe("WorkflowScheduler", () => {
 		// ----- Tests
 
 		await scheduler.register(workflow);
-		await new Promise(resolve => setTimeout(resolve, 1020));
+		expect(scheduler.isRegistered(workflow)).toBeTrue();
+
+		// The workflow could not be called when sleeping for 1 seconds or less
+		// And it could be executed twice for more time
+
+		// Polling to detect the new graph:
+		await (async () => {
+			const timeMax = 2000;
+			const period = 200;
+
+			for (let time = 0; time < timeMax; time += period) {
+				await new Promise(resolve => setTimeout(resolve, period));
+
+				const after = await graphService
+					.findAndCount({}, { limit: 0 })
+					.then(({ pagination: { total } }) => total);
+
+				if (after !== totalBefore) {
+					return Promise.resolve();
+				}
+			}
+
+			throw new Error(`No new graph detected from the workflow in less than ${timeMax}ms.`);
+		})();
+
+		await scheduler.unregister(workflow);
+		expect(scheduler.isRegistered(workflow)).toBeFalse();
+
 		const {
 			data: [graphTest],
 			pagination: { total: totalAfter }
@@ -128,10 +154,6 @@ describe("WorkflowScheduler", () => {
 
 		expect(totalAfter).toBe(totalBefore + 1);
 		expect(graphTest._id).toBe(value);
-
-		expect(scheduler.isRegistered(workflow)).toBeTrue();
-		await scheduler.unregister(workflow);
-		expect(scheduler.isRegistered(workflow)).toBeFalse();
 	});
 
 	it("should register and unregister by (de)activating a workflow", async () => {
