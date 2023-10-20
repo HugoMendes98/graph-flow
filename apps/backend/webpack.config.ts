@@ -1,7 +1,7 @@
 import { composePlugins, withNx } from "@nx/webpack";
 import { deepmerge } from "deepmerge-ts";
 import * as path from "path";
-import nodeExternals from "webpack-node-externals";
+import * as nodeExternals from "webpack-node-externals";
 
 // Nx plugins for webpack.
 export default composePlugins(withNx(), config => {

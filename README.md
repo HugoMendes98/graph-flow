@@ -2,7 +2,7 @@
 
 Create, modify and execute workflows by editing graphs.
 
-[![CI](https://github.com/HugoMendes98/Nx-NestJS-Angular/actions/workflows/ci.yml/badge.svg)](https://github.com/HugoMendes98/Nx-NestJS-Angular/actions/workflows/ci.yml)
+[![CI](https://github.com/HugoMendes98/graph-flow/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/HugoMendes98/graph-flow/actions/workflows/ci.yml?query=branch%3Amaster)
 
 | Code            | Jest coverage                                                        |
 |-----------------|----------------------------------------------------------------------|
