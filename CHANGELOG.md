@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.5.7](https://github.com/HugoMendes98/graph-flow/compare/v0.5.6...v0.5.7) (2023-10-20)
+
+
+### Bug Fixes
+
+* **deps:** Update angularmaterial monorepo to v16.2.9 ([74bc87d](https://github.com/HugoMendes98/graph-flow/commit/74bc87d8c20acecc67dfed92155ae63f2bb056e8))
+* **deps:** Update dependency nx-cloud to v16.5.2 ([1a2e7d7](https://github.com/HugoMendes98/graph-flow/commit/1a2e7d794e87991a62f53a74fc15e8c675b15827))
+* **deps:** Update mikro-orm monorepo to v5.8.10 ([a1f3b62](https://github.com/HugoMendes98/graph-flow/commit/a1f3b62ca6fdc9c8804f3004d08a147b57462f31))
+* **scheduler:** ignore errors of scheduled workflow ([8162069](https://github.com/HugoMendes98/graph-flow/commit/8162069a66c67350fd175d6d57ff294893d7d598))
+
 ## [0.5.6](https://github.com/HugoMendes98/graph-flow/compare/v0.5.5...v0.5.6) (2023-10-19)
 
 
