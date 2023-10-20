@@ -53,7 +53,10 @@ export class WorkflowScheduler {
 
 		// A shallow copy in case the reference changes
 		const { ...shallow } = workflow;
-		const job = new CronJob(trigger.cron, () => void this.executor.executeAndLog(shallow));
+		const job = new CronJob(
+			trigger.cron,
+			() => void this.executor.executeAndLog(shallow).catch(() => void 0)
+		);
 		this.scheduler.addCronJob(this.getCronJobName(workflow._id), job);
 		job.start();
 	}

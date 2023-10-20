@@ -153,7 +153,7 @@
 		"jsonc-eslint-parser": "^2.1.0",
 		"ngx-translate-testing": "^7.0.0",
 		"nx": "16.7.4",
-		"nx-cloud": "16.3.0",
+		"nx-cloud": "16.5.2",
 		"nx-stylelint": "^15.0.0",
 		"prettier": "^3.0.3",
 		"react": "^18.2.0",
