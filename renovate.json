@@ -10,7 +10,7 @@
 			"matchPackageNames": ["@4tw/cypress-drag-drop", "cypress"]
 		},
 		{
-			"automerge": true,
+			"automerge": false,
 			"extends": ["packages:eslint", "packages:stylelint"],
 			"groupName": "Linting packages",
 			"groupSlug": "linting",
@@ -21,6 +21,6 @@
 			]
 		}
 	],
-	"rebaseWhen": "behind-base-branch",
+	"rebaseWhen": "never",
 	"unicodeEmoji": true
 }
