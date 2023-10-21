@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.10](https://github.com/HugoMendes98/graph-flow/compare/v0.5.9...v0.5.10) (2023-10-21)
+
+
+### Bug Fixes
+
+* **deps:** Update Linting packages ([#54](https://github.com/HugoMendes98/graph-flow/issues/54)) ([68737e4](https://github.com/HugoMendes98/graph-flow/commit/68737e443c7be080f9b111c455ff57651546641a))
+
 ## [0.5.9](https://github.com/HugoMendes98/graph-flow/compare/v0.5.8...v0.5.9) (2023-10-20)
 
 
