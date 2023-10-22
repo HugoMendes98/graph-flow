@@ -21,6 +21,8 @@
 	"errors": {
 		"http": {
 			"400": "The request is mal-formed.",
+			"401": "The resource needs authentification.",
+			"403": "You lack permission for this ressource.",
 			"404": "The resource was not found.",
 			"500": "A server error occurred.",
 			"generic": "A network error occurred."

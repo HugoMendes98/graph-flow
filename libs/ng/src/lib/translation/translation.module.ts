@@ -2,7 +2,7 @@ import { ModuleWithProviders, NgModule } from "@angular/core";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslationLanguage } from "~/lib/common/dtos/translation";
 
-import { TranslationControlErrorPipe } from "./pipes";
+import { TranslationControlErrorPipe, TranslationHttpErrorPipe } from "./pipes";
 import { TranslationLoader, TranslationLocales } from "./translation.loader";
 import { TranslationService } from "./translation.service";
 
@@ -21,8 +21,8 @@ export interface TranslationModuleConfig {
 }
 
 @NgModule({
-	declarations: [TranslationControlErrorPipe],
-	exports: [TranslateModule, TranslationControlErrorPipe],
+	declarations: [TranslationControlErrorPipe, TranslationHttpErrorPipe],
+	exports: [TranslateModule, TranslationControlErrorPipe, TranslationHttpErrorPipe],
 	imports: [TranslateModule],
 	providers: [TranslationService]
 })

@@ -5,26 +5,43 @@ describe("Workflow view", () => {
 	const dbHelper = DbE2eHelper.getHelper("base");
 	const db = dbHelper.db as typeof BASE_SEED;
 
-	before(() => cy.dbRefresh("base"));
-
 	const { workflows } = db;
 	const [workflowActionable] = workflows;
 
 	const urlPath = `/workflows/${workflowActionable._id}`;
 
 	beforeEach(() => {
+		cy.intercept("PATCH", "**/workflows/**").as("updateWorkflow");
+		cy.dbRefresh("base");
+
 		const { email, password } = db.users[0];
 		cy.authConnectAs(email, password);
 	});
 
-	it("should open a workflow", () => {
+	it.only("should edit a workflow content", () => {
 		cy.visit(urlPath);
+
+		const text = " 123";
 
 		/* ==== Generated with Cypress Studio ==== */
 		cy.get("mat-tab-header #mat-tab-label-0-0 > .mdc-tab__content > span span").should(
 			"contain",
 			workflowActionable.name
 		);
+
+		// Update
+		cy.get("app-workflow-update-card #mat-input-0").type(text);
+		cy.get("app-workflow-update-card button[type=submit]").click();
+
+		cy.wait("@updateWorkflow");
+
+		cy.reload();
+		cy.get("app-workflow-update-card #mat-input-0").should(
+			"have.value",
+			workflowActionable.name + text
+		);
+
+		// mdc-switch--checked"
 		/* ==== End Cypress Studio ==== */
 	});
 

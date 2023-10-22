@@ -4,12 +4,7 @@
 	<mat-card-header class="m-2 mb-4">
 		<mat-card-title class="mb-1 text-3xl" translate>cards.http-error.title</mat-card-title>
 		<mat-card-subtitle translate>
-			<ng-container [ngSwitch]="error.status">
-				<span *ngSwitchCase="400" translate>errors.http.400</span>
-				<span *ngSwitchCase="404" translate>errors.http.404</span>
-				<span *ngSwitchCase="500" translate>errors.http.500</span>
-				<span *ngSwitchDefault translate>errors.http.generic</span>
-			</ng-container>
+			<span>{{ error.status | translateHttpError }}</span>
 		</mat-card-subtitle>
 	</mat-card-header>
 

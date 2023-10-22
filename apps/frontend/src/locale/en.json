@@ -68,18 +68,14 @@
 		},
 		"workflow": {
 			"__meta": {
-				"plural": "Workflows"
+				"plural": "Workflows",
+				"singular": "Workflow"
 			},
 			"active": "Active",
 			"name": "Name"
 		}
 	},
 	"errors": {
-		"http": {
-			"400": "The request is mal-formed.",
-			"500": "A server error occurred.",
-			"generic": "A network error occurred."
-		},
 		"occurred": "An error occurred."
 	},
 	"formats": {

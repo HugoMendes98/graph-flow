@@ -5,6 +5,8 @@ import { MatCardActions, MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { TranslateModule } from "@ngx-translate/core";
 
+import { TranslationModule } from "../../../translation";
+
 /**
  * An apology message card in case of http error.
  *
@@ -17,7 +19,7 @@ import { TranslateModule } from "@ngx-translate/core";
 	styleUrls: ["./http-error.card.scss"],
 	templateUrl: "./http-error.card.html",
 
-	imports: [CommonModule, MatCardModule, TranslateModule, MatIconModule]
+	imports: [CommonModule, MatCardModule, TranslateModule, MatIconModule, TranslationModule]
 })
 export class HttpErrorCard {
 	/**

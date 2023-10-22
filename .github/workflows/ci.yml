@@ -30,6 +30,10 @@ jobs:
       - name: Install packages
         run: npm ci
 
+        # Before any nx use
+      - name: Check locales
+        run: bash verify-i18n.bash
+
       - name: Lint
         run: npm run lint
 

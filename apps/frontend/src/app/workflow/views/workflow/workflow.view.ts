@@ -8,6 +8,8 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { delayWhen, of, Subscription, timer } from "rxjs";
+import { WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
+import { Workflow } from "~/lib/common/app/workflow/endpoints";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { ApiModule } from "~/lib/ng/lib/api";
 import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
@@ -16,6 +18,8 @@ import { RequestStateSubject } from "~/lib/ng/lib/request-state/request-state.su
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
 import { GraphComponent } from "../../../graph/components/graph/graph.component";
+import { WorkflowLogsCard } from "../../components/workflow-logs/workflow-logs.card";
+import { WorkflowUpdateCard } from "../../components/workflow-update/workflow-update.card";
 
 /**
  * Data to set on the Route configuration
@@ -41,12 +45,21 @@ export interface WorkflowViewRouteData {
 		MatTabsModule,
 		RouterModule,
 		RequestStateWrapperComponent,
-		TranslationModule
+		TranslationModule,
+		WorkflowUpdateCard,
+		WorkflowLogsCard
 	]
 })
 export class WorkflowView implements OnInit, OnDestroy {
+	/** RSS for the loading workflow */
 	protected readonly requestState$ = new RequestStateSubject((workflowId: EntityId) =>
 		this.service.findById(workflowId)
+	);
+
+	/** RSS for the update workflow */
+	protected readonly requestUpdateState$ = new RequestStateSubject(
+		({ _id }: Workflow, body: WorkflowUpdateDto) =>
+			this.service.update(_id, body).then(({ _id }) => this.requestState$.request(_id))
 	);
 
 	protected readonly requestState = toSignal(

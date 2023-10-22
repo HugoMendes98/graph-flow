@@ -42,4 +42,27 @@ export class TranslationService {
 
 		return this.translate.stream("errors.validation.invalid") as Observable<string>;
 	}
+
+	/**
+	 * Translates messages from HTTP error code.
+	 *
+	 * @param status of the HTTP response
+	 * @returns the error message for the status
+	 */
+	public translateHttpError(status: number): Observable<string> {
+		switch (status) {
+			case 400:
+				return this.translate.stream("errors.http.400") as Observable<string>;
+			case 401:
+				return this.translate.stream("errors.http.401") as Observable<string>;
+			case 403:
+				return this.translate.stream("errors.http.403") as Observable<string>;
+			case 404:
+				return this.translate.stream("errors.http.404") as Observable<string>;
+			case 500:
+				return this.translate.stream("errors.http.500") as Observable<string>;
+		}
+
+		return this.translate.stream("errors.http.generic") as Observable<string>;
+	}
 }

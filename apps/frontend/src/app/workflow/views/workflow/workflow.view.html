@@ -1,5 +1,5 @@
 <mat-tab-group backgroundColor="primary" class="flex flex-1" headerPosition="below">
-	<mat-tab *ngIf="requestState$ | async as state" bodyClass="flex-1">
+	<mat-tab bodyClass="flex-1">
 		<ng-template matTabLabel>
 			<ng-container *ngIf="requestState().snapshot.data as workflow; else noWorkflow">
 				<span class="font-italic">{{ workflow.name }}</span>
@@ -18,7 +18,19 @@
 		</ng-template>
 
 		<ng-template matTabContent>
-			<!-- TODO -->
+			<div
+				*ngIf="requestState().snapshot.data as workflow"
+				class="align-i-center flex flex-1 flex-row gap-4 h-100 justify-c-evenly"
+			>
+				<app-workflow-update-card
+					[error]="(requestUpdateState$ | async)?.snapshot?.error"
+					[loading]="(requestUpdateState$ | async)?.snapshot?.isLoading"
+					[workflow]="workflow"
+					(update)="requestUpdateState$.request(workflow, $event)"
+				/>
+
+				<!--				<app-workflow-logs-card />-->
+			</div>
 		</ng-template>
 	</mat-tab>
 
