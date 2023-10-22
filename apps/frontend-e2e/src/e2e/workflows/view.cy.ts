@@ -18,7 +18,7 @@ describe("Workflow view", () => {
 		cy.authConnectAs(email, password);
 	});
 
-	it.only("should edit a workflow content", () => {
+	it("should edit a workflow content", () => {
 		cy.visit(urlPath);
 
 		const text = " 123";

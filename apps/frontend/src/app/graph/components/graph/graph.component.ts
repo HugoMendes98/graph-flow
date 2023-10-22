@@ -89,13 +89,13 @@ export interface GraphActions {
 })
 export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 	/**
-	 * The arcs of the graphs
+	 * The arcs of the graph
 	 */
 	@Input({ required: true })
 	public arcs!: readonly GraphArc[];
 
 	/**
-	 * The nodes (with their inputs/outputs) of the graphs
+	 * The nodes (with their inputs/outputs) of the graph
 	 */
 	@Input({ required: true })
 	public nodes!: readonly Node[];
