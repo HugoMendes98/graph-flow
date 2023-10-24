@@ -60,7 +60,7 @@ const meta: Meta<GraphComponent> = {
 		}
 	],
 	parameters: { layout: "fullscreen" },
-	title: "GraphComponent"
+	title: "Graph/components/Graph"
 };
 export default meta;
 type Story = StoryObj<GraphComponent>;

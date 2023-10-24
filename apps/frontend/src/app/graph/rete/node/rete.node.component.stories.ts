@@ -12,7 +12,7 @@ const nodeVariable = nodes[8];
 
 const meta: Meta<ReteNodeComponent> = {
 	component: ReteNodeComponent,
-	title: "ReteNodeComponent"
+	title: "Graph/ReteJS/node"
 };
 export default meta;
 type Story = StoryObj<ReteNodeComponent>;

@@ -12,5 +12,5 @@ export const Primary = {
 export default {
 	component: WorkflowView,
 	decorators: [moduleMetadata({ imports: [WorkflowView] })],
-	title: "WorkflowView"
+	title: "Workflow/views/workflow"
 } satisfies Meta<WorkflowView>;

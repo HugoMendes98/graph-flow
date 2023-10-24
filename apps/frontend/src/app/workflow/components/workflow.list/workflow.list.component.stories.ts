@@ -19,7 +19,7 @@ import { WorkflowListComponent } from "./workflow.list.component";
 const meta: Meta<WorkflowListComponent> = {
 	component: WorkflowListComponent,
 	decorators: [moduleMetadata({ imports: [RouterTestingModule] })],
-	title: "WorkflowListComponent"
+	title: "Workflow/components/list"
 };
 export default meta;
 type Story = StoryObj<WorkflowListComponent>;

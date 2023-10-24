@@ -10,7 +10,7 @@ const meta: Meta<LoginView> = {
 			story => `<div class="flex flex-1 flex-col" style="min-height: 500px">${story}</div>`
 		)
 	],
-	title: "LoginView"
+	title: "Auth/views/Login"
 };
 export default meta;
 type Story = StoryObj<LoginView>;

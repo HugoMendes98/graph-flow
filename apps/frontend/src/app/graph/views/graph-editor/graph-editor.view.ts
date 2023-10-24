@@ -4,7 +4,7 @@ import { Graph } from "~/lib/common/app/graph/endpoints";
 import { ApiModule } from "~/lib/ng/lib/api";
 import { GraphApiService } from "~/lib/ng/lib/api/graph-api";
 
-import { GraphEditorComponent } from "../../components/graph-editor/graph-editor.component";
+import { GraphEditorComponent } from "../../components/editor/graph-editor.component";
 
 /**
  * "Standalone" component for the [graph-editor]{@link GraphEditorComponent}.

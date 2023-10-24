@@ -24,9 +24,9 @@ import { PositionDto } from "~/lib/common/app/node/dtos/position.dto";
 import { Node } from "~/lib/common/app/node/endpoints";
 import { ReteConnection, ReteInput, ReteNode, ReteOutput } from "~/lib/ng/lib/rete";
 
-import { ReteConnectionComponent } from "../rete/connection/rete.connection.component";
-import { ReteNodeComponent } from "../rete/node/rete.node.component";
-import { ReteSocketComponent } from "../rete/socket/rete.socket.component";
+import { ReteConnectionComponent } from "../../rete/connection/rete.connection.component";
+import { ReteNodeComponent } from "../../rete/node/rete.node.component";
+import { ReteSocketComponent } from "../../rete/socket/rete.socket.component";
 
 type Schemes = GetSchemes<ReteNode, ReteConnection>;
 type AreaExtra = AngularArea2D<Schemes>;

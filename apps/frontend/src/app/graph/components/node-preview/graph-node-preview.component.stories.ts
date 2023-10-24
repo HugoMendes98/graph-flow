@@ -21,7 +21,7 @@ const meta: Meta<GraphNodePreviewComponent> = {
 			return fn();
 		}
 	],
-	title: "GraphNodePreviewComponent"
+	title: "Graph/components/node-preview"
 };
 export default meta;
 type Story = StoryObj<GraphNodePreviewComponent>;

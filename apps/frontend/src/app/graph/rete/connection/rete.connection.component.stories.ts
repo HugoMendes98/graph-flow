@@ -4,7 +4,7 @@ import { ReteConnectionComponent } from "./rete.connection.component";
 
 const meta: Meta<ReteConnectionComponent> = {
 	component: ReteConnectionComponent,
-	title: "ReteConnectionComponent"
+	title: "Graph/ReteJS/connection"
 };
 export default meta;
 type Story = StoryObj<ReteConnectionComponent>;

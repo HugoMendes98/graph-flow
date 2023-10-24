@@ -11,7 +11,7 @@ import { GraphComponent } from "../graph/graph.component";
 
 const meta: Meta<GraphEditorComponent> = {
 	component: GraphEditorComponent,
-	title: "GraphEditorComponent"
+	title: "Graph/components/editor"
 };
 export default meta;
 type Story = StoryObj<GraphEditorComponent>;

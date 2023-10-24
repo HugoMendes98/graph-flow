@@ -5,7 +5,7 @@ import { ReteSocketComponent } from "./rete.socket.component";
 const meta: Meta<ReteSocketComponent> = {
 	component: ReteSocketComponent,
 	decorators: [moduleMetadata({ imports: [ReteSocketComponent] })],
-	title: "ReteSocketComponent"
+	title: "Graph/ReteJS/socket"
 };
 export default meta;
 type Story = StoryObj<ReteSocketComponent>;

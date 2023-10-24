@@ -6,7 +6,7 @@ import { WorkflowUpdateCard } from "./workflow-update.card";
 
 const meta: Meta<WorkflowUpdateCard> = {
 	component: WorkflowUpdateCard,
-	title: "WorkflowUpdateCard"
+	title: "Workflow/cards/update"
 };
 export default meta;
 type Story = StoryObj<WorkflowUpdateCard>;

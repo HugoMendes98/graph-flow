@@ -6,7 +6,7 @@ import { GraphEditorView } from "./graph-editor.view";
 
 const meta: Meta<GraphEditorView> = {
 	component: GraphEditorView,
-	title: "GraphEditorView"
+	title: "Graph/components/editor/view"
 };
 export default meta;
 type Story = StoryObj<GraphEditorView>;

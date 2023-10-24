@@ -4,7 +4,7 @@ import { NodeSelectorComponent } from "./node-selector.component";
 
 const meta: Meta<NodeSelectorComponent> = {
 	component: NodeSelectorComponent,
-	title: "NodeSelectorComponent"
+	title: "Graph/components/editor/node-preview"
 };
 export default meta;
 type Story = StoryObj<NodeSelectorComponent>;

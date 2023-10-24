@@ -16,7 +16,7 @@ import { NodeListComponent } from "./node.list.component";
 
 const meta: Meta<NodeListComponent> = {
 	component: NodeListComponent,
-	title: "NodeListComponent"
+	title: "Node/components/list"
 };
 export default meta;
 type Story = StoryObj<NodeListComponent>;

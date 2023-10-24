@@ -7,7 +7,7 @@ import { ProfileDialog, ProfileDialogData } from "./profile.dialog";
 
 const meta: Meta<ProfileDialog> = {
 	component: ProfileDialog,
-	title: "ProfileDialog"
+	title: "Auth/dialogs/profile"
 };
 export default meta;
 type Story = StoryObj<ProfileDialog>;
