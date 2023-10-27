@@ -11,8 +11,8 @@ import { WorkflowCreateDto, WorkflowDto, WorkflowUpdateDto } from "../dtos";
  */
 export const WORKFLOWS_ENDPOINT_PREFIX = "/v1/workflows";
 
-export type Workflow = Jsonify<WorkflowDto>;
-export interface WorkflowEndpoint<T extends DtoToEntity<WorkflowDto> | Workflow = Workflow>
+export type WorkflowJSON = Jsonify<WorkflowDto>;
+export interface WorkflowEndpoint<T extends DtoToEntity<WorkflowDto> | WorkflowJSON = WorkflowJSON>
 	extends EntityEndpoint<T, WorkflowCreateDto, WorkflowUpdateDto> {
 	/**
 	 * Loads the graph of the given workflow.
@@ -23,7 +23,7 @@ export interface WorkflowEndpoint<T extends DtoToEntity<WorkflowDto> | Workflow 
 	 */
 	lookForGraph(
 		id: EntityId
-	): Promise<T extends Workflow ? Jsonify<GraphDto> : DtoToEntity<GraphDto>>;
+	): Promise<T extends WorkflowJSON ? Jsonify<GraphDto> : DtoToEntity<GraphDto>>;
 }
 
 /**

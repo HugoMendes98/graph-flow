@@ -1,5 +1,5 @@
 import { ClassicPreset } from "rete";
-import { Node } from "~/lib/common/app/node/endpoints";
+import { NodeJSON } from "~/lib/common/app/node/endpoints";
 
 import { ReteInput } from "./rete.input";
 import { ReteOutput } from "./rete.output";
@@ -14,7 +14,7 @@ export class ReteNode extends ClassicPreset.Node<
 	/** @inheritDoc */
 	public override outputs!: Partial<Record<string, ReteOutput>>;
 
-	public constructor(public readonly node: Node) {
+	public constructor(public readonly node: NodeJSON) {
 		const { inputs, name, outputs } = node;
 		super(name);
 

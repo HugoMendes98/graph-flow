@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { GraphArc } from "~/lib/common/app/graph/endpoints";
-import { Node } from "~/lib/common/app/node/endpoints";
+import { GraphArcJSON } from "~/lib/common/app/graph/endpoints";
+import { NodeJSON } from "~/lib/common/app/node/endpoints";
 
 import { NodeSelectorComponent } from "./node-selector/node-selector.component";
 import { GraphActions, GraphComponent, NodeMoved } from "../graph/graph.component";
@@ -17,11 +17,11 @@ import { GraphActions, GraphComponent, NodeMoved } from "../graph/graph.componen
 export class GraphEditorComponent {
 	/** The arcs of the graph */
 	@Input({ required: true })
-	public arcs!: readonly GraphArc[];
+	public arcs!: readonly GraphArcJSON[];
 
 	/** The nodes (with their inputs/outputs) of the graph */
 	@Input({ required: true })
-	public nodes!: readonly Node[];
+	public nodes!: readonly NodeJSON[];
 
 	/** Editor on readonly */
 	@Input()

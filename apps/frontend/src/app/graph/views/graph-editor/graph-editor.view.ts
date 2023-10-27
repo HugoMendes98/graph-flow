@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { Graph } from "~/lib/common/app/graph/endpoints";
+import { GraphJSON } from "~/lib/common/app/graph/endpoints";
 import { ApiModule } from "~/lib/ng/lib/api";
 import { GraphApiService } from "~/lib/ng/lib/api/graph-api";
 
@@ -21,7 +21,7 @@ import { GraphEditorComponent } from "../../components/editor/graph-editor.compo
 export class GraphEditorView {
 	/** The graph to edit */
 	@Input({ required: true })
-	public graph!: Graph;
+	public graph!: GraphJSON;
 
 	/** Editor on readonly */
 	@Input()

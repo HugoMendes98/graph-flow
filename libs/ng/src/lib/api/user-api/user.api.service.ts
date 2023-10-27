@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { UserCreateDto, UserUpdateDto } from "~/lib/common/app/user/dtos";
-import { User, UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpoints";
+import { UserJSON, UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpoints";
 
 import { EntityApiService } from "../_lib/entity-api";
 
@@ -9,7 +9,7 @@ import { EntityApiService } from "../_lib/entity-api";
  */
 @Injectable({ providedIn: "root" })
 export class UserApiService
-	extends EntityApiService<User, UserCreateDto, UserUpdateDto>
+	extends EntityApiService<UserJSON, UserCreateDto, UserUpdateDto>
 	implements UserEndpoint
 {
 	public override getEntrypoint(): string {

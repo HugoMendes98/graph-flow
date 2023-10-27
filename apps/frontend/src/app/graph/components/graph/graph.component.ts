@@ -18,10 +18,10 @@ import { ConnectionPlugin, Presets as ConnectionPresets } from "rete-connection-
 import { ReadonlyPlugin } from "rete-readonly-plugin";
 import { bufferToggle, filter, map, Observable, Subject } from "rxjs";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
-import { GraphArc } from "~/lib/common/app/graph/endpoints";
+import { GraphArcJSON } from "~/lib/common/app/graph/endpoints";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { PositionDto } from "~/lib/common/app/node/dtos/position.dto";
-import { Node } from "~/lib/common/app/node/endpoints";
+import { NodeJSON } from "~/lib/common/app/node/endpoints";
 import { ReteConnection, ReteInput, ReteNode, ReteOutput } from "~/lib/ng/lib/rete";
 
 import { ReteConnectionComponent } from "../../rete/connection/rete.connection.component";
@@ -39,7 +39,7 @@ export interface NodeMoved {
 	/**
 	 * The node that has been moved
 	 */
-	node: Node;
+	node: NodeJSON;
 	/**
 	 * The previous position of the node
 	 */
@@ -63,7 +63,7 @@ export interface GraphActions {
 		 * @param toCreate the arc to create
 		 * @returns the created arc
 		 */
-		create?: (toCreate: GraphArcCreateDto) => Promise<GraphArc>;
+		create?: (toCreate: GraphArcCreateDto) => Promise<GraphArcJSON>;
 		/**
 		 * When an arc is being deleted
 		 *
@@ -72,7 +72,7 @@ export interface GraphActions {
 		 * @param arc to delete
 		 * @returns An empty promise once the arc is deleted.
 		 */
-		remove?: (arc: GraphArc) => Promise<void>;
+		remove?: (arc: GraphArcJSON) => Promise<void>;
 	};
 }
 
@@ -92,13 +92,13 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 	 * The arcs of the graph
 	 */
 	@Input({ required: true })
-	public arcs!: readonly GraphArc[];
+	public arcs!: readonly GraphArcJSON[];
 
 	/**
 	 * The nodes (with their inputs/outputs) of the graph
 	 */
 	@Input({ required: true })
-	public nodes!: readonly Node[];
+	public nodes!: readonly NodeJSON[];
 
 	/**
 	 * Is the graph on readonly mode?

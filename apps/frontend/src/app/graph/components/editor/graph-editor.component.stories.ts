@@ -1,7 +1,7 @@
 import { action } from "@storybook/addon-actions";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { Jsonify } from "type-fest";
-import { Graph } from "~/lib/common/app/graph/endpoints";
+import { GraphJSON } from "~/lib/common/app/graph/endpoints";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
 import { jsonify } from "~/lib/common/utils/jsonify";
@@ -20,7 +20,7 @@ const {
 	graph: { graphs }
 } = jsonify(BASE_SEED);
 
-const getGraphContent = (graph: Graph): Pick<GraphComponent, "actions" | "arcs" | "nodes"> => {
+const getGraphContent = (graph: GraphJSON): Pick<GraphComponent, "actions" | "arcs" | "nodes"> => {
 	const { arcs: gArcs, nodes: gNodes } = JSON.parse(JSON.stringify(BASE_SEED.graph)) as Jsonify<
 		typeof BASE_SEED.graph
 	>;

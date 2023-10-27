@@ -23,6 +23,6 @@ export function generateGraphNodesEndpoint(graphId: EntityId) {
 	return `${start}/${graphId}${end}`;
 }
 
-export type GraphNode = GraphNodeDto;
-export type GraphNodeEndpoint<T extends DtoToEntity<NodeDto> | GraphNode = GraphNode> =
+export type GraphNodeJSON = GraphNodeDto;
+export type GraphNodeEndpoint<T extends DtoToEntity<NodeDto> | GraphNodeJSON = GraphNodeJSON> =
 	EntityEndpoint<T, GraphNodeCreateDto, GraphNodeUpdateDto>;

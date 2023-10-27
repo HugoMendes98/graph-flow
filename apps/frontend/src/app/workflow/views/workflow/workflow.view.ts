@@ -9,7 +9,7 @@ import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { delayWhen, of, Subscription, timer } from "rxjs";
 import { WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
-import { Workflow } from "~/lib/common/app/workflow/endpoints";
+import { WorkflowJSON } from "~/lib/common/app/workflow/endpoints";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { ApiModule } from "~/lib/ng/lib/api";
 import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
@@ -58,7 +58,7 @@ export class WorkflowView implements OnInit, OnDestroy {
 
 	/** RSS for the update workflow */
 	protected readonly requestUpdateState$ = new RequestStateSubject(
-		({ _id }: Workflow, body: WorkflowUpdateDto) =>
+		({ _id }: WorkflowJSON, body: WorkflowUpdateDto) =>
 			this.service.update(_id, body).then(({ _id }) => this.requestState$.request(_id))
 	);
 

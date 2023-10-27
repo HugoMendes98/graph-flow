@@ -2,7 +2,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { action } from "@storybook/addon-actions";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { of } from "rxjs";
-import { Node } from "~/lib/common/app/node/endpoints";
+import { NodeJSON } from "~/lib/common/app/node/endpoints";
 import { EntityFindResult } from "~/lib/common/endpoints";
 import { BASE_SEED } from "~/lib/common/seeds";
 import { jsonify } from "~/lib/common/utils/jsonify";
@@ -27,8 +27,8 @@ const {
 } = db;
 
 const getRequestState = (
-	state: RequestState<EntityFindResult<Node>>
-): RequestStateWithSnapshot<EntityFindResult<Node>, HttpErrorResponse> => {
+	state: RequestState<EntityFindResult<NodeJSON>>
+): RequestStateWithSnapshot<EntityFindResult<NodeJSON>, HttpErrorResponse> => {
 	return { ...state, snapshot: getRequestStateSnapshot(state) };
 };
 

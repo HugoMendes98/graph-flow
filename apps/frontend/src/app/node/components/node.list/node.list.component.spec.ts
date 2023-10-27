@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { TranslateTestingModule } from "ngx-translate-testing";
-import { Node } from "~/lib/common/app/node/endpoints";
+import { NodeJSON } from "~/lib/common/app/node/endpoints";
 import { EntityOrder } from "~/lib/common/endpoints";
 import { ListSortColumns } from "~/lib/ng/lib/mat-list/list-sort.columns";
 
@@ -22,7 +22,7 @@ describe("NodeListComponent", () => {
 				])
 			});
 
-			const expected: Array<EntityOrder<Node>> = [
+			const expected: Array<EntityOrder<NodeJSON>> = [
 				{ kind: { active: "desc" } },
 				{ name: "asc" },
 				{ behavior: { type: "desc" } }

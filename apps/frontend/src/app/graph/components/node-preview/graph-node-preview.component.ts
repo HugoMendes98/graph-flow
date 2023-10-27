@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
-import { Node } from "~/lib/common/app/node/endpoints";
+import { NodeJSON } from "~/lib/common/app/node/endpoints";
 
 import { GraphComponent } from "../graph/graph.component";
 
@@ -17,13 +17,13 @@ export class GraphNodePreviewComponent {
 	/**
 	 * The real node
 	 */
-	protected _node!: Node;
+	protected _node!: NodeJSON;
 
 	/**
 	 * The node to preview
 	 */
 	@Input({ required: true })
-	public set node(node: Node) {
+	public set node(node: NodeJSON) {
 		this._node = {
 			...node,
 			kind: { __graph: 0, position: { x: 10, y: 10 }, type: NodeKindType.VERTEX }

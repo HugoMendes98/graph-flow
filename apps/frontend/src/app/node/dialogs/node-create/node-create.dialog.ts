@@ -24,7 +24,7 @@ import {
 	NodeBehaviorType
 } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers/node.trigger.type";
-import { Node } from "~/lib/common/app/node/endpoints";
+import { NodeJSON } from "~/lib/common/app/node/endpoints";
 import { NodeApiService } from "~/lib/ng/lib/api/node-api";
 import { FormControlsFrom } from "~/lib/ng/lib/forms";
 import { RequestStateSubject } from "~/lib/ng/lib/request-state";
@@ -55,7 +55,7 @@ export interface NodeCreateDialogResult {
 	/**
 	 * The created node
 	 */
-	created: Node;
+	created: NodeJSON;
 }
 
 @Component({

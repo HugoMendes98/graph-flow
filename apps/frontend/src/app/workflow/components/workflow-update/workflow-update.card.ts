@@ -15,7 +15,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
-import { Workflow } from "~/lib/common/app/workflow/endpoints";
+import { WorkflowJSON } from "~/lib/common/app/workflow/endpoints";
 import { FormControlsFrom } from "~/lib/ng/lib/forms";
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
@@ -61,7 +61,7 @@ export class WorkflowUpdateCard {
 
 	/** The workflow to manage in this card */
 	@Input({ required: true })
-	public set workflow(workflow: Workflow) {
+	public set workflow(workflow: WorkflowJSON) {
 		const { active, name } = workflow;
 		this.form.setValue({ active, name });
 		this.form.markAsDirty();

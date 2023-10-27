@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Graph, GraphEndpoint, GRAPHS_ENDPOINT_PREFIX } from "~/lib/common/app/graph/endpoints";
+import { GraphJSON, GraphEndpoint, GRAPHS_ENDPOINT_PREFIX } from "~/lib/common/app/graph/endpoints";
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import { GraphArcApi } from "./arc/graph-arc.api";
@@ -11,7 +11,7 @@ import { EntityApiService } from "../_lib/entity-api";
  */
 @Injectable({ providedIn: "root" })
 export class GraphApiService
-	extends EntityApiService<Graph, never, never>
+	extends EntityApiService<GraphJSON, never, never>
 	implements GraphEndpoint
 {
 	/** @inheritDoc */

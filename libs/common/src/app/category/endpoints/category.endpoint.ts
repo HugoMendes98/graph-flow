@@ -9,6 +9,6 @@ import { CategoryCreateDto, CategoryDto, CategoryUpdateDto } from "../dtos";
  */
 export const CATEGORIES_ENDPOINT_PREFIX = "/v1/categories";
 
-export type Category = Jsonify<CategoryDto>;
-export type CategoryEndpoint<T extends Category | DtoToEntity<CategoryDto> = Category> =
+export type CategoryJSON = Jsonify<CategoryDto>;
+export type CategoryEndpoint<T extends CategoryJSON | DtoToEntity<CategoryDto> = CategoryJSON> =
 	EntityEndpoint<T, CategoryCreateDto, CategoryUpdateDto>;
