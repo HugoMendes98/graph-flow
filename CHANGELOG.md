@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.6.0](https://github.com/HugoMendes98/graph-flow/compare/v0.5.10...v0.6.0) (2023-10-29)
+
+
+### Features
+
+* **graph/editor:** add a very basic and incomplete graph-editor ([1f7771c](https://github.com/HugoMendes98/graph-flow/commit/1f7771c69a90e75798b6825c3d491176447ed542))
+* **workflow/view:** can update info ([d1fcd75](https://github.com/HugoMendes98/graph-flow/commit/d1fcd75c1100a7d9e29972450f84e733f065c9d8))
+
+
+### Bug Fixes
+
+* **deps:** Update definitelyTyped ([83a2d65](https://github.com/HugoMendes98/graph-flow/commit/83a2d6507589440d0e19fe89e7bb86c9ac9a2622))
+* **deps:** Update dependency @swc/core to v1.3.94 ([6072049](https://github.com/HugoMendes98/graph-flow/commit/60720492a95ef8f9c549142a08ce34eef0793ce2))
+* **deps:** Update testing packages ([04ccd67](https://github.com/HugoMendes98/graph-flow/commit/04ccd6767621375aea54d00c94809480a3585ae7))
+
+
+### Code Refactors
+
+* add `JSON` suffix for all DTO received as JSON from the API ([05d09e8](https://github.com/HugoMendes98/graph-flow/commit/05d09e8f03dc1777728b326d9679c708e6880497))
+
 ## [0.5.10](https://github.com/HugoMendes98/graph-flow/compare/v0.5.9...v0.5.10) (2023-10-21)
 
 
