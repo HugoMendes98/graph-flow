@@ -4,7 +4,7 @@ import { NodeBehaviorFunctionComponent } from "./node-behavior.function.componen
 
 const meta: Meta<NodeBehaviorFunctionComponent> = {
 	component: NodeBehaviorFunctionComponent,
-	title: "NodeBehaviorFunctionComponent"
+	title: "Node/components/behavior/function"
 };
 export default meta;
 type Story = StoryObj<NodeBehaviorFunctionComponent>;

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
-import { Node, NodeEndpoint, NODES_ENDPOINT_PREFIX } from "~/lib/common/app/node/endpoints";
+import { NodeJSON, NodeEndpoint, NODES_ENDPOINT_PREFIX } from "~/lib/common/app/node/endpoints";
 
 import { EntityApiService } from "../_lib/entity-api";
 
@@ -9,7 +9,7 @@ import { EntityApiService } from "../_lib/entity-api";
  */
 @Injectable({ providedIn: "root" })
 export class NodeApiService
-	extends EntityApiService<Node, NodeCreateDto, NodeUpdateDto>
+	extends EntityApiService<NodeJSON, NodeCreateDto, NodeUpdateDto>
 	implements NodeEndpoint
 {
 	public override getEntrypoint(): string {

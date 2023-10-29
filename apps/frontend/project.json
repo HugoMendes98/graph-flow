@@ -11,12 +11,6 @@
 				"development": {
 					"buildOptimizer": false,
 					"extractLicenses": false,
-					"fileReplacements": [
-						{
-							"replace": "apps/frontend/src/lib/router/app-router.module.ts",
-							"with": "apps/frontend/src/lib/router/app-router.module.dev.ts"
-						}
-					],
 					"namedChunks": true,
 					"optimization": false,
 					"sourceMap": true,

@@ -1,4 +1,4 @@
-import { Node, NODES_ENDPOINT_PREFIX } from "./node.endpoint";
+import { NodeJSON, NODES_ENDPOINT_PREFIX } from "./node.endpoint";
 import { EntityId } from "../../../dtos/entity";
 import { DtoToEntity } from "../../../dtos/entity/entity.types";
 import { EntityEndpoint } from "../../../endpoints";
@@ -21,8 +21,6 @@ export function generateNodeInputsEndpoint(nodeId: EntityId) {
 	return `${start}/${nodeId}${end}`;
 }
 
-export type NodeInput = Node["inputs"][number];
-export type NodeInputEndpoint<T extends DtoToEntity<NodeInputDto> | NodeInput = NodeInput> = Pick<
-	EntityEndpoint<T, NodeInputCreateDto, NodeInputUpdateDto>,
-	"create" | "delete" | "update"
->;
+export type NodeInputJSON = NodeJSON["inputs"][number];
+export type NodeInputEndpoint<T extends DtoToEntity<NodeInputDto> | NodeInputJSON = NodeInputJSON> =
+	Pick<EntityEndpoint<T, NodeInputCreateDto, NodeInputUpdateDto>, "create" | "delete" | "update">;

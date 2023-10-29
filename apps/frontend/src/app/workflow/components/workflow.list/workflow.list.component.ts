@@ -6,7 +6,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { RouterModule } from "@angular/router";
 import { map, Observable } from "rxjs";
-import { Workflow } from "~/lib/common/app/workflow/endpoints";
+import { WorkflowJSON } from "~/lib/common/app/workflow/endpoints";
 import { EntityFindQuery, EntityFindResult } from "~/lib/common/endpoints";
 import { MatCellDefDirective } from "~/lib/ng/lib/directives";
 import { ListSortIconComponent } from "~/lib/ng/lib/mat-list/components/list-sort-icon/list-sort-icon.component";
@@ -23,7 +23,7 @@ export const WORKFLOW_LIST_COLUMNS = [
 	"active",
 	"name",
 	"_created_at"
-] as const satisfies ReadonlyArray<keyof Workflow>;
+] as const satisfies ReadonlyArray<keyof WorkflowJSON>;
 
 /** Type of the workflow-list columns */
 export type WorkflowListColumn = (typeof WORKFLOW_LIST_COLUMNS)[number];
@@ -60,7 +60,7 @@ export interface WorkflowListQuery {
 	]
 })
 export class WorkflowListComponent implements OnChanges {
-	public static listQueryToApiQuery(query: WorkflowListQuery): EntityFindQuery<Workflow> {
+	public static listQueryToApiQuery(query: WorkflowListQuery): EntityFindQuery<WorkflowJSON> {
 		const { sort = new ListSortColumns() } = query;
 
 		return { order: sort.columns.map(({ column, direction }) => ({ [column]: direction })) };
@@ -73,7 +73,7 @@ export class WorkflowListComponent implements OnChanges {
 	 */
 	@Input({ required: true })
 	public state$!: Observable<
-		RequestStateWithSnapshot<EntityFindResult<Workflow>, HttpErrorResponse>
+		RequestStateWithSnapshot<EntityFindResult<WorkflowJSON>, HttpErrorResponse>
 	>;
 
 	/**
@@ -85,7 +85,7 @@ export class WorkflowListComponent implements OnChanges {
 	public columns: readonly WorkflowListColumn[] = WORKFLOW_LIST_COLUMNS.slice();
 
 	@Input()
-	public rowUrl?: (workflow: Workflow) => string;
+	public rowUrl?: (workflow: WorkflowJSON) => string;
 
 	/**
 	 * Custom query to show in the table.
@@ -108,7 +108,7 @@ export class WorkflowListComponent implements OnChanges {
 	/**
 	 * The dataSource for the table
 	 */
-	protected dataSource$!: Observable<Workflow[]>;
+	protected dataSource$!: Observable<WorkflowJSON[]>;
 
 	/**
 	 * All columns for the table

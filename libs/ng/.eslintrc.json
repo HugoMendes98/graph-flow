@@ -16,7 +16,7 @@
 				"@angular-eslint/component-class-suffix": [
 					"error",
 					{
-						"suffixes": ["Component", "Dialog", "SnackBar", "View"]
+						"suffixes": ["Component", "Card", "Dialog", "SnackBar", "View"]
 					}
 				],
 				"@angular-eslint/component-selector": [
@@ -83,6 +83,7 @@
 				"@angular-eslint/template/no-autofocus": "error",
 				"@angular-eslint/template/no-distracting-elements": "error",
 				"@angular-eslint/template/no-interpolation-in-attributes": "error",
+				"@angular-eslint/template/prefer-self-closing-tags": ["error"],
 				"prettier/prettier": [
 					"error",
 					{

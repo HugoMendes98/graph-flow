@@ -1,9 +1,13 @@
 import "jest-preset-angular/setup-jest";
+import { TestBed } from "@angular/core/testing";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { TranslateTestingModule } from "ngx-translate-testing";
 
-/* eslint-disable no-console -- hook for test lib code */
-const nativeConsoleError = console.error;
-console.error = (...args: unknown[]) => {
-	nativeConsoleError(...args);
-	throw new Error("A console.error = failed test");
-};
-/* eslint-enable */
+import { ApiTestingModule } from "../src/lib/api/testing/api-testing.module";
+
+TestBed.configureTestingModule({
+	errorOnUnknownElements: true,
+	errorOnUnknownProperties: true,
+	imports: [ApiTestingModule, TranslateTestingModule.withTranslations({}), NoopAnimationsModule],
+	teardown: { destroyAfterEach: true }
+});

@@ -4,7 +4,7 @@ import { WorkflowsView } from "./workflows.view";
 
 const meta: Meta<WorkflowsView> = {
 	component: WorkflowsView,
-	title: "WorkflowsView"
+	title: "Workflow/views/workflows"
 };
 export default meta;
 type Story = StoryObj<WorkflowsView>;

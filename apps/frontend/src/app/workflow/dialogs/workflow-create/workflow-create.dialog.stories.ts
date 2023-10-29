@@ -6,7 +6,7 @@ import { WorkflowCreateDialog, WorkflowCreateDialogData } from "./workflow-creat
 
 const meta: Meta<WorkflowCreateDialog> = {
 	component: WorkflowCreateDialog,
-	title: "WorkflowCreateDialog"
+	title: "Workflow/dialogs/create"
 };
 export default meta;
 type Story = StoryObj<WorkflowCreateDialog>;

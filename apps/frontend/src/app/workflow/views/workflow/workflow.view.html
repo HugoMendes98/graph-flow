@@ -1,17 +1,61 @@
-<div *ngIf="requestState$ | async as state" class="flex flex-1 flex-col">
-	<div *ngIf="state.state === 'init'">Init</div>
+<mat-tab-group backgroundColor="primary" class="flex flex-1" headerPosition="below">
+	<mat-tab bodyClass="flex-1">
+		<ng-template matTabLabel>
+			<ng-container *ngIf="requestState().snapshot.data as workflow; else noWorkflow">
+				<span class="font-italic">{{ workflow.name }}</span>
+			</ng-container>
 
-	<div *ngIf="state.state === 'loading'">Loading</div>
+			<ng-template #noWorkflow>
+				<ng-container *ngIf="requestState().state === 'failed'; else loading">
+					<mat-icon>error</mat-icon>
+					<span class="ml-2" translate>errors.occurred</span>
+				</ng-container>
 
-	<pre *ngIf="state.state === 'failed'">{{ state.error | json }}</pre>
+				<ng-template #loading>
+					<mat-progress-spinner color="accent" diameter="24" mode="indeterminate" />
+				</ng-template>
+			</ng-template>
+		</ng-template>
 
-	<app-graph
-		*ngIf="state.state === 'success'"
-		class="flex-1"
-		[actions]="getActions(state.data.workflow)"
-		[arcs]="state.data.arcs"
-		[nodes]="state.data.nodes"
-		[readonly]="false"
-		(nodeMoved)="handleNodeMove(state.data.workflow, $event)"
-	></app-graph>
-</div>
+		<ng-template matTabContent>
+			<div
+				*ngIf="requestState().snapshot.data as workflow"
+				class="align-i-center flex flex-1 flex-row gap-4 h-100 justify-c-evenly"
+			>
+				<app-workflow-update-card
+					[error]="(requestUpdateState$ | async)?.snapshot?.error"
+					[loading]="(requestUpdateState$ | async)?.snapshot?.isLoading"
+					[workflow]="workflow"
+					(update)="requestUpdateState$.request(workflow, $event)"
+				/>
+
+				<!--				<app-workflow-logs-card />-->
+			</div>
+		</ng-template>
+	</mat-tab>
+
+	<mat-tab bodyClass="flex-1">
+		<ng-template matTabLabel>
+			<mat-icon>account_tree</mat-icon>
+			<span class="ml-2" translate>views.workflow.tab.graph</span>
+		</ng-template>
+
+		<ng-template matTabContent>
+			<app-graph-editor-view
+				*ngIf="requestState().snapshot.data as workflow"
+				class="flex-1 h-100"
+				[graphId]="workflow.__graph"
+				[readonly]="workflow.active"
+			/>
+		</ng-template>
+	</mat-tab>
+</mat-tab-group>
+
+<ui-request-state-wrapper class="absolute absolute-centered" [requestState]="requestState()">
+	<mat-card-actions *ngIf="requestState().snapshot.error?.status === 404">
+		<button color="primary" mat-flat-button routerLink="/workflows" type="button">
+			<mat-icon>arrow_back</mat-icon>
+			<span translate>actions.back</span>
+		</button>
+	</mat-card-actions>
+</ui-request-state-wrapper>

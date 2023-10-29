@@ -5,7 +5,7 @@ import { NodeView } from "./node.view";
 
 const meta: Meta<NodeView> = {
 	component: NodeView,
-	title: "NodeView"
+	title: "Node/views/node"
 };
 export default meta;
 type Story = StoryObj<NodeView>;

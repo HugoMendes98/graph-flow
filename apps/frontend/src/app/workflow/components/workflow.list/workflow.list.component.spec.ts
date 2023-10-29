@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { TranslateTestingModule } from "ngx-translate-testing";
-import { Workflow } from "~/lib/common/app/workflow/endpoints";
+import { WorkflowJSON } from "~/lib/common/app/workflow/endpoints";
 import { EntityOrder } from "~/lib/common/endpoints";
 import { ListSortColumns } from "~/lib/ng/lib/mat-list/list-sort.columns";
 
@@ -20,7 +20,7 @@ describe("WorkflowListComponent", () => {
 					{ column: "_created_at", direction: "asc" }
 				])
 			});
-			const expected: Array<EntityOrder<Workflow>> = [
+			const expected: Array<EntityOrder<WorkflowJSON>> = [
 				{ name: "desc" },
 				{ _created_at: "asc" }
 			];

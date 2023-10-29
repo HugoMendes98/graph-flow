@@ -1,6 +1,6 @@
 import { NotFoundError } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { GraphNode } from "~/lib/common/app/graph/endpoints";
+import { GraphNodeJSON } from "~/lib/common/app/graph/endpoints";
 import { NodeCreateDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
@@ -387,8 +387,8 @@ describe("NodeService", () => {
 					kind: { position, type: NodeKindType.VERTEX }
 				});
 
-				expect((updated as unknown as GraphNode).kind.position.x).toBe(position.x);
-				expect((updated as unknown as GraphNode).kind.position.y).toBe(position.y);
+				expect((updated as unknown as GraphNodeJSON).kind.position.x).toBe(position.x);
+				expect((updated as unknown as GraphNodeJSON).kind.position.y).toBe(position.y);
 			});
 		});
 

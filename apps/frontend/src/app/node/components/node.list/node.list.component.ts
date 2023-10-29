@@ -8,7 +8,7 @@ import { MatTableModule } from "@angular/material/table";
 import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { map, Observable } from "rxjs";
-import { Node } from "~/lib/common/app/node/endpoints";
+import { NodeJSON } from "~/lib/common/app/node/endpoints";
 import { EntityFindQuery, EntityFindResult, EntityOrder } from "~/lib/common/endpoints";
 import { DotPath } from "~/lib/common/types";
 import { MatCellDefDirective } from "~/lib/ng/lib/directives";
@@ -26,7 +26,7 @@ export const NODE_LIST_COLUMNS_SORTABLE = [
 	"name",
 	"behavior.type",
 	"kind.active"
-] as const satisfies ReadonlyArray<DotPath<Node>>;
+] as const satisfies ReadonlyArray<DotPath<NodeJSON>>;
 
 /**
  * Additional columns for a node-list
@@ -90,11 +90,11 @@ const getAnimation = () => {
 	]
 })
 export class NodeListComponent implements OnChanges {
-	public static listQueryToApiQuery(query: NodeListQuery): EntityFindQuery<Node> {
+	public static listQueryToApiQuery(query: NodeListQuery): EntityFindQuery<NodeJSON> {
 		const { sort = new ListSortColumns() } = query;
 
 		return {
-			order: sort.columns.map<EntityOrder<Node>>(({ column, direction }) => {
+			order: sort.columns.map<EntityOrder<NodeJSON>>(({ column, direction }) => {
 				switch (column) {
 					case "behavior.type":
 						return { behavior: { type: direction } };
@@ -112,7 +112,9 @@ export class NodeListComponent implements OnChanges {
 	 * The data to display
 	 */
 	@Input({ required: true })
-	public state$!: Observable<RequestStateWithSnapshot<EntityFindResult<Node>, HttpErrorResponse>>;
+	public state$!: Observable<
+		RequestStateWithSnapshot<EntityFindResult<NodeJSON>, HttpErrorResponse>
+	>;
 
 	/**
 	 * The columns to show
@@ -128,7 +130,7 @@ export class NodeListComponent implements OnChanges {
 	 * The button is removed when not set.
 	 */
 	@Input()
-	public previewEditUrl?: (workflow: Node) => string;
+	public previewEditUrl?: (workflow: NodeJSON) => string;
 
 	/**
 	 * Custom query to show in the table.
@@ -147,7 +149,7 @@ export class NodeListComponent implements OnChanges {
 	 * @default "expansion"
 	 */
 	@Input()
-	public onRowClick?: "expansion" | ((node: Node) => void) | null;
+	public onRowClick?: "expansion" | ((node: NodeJSON) => void) | null;
 
 	/**
 	 * When something changes the query:
@@ -186,7 +188,7 @@ export class NodeListComponent implements OnChanges {
 	/**
 	 * The dataSource for the table
 	 */
-	protected dataSource$!: Observable<Node[]>;
+	protected dataSource$!: Observable<NodeJSON[]>;
 
 	/**
 	 * @returns If the expansion is enabled
@@ -218,7 +220,7 @@ export class NodeListComponent implements OnChanges {
 	 *
 	 * @param element of the row
 	 */
-	protected handleRowClick(element: Node) {
+	protected handleRowClick(element: NodeJSON) {
 		const { onRowClick = "expansion" } = this;
 		if (onRowClick === null) {
 			return;
@@ -237,7 +239,7 @@ export class NodeListComponent implements OnChanges {
 	 *
 	 * @param element of the row ro expand
 	 */
-	protected handleExpansion(element: Node) {
+	protected handleExpansion(element: NodeJSON) {
 		this.expanded = this.expanded === element._id ? null : element._id;
 		this.expandedChange.emit(this.expanded);
 	}

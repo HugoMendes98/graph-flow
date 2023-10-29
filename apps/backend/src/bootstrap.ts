@@ -7,6 +7,7 @@ import { authOptions } from "~/lib/common/options";
 import { AppValidationPipe } from "./app/_lib/app-validation.pipe";
 import { AppModule } from "./app/app.module";
 import { Configuration, getConfiguration } from "./configuration";
+import packageJSON from "../../../package.json";
 
 /**
  * Prepare the application with all its parameters,
@@ -39,6 +40,8 @@ export async function bootstrap() {
 					"<br>However, the <i>Curl</i> example works fine.",
 				type: "apiKey"
 			})
+			.setTitle(`${packageJSON.name} API`)
+			.setVersion(packageJSON.version)
 			.build();
 
 		const document = SwaggerModule.createDocument(app, options);

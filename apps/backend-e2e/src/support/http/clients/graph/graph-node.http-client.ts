@@ -1,8 +1,8 @@
-import { GraphNode } from "~/lib/common/app/graph/endpoints";
+import { GraphNodeJSON } from "~/lib/common/app/graph/endpoints";
 
 import { EntityHttpClient } from "../_lib/entity.http-client";
 
-export class GraphNodeHttpClient extends EntityHttpClient<GraphNode> {
+export class GraphNodeHttpClient extends EntityHttpClient<GraphNodeJSON> {
 	public constructor(private readonly endpoint: string) {
 		super();
 	}

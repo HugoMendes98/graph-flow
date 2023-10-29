@@ -4,7 +4,7 @@ import { NodeBehaviorReferenceComponent } from "./node-behavior.reference.compon
 
 const meta: Meta<NodeBehaviorReferenceComponent> = {
 	component: NodeBehaviorReferenceComponent,
-	title: "NodeBehaviorReferenceComponent"
+	title: "Node/components/behavior/reference"
 };
 export default meta;
 type Story = StoryObj<NodeBehaviorReferenceComponent>;

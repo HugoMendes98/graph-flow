@@ -1,7 +1,11 @@
 import { JestConfigWithTsJest } from "ts-jest";
 
 export default {
-	collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts"],
+	collectCoverageFrom: [
+		"<rootDir>/src/**/*.ts",
+		"!<rootDir>/src/**/index.ts",
+		"!<rootDir>/src/**/*.stories.ts"
+	],
 	displayName: "ng",
 	preset: "../../jest.preset.js",
 	setupFilesAfterEnv: ["<rootDir>/test/setup.ts"],

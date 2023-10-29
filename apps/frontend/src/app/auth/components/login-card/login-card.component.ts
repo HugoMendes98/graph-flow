@@ -17,6 +17,7 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { TranslateService } from "@ngx-translate/core";
 import { FormControlsFrom } from "~/lib/ng/lib/forms";
 import { TranslationModule } from "~/lib/ng/lib/translation";
+import { TranslationService } from "~/lib/ng/lib/translation/translation.service";
 
 import type { AuthLogin } from "../../auth.service";
 
@@ -75,9 +76,13 @@ export class LoginCardComponent {
 	/**
 	 * Constructor with "dependency injection"
 	 *
+	 * @param translationService injected
 	 * @param translateService injected
 	 */
-	public constructor(private readonly translateService: TranslateService) {}
+	public constructor(
+		private readonly translationService: TranslationService,
+		private readonly translateService: TranslateService
+	) {}
 
 	/**
 	 * Translates a HTTP error for this component
@@ -86,16 +91,12 @@ export class LoginCardComponent {
 	 * @returns The message for the given error
 	 */
 	protected errorMessage(error: HttpErrorResponse) {
-		switch (error.status) {
-			case 400:
-				return this.translateService.stream("errors.http.400");
-			case 401:
-				return this.translateService.stream("components.login.login-fail");
-			case 500:
-				return this.translateService.stream("errors.http.500");
+		const { status } = error;
+		if (status === 401) {
+			return this.translateService.stream("components.login.login-fail");
 		}
 
-		return this.translateService.stream("errors.http.generic");
+		return this.translationService.translateHttpError(status);
 	}
 
 	/**

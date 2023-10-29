@@ -27,6 +27,7 @@ import { NodeService } from "../../node/node.service";
 import { GraphEntity } from "../graph.entity";
 import { ApiGraphParam, GraphInterceptedParam, GraphInterceptor } from "../graph.interceptor";
 
+// @ts-expect-error - TS2344: Narrowed by the condition
 type EndpointBase = GraphNodeEndpoint<NodeEntity>;
 type EndpointTransformed = {
 	// Adds a Graph as a first parameter for each function

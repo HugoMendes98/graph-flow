@@ -1,6 +1,5 @@
 import { Routes } from "@angular/router";
 
-import { WorkflowView } from "./workflow/workflow.view";
 import { WorkflowsView } from "./workflows/workflows.view";
 
 /**
@@ -8,5 +7,10 @@ import { WorkflowsView } from "./workflows/workflows.view";
  */
 export const WORKFLOW_ROUTES: Routes = [
 	{ component: WorkflowsView, path: "" },
-	{ component: WorkflowView, path: ":workflowId" }
+	{
+		// This component is bigger
+		loadChildren: () =>
+			import("./workflow/workflow.view.routing").then(m => m.WorkflowViewRouting),
+		path: ":workflowId"
+	}
 ];

@@ -1,0 +1,10 @@
+<app-graph-editor
+	*ngIf="(data$ | async)?.snapshot?.data as data"
+	class="flex-1"
+	[actions]="graphActions"
+	[graph]="data"
+	[nodes$]="nodesState$"
+	[readonly]="readonly"
+	(nodeMoved)="handleNodeMoved($event)"
+	(nodeToAdd)="handleNodeToAdd($event)"
+/>

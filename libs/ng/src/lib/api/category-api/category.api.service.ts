@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { CategoryCreateDto, CategoryUpdateDto } from "~/lib/common/app/category/dtos";
 import {
 	CATEGORIES_ENDPOINT_PREFIX,
-	Category,
+	CategoryJSON,
 	CategoryEndpoint
 } from "~/lib/common/app/category/endpoints";
 
@@ -13,7 +13,7 @@ import { EntityApiService } from "../_lib/entity-api";
  */
 @Injectable({ providedIn: "root" })
 export class CategoryApiService
-	extends EntityApiService<Category, CategoryCreateDto, CategoryUpdateDto>
+	extends EntityApiService<CategoryJSON, CategoryCreateDto, CategoryUpdateDto>
 	implements CategoryEndpoint
 {
 	public override getEntrypoint(): string {

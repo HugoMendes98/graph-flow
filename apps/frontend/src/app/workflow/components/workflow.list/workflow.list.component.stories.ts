@@ -3,7 +3,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
 import { of } from "rxjs";
-import { Workflow } from "~/lib/common/app/workflow/endpoints";
+import { WorkflowJSON } from "~/lib/common/app/workflow/endpoints";
 import { EntityFindResult } from "~/lib/common/endpoints";
 import { BASE_SEED } from "~/lib/common/seeds";
 import { jsonify } from "~/lib/common/utils/jsonify";
@@ -19,7 +19,7 @@ import { WorkflowListComponent } from "./workflow.list.component";
 const meta: Meta<WorkflowListComponent> = {
 	component: WorkflowListComponent,
 	decorators: [moduleMetadata({ imports: [RouterTestingModule] })],
-	title: "WorkflowListComponent"
+	title: "Workflow/components/list"
 };
 export default meta;
 type Story = StoryObj<WorkflowListComponent>;
@@ -28,8 +28,8 @@ const db = jsonify(BASE_SEED);
 const { workflows } = db;
 
 const getRequestState = (
-	state: RequestState<EntityFindResult<Workflow>>
-): RequestStateWithSnapshot<EntityFindResult<Workflow>, HttpErrorResponse> => {
+	state: RequestState<EntityFindResult<WorkflowJSON>>
+): RequestStateWithSnapshot<EntityFindResult<WorkflowJSON>, HttpErrorResponse> => {
 	return { ...state, snapshot: getRequestStateSnapshot(state) };
 };
 

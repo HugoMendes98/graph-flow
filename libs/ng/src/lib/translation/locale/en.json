@@ -1,5 +1,32 @@
 {
+	"cards": {
+		"http-error": {
+			"errors": {
+				"400": {
+					"description": "The request has been rejected by the server. It may contain content that the server does not allow, or missing mandatory parameters."
+				},
+				"404": {
+					"description": "The resource you are trying to load has not been found."
+				},
+				"500": {
+					"description": "The server failed a task and has not given more exact details."
+				},
+				"generic": {
+					"description": "A request failed without providing further details. This can also happen when there is no internet connection on the device."
+				}
+			},
+			"title": "Whoops! An error occurred."
+		}
+	},
 	"errors": {
+		"http": {
+			"400": "The request is mal-formed.",
+			"401": "The resource needs authentification.",
+			"403": "You lack permission for this ressource.",
+			"404": "The resource was not found.",
+			"500": "A server error occurred.",
+			"generic": "A network error occurred."
+		},
 		"validation": {
 			"email": "The value is not a valid email.",
 			"invalid": "The value is invalid.",

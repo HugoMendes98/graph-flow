@@ -7,7 +7,7 @@ import { NodeCreateDialog, NodeCreateDialogData } from "./node-create.dialog";
 
 const meta: Meta<NodeCreateDialog> = {
 	component: NodeCreateDialog,
-	title: "NodeCreateDialog"
+	title: "Node/dialogs/create"
 };
 export default meta;
 type Story = StoryObj<NodeCreateDialog>;

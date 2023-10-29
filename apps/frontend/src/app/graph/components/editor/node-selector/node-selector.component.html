@@ -1,0 +1,9 @@
+<mat-card>
+	<mat-card-content>
+		<app-node-list
+			[columns]="NODE_COLUMNS"
+			[onRowClick]="handleNodeRowClick"
+			[state$]="nodes$"
+		/>
+	</mat-card-content>
+</mat-card>

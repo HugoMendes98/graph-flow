@@ -4,7 +4,7 @@ import { NodeBehaviorVariableComponent } from "./node-behavior.variable.componen
 
 const meta: Meta<NodeBehaviorVariableComponent> = {
 	component: NodeBehaviorVariableComponent,
-	title: "NodeBehaviorVariableComponent"
+	title: "Node/components/behavior/variable"
 };
 export default meta;
 type Story = StoryObj<NodeBehaviorVariableComponent>;

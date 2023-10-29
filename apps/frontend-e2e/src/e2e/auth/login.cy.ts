@@ -51,7 +51,7 @@ describe("Auth", () => {
 			cy.get(".mat-mdc-card-title").should("contain.text", `Hello ${email}!`);
 			// /* ==== End Cypress Studio ==== */
 
-			cy.location("pathname").should("eq", "/");
+			cy.location("pathname").should("eq", "/workflows");
 		});
 	});
 

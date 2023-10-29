@@ -21,9 +21,12 @@ export const APP_ROUTES: Routes = [
 		path: "workflows"
 	},
 	{
-		canActivate: [authGuard],
-		loadComponent: () => import("./home/views/home/home.view").then(m => m.HomeView),
-		path: ""
+		// TODO
+		// canActivate: [authGuard],
+		// loadComponent: () => import("./home/views/home/home.view").then(m => m.HomeView),
+		path: "",
+		pathMatch: "full",
+		redirectTo: "workflows"
 	},
 	{
 		loadComponent: () => import("./_views/not-found/not-found.view").then(m => m.NotFoundView),

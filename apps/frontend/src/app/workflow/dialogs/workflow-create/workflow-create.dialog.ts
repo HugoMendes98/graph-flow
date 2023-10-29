@@ -34,7 +34,7 @@ import {
 	tap
 } from "rxjs";
 import type { WORKFLOW_NAME_MIN_LENGTH, WorkflowCreateDto } from "~/lib/common/app/workflow/dtos";
-import { Workflow } from "~/lib/common/app/workflow/endpoints";
+import { WorkflowJSON } from "~/lib/common/app/workflow/endpoints";
 import { ApiModule } from "~/lib/ng/lib/api";
 import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
 import { FormControlsFrom } from "~/lib/ng/lib/forms";
@@ -57,7 +57,7 @@ export interface WorkflowCreateDialogResult {
 	/**
 	 * The created workflow
 	 */
-	created: Workflow;
+	created: WorkflowJSON;
 }
 
 interface WorkflowUniqueStateBase<T extends "ignore" | "verified" | "verifying"> {

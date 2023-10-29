@@ -1,8 +1,8 @@
-import { GraphArcDto } from "~/lib/common/app/graph/dtos/arc";
+import { GraphArcJSON } from "~/lib/common/app/graph/endpoints";
 
 import { EntityHttpClient } from "../_lib/entity.http-client";
 
-export class GraphArcHttpClient extends EntityHttpClient<GraphArcDto> {
+export class GraphArcHttpClient extends EntityHttpClient<GraphArcJSON> {
 	public constructor(private readonly endpoint: string) {
 		super();
 	}

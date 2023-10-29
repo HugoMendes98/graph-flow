@@ -6,7 +6,7 @@ import { LoginCardComponent } from "./login-card.component";
 
 const meta: Meta<LoginCardComponent> = {
 	component: LoginCardComponent,
-	title: "LoginCardComponent"
+	title: "Auth/cards/login"
 };
 export default meta;
 type Story = StoryObj<LoginCardComponent>;

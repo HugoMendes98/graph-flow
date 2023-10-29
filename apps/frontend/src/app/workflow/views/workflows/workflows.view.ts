@@ -5,7 +5,7 @@ import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { ActivatedRoute, Router } from "@angular/router";
 import { filter, lastValueFrom, Subscription } from "rxjs";
-import { Workflow } from "~/lib/common/app/workflow/endpoints";
+import { WorkflowJSON } from "~/lib/common/app/workflow/endpoints";
 import { isOrderValue, OrderValue } from "~/lib/common/endpoints";
 import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
 import {
@@ -52,9 +52,7 @@ export class WorkflowsView implements OnInit, OnDestroy {
 
 	protected readonly listQuery = signal<WorkflowListQuery>({});
 
-	/**
-	 * Used to avoid unnecessary request when it's only query params change from this same view.
-	 */
+	/** Used to avoid unnecessary request when it's only query params change from this same view. */
 	private readonly INTERNAL_NAVIGATION = {};
 	private readonly subscription = new Subscription();
 
@@ -97,7 +95,7 @@ export class WorkflowsView implements OnInit, OnDestroy {
 	}
 
 	/** @internal */
-	protected workflowUrl({ _id }: Workflow) {
+	protected workflowUrl({ _id }: WorkflowJSON) {
 		return `/workflows/${_id}`;
 	}
 

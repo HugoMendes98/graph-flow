@@ -1,5 +1,6 @@
 {
 	"actions": {
+		"back": "Back",
 		"close": "Close",
 		"create": "Create",
 		"login": "Login",
@@ -67,18 +68,15 @@
 		},
 		"workflow": {
 			"__meta": {
-				"plural": "Workflows"
+				"plural": "Workflows",
+				"singular": "Workflow"
 			},
 			"active": "Active",
 			"name": "Name"
 		}
 	},
 	"errors": {
-		"http": {
-			"400": "The request is mal-formed.",
-			"500": "A server error occurred.",
-			"generic": "A network error occurred."
-		}
+		"occurred": "An error occurred."
 	},
 	"formats": {
 		"date": "YYYY.MM.dd",
@@ -103,6 +101,11 @@
 		},
 		"nodes": {
 			"subtitle": "List of re-usable nodes."
+		},
+		"workflow": {
+			"tab": {
+				"graph": "Graph"
+			}
 		},
 		"workflows": {
 			"subtitle": "List, view and edit workflows"
