@@ -1,16 +1,14 @@
 import { action } from "@storybook/addon-actions";
 import type { Meta, StoryObj } from "@storybook/angular";
-import { Jsonify } from "type-fest";
 import { GraphDto } from "~/lib/common/app/graph/dtos";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
+import { jsonify } from "~/lib/common/utils/jsonify";
 
 import { GraphComponent } from "./graph.component";
 
-const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "actions" | "arcs" | "nodes"> => {
-	const { arcs: gArcs, nodes: gNodes } = JSON.parse(JSON.stringify(BASE_SEED.graph)) as Jsonify<
-		typeof BASE_SEED.graph
-	>;
+const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "actions" | "graph"> => {
+	const { arcs: gArcs, nodes: gNodes } = jsonify(BASE_SEED.graph);
 
 	const nodes = gNodes.filter(
 		({ kind }) => kind.type === NodeKindType.VERTEX && kind.__graph === graph._id
@@ -38,8 +36,7 @@ const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "actions" | "arc
 					})
 			}
 		},
-		arcs,
-		nodes
+		graph: { arcs, nodes }
 	};
 };
 const meta: Meta<GraphComponent> = {

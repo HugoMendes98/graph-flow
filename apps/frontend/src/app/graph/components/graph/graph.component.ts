@@ -1,6 +1,5 @@
 import { CommonModule } from "@angular/common";
 import {
-	AfterViewInit,
 	Component,
 	ElementRef,
 	Injector,
@@ -18,7 +17,7 @@ import { ConnectionPlugin, Presets as ConnectionPresets } from "rete-connection-
 import { ReadonlyPlugin } from "rete-readonly-plugin";
 import { bufferToggle, filter, map, Observable, Subject } from "rxjs";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
-import { GraphArcJSON } from "~/lib/common/app/graph/endpoints";
+import { GraphArcJSON, GraphNodeJSON } from "~/lib/common/app/graph/endpoints";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { PositionDto } from "~/lib/common/app/node/dtos/position.dto";
 import { NodeJSON } from "~/lib/common/app/node/endpoints";
@@ -76,8 +75,33 @@ export interface GraphActions {
 	};
 }
 
+export interface GraphData {
+	/** The arcs of the graph */
+	arcs: readonly GraphArcJSON[];
+	/** The nodes (with their inputs/outputs) of the graph */
+	nodes: ReadonlyArray<GraphNodeJSON | NodeJSON>;
+}
+
 /**
- * The {@link GraphComponent} manages the whole graph view and edition
+ * Viewport information.
+ *
+ * All values are round to int (except zoom)
+ */
+export interface GraphViewPort {
+	/** Height of the viewport (with zoom) */
+	height: number;
+	/** Middle position on the graph (with zoom) */
+	middle: PositionDto;
+	/** Top left position on the graph */
+	position: PositionDto;
+	/** Width of the viewport (with zoom) */
+	width: number;
+	/** Zoom of the viewport (bigger = closer) */
+	zoom: number;
+}
+
+/**
+ * The {@link GraphComponent} manages the whole graph view and edition (but only graph content)
  */
 @Component({
 	selector: "app-graph",
@@ -87,18 +111,12 @@ export interface GraphActions {
 
 	imports: [CommonModule]
 })
-export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
-	/**
-	 * The arcs of the graph
-	 */
-	@Input({ required: true })
-	public arcs!: readonly GraphArcJSON[];
+export class GraphComponent implements OnDestroy, OnChanges {
+	// FIXME: review all the component behavior (destroy, events, ...)
 
-	/**
-	 * The nodes (with their inputs/outputs) of the graph
-	 */
+	/** The graph data to view */
 	@Input({ required: true })
-	public nodes!: readonly NodeJSON[];
+	public graph!: GraphData;
 
 	/**
 	 * Is the graph on readonly mode?
@@ -106,17 +124,13 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 	 * @default true
 	 */
 	@Input()
-	public readonly = true;
+	public readonly? = true;
 
-	/**
-	 * The actions to update the graph
-	 */
+	/** The actions to update the graph */
 	@Input()
 	public actions: GraphActions = {};
 
-	/**
-	 * When a node has been moved on the graph
-	 */
+	/** When a node has been moved on the graph */
 	@Output()
 	public readonly nodeMoved: Observable<NodeMoved>;
 
@@ -139,6 +153,8 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 	 * To pipe and use only what is needed
 	 */
 	private readonly area$ = new Subject<Area2D<Schemes> | AreaExtra | Root<Schemes>>();
+
+	private destroyed = false;
 
 	public constructor(private readonly injector: Injector) {
 		this.nodeMoved = this.area$.pipe(
@@ -185,10 +201,58 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 				this.rete.readonly.disable();
 			}
 		}
+
+		if (("graph" satisfies keyof this) in changes) {
+			void this.destroyRete().then(() => this.initRete());
+		}
 	}
 
 	/** @inheritDoc */
-	public async ngAfterViewInit() {
+	public async ngOnDestroy() {
+		this.area$.complete();
+		await this.destroyRete();
+	}
+
+	/**
+	 * Determines the current viewport (and its middle position)
+	 *
+	 * @returns the current viewport of the graph (all zero when not set)
+	 */
+	public getCurrentViewPort(): GraphViewPort {
+		const { area } = this.rete ?? {};
+		if (!area) {
+			return {
+				height: 0,
+				middle: { x: 0, y: 0 },
+				position: { x: 0, y: 0 },
+				width: 0,
+				zoom: 1
+			};
+		}
+
+		const {
+			area: {
+				transform: { k: zoom, x, y }
+			},
+			container: { offsetHeight, offsetWidth }
+		} = area;
+
+		const [posX, posY] = [x, y].map(v => Math.round(-v));
+		const [height, width] = [offsetHeight, offsetWidth].map(v => Math.round(v / zoom));
+		const [midX, midY] = [Math.round(posX + width / 2), Math.round(posY + height / 2)];
+		return {
+			height,
+			middle: { x: midX, y: midY },
+			position: { x: posX, y: posY },
+			width,
+			zoom
+		};
+	}
+
+	/** @inheritDoc */
+	private async initRete() {
+		this.destroyed = false;
+
 		const area = new AreaPlugin<Schemes, AreaExtra>(this.container.nativeElement);
 		const connection = new ConnectionPlugin<Schemes, AreaExtra>();
 		const editor = new NodeEditor<Schemes>();
@@ -227,7 +291,8 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 		const inputsMap = new Map<number, ReteInput>();
 		const outputsMap = new Map<number, ReteOutput>();
 
-		for (const node of this.nodes) {
+		const { arcs, nodes } = this.graph;
+		for (const node of nodes) {
 			const { kind } = node;
 			if (kind.type !== NodeKindType.VERTEX) {
 				continue;
@@ -249,7 +314,7 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 			await area.translate(reteNode.id, position);
 		}
 
-		for (const arc of this.arcs) {
+		for (const arc of arcs) {
 			const { __from, __to } = arc;
 			const output = outputsMap.get(__from);
 			const input = inputsMap.get(__to);
@@ -267,7 +332,7 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 		AreaExtensions.snapGrid(area, { dynamic: true, size: graphSize });
 
 		// TODO: on readonly changes
-		if (this.readonly) {
+		if (this.readonly ?? true) {
 			readonlyPlugin.enable();
 
 			// There is a bug in the library that allows to visually modify arcs
@@ -278,12 +343,20 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 
 		// Only add at the end to avoid triggering the event for the construction of the component
 		area.addPipe(context => {
+			if (this.destroyed) {
+				return;
+			}
+
 			// TODO: filters?
 			this.area$.next(context);
 			return context;
 		});
 
 		editor.addPipe(context => {
+			if (this.destroyed) {
+				return;
+			}
+
 			if (context.type === "connectioncreate") {
 				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- The library still uses the default Connection class
 				if (context.data.arc) {
@@ -341,16 +414,14 @@ export class GraphComponent implements AfterViewInit, OnDestroy, OnChanges {
 		});
 	}
 
-	/** @inheritDoc */
-	public async ngOnDestroy() {
-		this.area$.complete();
-
+	private async destroyRete() {
+		this.destroyed = true;
 		if (!this.rete) {
 			return;
 		}
 
 		const { area, editor } = this.rete;
-
+		area.container.innerHTML = "";
 		area.destroy();
 		await editor.clear();
 	}

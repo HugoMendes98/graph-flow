@@ -29,10 +29,10 @@
 		$line-width: calc($grid-size / $grid-cell);
 
 		// Take a lot of space to apply the grid everywhere (on zoom too)
-		height: $size-h * 10;
-		width: $size-w * 10;
+		height: $size-h * 100;
+		width: $size-w * 100;
 
-		inset: (-$size-h) (-$size-w);
+		inset: (-$size-h * 50) (-$size-w * 50);
 
 		background-image: linear-gradient($color-major $line-width, transparent $line-width),
 			linear-gradient(90deg, $color-major $line-width, transparent $line-width),

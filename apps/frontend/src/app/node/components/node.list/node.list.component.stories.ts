@@ -14,13 +14,6 @@ import {
 
 import { NodeListComponent } from "./node.list.component";
 
-const meta: Meta<NodeListComponent> = {
-	component: NodeListComponent,
-	title: "Node/components/list"
-};
-export default meta;
-type Story = StoryObj<NodeListComponent>;
-
 const db = jsonify(BASE_SEED);
 const {
 	graph: { nodes }
@@ -47,6 +40,13 @@ const state$ = of(
 );
 
 const actionRowClick = action("rowClick");
+
+const meta: Meta<NodeListComponent> = {
+	component: NodeListComponent,
+	title: "Node/components/list"
+};
+export default meta;
+type Story = StoryObj<NodeListComponent>;
 
 export const Primary: Story = {
 	args: { expanded: nodes[2]._id, previewEditUrl: () => "", state$ }

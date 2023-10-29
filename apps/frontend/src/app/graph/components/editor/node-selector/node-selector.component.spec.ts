@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { of } from "rxjs";
 
 import { NodeSelectorComponent } from "./node-selector.component";
 
@@ -13,6 +14,7 @@ describe("NodeSelectorComponent", () => {
 
 		fixture = TestBed.createComponent(NodeSelectorComponent);
 		component = fixture.componentInstance;
+		component.nodes$ = of({ snapshot: { isLoading: false }, state: "init" });
 		fixture.detectChanges();
 	});
 

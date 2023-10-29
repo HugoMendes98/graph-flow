@@ -1,5 +1,10 @@
 import { Injectable } from "@angular/core";
-import { GraphJSON, GraphEndpoint, GRAPHS_ENDPOINT_PREFIX } from "~/lib/common/app/graph/endpoints";
+import {
+	GraphJSON,
+	GraphEndpoint,
+	GRAPHS_ENDPOINT_PREFIX,
+	GraphNodeJSON
+} from "~/lib/common/app/graph/endpoints";
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import { GraphArcApi } from "./arc/graph-arc.api";
@@ -32,6 +37,6 @@ export class GraphApiService
 	 * @returns the client to requests nodes
 	 */
 	public forNodes(graphId: EntityId) {
-		return new GraphNodeApi(this.client, graphId);
+		return new GraphNodeApi<GraphNodeJSON>(this.client, graphId);
 	}
 }

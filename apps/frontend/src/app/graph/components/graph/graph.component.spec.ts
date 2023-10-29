@@ -14,8 +14,7 @@ describe("GraphComponent", () => {
 		fixture = TestBed.createComponent(GraphComponent);
 		component = fixture.componentInstance;
 
-		component.arcs = [];
-		component.nodes = [];
+		component.graph = { arcs: [], nodes: [] };
 
 		fixture.detectChanges();
 	});

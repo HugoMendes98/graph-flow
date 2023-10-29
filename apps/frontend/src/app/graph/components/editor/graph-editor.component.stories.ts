@@ -1,29 +1,27 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { action } from "@storybook/addon-actions";
 import type { Meta, StoryObj } from "@storybook/angular";
-import { Jsonify } from "type-fest";
+import { of } from "rxjs";
 import { GraphJSON } from "~/lib/common/app/graph/endpoints";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
+import { NodeJSON } from "~/lib/common/app/node/endpoints";
+import { EntityFindResult } from "~/lib/common/endpoints";
 import { BASE_SEED } from "~/lib/common/seeds";
 import { jsonify } from "~/lib/common/utils/jsonify";
+import {
+	getRequestStateSnapshot,
+	RequestState,
+	RequestStateWithSnapshot
+} from "~/lib/ng/lib/request-state";
 
 import { GraphEditorComponent } from "./graph-editor.component";
 import { GraphComponent } from "../graph/graph.component";
 
-const meta: Meta<GraphEditorComponent> = {
-	component: GraphEditorComponent,
-	title: "Graph/components/editor"
-};
-export default meta;
-type Story = StoryObj<GraphEditorComponent>;
+const db = jsonify(BASE_SEED);
+const { nodes } = db.graph;
 
-const {
-	graph: { graphs }
-} = jsonify(BASE_SEED);
-
-const getGraphContent = (graph: GraphJSON): Pick<GraphComponent, "actions" | "arcs" | "nodes"> => {
-	const { arcs: gArcs, nodes: gNodes } = JSON.parse(JSON.stringify(BASE_SEED.graph)) as Jsonify<
-		typeof BASE_SEED.graph
-	>;
+const getGraphContent = (graph: GraphJSON): Pick<GraphComponent, "actions" | "graph"> => {
+	const { arcs: gArcs, nodes: gNodes } = db.graph;
 
 	const nodes = gNodes.filter(
 		({ kind }) => kind.type === NodeKindType.VERTEX && kind.__graph === graph._id
@@ -51,14 +49,53 @@ const getGraphContent = (graph: GraphJSON): Pick<GraphComponent, "actions" | "ar
 					})
 			}
 		},
-		arcs,
-		nodes
+		graph: { arcs, nodes }
 	};
 };
 
+const getRequestState = (
+	state: RequestState<EntityFindResult<NodeJSON>>
+): RequestStateWithSnapshot<EntityFindResult<NodeJSON>, HttpErrorResponse> => {
+	return { ...state, snapshot: getRequestStateSnapshot(state) };
+};
+
+const nodes$ = of(
+	getRequestState({
+		data: {
+			data: nodes,
+			pagination: {
+				range: { end: nodes.length, start: 0 },
+				total: nodes.length
+			}
+		},
+		error: false,
+		state: "success"
+	})
+);
+
+const meta: Meta<GraphEditorComponent> = {
+	component: GraphEditorComponent,
+	decorators: [
+		(fn, ctx) => {
+			const {
+				canvasElement: { children, id, style }
+			} = ctx;
+			// Fullscreen when the story is show, reduced on docs page
+			style.height = id === "storybook-root" ? "100vh" : "250px";
+
+			setTimeout(() => {
+				// To run once the DOM has been updated
+				(children[0].children[0] as HTMLElement).style.height = "100%";
+			}, 2);
+			return fn();
+		}
+	],
+	parameters: { layout: "fullscreen" },
+	title: "Graph/components/editor"
+};
+export default meta;
+type Story = StoryObj<GraphEditorComponent>;
+
 export const Primary: Story = {
-	args: {
-		...getGraphContent(graphs[0]),
-		readonly: false
-	}
+	args: { ...getGraphContent(db.graph.graphs[0]), nodes$, readonly: false }
 };

@@ -1,8 +1,9 @@
+import { Jsonify } from "type-fest";
+
 import { GRAPHS_ENDPOINT_PREFIX } from "./graph.endpoint";
 import { EntityId } from "../../../dtos/entity";
 import { DtoToEntity } from "../../../dtos/entity/entity.types";
 import { EntityEndpoint } from "../../../endpoints";
-import { NodeDto } from "../../node/dtos";
 import { GraphNodeDto, GraphNodeUpdateDto } from "../dtos/node";
 import { GraphNodeCreateDto } from "../dtos/node/graph-node.create.dto";
 
@@ -23,6 +24,6 @@ export function generateGraphNodesEndpoint(graphId: EntityId) {
 	return `${start}/${graphId}${end}`;
 }
 
-export type GraphNodeJSON = GraphNodeDto;
-export type GraphNodeEndpoint<T extends DtoToEntity<NodeDto> | GraphNodeJSON = GraphNodeJSON> =
+export type GraphNodeJSON = Jsonify<GraphNodeDto>;
+export type GraphNodeEndpoint<T extends DtoToEntity<GraphNodeDto> | GraphNodeJSON = GraphNodeJSON> =
 	EntityEndpoint<T, GraphNodeCreateDto, GraphNodeUpdateDto>;

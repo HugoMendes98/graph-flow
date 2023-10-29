@@ -15,4 +15,4 @@ const {
 	graph: { graphs }
 } = jsonify(BASE_SEED);
 
-export const Primary: Story = { args: { graph: graphs[0], readonly: false } };
+export const Primary: Story = { args: { graphId: graphs[0]._id, readonly: false } };

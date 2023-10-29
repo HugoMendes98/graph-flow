@@ -41,9 +41,12 @@
 		</ng-template>
 
 		<ng-template matTabContent>
-			<app-graph class="flex-1 h-100" [arcs]="[]" [nodes]="[]" [readonly]="true"></app-graph>
-
-			<!-- TODO -->
+			<app-graph-editor-view
+				*ngIf="requestState().snapshot.data as workflow"
+				class="flex-1 h-100"
+				[graphId]="workflow.__graph"
+				[readonly]="workflow.active"
+			/>
 		</ng-template>
 	</mat-tab>
 </mat-tab-group>

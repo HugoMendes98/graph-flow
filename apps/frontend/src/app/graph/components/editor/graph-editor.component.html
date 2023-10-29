@@ -1,1 +1,14 @@
-<app-graph [arcs]="[]" [nodes]="[]" />
+<app-graph
+	class="flex flex-1"
+	[actions]="actions"
+	[graph]="graph"
+	[readonly]="readonly"
+	(nodeMoved)="nodeMoved.emit($event)"
+/>
+
+<app-node-selector
+	*ngIf="!readonly"
+	class="absolute m-4"
+	[nodes$]="nodes$"
+	(nodeSelected)="handleNodeSelected($event)"
+/>

@@ -11,6 +11,7 @@ describe("Workflow view", () => {
 	const urlPath = `/workflows/${workflowActionable._id}`;
 
 	beforeEach(() => {
+		cy.intercept("GET", "**/workflows/**").as("getWorkflow");
 		cy.intercept("PATCH", "**/workflows/**").as("updateWorkflow");
 		cy.dbRefresh("base");
 
@@ -40,8 +41,6 @@ describe("Workflow view", () => {
 			"have.value",
 			workflowActionable.name + text
 		);
-
-		// mdc-switch--checked"
 		/* ==== End Cypress Studio ==== */
 	});
 
@@ -58,14 +57,15 @@ describe("Workflow view", () => {
 
 	it("should have a not-found message when opening an unknown workflow", () => {
 		const unknownId = Math.max(...workflows.map(({ _id }) => _id)) + 1;
-		cy.visit(`/workflows/${unknownId}`);
+		cy.visit(`/workflows/${unknownId}`, { failOnStatusCode: false });
+		cy.wait("@getWorkflow");
 
 		/* ==== Generated with Cypress Studio ==== */
 		cy.get("mat-tab-header #mat-tab-label-0-0 > .mdc-tab__content > span span").should(
 			"contain",
 			"An error occurred"
 		);
-		cy.get("mat-card .mat-mdc-card-subtitle > .ng-star-inserted").should(
+		cy.get("ui-http-error-card mat-card-subtitle > span").should(
 			"have.text",
 			"The resource was not found."
 		);

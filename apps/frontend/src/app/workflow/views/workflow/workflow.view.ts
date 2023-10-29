@@ -17,7 +17,7 @@ import { RequestStateWrapperComponent } from "~/lib/ng/lib/request-state/compone
 import { RequestStateSubject } from "~/lib/ng/lib/request-state/request-state.subject";
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
-import { GraphComponent } from "../../../graph/components/graph/graph.component";
+import { GraphEditorView } from "../../../graph/views/graph-editor/graph-editor.view";
 import { WorkflowLogsCard } from "../../components/workflow-logs/workflow-logs.card";
 import { WorkflowUpdateCard } from "../../components/workflow-update/workflow-update.card";
 
@@ -37,7 +37,7 @@ export interface WorkflowViewRouteData {
 	imports: [
 		ApiModule,
 		CommonModule,
-		GraphComponent,
+		GraphEditorView,
 		MatButtonModule,
 		MatCardModule,
 		MatIconModule,
@@ -53,13 +53,13 @@ export interface WorkflowViewRouteData {
 export class WorkflowView implements OnInit, OnDestroy {
 	/** RSS for the loading workflow */
 	protected readonly requestState$ = new RequestStateSubject((workflowId: EntityId) =>
-		this.service.findById(workflowId)
+		this.workflowApi.findById(workflowId)
 	);
 
 	/** RSS for the update workflow */
 	protected readonly requestUpdateState$ = new RequestStateSubject(
 		({ _id }: WorkflowJSON, body: WorkflowUpdateDto) =>
-			this.service.update(_id, body).then(({ _id }) => this.requestState$.request(_id))
+			this.workflowApi.update(_id, body).then(({ _id }) => this.requestState$.request(_id))
 	);
 
 	protected readonly requestState = toSignal(
@@ -91,12 +91,13 @@ export class WorkflowView implements OnInit, OnDestroy {
 	/**
 	 * Constructor with "dependency injection"
 	 *
-	 * @param service injected
+	 * @param workflowApi injected
+	 * @param graphApi injected
 	 * @param activatedRoute injected
 	 * @param router injected
 	 */
 	public constructor(
-		private readonly service: WorkflowApiService,
+		private readonly workflowApi: WorkflowApiService,
 		private readonly activatedRoute: ActivatedRoute,
 		private readonly router: Router
 	) {}
