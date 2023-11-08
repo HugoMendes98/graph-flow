@@ -1,5 +1,8 @@
 import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
+import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
+import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
+import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
 import { BASE_SEED } from "~/lib/common/seeds";
 
@@ -9,10 +12,12 @@ import { WorkflowService } from "./workflow.service";
 import { DbTestHelper } from "../../../test/db-test";
 import { OrmModule } from "../../orm/orm.module";
 import { GraphService } from "../graph/graph.service";
+import { NodeService } from "../node/node.service";
 
 describe("WorkflowService", () => {
 	let dbTest: DbTestHelper;
 	let graphService: GraphService;
+	let nodeService: NodeService;
 	let service: WorkflowService;
 
 	let db: typeof BASE_SEED;
@@ -24,8 +29,9 @@ describe("WorkflowService", () => {
 
 		dbTest = new DbTestHelper(module);
 		db = dbTest.db as never;
-		service = module.get<WorkflowService>(WorkflowService);
+		service = module.get(WorkflowService);
 		graphService = module.get(GraphService);
+		nodeService = module.get(NodeService);
 	});
 
 	afterAll(() => dbTest.close());
@@ -35,7 +41,7 @@ describe("WorkflowService", () => {
 	});
 
 	describe("Activation", () => {
-		beforeAll(() => dbTest.refresh());
+		beforeEach(() => dbTest.refresh());
 
 		it("should activate a workflow", async () => {
 			const [{ _id }] = db.workflows;
@@ -47,6 +53,25 @@ describe("WorkflowService", () => {
 			await expect(service.update(_id, { active: true })).rejects.toThrow(
 				WorkflowNoTriggerException
 			);
+		});
+
+		it("should activate a workflow with a node-reference to a trigger", async () => {
+			const [, { __graph, _id }] = db.workflows;
+			const base = await nodeService.create({
+				behavior: {
+					trigger: { cron: "* * * 0 12", type: NodeTriggerType.CRON },
+					type: NodeBehaviorType.TRIGGER
+				},
+				kind: { active: true, type: NodeKindType.TEMPLATE },
+				name: "trigger00"
+			});
+
+			await nodeService.create({
+				behavior: { __node: base._id, type: NodeBehaviorType.REFERENCE },
+				kind: { __graph, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
+				name: "ref"
+			});
+			await expect(service.update(_id, { active: true })).resolves.toBeDefined();
 		});
 	});
 
