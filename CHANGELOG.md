@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/HugoMendes98/graph-flow/compare/v0.6.2...v0.6.3) (2024-01-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/swagger to v7.1.17 ([#58](https://github.com/HugoMendes98/graph-flow/issues/58)) ([e80ee65](https://github.com/HugoMendes98/graph-flow/commit/e80ee65bfc4e9130b81755bb1b89a4b0314ac171))
+
 ## [0.6.2](https://github.com/HugoMendes98/graph-flow/compare/v0.6.1...v0.6.2) (2024-01-13)
 
 
