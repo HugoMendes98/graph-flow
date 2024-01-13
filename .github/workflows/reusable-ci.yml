@@ -1,0 +1,64 @@
+name: CI Base
+
+on:
+  workflow_call:
+    inputs:
+      NX_NO_CLOUD:
+        type: boolean
+    secrets:
+      NX_TOKEN:
+        required: false
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    env:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_TOKEN }}
+      NX_NO_CLOUD: ${{ inputs.NX_NO_CLOUD }}
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install packages
+        run: npm ci
+
+        # Before any nx use
+      - name: Check locales
+        run: bash verify-i18n.bash
+
+      # Verify that all mikro-orm versions are correct (useful for renovate)
+      - name: Verify Mikro-orm versions
+        run: npx mikro-orm debug
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Comments coverage
+        run: npm run compodoc:coverage
+
+      - name: Build
+        run: npm run build
+
+      - name: Tests
+        run: npm run test:ci
+
+      - name: Tests e2e
+        run: npm run test:e2e
+
+      - name: Upload Cypress artifacts in case of error in `frontend`
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          if-no-files-found: warn
+          name: cypress-logs
+          path: dist/cypress/apps/frontend-e2e/
+          retention-days: 7

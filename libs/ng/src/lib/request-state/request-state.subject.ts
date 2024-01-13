@@ -27,7 +27,6 @@ export class RequestStateSubject<T, E = HttpErrorResponse, ARGS extends readonly
 	public constructor(private readonly fn: (...args: ARGS) => Promise<T> | T) {
 		super();
 
-		// eslint-disable-next-line etc/no-deprecated -- FIXME: implement correctly
 		this.source = this.subject;
 	}
 
