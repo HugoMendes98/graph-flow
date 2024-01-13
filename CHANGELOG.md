@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/HugoMendes98/graph-flow/compare/v0.6.1...v0.6.2) (2024-01-13)
+
+
+### Bug Fixes
+
+* **deps:** update angularmaterial monorepo to v16.2.12 ([#56](https://github.com/HugoMendes98/graph-flow/issues/56)) ([284e061](https://github.com/HugoMendes98/graph-flow/commit/284e061020f45e9b5ffdebf38178653ac6021181))
+
 ## [0.6.1](https://github.com/HugoMendes98/graph-flow/compare/v0.6.0...v0.6.1) (2024-01-13)
 
 
