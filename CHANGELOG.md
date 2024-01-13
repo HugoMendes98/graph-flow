@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/HugoMendes98/graph-flow/compare/v0.6.0...v0.6.1) (2024-01-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v1.6.0 [security] ([#60](https://github.com/HugoMendes98/graph-flow/issues/60)) ([f6da630](https://github.com/HugoMendes98/graph-flow/commit/f6da630811a19a869a6fe562c57c0200ed69b8dd))
+
 ## [0.6.0](https://github.com/HugoMendes98/graph-flow/compare/v0.5.10...v0.6.0) (2023-10-29)
 
 
