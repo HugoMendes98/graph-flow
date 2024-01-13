@@ -7,6 +7,9 @@ on:
 
 jobs:
   job:
+    # Ignore devDependencies updates
+    if: ${{ !(github.actor == 'renovate[bot]' && contains(github.event.head_commit.message, 'chore(deps):')) }}
+
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

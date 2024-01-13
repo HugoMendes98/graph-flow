@@ -250,7 +250,6 @@
 				"@typescript-eslint/sort-type-constituents": "error",
 				"@typescript-eslint/type-annotation-spacing": "error",
 				"etc/no-assign-mutated-array": "error",
-				"etc/no-deprecated": "warn",
 				"etc/no-implicit-any-catch": [
 					"error",
 					{

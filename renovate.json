@@ -1,16 +1,16 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"commitMessagePrefix": "fix(deps):",
+	"automerge": true,
+	"automergeStrategy": "squash",
 	"extends": ["config:recommended", "group:definitelyTyped"],
 	"labels": ["dependencies", "renovate"],
 	"packageRules": [
 		{
 			"extends": ["packages:jsUnitTest"],
 			"groupName": "testing packages",
-			"matchPackageNames": ["@4tw/cypress-drag-drop", "cypress"]
+			"matchPackageNames": ["cypress"]
 		},
 		{
-			"automerge": false,
 			"extends": ["packages:eslint", "packages:stylelint"],
 			"groupName": "Linting packages",
 			"groupSlug": "linting",
@@ -19,8 +19,21 @@
 				"@darraghor/eslint-plugin-nestjs-typed",
 				"@shopify/eslint-plugin"
 			]
+		},
+		{
+			"groupName": "Release it",
+			"groupSlug": "release-it",
+			"matchPackageNames": ["release-it"],
+			"matchPackagePrefixes": ["@release-it/"]
+		},
+		{
+			"addLabels": ["dependency-major"],
+			"automerge": false,
+			"matchDepTypes": ["dependencies"],
+			"matchUpdateTypes": ["major"]
 		}
 	],
-	"rebaseWhen": "never",
+	"rebaseWhen": "behind-base-branch",
+	"stabilityDays": 3,
 	"unicodeEmoji": true
 }
