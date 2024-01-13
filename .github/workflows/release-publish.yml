@@ -30,6 +30,7 @@ jobs:
         run: npm ci
 
       - name: Generate code coverage summary
+        timeout-minutes: 15
         run: npm run test:ci
 
       - name: Generating `common` lib coverage badges
