@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.4](https://github.com/HugoMendes98/graph-flow/compare/v0.6.3...v0.6.4) (2024-01-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @mikro-orm/nestjs to v5.2.3 ([#70](https://github.com/HugoMendes98/graph-flow/issues/70)) ([2fdf719](https://github.com/HugoMendes98/graph-flow/commit/2fdf719a7d9145be6512e3f07752ec1f87d253f1))
+
 ## [0.6.3](https://github.com/HugoMendes98/graph-flow/compare/v0.6.2...v0.6.3) (2024-01-13)
 
 
