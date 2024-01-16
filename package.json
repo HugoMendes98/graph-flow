@@ -43,7 +43,7 @@
 		"cookie-parser": "^1.4.6",
 		"cron-validate": "^1.4.5",
 		"deepmerge-ts": "^5.1.0",
-		"passport": "^0.6.0",
+		"passport": "^0.7.0",
 		"passport-jwt": "^4.0.1",
 		"passport-local": "^1.0.0",
 		"qs": "^6.11.0",
