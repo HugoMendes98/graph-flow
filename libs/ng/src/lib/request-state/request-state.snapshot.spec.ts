@@ -1,5 +1,8 @@
 import { RequestState } from "./request-state";
-import { getRequestStateSnapshot, RequestStateSnapshot } from "./request-state.snapshot";
+import {
+	getRequestStateSnapshot,
+	RequestStateSnapshot
+} from "./request-state.snapshot";
 
 describe("RequestStateSnapshot", () => {
 	describe("getRequestStateSnapshot", () => {
@@ -10,20 +13,29 @@ describe("RequestStateSnapshot", () => {
 
 		const stateInit = { state: "init" } as const satisfies State;
 
-		const stateLoading = { error: false, state: "loading" } as const satisfies State;
+		const stateLoading = {
+			error: false,
+			state: "loading"
+		} as const satisfies State;
 		const stateLoadingWithData = {
 			data: "ok",
 			error: false,
 			state: "loading"
 		} as const satisfies State;
-		const stateLoadingWithError = { error: 1, state: "loading" } as const satisfies State;
+		const stateLoadingWithError = {
+			error: 1,
+			state: "loading"
+		} as const satisfies State;
 		const stateLoadingWithDataAndError = {
 			data: "was ok",
 			error: 2,
 			state: "loading"
 		} as const satisfies State;
 
-		const stateFailed = { error: 1, state: "failed" } as const satisfies State;
+		const stateFailed = {
+			error: 1,
+			state: "failed"
+		} as const satisfies State;
 		const stateFailedWithData = {
 			data: "was ok",
 			error: 3,
@@ -40,8 +52,14 @@ describe("RequestStateSnapshot", () => {
 			for (const [state, snapshot] of [
 				[stateInit, { isLoading: false }],
 				[stateLoading, { isLoading: true }],
-				[stateLoadingWithData, { data: stateLoadingWithData.data, isLoading: true }],
-				[stateLoadingWithError, { error: stateLoadingWithError.error, isLoading: true }],
+				[
+					stateLoadingWithData,
+					{ data: stateLoadingWithData.data, isLoading: true }
+				],
+				[
+					stateLoadingWithError,
+					{ error: stateLoadingWithError.error, isLoading: true }
+				],
 				[
 					stateLoadingWithDataAndError,
 					{
@@ -61,7 +79,9 @@ describe("RequestStateSnapshot", () => {
 				],
 				[stateSuccess, { data: stateSuccess.data, isLoading: false }]
 			] satisfies Array<[State, Snapshot]>) {
-				expect(getRequestStateSnapshot<Data, Error>(state)).toStrictEqual(snapshot);
+				expect(
+					getRequestStateSnapshot<Data, Error>(state)
+				).toStrictEqual(snapshot);
 			}
 		});
 	});

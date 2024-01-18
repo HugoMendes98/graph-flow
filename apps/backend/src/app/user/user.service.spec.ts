@@ -1,4 +1,7 @@
-import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
+import {
+	NotFoundError,
+	UniqueConstraintViolationException
+} from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
 import { omit } from "~/lib/common/utils/object-fns";
 
@@ -34,13 +37,18 @@ describe("UserService", () => {
 			it("should get one", async () => {
 				for (const user of dbTest.db.users) {
 					const row = await service.findById(user._id);
-					expect(row.toJSON()).toStrictEqual(omit(user, ["password"]));
+					expect(row.toJSON()).toStrictEqual(
+						omit(user, ["password"])
+					);
 				}
 			});
 
 			it("should fail when getting one by an unknown id", async () => {
-				const id = Math.max(...dbTest.db.users.map(({ _id }) => _id)) + 1;
-				await expect(service.findById(id)).rejects.toThrow(NotFoundError);
+				const id =
+					Math.max(...dbTest.db.users.map(({ _id }) => _id)) + 1;
+				await expect(service.findById(id)).rejects.toThrow(
+					NotFoundError
+				);
 			});
 
 			describe("Find many", () => {
@@ -78,7 +86,10 @@ describe("UserService", () => {
 
 					const loop = Math.min(5, users.length);
 					for (let skip = 0; skip < loop; ++skip) {
-						const { pagination } = await service.findAndCount({}, { limit: 1, skip });
+						const { pagination } = await service.findAndCount(
+							{},
+							{ limit: 1, skip }
+						);
 
 						expect(pagination.range.start).toBe(skip);
 						expect(pagination.range.end).toBe(skip + 1);
@@ -114,7 +125,9 @@ describe("UserService", () => {
 
 				// Update an entity and check its content
 				const [user] = dbTest.db.users;
-				const toUpdate: UserUpdateEntity = { email: `${user.email}-${user.email}` };
+				const toUpdate: UserUpdateEntity = {
+					email: `${user.email}-${user.email}`
+				};
 				const updated = await service.update(user._id, toUpdate);
 				expect(updated.email).toBe(toUpdate.email);
 
@@ -132,16 +145,18 @@ describe("UserService", () => {
 				const [, user] = dbTest.db.users;
 				const toUpdate: UserUpdateEntity = { email: user.email };
 				const updated = await service.update(user._id, toUpdate);
-				expect(updated.toJSON()).toStrictEqual(omit(user, ["password"]));
+				expect(updated.toJSON()).toStrictEqual(
+					omit(user, ["password"])
+				);
 			});
 
 			it("should fail when a uniqueness constraint is not respected", async () => {
 				const [user1, user2] = dbTest.db.users;
 
 				const toUpdate: UserUpdateEntity = { email: user1.email };
-				await expect(service.update(user2._id, toUpdate)).rejects.toThrow(
-					UniqueConstraintViolationException
-				);
+				await expect(
+					service.update(user2._id, toUpdate)
+				).rejects.toThrow(UniqueConstraintViolationException);
 			});
 		});
 
@@ -153,16 +168,21 @@ describe("UserService", () => {
 				// Delete an entity
 				const [user] = dbTest.db.users;
 				const deleted = await service.delete(user._id);
-				expect(deleted.toJSON!()).toStrictEqual(omit(user, ["password"]));
+				expect(deleted.toJSON!()).toStrictEqual(
+					omit(user, ["password"])
+				);
 
 				// Check that the entity is really deleted
 				const { data: after } = await service.findAndCount();
 				expect(after).toHaveLength(before.length - 1);
-				expect(after.some(({ _id }) => _id === deleted._id)).toBeFalse();
+				expect(
+					after.some(({ _id }) => _id === deleted._id)
+				).toBe(false);
 			});
 
 			it("should not delete an unknown id", async () => {
-				const id = Math.max(...dbTest.db.users.map(({ _id }) => _id)) + 1;
+				const id =
+					Math.max(...dbTest.db.users.map(({ _id }) => _id)) + 1;
 				await expect(service.delete(id)).rejects.toThrow(NotFoundError);
 			});
 		});

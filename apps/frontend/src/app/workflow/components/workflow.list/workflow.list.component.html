@@ -10,7 +10,9 @@
 				<span translate>entities.entity.id</span>
 			</ui-list-table-header>
 		</th>
-		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{ row._id }}</td>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
+			{{ row._id }}
+		</td>
 	</ng-container>
 
 	<ng-container [matColumnDef]="COLUMNS_ALL[1]">
@@ -41,7 +43,9 @@
 				<span translate>entities.workflow.name</span>
 			</ui-list-table-header>
 		</th>
-		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{ row.name }}</td>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
+			{{ row.name }}
+		</td>
 	</ng-container>
 
 	<ng-container [matColumnDef]="COLUMNS_ALL[3]">

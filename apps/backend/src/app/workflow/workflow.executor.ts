@@ -32,7 +32,10 @@ export class WorkflowExecutor {
 	 */
 	public async execute(workflow: WorkflowEntity) {
 		const { node } = await this.service.findTrigger(workflow);
-		return this.graphExecutor.execute({ graphId: workflow.__graph, startAt: [node._id] });
+		return this.graphExecutor.execute({
+			graphId: workflow.__graph,
+			startAt: [node._id]
+		});
 	}
 
 	/**

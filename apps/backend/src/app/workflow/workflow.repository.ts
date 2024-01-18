@@ -1,4 +1,8 @@
-import { CreateOptions, EntityRepository, RequiredEntityData } from "@mikro-orm/core";
+import {
+	CreateOptions,
+	EntityRepository,
+	RequiredEntityData
+} from "@mikro-orm/core";
 
 import { WorkflowEntity } from "./workflow.entity";
 import { GraphEntity } from "../graph/graph.entity";
@@ -19,12 +23,18 @@ export class WorkflowRepository extends EntityRepository<WorkflowEntity> {
 		if (data.__graph) {
 			// The graph property is the persisted entity
 			// 	-> create an empty entity with primary key (used for seeders)
-			return super.create({ ...data, graph: { _id: data.__graph } }, options);
+			return super.create(
+				{ ...data, graph: { _id: data.__graph } },
+				options
+			);
 		}
 
 		// On creation -> use an empty entity to automatically link it
-		// eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- Cast to satisfy TS
-		const graph = this.getEntityManager().create(GraphEntity, {} as GraphEntity);
+
+		const graph = this.getEntityManager().create(
+			GraphEntity,
+			{} as unknown as never
+		);
 		return super.create({ ...data, graph }, options);
 	}
 }

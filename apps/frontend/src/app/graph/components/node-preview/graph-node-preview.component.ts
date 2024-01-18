@@ -26,7 +26,11 @@ export class GraphNodePreviewComponent {
 	public set node(node: NodeJSON) {
 		this._node = {
 			...node,
-			kind: { __graph: 0, position: { x: 10, y: 10 }, type: NodeKindType.VERTEX }
+			kind: {
+				__graph: 0,
+				position: { x: 10, y: 10 },
+				type: NodeKindType.VERTEX
+			}
 		};
 	}
 }

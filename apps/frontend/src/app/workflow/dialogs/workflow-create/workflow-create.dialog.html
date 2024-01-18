@@ -16,7 +16,9 @@
 				<mat-icon>close</mat-icon>
 			</button>
 
-			<mat-error>{{ form.controls.name.errors | translateControlError }}</mat-error>
+			<mat-error>{{
+				form.controls.name.errors | translateControlError
+			}}</mat-error>
 		</mat-form-field>
 
 		<div *ngIf="unique$ | async as event" class="flex flex-row gap-1 mb-2">
@@ -69,5 +71,7 @@
 </div>
 
 <div mat-dialog-actions>
-	<button mat-button mat-dialog-close type="button">{{ "actions.close" | translate }}</button>
+	<button mat-button mat-dialog-close type="button">
+		{{ "actions.close" | translate }}
+	</button>
 </div>

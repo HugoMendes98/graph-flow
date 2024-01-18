@@ -1,6 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
+import {
+	Component,
+	EventEmitter,
+	HostListener,
+	Input,
+	Output
+} from "@angular/core";
 import {
 	FormControl,
 	FormGroup,

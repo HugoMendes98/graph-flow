@@ -1,6 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component, Inject } from "@angular/core";
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+	FormControl,
+	FormGroup,
+	FormsModule,
+	ReactiveFormsModule
+} from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import {
 	MAT_DIALOG_DATA,
@@ -56,10 +61,13 @@ export class ProfileDialog {
 		data: ProfileDialogData,
 		config?: Omit<MatDialogConfig, "data">
 	) {
-		return matDialog.open<ProfileDialog, unknown, ProfileDialogResult>(ProfileDialog, {
-			...config,
-			data
-		});
+		return matDialog.open<ProfileDialog, unknown, ProfileDialogResult>(
+			ProfileDialog,
+			{
+				...config,
+				data
+			}
+		);
 	}
 
 	protected readonly form: FormGroup<
@@ -69,10 +77,15 @@ export class ProfileDialog {
 	/**
 	 * Handles the update of the form
 	 */
-	protected readonly requestStateUpdate$ = new RequestStateSubject((dto: UserUpdateDto) =>
-		this.userApi
-			.update(this.dialogData.user._id, dto)
-			.then(() => this.authService.refresh().then(({ user }) => (this.user = user)))
+	protected readonly requestStateUpdate$ = new RequestStateSubject(
+		(dto: UserUpdateDto) =>
+			this.userApi
+				.update(this.dialogData.user._id, dto)
+				.then(() =>
+					this.authService
+						.refresh()
+						.then(({ user }) => (this.user = user))
+				)
 	);
 
 	/**

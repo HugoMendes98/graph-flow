@@ -2,7 +2,11 @@ import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { Module } from "@nestjs/common";
 import { APP_FILTER } from "@nestjs/core";
 
-import { ForeignKeyConstraintFilter, NotFoundFilter, UniqueConstraintFilter } from "./filters";
+import {
+	ForeignKeyConstraintFilter,
+	NotFoundFilter,
+	UniqueConstraintFilter
+} from "./filters";
 import ormConfig from "../orm.config";
 
 @Module({

@@ -1,5 +1,8 @@
 import { graphHasCycle } from "./graph.has-cycle";
-import { AdjacencyListTransformationParams, getAdjacencyList } from "../transformations";
+import {
+	AdjacencyListTransformationParams,
+	getAdjacencyList
+} from "../transformations";
 
 describe("graphHasCycle", () => {
 	it("should not have a cycle", () => {
@@ -37,7 +40,10 @@ describe("graphHasCycle", () => {
 				],
 				nodes: [
 					{ inputs: [{ _id: 10 }], outputs: [{ _id: 11 }] },
-					{ inputs: [{ _id: 20 }, { _id: 21 }], outputs: [{ _id: 22 }] },
+					{
+						inputs: [{ _id: 20 }, { _id: 21 }],
+						outputs: [{ _id: 22 }]
+					},
 					{ inputs: [{ _id: 30 }, { _id: 31 }], outputs: [] }
 				]
 			},
@@ -83,7 +89,7 @@ describe("graphHasCycle", () => {
 		];
 
 		for (const graph of graphs) {
-			expect(graphHasCycle(getAdjacencyList(graph))).toBeFalse();
+			expect(graphHasCycle(getAdjacencyList(graph))).toBe(false);
 		}
 	});
 
@@ -114,7 +120,10 @@ describe("graphHasCycle", () => {
 				nodes: [
 					{ inputs: [{ _id: 10 }], outputs: [{ _id: 11 }] },
 					{ inputs: [{ _id: 20 }], outputs: [{ _id: 22 }] },
-					{ inputs: [{ _id: 30 }, { _id: 31 }], outputs: [{ _id: 32 }] }
+					{
+						inputs: [{ _id: 30 }, { _id: 31 }],
+						outputs: [{ _id: 32 }]
+					}
 				]
 			},
 			{
@@ -136,7 +145,7 @@ describe("graphHasCycle", () => {
 		];
 
 		for (const graph of graphs) {
-			expect(graphHasCycle(getAdjacencyList(graph))).toBeTrue();
+			expect(graphHasCycle(getAdjacencyList(graph))).toBe(true);
 		}
 	});
 });

@@ -29,7 +29,9 @@ describe("NodeCreateDto", () => {
 				transformOptions
 			) as typeof toTransform;
 
-			expect(transformed.behavior).toBeInstanceOf(NodeBehaviorVariableDto);
+			expect(transformed.behavior).toBeInstanceOf(
+				NodeBehaviorVariableDto
+			);
 
 			expect(transformed.behavior.type).toBe(toTransform.behavior.type);
 			expect(transformed.behavior.value).toBe(toTransform.behavior.value);
@@ -52,11 +54,17 @@ describe("NodeCreateDto", () => {
 			) as typeof toTransform;
 
 			expect(transformed.behavior).toBeInstanceOf(NodeBehaviorTriggerDto);
-			expect(transformed.behavior.trigger).toBeInstanceOf(NodeTriggerCronDto);
+			expect(transformed.behavior.trigger).toBeInstanceOf(
+				NodeTriggerCronDto
+			);
 
 			expect(transformed.behavior.type).toBe(toTransform.behavior.type);
-			expect(transformed.behavior.trigger.type).toBe(toTransform.behavior.trigger.type);
-			expect(transformed.behavior.trigger.cron).toBe(toTransform.behavior.trigger.cron);
+			expect(transformed.behavior.trigger.type).toBe(
+				toTransform.behavior.trigger.type
+			);
+			expect(transformed.behavior.trigger.cron).toBe(
+				toTransform.behavior.trigger.cron
+			);
 		});
 
 		it("should fail when creating PARAMETER nodes", async () => {
@@ -69,8 +77,14 @@ describe("NodeCreateDto", () => {
 				name: "node"
 			};
 
-			const transformedIn = plainToInstance(NodeCreateDto, nodeIn, transformOptions);
-			expect(transformedIn.behavior).not.toBeInstanceOf(NodeBehaviorParameterInputDto);
+			const transformedIn = plainToInstance(
+				NodeCreateDto,
+				nodeIn,
+				transformOptions
+			);
+			expect(transformedIn.behavior).not.toBeInstanceOf(
+				NodeBehaviorParameterInputDto
+			);
 			expect(await validate(transformedIn)).toHaveLength(1);
 
 			const nodeOut: NodeCreateDto = {
@@ -82,8 +96,14 @@ describe("NodeCreateDto", () => {
 				name: "node"
 			};
 
-			const transformedOut = plainToInstance(NodeCreateDto, nodeOut, transformOptions);
-			expect(transformedOut.behavior).not.toBeInstanceOf(NodeBehaviorParameterOutputDto);
+			const transformedOut = plainToInstance(
+				NodeCreateDto,
+				nodeOut,
+				transformOptions
+			);
+			expect(transformedOut.behavior).not.toBeInstanceOf(
+				NodeBehaviorParameterOutputDto
+			);
 			expect(await validate(transformedOut)).toHaveLength(1);
 		});
 	});
@@ -92,7 +112,11 @@ describe("NodeCreateDto", () => {
 		it("should transform `kind=VERTEX` correctly", () => {
 			const toTransform = {
 				behavior: { type: NodeBehaviorType.VARIABLE, value: 0 },
-				kind: { __graph: 10, position: { x: 11, y: 12 }, type: NodeKindType.VERTEX },
+				kind: {
+					__graph: 10,
+					position: { x: 11, y: 12 },
+					type: NodeKindType.VERTEX
+				},
 				name: "a node"
 			} as const satisfies NodeCreateDto;
 
@@ -106,14 +130,22 @@ describe("NodeCreateDto", () => {
 
 			expect(transformed.kind.type).toBe(toTransform.kind.type);
 			expect(transformed.kind.__graph).toBe(toTransform.kind.__graph);
-			expect(transformed.kind.position.x).toBe(toTransform.kind.position.x);
-			expect(transformed.kind.position.y).toBe(toTransform.kind.position.y);
+			expect(transformed.kind.position.x).toBe(
+				toTransform.kind.position.x
+			);
+			expect(transformed.kind.position.y).toBe(
+				toTransform.kind.position.y
+			);
 		});
 
 		it("should validate `kind=VERTEX` correctly", async () => {
 			const toTransform = {
 				behavior: { type: NodeBehaviorType.VARIABLE, value: 0 },
-				kind: { __graph: 10, position: { x: 11, y: 12 }, type: NodeKindType.VERTEX },
+				kind: {
+					__graph: 10,
+					position: { x: 11, y: 12 },
+					type: NodeKindType.VERTEX
+				},
 				name: "a node"
 			} as const satisfies NodeCreateDto;
 

@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Patch,
+	Post,
+	Query
+} from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { GraphDto } from "~/lib/common/app/graph/dtos";
 import {
@@ -82,6 +91,8 @@ export class WorkflowController implements WorkflowEndpoint<WorkflowEntity> {
 	@ApiOkResponse({ type: GraphDto })
 	@Get(`/:id${WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT}`)
 	public lookForGraph(@Param("id") id: number) {
-		return this.findById(id).then(({ __graph }) => this.graphService.findById(__graph));
+		return this.findById(id).then(({ __graph }) =>
+			this.graphService.findById(__graph)
+		);
 	}
 }

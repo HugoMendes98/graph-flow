@@ -12,10 +12,20 @@ import { NodeIoType } from "~/lib/common/app/node/io";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 import { FindResultsDto } from "~/lib/common/dtos/find-results.dto";
-import { EntitiesToPopulate, EntityFilter, EntityFindParams } from "~/lib/common/endpoints";
+import {
+	EntitiesToPopulate,
+	EntityFilter,
+	EntityFindParams
+} from "~/lib/common/endpoints";
 
-import { NodeBehaviorParameterInput, NodeBehaviorParameterOutput } from "./behaviors";
-import { NodeNoTemplateParameterException, NodeReadonlyKindTypeException } from "./exceptions";
+import {
+	NodeBehaviorParameterInput,
+	NodeBehaviorParameterOutput
+} from "./behaviors";
+import {
+	NodeNoTemplateParameterException,
+	NodeReadonlyKindTypeException
+} from "./exceptions";
 import { NodeInputEntity } from "./input/node-input.entity";
 import { NodeInputCreate } from "./input/node-input.types";
 import { NODE_KIND_ENTITIES, NodeKindEntity } from "./kind";
@@ -66,14 +76,19 @@ export class NodeService
 		eventManager.registerSubscriber({
 			getSubscribedEntities: () => [...NODE_KIND_ENTITIES],
 
-			beforeUpdate(args: EventArgs<NodeKindEntity>): Promise<void> | void {
+			beforeUpdate(
+				args: EventArgs<NodeKindEntity>
+			): Promise<void> | void {
 				const { changeSet } = args;
 				if (!changeSet) {
 					return;
 				}
 
 				const { entity, originalEntity } = changeSet;
-				if (!originalEntity?.type || originalEntity.type !== entity.type) {
+				if (
+					!originalEntity?.type ||
+					originalEntity.type !== entity.type
+				) {
 					throw new NodeReadonlyKindTypeException();
 				}
 			}
@@ -97,16 +112,22 @@ export class NodeService
 			throw new NodeNoTemplateParameterException();
 		}
 
-		if (behavior.type !== NodeBehaviorType.TRIGGER || kind.type !== NodeKindType.VERTEX) {
+		if (
+			behavior.type !== NodeBehaviorType.TRIGGER ||
+			kind.type !== NodeKindType.VERTEX
+		) {
 			// Nothing to verify it the node is not a `trigger`
 			return;
 		}
 
 		// TODO: A way to add custom relation in the EntityRelationsKey?
 		const behaviorRelation: keyof GraphEntity = "nodeBehavior";
-		const { nodeBehavior, workflow } = await this.graphService.findById(kind.__graph, {
-			populate: { [behaviorRelation]: true, workflow: true }
-		});
+		const { nodeBehavior, workflow } = await this.graphService.findById(
+			kind.__graph,
+			{
+				populate: { [behaviorRelation]: true, workflow: true }
+			}
+		);
 
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- exists (reversed relation)
 		if (nodeBehavior) {
@@ -124,7 +145,7 @@ export class NodeService
 				{ limit: 0 }
 			);
 
-			if (total > 0) {
+			if (0 < total) {
 				throw new GraphNodeTriggerInWorkflowException();
 			}
 		}
@@ -148,11 +169,21 @@ export class NodeService
 	) {
 		// GraphNodeDto
 		return this.findAndCount(
-			{ $and: [{ kind: { __graph: graphId, type: NodeKindType.VERTEX } }, where] },
+			{
+				$and: [
+					{ kind: { __graph: graphId, type: NodeKindType.VERTEX } },
+					where
+				]
+			},
 			params,
 			options
 		) as Promise<
-			FindResultsDto<EntityLoaded<DtoToEntity<GraphNodeDto & Pick<NodeEntity, "toJSON">>, P>>
+			FindResultsDto<
+				EntityLoaded<
+					DtoToEntity<GraphNodeDto & Pick<NodeEntity, "toJSON">>,
+					P
+				>
+			>
 		>;
 	}
 
@@ -181,7 +212,7 @@ export class NodeService
 					} satisfies NodeOutputCreate as never);
 				}
 
-				if (outputs.length + inputs.length > 0) {
+				if (0 < outputs.length + inputs.length) {
 					await em.flush();
 
 					// "Refresh" relations
@@ -202,12 +233,16 @@ export class NodeService
 	 * @returns The updated node
 	 */
 	public addCategory(nodeId: EntityId, categoryId: EntityId) {
-		return this.findById(nodeId, { populate: { categories: true } }).then(async node => {
-			node.categories.add(Reference.createFromPK(CategoryEntity, categoryId));
+		return this.findById(nodeId, { populate: { categories: true } }).then(
+			async node => {
+				node.categories.add(
+					Reference.createFromPK(CategoryEntity, categoryId)
+				);
 
-			await this.repository.getEntityManager().persistAndFlush(node);
-			return node;
-		});
+				await this.repository.getEntityManager().persistAndFlush(node);
+				return node;
+			}
+		);
 	}
 
 	/**
@@ -219,20 +254,22 @@ export class NodeService
 	 * @returns The updated node
 	 */
 	public removeCategory(nodeId: EntityId, categoryId: EntityId) {
-		return this.findById(nodeId, { populate: { categories: true } }).then(async node => {
-			const categories = await node.categories.matching({
-				where: { _id: { $eq: categoryId } }
-			});
+		return this.findById(nodeId, { populate: { categories: true } }).then(
+			async node => {
+				const categories = await node.categories.matching({
+					where: { _id: { $eq: categoryId } }
+				});
 
-			if (categories.length === 0) {
+				if (categories.length === 0) {
+					return node;
+				}
+
+				node.categories.remove(categories[0]);
+
+				await this.repository.getEntityManager().persistAndFlush(node);
 				return node;
 			}
-
-			node.categories.remove(categories[0]);
-
-			await this.repository.getEntityManager().persistAndFlush(node);
-			return node;
-		});
+		);
 	}
 
 	/**
@@ -309,7 +346,9 @@ export class NodeService
 	 * @param toCreate the initial value
 	 * @returns the transformed (when needed) data
 	 */
-	private async transformBeforeCreate(toCreate: NodeCreateEntity): Promise<NodeCreateEntity> {
+	private async transformBeforeCreate(
+		toCreate: NodeCreateEntity
+	): Promise<NodeCreateEntity> {
 		const { behavior, kind } = toCreate;
 
 		if (
@@ -320,7 +359,10 @@ export class NodeService
 			// This will create empty entities, so the ORM create the missing relation during the transaction.
 			// Linked to the repository create function
 			const { data } = await this.findAndCount({
-				behavior: { __graph: kind.__graph, type: NodeBehaviorType.FUNCTION }
+				behavior: {
+					__graph: kind.__graph,
+					type: NodeBehaviorType.FUNCTION
+				}
 			});
 			if (data[0]?.behavior.type !== NodeBehaviorType.FUNCTION) {
 				// Let the other validation throw the error
@@ -340,12 +382,18 @@ export class NodeService
 				behavior.type === NodeBehaviorType.PARAMETER_IN
 					? ({
 							...behavior,
-							nodeInput: em.create(NodeInputEntity, ioToCreate as NodeInputEntity)
+							nodeInput: em.create(
+								NodeInputEntity,
+								ioToCreate as NodeInputEntity
+							)
 					  } satisfies NodeBehaviorParameterInputCreateDto &
 							Pick<NodeBehaviorParameterInput, "nodeInput">)
 					: ({
 							...behavior,
-							nodeOutput: em.create(NodeOutputEntity, ioToCreate as NodeOutputEntity)
+							nodeOutput: em.create(
+								NodeOutputEntity,
+								ioToCreate as NodeOutputEntity
+							)
 					  } satisfies NodeBehaviorParameterOutputCreateDto &
 							Pick<NodeBehaviorParameterOutput, "nodeOutput">);
 

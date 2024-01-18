@@ -7,17 +7,21 @@ import { jsonify } from "~/lib/common/utils/jsonify";
 
 import { GraphComponent } from "./graph.component";
 
-const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "actions" | "graph"> => {
+const getGraphContent = (
+	graph: GraphDto
+): Pick<GraphComponent, "actions" | "graph"> => {
 	const { arcs: gArcs, nodes: gNodes } = jsonify(BASE_SEED.graph);
 
 	const nodes = gNodes.filter(
-		({ kind }) => kind.type === NodeKindType.VERTEX && kind.__graph === graph._id
+		({ kind }) =>
+			kind.type === NodeKindType.VERTEX && kind.__graph === graph._id
 	);
 
 	const arcs = gArcs.filter(({ __from, __to }) =>
 		nodes.some(
 			({ inputs, outputs }) =>
-				inputs.some(({ _id }) => _id === __to) || outputs.some(({ _id }) => _id === __from)
+				inputs.some(({ _id }) => _id === __to) ||
+				outputs.some(({ _id }) => _id === __from)
 		)
 	);
 
@@ -28,7 +32,11 @@ const getGraphContent = (graph: GraphDto): Pick<GraphComponent, "actions" | "gra
 					action("Arc to create")(toCreate);
 
 					const arc = arcs[arcs.length - 1];
-					return Promise.resolve({ ...arc, ...toCreate, _id: arc._id * 10 });
+					return Promise.resolve({
+						...arc,
+						...toCreate,
+						_id: arc._id * 10
+					});
 				},
 				remove: arc =>
 					Promise.resolve().then(() => {

@@ -20,7 +20,9 @@ export const TestButtonDisabled: Story = {
 	play: async ({ canvasElement }) => {
 		const txtEmail = canvasElement.querySelector("[name=email]")!;
 		const txtPassword = canvasElement.querySelector("[name=password]")!;
-		const btnLogin = canvasElement.querySelector<HTMLButtonElement>("button[type=submit]")!;
+		const btnLogin = canvasElement.querySelector<HTMLButtonElement>(
+			"button[type=submit]"
+		)!;
 
 		await expect(btnLogin.disabled).toBe(true);
 

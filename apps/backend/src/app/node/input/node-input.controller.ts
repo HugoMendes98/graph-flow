@@ -1,11 +1,22 @@
-import { Body, Controller, Delete, Param, Patch, Post, UseInterceptors } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Delete,
+	Param,
+	Patch,
+	Post,
+	UseInterceptors
+} from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import {
 	NodeInputCreateDto,
 	NodeInputDto,
 	NodeInputUpdateDto
 } from "~/lib/common/app/node/dtos/input";
-import { generateNodeInputsEndpoint, NodeInputEndpoint } from "~/lib/common/app/node/endpoints";
+import {
+	generateNodeInputsEndpoint,
+	NodeInputEndpoint
+} from "~/lib/common/app/node/endpoints";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { UnshiftParameters } from "~/lib/common/types";
 
@@ -13,7 +24,11 @@ import { NodeInputEntity } from "./node-input.entity";
 import { NodeInputService } from "./node-input.service";
 import { UseAuth } from "../../auth/auth.guard";
 import { NodeEntity } from "../node.entity";
-import { ApiNodeParam, NodeInterceptedParam, NodeInterceptor } from "../node.interceptor";
+import {
+	ApiNodeParam,
+	NodeInterceptedParam,
+	NodeInterceptor
+} from "../node.interceptor";
 
 /** @internal */
 type EndpointBase = NodeInputEndpoint<NodeInputEntity>;
@@ -27,7 +42,11 @@ type EndpointTransformed = {
  * {@link NodeInputEntity} controller
  */
 @ApiTags("Node inputs")
-@Controller(generateNodeInputsEndpoint(`:${NodeInterceptor.PATH_PARAM}` as unknown as EntityId))
+@Controller(
+	generateNodeInputsEndpoint(
+		`:${NodeInterceptor.PATH_PARAM}` as unknown as EntityId
+	)
+)
 @UseAuth()
 @UseInterceptors(NodeInterceptor)
 export class NodeInputController implements EndpointTransformed {
@@ -41,7 +60,10 @@ export class NodeInputController implements EndpointTransformed {
 	@ApiCreatedResponse({ type: NodeInputDto })
 	@ApiNodeParam()
 	@Post()
-	public create(@NodeInterceptedParam() node: NodeEntity, @Body() body: NodeInputCreateDto) {
+	public create(
+		@NodeInterceptedParam() node: NodeEntity,
+		@Body() body: NodeInputCreateDto
+	) {
 		return this.service.createFromNode(node, body);
 	}
 
@@ -59,7 +81,10 @@ export class NodeInputController implements EndpointTransformed {
 	@ApiNodeParam()
 	@ApiOkResponse({ type: NodeInputDto })
 	@Delete("/:id")
-	public delete(@NodeInterceptedParam() node: NodeEntity, @Param("id") id: number) {
+	public delete(
+		@NodeInterceptedParam() node: NodeEntity,
+		@Param("id") id: number
+	) {
 		return this.service.deleteFromNode(node, id);
 	}
 }

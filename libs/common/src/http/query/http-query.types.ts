@@ -71,5 +71,8 @@ export type QueryEncoded<T> = T extends QueryValue
  * An object that is encoded.
  */
 export interface QueryEncodedObject {
-	[key: string]: Array<QueryEncodedObject | string> | QueryEncodedObject | string;
+	[key: string]:
+		| Array<QueryEncodedObject | string>
+		| QueryEncodedObject
+		| string;
 }

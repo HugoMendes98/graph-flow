@@ -1,4 +1,9 @@
-import { ArgumentMetadata, Injectable, ValidationError, ValidationPipe } from "@nestjs/common";
+import {
+	ArgumentMetadata,
+	Injectable,
+	ValidationError,
+	ValidationPipe
+} from "@nestjs/common";
 import { ValidationPipeOptions } from "@nestjs/common/pipes/validation.pipe";
 import { plainToInstance, instanceToPlain } from "class-transformer";
 import { ValidatorOptions } from "class-validator";
@@ -36,7 +41,10 @@ export class AppValidationPipe extends ValidationPipe {
 	}
 
 	/** @inheritDoc */
-	public override async transform(value: unknown, metadata: ArgumentMetadata) {
+	public override async transform(
+		value: unknown,
+		metadata: ArgumentMetadata
+	) {
 		if (metadata.type === "custom" || metadata.type === "param") {
 			return super.transform(value, metadata);
 		}
@@ -54,7 +62,10 @@ export class AppValidationPipe extends ValidationPipe {
 			value = jsonify(value);
 		}
 
-		return instanceToPlain(await super.transform(value, metadata), transformOptions) as never;
+		return instanceToPlain(
+			await super.transform(value, metadata),
+			transformOptions
+		) as never;
 	}
 
 	/** @inheritDoc */

@@ -1,7 +1,10 @@
 import { type Collection } from "@mikro-orm/core";
 import { ExcludeFunctions, OperatorMap } from "@mikro-orm/core/typings";
 
-export type EntityFilterValue<T> = Omit<OperatorMap<T>, "$and" | "$not" | "$or">;
+export type EntityFilterValue<T> = Omit<
+	OperatorMap<T>,
+	"$and" | "$not" | "$or"
+>;
 
 export type EntityFilterObject<T> = {
 	[P in keyof T as ExcludeFunctions<T, P>]?: T[P] extends Date
@@ -17,7 +20,6 @@ export type EntityFilterObject<T> = {
 		: EntityFilterValue<T[P]> | T[P];
 };
 
-/* eslint-disable no-use-before-define -- recursive type */
 /**
  * Possible Logical operators for an entity
  */
@@ -45,6 +47,6 @@ export interface EntityFilterLogicalOperators<T> {
 	 */
 	$or?: ReadonlyArray<EntityFilter<T>>;
 }
-/* eslint-enable */
 
-export type EntityFilter<T> = EntityFilterLogicalOperators<T> & EntityFilterObject<T>;
+export type EntityFilter<T> = EntityFilterLogicalOperators<T> &
+	EntityFilterObject<T>;

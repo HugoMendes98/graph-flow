@@ -8,7 +8,10 @@ import { CanBeNull } from "../../../utils/validations";
 /**
  * Validation class for nullable `Date` properties.
  */
-export class WhereDateNullableDto extends WhereBaseDto implements EntityFilterValue<Date> {
+export class WhereDateNullableDto
+	extends WhereBaseDto
+	implements EntityFilterValue<Date>
+{
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */

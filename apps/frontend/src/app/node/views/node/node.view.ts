@@ -11,8 +11,8 @@ import { RequestStateSubject } from "~/lib/ng/lib/request-state";
 	imports: []
 })
 export class NodeView {
-	protected readonly requestState$ = new RequestStateSubject((nodeId: EntityId) =>
-		this.apiService.findById(nodeId)
+	protected readonly requestState$ = new RequestStateSubject(
+		(nodeId: EntityId) => this.apiService.findById(nodeId)
 	);
 
 	@Input({ required: true, transform: (query: string) => +query })

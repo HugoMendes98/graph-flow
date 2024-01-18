@@ -60,7 +60,9 @@ export abstract class FindResultsDto<T> {
  * @param dto The class to determine the result type
  * @returns The generated class
  */
-export function FindResultsDtoOf<T>(dto: Type<T>): Type<FindResultsDto<T> & { data: T[] }> {
+export function FindResultsDtoOf<T>(
+	dto: Type<T>
+): Type<FindResultsDto<T> & { data: T[] }> {
 	class ResultsDto extends FindResultsDto<T> {
 		@ApiProperty({ isArray: true, type: dto })
 		public declare data: T[];

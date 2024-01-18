@@ -26,11 +26,16 @@ export default composePlugins(withNx(), config => {
 					context &&
 					request &&
 					request.startsWith(moduleToAlias) &&
-					context.startsWith(path.resolve(__dirname, "../..", "node_modules"))
+					context.startsWith(
+						path.resolve(__dirname, "../..", "node_modules")
+					)
 				) {
 					// When the module is used from another `node_module`,
 					// load it normally (as external: https://webpack.js.org/configuration/externals/)
-					callback(undefined, `${dependencyType ?? "commonjs"} ${request}`);
+					callback(
+						undefined,
+						`${dependencyType ?? "commonjs"} ${request}`
+					);
 					return;
 				}
 

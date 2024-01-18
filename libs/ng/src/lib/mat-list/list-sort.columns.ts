@@ -3,7 +3,10 @@ import { OrderValue } from "~/lib/common/endpoints";
 /**
  * A single column
  */
-export interface ListSortColumn<T extends number | string, U extends OrderValue = OrderValue> {
+export interface ListSortColumn<
+	T extends number | string,
+	U extends OrderValue = OrderValue
+> {
 	/**
 	 * The column identifier
 	 */
@@ -31,7 +34,9 @@ export class ListSortColumns<
 	 *
 	 * @param columns the initial columns
 	 */
-	public constructor(public readonly columns: ReadonlyArray<ListSortColumn<T, U>> = []) {}
+	public constructor(
+		public readonly columns: ReadonlyArray<ListSortColumn<T, U>> = []
+	) {}
 
 	/**
 	 * Finds an item from the columns

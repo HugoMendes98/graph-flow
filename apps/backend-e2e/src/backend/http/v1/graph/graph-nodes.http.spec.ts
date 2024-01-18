@@ -12,12 +12,18 @@ describe("Backend HTTP GraphNodes", () => {
 	const graphClient = new GraphHttpClient();
 
 	const dbHelper = DbE2eHelper.getHelper("base");
-	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<typeof dbHelper.db>;
+	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<
+		typeof dbHelper.db
+	>;
 
 	const { graphs, nodes } = db.graph;
 	const [graphRef] = graphs;
 	const nodesRef = nodes
-		.filter(({ kind }) => kind.type === NodeKindType.VERTEX && kind.__graph === graphRef._id)
+		.filter(
+			({ kind }) =>
+				kind.type === NodeKindType.VERTEX &&
+				kind.__graph === graphRef._id
+		)
 		.map(node => omit(node, ["__categories"]));
 
 	const client = graphClient.forNodes(graphRef._id);
@@ -39,7 +45,10 @@ describe("Backend HTTP GraphNodes", () => {
 				data,
 				pagination: { total }
 			} = await client.findMany({
-				params: { limit, order: [{ _id: "asc" }] } satisfies NodeQueryDto
+				params: {
+					limit,
+					order: [{ _id: "asc" }]
+				} satisfies NodeQueryDto
 			});
 
 			expect(data).toHaveLength(limit);
@@ -69,7 +78,9 @@ describe("Backend HTTP GraphNodes", () => {
 
 		it("should fail when getting one from another graph", async () => {
 			const node = nodes.find(
-				({ kind }) => kind.type === NodeKindType.VERTEX && kind.__graph !== graphRef._id
+				({ kind }) =>
+					kind.type === NodeKindType.VERTEX &&
+					kind.__graph !== graphRef._id
 			);
 			expect(node).toBeDefined();
 

@@ -20,7 +20,9 @@ describe("WhereBooleanDto", () => {
 			];
 
 			for (const where of wheres) {
-				const errors = validate(plainToInstance(WhereBooleanDto, where));
+				const errors = validate(
+					plainToInstance(WhereBooleanDto, where)
+				);
 				expect(errors).toHaveLength(0);
 			}
 		});
@@ -29,7 +31,9 @@ describe("WhereBooleanDto", () => {
 			const wheres: WhereBooleanNullableDto[] = [{ $eq: null }];
 
 			for (const where of wheres) {
-				const errors = validate(plainToInstance(WhereBooleanNullableDto, where));
+				const errors = validate(
+					plainToInstance(WhereBooleanNullableDto, where)
+				);
 				expect(errors).toHaveLength(0);
 			}
 		});
@@ -40,12 +44,21 @@ describe("WhereBooleanDto", () => {
 				[{ $eq: null as unknown as boolean }, 1],
 				// Values are cast in array (when possible)
 				[{ $exists: 2 as unknown as boolean }, 1],
-				// eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- For test
-				[{ $ne: new Date() as unknown as boolean, a: 2 } as WhereBooleanDto, 2]
+
+				[
+					{
+						$ne: new Date() as unknown as boolean,
+						// @ts-expect-error -- Want an additional property for testing
+						a: 2
+					},
+					2
+				]
 			];
 
 			for (const [where, expectedNError] of toFails) {
-				const errors = validate(plainToInstance(WhereBooleanDto, where));
+				const errors = validate(
+					plainToInstance(WhereBooleanDto, where)
+				);
 				expect(errors).toHaveLength(expectedNError);
 			}
 		});

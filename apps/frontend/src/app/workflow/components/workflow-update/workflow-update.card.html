@@ -1,14 +1,25 @@
 <mat-card>
 	<mat-card-header class="mb-4">
-		<mat-card-title translate>entities.workflow.__meta.singular</mat-card-title>
+		<mat-card-title translate
+			>entities.workflow.__meta.singular</mat-card-title
+		>
 	</mat-card-header>
 
 	<mat-card-content>
-		<form class="flex flex-col gap-4" (ngSubmit)="update.next(form.getRawValue())">
+		<form
+			class="flex flex-col gap-4"
+			(ngSubmit)="update.next(form.getRawValue())"
+		>
 			<mat-form-field>
 				<mat-label translate>entities.workflow.name</mat-label>
-				<input matInput type="text" [formControl]="form.controls.name" />
-				<mat-error>{{ form.controls.name.errors | translateControlError }}</mat-error>
+				<input
+					matInput
+					type="text"
+					[formControl]="form.controls.name"
+				/>
+				<mat-error>{{
+					form.controls.name.errors | translateControlError
+				}}</mat-error>
 			</mat-form-field>
 
 			<div class="flex justify-c-end">
@@ -28,7 +39,10 @@
 			</button>
 			<mat-progress-bar *ngIf="loading" mode="query" />
 
-			<mat-error *ngIf="error" class="align-i-center flex flex-row gap-2 mx-4 my-2">
+			<mat-error
+				*ngIf="error"
+				class="align-i-center flex flex-row gap-2 mx-4 my-2"
+			>
 				<mat-icon>error_outline</mat-icon>
 				<span>{{ error.status | translateHttpError }}</span>
 			</mat-error>

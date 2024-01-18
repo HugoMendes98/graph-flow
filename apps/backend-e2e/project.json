@@ -14,7 +14,9 @@
 		"lint": {
 			"executor": "@nx/linter:eslint",
 			"options": {
-				"lintFilePatterns": ["apps/backend-e2e/**/*.{ts,js,md,json,yml}"]
+				"lintFilePatterns": [
+					"apps/backend-e2e/**/*.{ts,js,md,json,yml}"
+				]
 			},
 			"outputs": ["{options.outputFile}"]
 		}

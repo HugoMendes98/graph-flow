@@ -1,5 +1,8 @@
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
-import { NodeErrorCode, NodeInputReadonlyErrorCode } from "~/lib/common/app/node/error-codes";
+import {
+	NodeErrorCode,
+	NodeInputReadonlyErrorCode
+} from "~/lib/common/app/node/error-codes";
 
 import { NodeException } from "../../exceptions";
 
@@ -18,7 +21,9 @@ export class NodeInputReadonlyException extends NodeException {
 		errorCode: NodeInputReadonlyErrorCode,
 		behaviorType: NodeBehaviorType
 	) {
-		return `A node '${behaviorType}' can not ${this.getVerb(errorCode)} its inputs`;
+		return `A node '${behaviorType}' can not ${this.getVerb(
+			errorCode
+		)} its inputs`;
 	}
 
 	private static getVerb(errorCode: NodeInputReadonlyErrorCode): string {
@@ -38,7 +43,13 @@ export class NodeInputReadonlyException extends NodeException {
 	 * @param errorCode to use
 	 * @param behaviorType trying to update its inputs
 	 */
-	public constructor(errorCode: NodeInputReadonlyErrorCode, behaviorType: NodeBehaviorType) {
-		super(errorCode, NodeInputReadonlyException.createMessage(errorCode, behaviorType));
+	public constructor(
+		errorCode: NodeInputReadonlyErrorCode,
+		behaviorType: NodeBehaviorType
+	) {
+		super(
+			errorCode,
+			NodeInputReadonlyException.createMessage(errorCode, behaviorType)
+		);
 	}
 }

@@ -1,6 +1,12 @@
-import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
+import {
+	NotFoundError,
+	UniqueConstraintViolationException
+} from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { CategoryCreateDto, CategoryUpdateDto } from "~/lib/common/app/category/dtos";
+import {
+	CategoryCreateDto,
+	CategoryUpdateDto
+} from "~/lib/common/app/category/dtos";
 
 import { CategoryModule } from "./category.module";
 import { CategoryService } from "./category.service";
@@ -38,8 +44,11 @@ describe("CategoryService", () => {
 			});
 
 			it("should fail when getting one by an unknown id", async () => {
-				const id = Math.max(...dbTest.db.categories.map(({ _id }) => _id)) + 1;
-				await expect(service.findById(id)).rejects.toThrow(NotFoundError);
+				const id =
+					Math.max(...dbTest.db.categories.map(({ _id }) => _id)) + 1;
+				await expect(service.findById(id)).rejects.toThrow(
+					NotFoundError
+				);
 			});
 		});
 
@@ -66,7 +75,9 @@ describe("CategoryService", () => {
 			});
 
 			it("should fail when a uniqueness constraint is not respected", async () => {
-				const toCreate: CategoryCreateDto = { name: dbTest.db.categories[0].name };
+				const toCreate: CategoryCreateDto = {
+					name: dbTest.db.categories[0].name
+				};
 				await expect(service.create(toCreate)).rejects.toThrow(
 					UniqueConstraintViolationException
 				);
@@ -82,7 +93,9 @@ describe("CategoryService", () => {
 
 				// Update an entity and check its content
 				const [category] = dbTest.db.categories;
-				const toUpdate: CategoryUpdateDto = { name: `${category.name}-${category.name}` };
+				const toUpdate: CategoryUpdateDto = {
+					name: `${category.name}-${category.name}`
+				};
 				const updated = await service.update(category._id, toUpdate);
 				expect(updated.name).toBe(toUpdate.name);
 
@@ -107,9 +120,9 @@ describe("CategoryService", () => {
 				const [category1, category2] = dbTest.db.categories;
 
 				const toUpdate: CategoryUpdateDto = { name: category1.name };
-				await expect(service.update(category2._id, toUpdate)).rejects.toThrow(
-					UniqueConstraintViolationException
-				);
+				await expect(
+					service.update(category2._id, toUpdate)
+				).rejects.toThrow(UniqueConstraintViolationException);
 			});
 		});
 
@@ -128,11 +141,14 @@ describe("CategoryService", () => {
 				// Check that the entity is really deleted
 				const { data: after } = await service.findAndCount();
 				expect(after).toHaveLength(before.length - 1);
-				expect(after.some(({ _id }) => _id === deleted._id)).toBeFalse();
+				expect(
+					after.some(({ _id }) => _id === deleted._id)
+				).toBe(false);
 			});
 
 			it("should not delete an unknown id", async () => {
-				const id = Math.max(...dbTest.db.categories.map(({ _id }) => _id)) + 1;
+				const id =
+					Math.max(...dbTest.db.categories.map(({ _id }) => _id)) + 1;
 				await expect(service.delete(id)).rejects.toThrow(NotFoundError);
 			});
 		});

@@ -82,8 +82,10 @@ describe("WorkflowExecutor", () => {
 			__to: nodeCodeInput._id
 		});
 
-		const beforeExecutionTime = new Date().getTime();
-		const state$ = await service.findById(_id).then(w => executor.execute(w));
+		const beforeExecutionTime = Date.now();
+		const state$ = await service
+			.findById(_id)
+			.then(w => executor.execute(w));
 		const trace: Record<GraphExecuteStateType, number[]> = {
 			"propagation-enter": [],
 			"propagation-leave": [],
@@ -107,7 +109,9 @@ describe("WorkflowExecutor", () => {
 		expect(trace["resolution-end"]).toHaveLength(2);
 
 		const expected = [nodeTrigger._id, nodeCode._id].sort();
-		expect(trace["resolution-start"].slice().sort()).toStrictEqual(expected);
+		expect(trace["resolution-start"].slice().sort()).toStrictEqual(
+			expected
+		);
 		expect(trace["resolution-end"].slice().sort()).toStrictEqual(expected);
 
 		// --- Test executed value

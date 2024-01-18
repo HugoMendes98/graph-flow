@@ -37,7 +37,12 @@ body {
 	@each $breakpoint, $_ in utils.$breakpoints {
 		@include utils.screen-breakpoint($breakpoint) {
 			@include ng.tw-base(utils.$spacing, $colors, $breakpoint);
-			@include ng.tw-base(utils.$spacing, $colors, "#{$breakpoint}\\/hover", "hover");
+			@include ng.tw-base(
+				utils.$spacing,
+				$colors,
+				"#{$breakpoint}\\/hover",
+				"hover"
+			);
 		}
 
 		@include utils.screen-breakpoint($breakpoint, true) {

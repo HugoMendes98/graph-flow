@@ -59,7 +59,10 @@ export class NodeEntity extends EntityBase implements DtoToEntity<NodeDto> {
 	})
 	public readonly outputs = new Collection<NodeOutputEntity>(this);
 
-	@ManyToMany(() => CategoryEntity, ({ nodes }) => nodes, { hidden: true, owner: true })
+	@ManyToMany(() => CategoryEntity, ({ nodes }) => nodes, {
+		hidden: true,
+		owner: true
+	})
 	public readonly categories? = new Collection<CategoryEntity>(this);
 
 	/** @inheritDoc */

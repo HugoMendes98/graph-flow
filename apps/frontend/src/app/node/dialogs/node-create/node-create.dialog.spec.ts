@@ -14,7 +14,9 @@ describe("NodeCreateDialog", () => {
 		})
 			.overrideProvider(MAT_DIALOG_DATA, {
 				useValue: {
-					initialData: { kind: { active: true, type: NodeKindType.TEMPLATE } }
+					initialData: {
+						kind: { active: true, type: NodeKindType.TEMPLATE }
+					}
 				} satisfies NodeCreateDialogData
 			})
 			.overrideProvider(MatDialogRef, { useValue: {} })

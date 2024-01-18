@@ -10,5 +10,6 @@ import { GraphDto } from "../dtos";
 export const GRAPHS_ENDPOINT_PREFIX = "/v1/graphs";
 
 export type GraphJSON = Jsonify<GraphDto>;
-export type GraphEndpoint<T extends DtoToEntity<GraphDto> | GraphJSON = GraphJSON> =
-	EntityReadEndpoint<T>;
+export type GraphEndpoint<
+	T extends DtoToEntity<GraphDto> | GraphJSON = GraphJSON
+> = EntityReadEndpoint<T>;

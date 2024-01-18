@@ -50,7 +50,10 @@
 			"executor": "@angular-devkit/build-angular:browser",
 			"options": {
 				"allowedCommonJsDependencies": ["validator"],
-				"assets": ["apps/frontend/src/favicon.ico", "apps/frontend/src/assets"],
+				"assets": [
+					"apps/frontend/src/favicon.ico",
+					"apps/frontend/src/assets"
+				],
 				"index": "apps/frontend/src/index.html",
 				"inlineStyleLanguage": "scss",
 				"main": "apps/frontend/src/main.ts",
@@ -81,7 +84,9 @@
 		"lint": {
 			"executor": "@nx/linter:eslint",
 			"options": {
-				"lintFilePatterns": ["apps/frontend/**/*.{ts,js,html,md,json,yml}"]
+				"lintFilePatterns": [
+					"apps/frontend/**/*.{ts,js,html,md,json,yml}"
+				]
 			},
 			"outputs": ["{options.outputFile}"]
 		},

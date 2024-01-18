@@ -18,7 +18,10 @@ import {
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
-import type { NODE_NAME_MIN_LENGTH, NodeCreateDto } from "~/lib/common/app/node/dtos";
+import type {
+	NODE_NAME_MIN_LENGTH,
+	NodeCreateDto
+} from "~/lib/common/app/node/dtos";
 import {
 	NODE_BEHAVIOR_TYPES,
 	NodeBehaviorType
@@ -46,7 +49,8 @@ export interface NodeCreateDialogData {
 	 *
 	 * Note!: only the type of behavior is taken
 	 */
-	initialData: Partial<Pick<NodeCreateDto, "behavior" | "name">> & Pick<NodeCreateDto, "kind">;
+	initialData: Partial<Pick<NodeCreateDto, "behavior" | "name">> &
+		Pick<NodeCreateDto, "kind">;
 }
 /**
  * The possible (when not canceled) results from the dialog
@@ -84,19 +88,20 @@ export class NodeCreateDialog {
 	//  - Create `trigger` and subtypes
 
 	/** Default behavior types when creating a node template */
-	public static readonly NODE_TEMPLATE_BEHAVIOR_TYPES = NODE_BEHAVIOR_TYPES.filter(
-		(
-			type
-		): type is Exclude<
-			NodeBehaviorType,
-			| NodeBehaviorType.PARAMETER_IN
-			| NodeBehaviorType.PARAMETER_OUT
-			| NodeBehaviorType.REFERENCE
-		> =>
-			type !== NodeBehaviorType.PARAMETER_IN &&
-			type !== NodeBehaviorType.PARAMETER_OUT &&
-			type !== NodeBehaviorType.REFERENCE
-	);
+	public static readonly NODE_TEMPLATE_BEHAVIOR_TYPES =
+		NODE_BEHAVIOR_TYPES.filter(
+			(
+				type
+			): type is Exclude<
+				NodeBehaviorType,
+				| NodeBehaviorType.PARAMETER_IN
+				| NodeBehaviorType.PARAMETER_OUT
+				| NodeBehaviorType.REFERENCE
+			> =>
+				type !== NodeBehaviorType.PARAMETER_IN &&
+				type !== NodeBehaviorType.PARAMETER_OUT &&
+				type !== NodeBehaviorType.REFERENCE
+		);
 
 	/**
 	 * Opens this dialog
@@ -111,28 +116,31 @@ export class NodeCreateDialog {
 		data?: NodeCreateDialogData,
 		config?: Omit<MatDialogConfig, "data">
 	) {
-		return matDialog.open<NodeCreateDialog, NodeCreateDialogData, NodeCreateDialogResult>(
+		return matDialog.open<
 			NodeCreateDialog,
-			{
-				// Some default values
-				maxWidth: "600px",
-				minWidth: "350px",
-				width: "40%",
+			NodeCreateDialogData,
+			NodeCreateDialogResult
+		>(NodeCreateDialog, {
+			// Some default values
+			maxWidth: "600px",
+			minWidth: "350px",
+			width: "40%",
 
-				...config,
-				data
-			}
-		);
+			...config,
+			data
+		});
 	}
 
-	protected readonly requestCreate$ = new RequestStateSubject((body: NodeCreateDto) =>
-		this.nodeApi.create(body)
+	protected readonly requestCreate$ = new RequestStateSubject(
+		(body: NodeCreateDto) => this.nodeApi.create(body)
 	);
 
 	/** Creating form */
 	protected readonly form: FormGroup<
 		FormControlsFrom<Pick<NodeCreateDto, "name">> & {
-			behavior: FormControl<Exclude<NodeBehaviorType, NodeBehaviorType.REFERENCE>>;
+			behavior: FormControl<
+				Exclude<NodeBehaviorType, NodeBehaviorType.REFERENCE>
+			>;
 		}
 	>;
 	protected readonly BEHAVIOR_TYPES: ReadonlyArray<
@@ -150,7 +158,10 @@ export class NodeCreateDialog {
 	 */
 	public constructor(
 		@Inject(MAT_DIALOG_DATA) dialogData: NodeCreateDialogData,
-		private readonly matDialogRef: MatDialogRef<NodeCreateDialog, NodeCreateDialogResult>,
+		private readonly matDialogRef: MatDialogRef<
+			NodeCreateDialog,
+			NodeCreateDialogResult
+		>,
 		private readonly nodeApi: NodeApiService
 	) {
 		const {
@@ -159,14 +170,19 @@ export class NodeCreateDialog {
 		} = dialogData;
 
 		this.BEHAVIOR_TYPES = behaviorTypes.filter(
-			(type): type is Exclude<NodeBehaviorType, NodeBehaviorType.REFERENCE> =>
+			(
+				type
+			): type is Exclude<NodeBehaviorType, NodeBehaviorType.REFERENCE> =>
 				type !== NodeBehaviorType.REFERENCE
 		);
 		this.kind = kind;
 
 		this.form = new FormGroup({
 			behavior: new FormControl(
-				(behavior?.type ?? null) as Exclude<NodeBehaviorType, NodeBehaviorType.REFERENCE>,
+				(behavior?.type ?? null) as Exclude<
+					NodeBehaviorType,
+					NodeBehaviorType.REFERENCE
+				>,
 				{
 					nonNullable: true,
 					validators: [
@@ -174,7 +190,11 @@ export class NodeCreateDialog {
 						control =>
 							behaviorTypes.includes(control.value as never)
 								? null
-								: { "invalid-type": { type: control.value as never } }
+								: {
+										"invalid-type": {
+											type: control.value as never
+										}
+								  }
 					]
 				}
 			),
@@ -182,7 +202,9 @@ export class NodeCreateDialog {
 				nonNullable: true,
 				validators: [
 					Validators.required,
-					Validators.minLength(2 satisfies typeof NODE_NAME_MIN_LENGTH)
+					Validators.minLength(
+						2 satisfies typeof NODE_NAME_MIN_LENGTH
+					)
 				]
 			})
 		});
@@ -215,7 +237,10 @@ export class NodeCreateDialog {
 			case NodeBehaviorType.PARAMETER_OUT:
 				return { type };
 			case NodeBehaviorType.TRIGGER:
-				return { trigger: { cron: "* * * * 5", type: NodeTriggerType.CRON }, type };
+				return {
+					trigger: { cron: "* * * * 5", type: NodeTriggerType.CRON },
+					type
+				};
 			case NodeBehaviorType.VARIABLE:
 				return { type, value: "" };
 		}

@@ -20,7 +20,10 @@ const NodeProperty = ManyToOneFactory(() => NodeEntity, {
  * The entity for a `node-input`
  */
 @Entity({ customRepository: () => NodeInputRepository })
-export class NodeInputEntity extends EntityBase implements DtoToEntity<NodeInputDto> {
+export class NodeInputEntity
+	extends EntityBase
+	implements DtoToEntity<NodeInputDto>
+{
 	/** @inheritDoc */
 	@NodeProperty({ foreign: false })
 	public __node!: number;

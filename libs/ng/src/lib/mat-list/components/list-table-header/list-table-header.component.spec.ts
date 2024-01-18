@@ -7,19 +7,29 @@ import { ListSortOrderValueDefault } from "../../list-sort.columns";
 describe("ListTableHeaderComponent", () => {
 	describe("Static function", () => {
 		it("should get the next default direction", () => {
-			const nextDirection = ListTableHeaderComponent.DEFAULT_NEXT_DIRECTION();
+			const nextDirection =
+				ListTableHeaderComponent.DEFAULT_NEXT_DIRECTION();
 
-			expect(nextDirection(false)).toBe("asc" satisfies ListSortOrderValueDefault);
-			expect(nextDirection("asc")).toBe("desc" satisfies ListSortOrderValueDefault);
-			expect(nextDirection("desc")).toBeFalse();
+			expect(nextDirection(false)).toBe(
+				"asc" satisfies ListSortOrderValueDefault
+			);
+			expect(nextDirection("asc")).toBe(
+				"desc" satisfies ListSortOrderValueDefault
+			);
+			expect(nextDirection("desc")).toBe(false);
 		});
 
 		it("should get the next default direction (reversed)", () => {
-			const nextDirection = ListTableHeaderComponent.DEFAULT_NEXT_DIRECTION(true);
+			const nextDirection =
+				ListTableHeaderComponent.DEFAULT_NEXT_DIRECTION(true);
 
-			expect(nextDirection(false)).toBe("desc" satisfies ListSortOrderValueDefault);
-			expect(nextDirection("desc")).toBe("asc" satisfies ListSortOrderValueDefault);
-			expect(nextDirection("asc")).toBeFalse();
+			expect(nextDirection(false)).toBe(
+				"desc" satisfies ListSortOrderValueDefault
+			);
+			expect(nextDirection("desc")).toBe(
+				"asc" satisfies ListSortOrderValueDefault
+			);
+			expect(nextDirection("asc")).toBe(false);
 		});
 	});
 

@@ -1,5 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { NodeInputCreateDto, NodeInputUpdateDto } from "~/lib/common/app/node/dtos/input";
+import {
+	NodeInputCreateDto,
+	NodeInputUpdateDto
+} from "~/lib/common/app/node/dtos/input";
 import { NodeErrorCode } from "~/lib/common/app/node/error-codes";
 import {
 	areNodeInputsReadonlyOnCreate,
@@ -69,7 +72,10 @@ export class NodeInputService {
 		inputId: number,
 		options?: EntityServiceFindOptions<NodeInputEntity, P>
 	) {
-		return this.entityService.findOne({ __node: nodeId, _id: inputId }, options);
+		return this.entityService.findOne(
+			{ __node: nodeId, _id: inputId },
+			options
+		);
 	}
 
 	/**
@@ -86,7 +92,10 @@ export class NodeInputService {
 	): Promise<NodeInputEntity> {
 		const type = node.behavior.type;
 		if (areNodeInputsReadonlyOnCreate(type)) {
-			throw new NodeInputReadonlyException(NodeErrorCode.INPUTS_READONLY_CREATE, type);
+			throw new NodeInputReadonlyException(
+				NodeErrorCode.INPUTS_READONLY_CREATE,
+				type
+			);
 		}
 
 		return this.entityService.create({
@@ -114,7 +123,10 @@ export class NodeInputService {
 
 		const type = node.behavior.type;
 		if (areNodeInputsReadonlyOnUpdate(type)) {
-			throw new NodeInputReadonlyException(NodeErrorCode.INPUTS_READONLY_UPDATE, type);
+			throw new NodeInputReadonlyException(
+				NodeErrorCode.INPUTS_READONLY_UPDATE,
+				type
+			);
 		}
 
 		return this.entityService.update(id, toUpdate);
@@ -128,12 +140,18 @@ export class NodeInputService {
 	 * @param id of the input to delete
 	 * @returns the deleted input
 	 */
-	public async deleteFromNode(node: NodeEntity, id: EntityId): Promise<NodeInputEntity> {
+	public async deleteFromNode(
+		node: NodeEntity,
+		id: EntityId
+	): Promise<NodeInputEntity> {
 		await this.findOneWithNodeId(node._id, id);
 
 		const type = node.behavior.type;
 		if (areNodeInputsReadonlyOnDelete(type)) {
-			throw new NodeInputReadonlyException(NodeErrorCode.INPUTS_READONLY_DELETE, type);
+			throw new NodeInputReadonlyException(
+				NodeErrorCode.INPUTS_READONLY_DELETE,
+				type
+			);
 		}
 
 		return this.entityService.delete(id);

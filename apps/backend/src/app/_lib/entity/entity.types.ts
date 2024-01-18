@@ -22,17 +22,25 @@ type Depth = [never, 0, 1, 2, 3, 4, 5, 6, 7];
  *
  * @see EntityRelationKeys
  */
-export type EntityRelationKeysDeep<T extends EntityBase, D extends Depth[number] = 5> =
+export type EntityRelationKeysDeep<
+	T extends EntityBase,
+	D extends Depth[number] = 5
+> =
 	| EntityRelationKeys<T>
 	| (D extends never
 			? never
 			: {
-					[K in EntityRelationKeys<T>]: NonNullable<T[K]> extends infer U extends
-						EntityBase
+					[K in EntityRelationKeys<T>]: NonNullable<
+						T[K]
+					> extends infer U extends EntityBase
 						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
-						: NonNullable<T[K]> extends Collection<infer U extends EntityBase>
+						: NonNullable<T[K]> extends Collection<
+								infer U extends EntityBase
+						  >
 						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
-						: NonNullable<T[K]> extends Array<infer U extends EntityBase>
+						: NonNullable<T[K]> extends Array<
+								infer U extends EntityBase
+						  >
 						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
 						: never;
 			  }[EntityRelationKeys<T>]);

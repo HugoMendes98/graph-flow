@@ -63,5 +63,7 @@ class Dummy implements LoggerTest {
 	}
 }
 
-export const LoggerTest: (dummy?: boolean) => (prefix: string) => LoggerTest = dummy =>
+export const LoggerTest: (
+	dummy?: boolean
+) => (prefix: string) => LoggerTest = dummy =>
 	dummy ? () => new Dummy() : prefix => new Logger(prefix);

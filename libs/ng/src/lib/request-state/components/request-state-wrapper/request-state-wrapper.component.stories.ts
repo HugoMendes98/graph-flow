@@ -17,7 +17,10 @@ type RState = RequestState<never>;
 
 const stateInit: RState = { state: "init" };
 const stateLoading: RState = { error: false, state: "loading" };
-const stateFailed: RState = { error: new HttpErrorResponse({ status: 404 }), state: "failed" };
+const stateFailed: RState = {
+	error: new HttpErrorResponse({ status: 404 }),
+	state: "failed"
+};
 
 export const Primary: Story = {
 	args: { requestState: stateLoading }
@@ -42,7 +45,10 @@ const getOnUseTemplate = (template: string, action?: string) => `
 `;
 
 export const OnUseLoading: StoryFn = args => ({
-	props: { requestState: stateLoading, ...args } satisfies Partial<RequestStateWrapperComponent>,
+	props: {
+		requestState: stateLoading,
+		...args
+	} satisfies Partial<RequestStateWrapperComponent>,
 	template: getOnUseTemplate(`<p>Some skeleton, or content</p>`)
 });
 

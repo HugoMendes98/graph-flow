@@ -11,7 +11,10 @@ import { TranslationModule } from "~/lib/ng/lib/translation";
 import { AuthInterceptor } from "../../auth.interceptor";
 import { AuthModule } from "../../auth.module";
 import { AuthService } from "../../auth.service";
-import { AuthLogin, LoginCardComponent } from "../../components/login-card/login-card.component";
+import {
+	AuthLogin,
+	LoginCardComponent
+} from "../../components/login-card/login-card.component";
 
 @Component({
 	standalone: true,
@@ -34,8 +37,9 @@ export class LoginView implements OnInit, OnDestroy {
 	@Input()
 	public redirectUrl?: string;
 
-	protected readonly loginState$ = new RequestStateSubject((login: AuthLogin) =>
-		this.interceptor.runUnprotected(() => this.service.login(login))
+	protected readonly loginState$ = new RequestStateSubject(
+		(login: AuthLogin) =>
+			this.interceptor.runUnprotected(() => this.service.login(login))
 	);
 	protected loginState = this.loginState$.getValue();
 
@@ -69,7 +73,9 @@ export class LoginView implements OnInit, OnDestroy {
 			return;
 		}
 
-		this.subscription.add(this.loginState$.subscribe(state => (this.loginState = state)));
+		this.subscription.add(
+			this.loginState$.subscribe(state => (this.loginState = state))
+		);
 	}
 	/** @inheritDoc */
 	public ngOnDestroy() {
@@ -92,6 +98,12 @@ export class LoginView implements OnInit, OnDestroy {
 	private redirect(user: UserDto, redirectUrl = "/") {
 		this.redirecting = user;
 		// Some time to let the animation
-		setTimeout(() => void this.router.navigateByUrl(redirectUrl, { replaceUrl: true }), 1250);
+		setTimeout(
+			() =>
+				void this.router.navigateByUrl(redirectUrl, {
+					replaceUrl: true
+				}),
+			1250
+		);
 	}
 }

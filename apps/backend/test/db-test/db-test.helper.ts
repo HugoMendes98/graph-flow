@@ -52,7 +52,9 @@ export class DbTestHelper {
 				break;
 
 			default:
-				throw new Error(`No sample found for ${params?.sample ?? "base"}`);
+				throw new Error(
+					`No sample found for ${params?.sample ?? "base"}`
+				);
 		}
 
 		this.orm = module.get(MikroORM);
@@ -85,7 +87,9 @@ export class DbTestHelper {
 	public async refresh() {
 		this.orm.em.clear();
 		await this.orm.getSchemaGenerator().refreshDatabase();
-		await this.orm.getSeeder().seed(this.seeder as typeof MockedDbSeeder & (new () => Seeder));
+		await this.orm
+			.getSeeder()
+			.seed(this.seeder as typeof MockedDbSeeder & (new () => Seeder));
 		this.orm.em.clear();
 	}
 }

@@ -11,7 +11,9 @@ describe("RequestStateWrapperComponent", () => {
 			imports: [RequestStateWrapperComponent]
 		}).compileComponents();
 
-		fixture = TestBed.createComponent(RequestStateWrapperComponent) as never;
+		fixture = TestBed.createComponent(
+			RequestStateWrapperComponent
+		) as never;
 		component = fixture.componentInstance;
 		component.requestState = { state: "init" };
 		fixture.detectChanges();

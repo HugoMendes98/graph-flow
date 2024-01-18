@@ -1,4 +1,9 @@
-import { APP_INITIALIZER, ApplicationRef, DoBootstrap, NgModule } from "@angular/core";
+import {
+	APP_INITIALIZER,
+	ApplicationRef,
+	DoBootstrap,
+	NgModule
+} from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ApiModule } from "~/lib/ng/lib/api";
@@ -28,14 +33,15 @@ import { AppTranslationModule } from "../lib/translation";
 			deps: [AuthInterceptor, AuthService],
 			multi: true,
 			provide: APP_INITIALIZER,
-			useFactory: (interceptor: AuthInterceptor, service: AuthService) => () =>
-				interceptor.runUnprotected(() =>
-					service.refresh().catch((error: unknown) => {
-						if (!AuthService.isAnUnauthorizedError(error)) {
-							throw error;
-						}
-					})
-				)
+			useFactory:
+				(interceptor: AuthInterceptor, service: AuthService) => () =>
+					interceptor.runUnprotected(() =>
+						service.refresh().catch((error: unknown) => {
+							if (!AuthService.isAnUnauthorizedError(error)) {
+								throw error;
+							}
+						})
+					)
 		}
 	]
 })

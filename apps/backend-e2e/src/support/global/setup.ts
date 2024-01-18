@@ -29,10 +29,14 @@ export async function globalSetup(params?: GlobalSetupParams) {
 			throw new Error("The app was already set when setting up!");
 		}
 	} else {
-		const command = spawn("nx", ["run", "backend:serve:test-e2e", "--no-inspect"], {
-			cwd: path.join(__dirname, "../../../../../"),
-			detached: false
-		});
+		const command = spawn(
+			"nx",
+			["run", "backend:serve:test-e2e", "--no-inspect"],
+			{
+				cwd: path.join(__dirname, "../../../../../"),
+				detached: false
+			}
+		);
 		app = {
 			command,
 			kill: () => {
@@ -57,11 +61,19 @@ export async function globalSetup(params?: GlobalSetupParams) {
 			}
 		};
 
-		command.stdout.on("data", (data: string) => logger.log("backend |", `${data}`));
-		command.stderr.on("data", (data: string) => logger.error("backend |", `${data}`));
+		command.stdout.on("data", (data: string) =>
+			logger.log("backend |", `${data}`)
+		);
+		command.stderr.on("data", (data: string) =>
+			logger.error("backend |", `${data}`)
+		);
 
 		logger.log("Waiting for backend");
-		await waitFor({ host: config.host.name, port: config.host.port, timeout: 30000 });
+		await waitFor({
+			host: config.host.name,
+			port: config.host.port,
+			timeout: 30000
+		});
 	}
 
 	(globalThis as unknown as GlobalThis).jest_config.backend = app;

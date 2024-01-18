@@ -1,6 +1,9 @@
 import { Test } from "@nestjs/testing";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
-import { NodeInputCreateDto, NodeInputUpdateDto } from "~/lib/common/app/node/dtos/input";
+import {
+	NodeInputCreateDto,
+	NodeInputUpdateDto
+} from "~/lib/common/app/node/dtos/input";
 import { NodeIoType } from "~/lib/common/app/node/io";
 import { ONLY_NODES_SEED } from "~/lib/common/seeds";
 import { omit } from "~/lib/common/utils/object-fns";
@@ -47,8 +50,12 @@ describe("NodeInputService", () => {
 		expect(nodeCode.behavior.type).toBe(NodeBehaviorType.CODE);
 		expect(nodeTrigger.behavior.type).toBe(NodeBehaviorType.TRIGGER);
 		expect(nodeFunction.behavior.type).toBe(NodeBehaviorType.FUNCTION);
-		expect(nodeParameterIn.behavior.type).toBe(NodeBehaviorType.PARAMETER_IN);
-		expect(nodeParameterOut.behavior.type).toBe(NodeBehaviorType.PARAMETER_OUT);
+		expect(nodeParameterIn.behavior.type).toBe(
+			NodeBehaviorType.PARAMETER_IN
+		);
+		expect(nodeParameterOut.behavior.type).toBe(
+			NodeBehaviorType.PARAMETER_OUT
+		);
 		expect(nodeReference.behavior.type).toBe(NodeBehaviorType.REFERENCE);
 
 		return {
@@ -68,7 +75,10 @@ describe("NodeInputService", () => {
 		it("should create an input for a node (CODE)", async () => {
 			const { nodeCode } = await getAllNodes();
 
-			const toCreate: NodeInputCreateDto = { name: "1", type: NodeIoType.STRING };
+			const toCreate: NodeInputCreateDto = {
+				name: "1",
+				type: NodeIoType.STRING
+			};
 			for (const node of [nodeCode]) {
 				const beforeLength = node.inputs.length;
 				const updated = await service.createFromNode(node, toCreate);
@@ -78,18 +88,23 @@ describe("NodeInputService", () => {
 
 				const { inputs } = await nodeService.findById(node._id);
 				expect(inputs).toHaveLength(beforeLength + 1);
-				expect(inputs.getItems().some(({ _id }) => _id === updated._id)).toBeTrue();
+				expect(
+					inputs.getItems().some(({ _id }) => _id === updated._id)
+				).toBe(true);
 			}
 		});
 
 		it("should fail when trying to create readonly inputs", async () => {
 			const nodes = await getAllNodes();
 
-			const toCreate: NodeInputCreateDto = { name: "1", type: NodeIoType.STRING };
+			const toCreate: NodeInputCreateDto = {
+				name: "1",
+				type: NodeIoType.STRING
+			};
 			for (const node of Object.values(omit(nodes, ["nodeCode"]))) {
-				await expect(() => service.createFromNode(node, toCreate)).rejects.toThrow(
-					NodeInputReadonlyException
-				);
+				await expect(() =>
+					service.createFromNode(node, toCreate)
+				).rejects.toThrow(NodeInputReadonlyException);
 			}
 		});
 	});
@@ -100,10 +115,17 @@ describe("NodeInputService", () => {
 		it("should update the input of a node (CODE & PARAMETER_OUT)", async () => {
 			const { nodeCode, nodeParameterOut } = await getAllNodes();
 
-			const toUpdate: NodeInputUpdateDto = { name: "1", type: NodeIoType.STRING };
+			const toUpdate: NodeInputUpdateDto = {
+				name: "1",
+				type: NodeIoType.STRING
+			};
 			for (const node of [nodeCode, nodeParameterOut]) {
 				const [input] = node.inputs.getItems();
-				const updated = await service.updateFromNode(node, input._id, toUpdate);
+				const updated = await service.updateFromNode(
+					node,
+					input._id,
+					toUpdate
+				);
 
 				expect(updated.name).toBe(toUpdate.name);
 				expect(updated.type).toBe(toUpdate.type);
@@ -111,9 +133,13 @@ describe("NodeInputService", () => {
 		});
 
 		it("should fail when trying to update readonly inputs", async () => {
-			const { nodeFunction, nodeReference, nodeVariable } = await getAllNodes();
+			const { nodeFunction, nodeReference, nodeVariable } =
+				await getAllNodes();
 
-			const toUpdate: NodeInputUpdateDto = { name: "1", type: NodeIoType.STRING };
+			const toUpdate: NodeInputUpdateDto = {
+				name: "1",
+				type: NodeIoType.STRING
+			};
 			for (const node of [nodeFunction, nodeReference, nodeVariable]) {
 				const [input] = node.inputs.getItems();
 				await expect(() =>
@@ -130,19 +156,33 @@ describe("NodeInputService", () => {
 			const { nodeCode } = await getAllNodes();
 			for (const node of [nodeCode]) {
 				const beforeLength = node.inputs.length;
-				const deleted = await service.deleteFromNode(node, node.inputs.getItems()[0]._id);
+				const deleted = await service.deleteFromNode(
+					node,
+					node.inputs.getItems()[0]._id
+				);
 
 				const { inputs } = await nodeService.findById(node._id);
 				expect(inputs).toHaveLength(beforeLength - 1);
-				expect(inputs.getItems().some(({ _id }) => _id === deleted._id)).toBeFalse();
+				expect(
+					inputs.getItems().some(({ _id }) => _id === deleted._id)
+				).toBe(false);
 			}
 		});
 
 		it("should fail when trying to delete readonly inputs", async () => {
-			const { nodeFunction, nodeParameterOut, nodeReference, nodeVariable } =
-				await getAllNodes();
+			const {
+				nodeFunction,
+				nodeParameterOut,
+				nodeReference,
+				nodeVariable
+			} = await getAllNodes();
 
-			for (const node of [nodeFunction, nodeParameterOut, nodeReference, nodeVariable]) {
+			for (const node of [
+				nodeFunction,
+				nodeParameterOut,
+				nodeReference,
+				nodeVariable
+			]) {
 				await expect(() =>
 					service.deleteFromNode(node, node.inputs.getItems()[0]._id)
 				).rejects.toThrow(NodeInputReadonlyException);

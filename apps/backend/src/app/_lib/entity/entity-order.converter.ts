@@ -19,11 +19,15 @@ export type EntityQueryOrder =
 export type EntityQueryOrderMap<T> = {
 	[K in keyof T as ExcludeFunctions<T, K>]?: T[K] extends Date | Primitive
 		? EntityQueryOrder
-		: EntityQueryOrderMap<NonNullable<T[K] extends Array<infer U> ? U : T[K]>>;
+		: EntityQueryOrderMap<
+				NonNullable<T[K] extends Array<infer U> ? U : T[K]>
+		  >;
 };
 
 function entityOrder2QueryOrder(value: string): EntityQueryOrder;
-function entityOrder2QueryOrder<T>(order: Readonly<EntityOrder<T>>): EntityQueryOrderMap<T>;
+function entityOrder2QueryOrder<T>(
+	order: Readonly<EntityOrder<T>>
+): EntityQueryOrderMap<T>;
 /**
  * Convert an entity order to a Mikro-orm query object compatible entity
  *
@@ -34,7 +38,10 @@ function entityOrder2QueryOrder<T>(order: Readonly<EntityOrder<T>>): EntityQuery
 function entityOrder2QueryOrder<T>(
 	order: ReadonlyDeep<EntityOrder<T>> | string
 ): EntityQueryOrder | EntityQueryOrderMap<T> {
-	if (typeof order === "number" || [true, false, null, undefined].includes(order as never)) {
+	if (
+		typeof order === "number" ||
+		[true, false, null, undefined].includes(order as never)
+	) {
 		throw new BadRequestException(`Unknown order value: ${String(order)}`);
 	}
 

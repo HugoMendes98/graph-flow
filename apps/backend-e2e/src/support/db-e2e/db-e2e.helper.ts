@@ -2,9 +2,17 @@ import { Singleton } from "@heap-code/singleton";
 import axios from "axios";
 import { config as ConfigE2e } from "~/app/backend/app/config.e2e";
 import { DbTestHelper, DbTestSample } from "~/app/backend/test/db-test";
-import { BASE_SEED, EMPTY_SEED, MockSeed, ONLY_NODES_SEED } from "~/lib/common/seeds";
+import {
+	BASE_SEED,
+	EMPTY_SEED,
+	MockSeed,
+	ONLY_NODES_SEED
+} from "~/lib/common/seeds";
 
-import { E2E_ENDPOINT_DB_SEEDING, E2eEndpointDbSeedingBody } from "../e2e.endpoints";
+import {
+	E2E_ENDPOINT_DB_SEEDING,
+	E2eEndpointDbSeedingBody
+} from "../e2e.endpoints";
 
 const { name, port } = ConfigE2e.host;
 const baseURL = `http://${name}:${port}`;
@@ -15,7 +23,9 @@ const dbSamples: Record<DbTestSample, MockSeed> = {
 	"only-nodes": ONLY_NODES_SEED
 };
 
-export class DbE2eHelper implements Omit<DbTestHelper, "close" | "transformTo"> {
+export class DbE2eHelper
+	implements Omit<DbTestHelper, "close" | "transformTo">
+{
 	private static readonly helpers = new Map(
 		Object.entries(dbSamples).map(([sample, db]) => [
 			sample,

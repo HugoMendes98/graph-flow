@@ -28,7 +28,8 @@ describe("FindQueryDto", () => {
 
 	class FindQueryDto extends FindQueryDtoOf(NestedDto) {}
 
-	const transform = (object: object) => plainToInstance(FindQueryDto, object, transformOptions);
+	const transform = (object: object) =>
+		plainToInstance(FindQueryDto, object, transformOptions);
 	const validate = (object: object) => validateSync(object, validatorOptions);
 
 	for (const key of ["limit", "skip"] satisfies Array<keyof FindQueryDto>) {
@@ -60,7 +61,9 @@ describe("FindQueryDto", () => {
 			];
 
 			for (const order of orders) {
-				const errors = validate(transform({ order } satisfies FindQueryDto));
+				const errors = validate(
+					transform({ order } satisfies FindQueryDto)
+				);
 				expect(errors).toHaveLength(0);
 			}
 		});
@@ -72,7 +75,9 @@ describe("FindQueryDto", () => {
 			];
 
 			for (const order of orders) {
-				const errors = validate(transform({ order } satisfies FindQueryDto));
+				const errors = validate(
+					transform({ order } satisfies FindQueryDto)
+				);
 				expect(errors).not.toHaveLength(0);
 			}
 		});
@@ -86,7 +91,9 @@ describe("FindQueryDto", () => {
 			];
 
 			for (const where of wheres) {
-				const errors = validate(transform({ where } satisfies FindQueryDto));
+				const errors = validate(
+					transform({ where } satisfies FindQueryDto)
+				);
 				expect(errors).toHaveLength(0);
 			}
 		});
@@ -98,7 +105,9 @@ describe("FindQueryDto", () => {
 			];
 
 			for (const where of wheres) {
-				const errors = validate(transform({ where } satisfies FindQueryDto));
+				const errors = validate(
+					transform({ where } satisfies FindQueryDto)
+				);
 				expect(errors).not.toHaveLength(0);
 			}
 		});

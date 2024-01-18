@@ -25,7 +25,9 @@ export async function globalTeardown(logger: LoggerTest) {
 
 export default async function (config: Config) {
 	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- One or the other
-	const logger = LoggerTest(config.watch || config.watchAll)("[global-teardown]");
+	const logger = LoggerTest(config.watch || config.watchAll)(
+		"[global-teardown]"
+	);
 
 	logger.emptyLine();
 	await globalTeardown(logger);

@@ -13,6 +13,9 @@ export class NodeExecutorMissingInputException extends NodeExecutorException {
 	 * @param inputId The input that has no value
 	 */
 	public constructor(inputId: EntityId) {
-		super(NodeExecutorErrorCode.MISSING_INPUT, `The ${inputId} has no value.`);
+		super(
+			NodeExecutorErrorCode.MISSING_INPUT,
+			`The ${inputId} has no value.`
+		);
 	}
 }

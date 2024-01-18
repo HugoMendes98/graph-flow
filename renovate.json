@@ -16,8 +16,7 @@
 			"groupSlug": "linting",
 			"matchPackageNames": [
 				"@cspell/eslint-plugin",
-				"@darraghor/eslint-plugin-nestjs-typed",
-				"@shopify/eslint-plugin"
+				"@darraghor/eslint-plugin-nestjs-typed"
 			]
 		},
 		{

@@ -32,7 +32,9 @@ export async function globalTeardown(params?: GlobalTeardownParams) {
 			`SIGTERM`
 		]) {
 			process.on(eventType, () => {
-				(globalThis as unknown as GlobalThis).jest_config.backend.kill();
+				(
+					globalThis as unknown as GlobalThis
+				).jest_config.backend.kill();
 			});
 		}
 	} else {

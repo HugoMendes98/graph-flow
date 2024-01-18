@@ -178,7 +178,11 @@ export const BASE_SEED = {
 				__categories: [1],
 
 				behavior: { type: NodeBehaviorType.VARIABLE, value: "host" },
-				kind: { __graph: 2, position: { x: 25, y: 25 }, type: NodeKindType.VERTEX },
+				kind: {
+					__graph: 2,
+					position: { x: 25, y: 25 },
+					type: NodeKindType.VERTEX
+				},
 				name: "DB_HOST",
 
 				inputs: [
@@ -217,7 +221,11 @@ export const BASE_SEED = {
 				__categories: [1],
 
 				behavior: { type: NodeBehaviorType.VARIABLE, value: 1234 },
-				kind: { __graph: 2, position: { x: 25, y: 150 }, type: NodeKindType.VERTEX },
+				kind: {
+					__graph: 2,
+					position: { x: 25, y: 150 },
+					type: NodeKindType.VERTEX
+				},
 				name: "DB_PORT",
 
 				inputs: [
@@ -256,7 +264,11 @@ export const BASE_SEED = {
 				__categories: [1],
 
 				behavior: { type: NodeBehaviorType.VARIABLE, value: "user" },
-				kind: { __graph: 2, position: { x: 25, y: 275 }, type: NodeKindType.VERTEX },
+				kind: {
+					__graph: 2,
+					position: { x: 25, y: 275 },
+					type: NodeKindType.VERTEX
+				},
 				name: "DB_USER",
 
 				inputs: [
@@ -295,7 +307,11 @@ export const BASE_SEED = {
 				__categories: [1],
 
 				behavior: { type: NodeBehaviorType.VARIABLE, value: "pass" },
-				kind: { __graph: 2, position: { x: 25, y: 400 }, type: NodeKindType.VERTEX },
+				kind: {
+					__graph: 2,
+					position: { x: 25, y: 400 },
+					type: NodeKindType.VERTEX
+				},
 				name: "DB_PASS",
 
 				inputs: [
@@ -337,8 +353,15 @@ export const BASE_SEED = {
 
 				__categories: [1, 2],
 
-				behavior: { code: "module.export = console.log", type: NodeBehaviorType.CODE },
-				kind: { __graph: 2, position: { x: 600, y: 250 }, type: NodeKindType.VERTEX },
+				behavior: {
+					code: "module.export = console.log",
+					type: NodeBehaviorType.CODE
+				},
+				kind: {
+					__graph: 2,
+					position: { x: 600, y: 250 },
+					type: NodeKindType.VERTEX
+				},
 				name: "Make SQL query",
 
 				inputs: [
@@ -597,8 +620,15 @@ export const BASE_SEED = {
 
 				__categories: [],
 
-				behavior: { __node_input: 2001, type: NodeBehaviorType.PARAMETER_IN },
-				kind: { __graph: 1, position: { x: 25, y: 125 }, type: NodeKindType.VERTEX },
+				behavior: {
+					__node_input: 2001,
+					type: NodeBehaviorType.PARAMETER_IN
+				},
+				kind: {
+					__graph: 1,
+					position: { x: 25, y: 125 },
+					type: NodeKindType.VERTEX
+				},
 				name: "Dividend",
 
 				inputs: [],
@@ -624,8 +654,15 @@ export const BASE_SEED = {
 
 				__categories: [],
 
-				behavior: { __node_input: 2002, type: NodeBehaviorType.PARAMETER_IN },
-				kind: { __graph: 1, position: { x: 25, y: 250 }, type: NodeKindType.VERTEX },
+				behavior: {
+					__node_input: 2002,
+					type: NodeBehaviorType.PARAMETER_IN
+				},
+				kind: {
+					__graph: 1,
+					position: { x: 25, y: 250 },
+					type: NodeKindType.VERTEX
+				},
 				name: "Divisor",
 
 				inputs: [],
@@ -651,8 +688,15 @@ export const BASE_SEED = {
 
 				__categories: [],
 
-				behavior: { __node_output: 2003, type: NodeBehaviorType.PARAMETER_OUT },
-				kind: { __graph: 1, position: { x: 725, y: 125 }, type: NodeKindType.VERTEX },
+				behavior: {
+					__node_output: 2003,
+					type: NodeBehaviorType.PARAMETER_OUT
+				},
+				kind: {
+					__graph: 1,
+					position: { x: 725, y: 125 },
+					type: NodeKindType.VERTEX
+				},
 				name: "Quotient",
 
 				inputs: [
@@ -678,8 +722,15 @@ export const BASE_SEED = {
 
 				__categories: [],
 
-				behavior: { __node_output: 2004, type: NodeBehaviorType.PARAMETER_OUT },
-				kind: { __graph: 1, position: { x: 725, y: 250 }, type: NodeKindType.VERTEX },
+				behavior: {
+					__node_output: 2004,
+					type: NodeBehaviorType.PARAMETER_OUT
+				},
+				kind: {
+					__graph: 1,
+					position: { x: 725, y: 250 },
+					type: NodeKindType.VERTEX
+				},
 				name: "Remainder",
 
 				inputs: [
@@ -713,7 +764,11 @@ export const BASE_SEED = {
 					trigger: { cron: "1 * * * *", type: NodeTriggerType.CRON },
 					type: NodeBehaviorType.TRIGGER
 				},
-				kind: { __graph: 2, position: { x: 50, y: 650 }, type: NodeKindType.VERTEX },
+				kind: {
+					__graph: 2,
+					position: { x: 50, y: 650 },
+					type: NodeKindType.VERTEX
+				},
 				name: "Cron",
 
 				inputs: [],
@@ -743,7 +798,11 @@ export const BASE_SEED = {
 				__categories: [2],
 
 				behavior: { __node: 10, type: NodeBehaviorType.REFERENCE },
-				kind: { __graph: 1, position: { x: 325, y: 25 }, type: NodeKindType.VERTEX },
+				kind: {
+					__graph: 1,
+					position: { x: 325, y: 25 },
+					type: NodeKindType.VERTEX
+				},
 				name: "Calculate quotient (reference)",
 
 				inputs: [
@@ -795,7 +854,11 @@ export const BASE_SEED = {
 				__categories: [2],
 
 				behavior: { __node: 11, type: NodeBehaviorType.REFERENCE },
-				kind: { __graph: 1, position: { x: 325, y: 250 }, type: NodeKindType.VERTEX },
+				kind: {
+					__graph: 1,
+					position: { x: 325, y: 250 },
+					type: NodeKindType.VERTEX
+				},
 				name: "Calculate remainder (reference)",
 
 				inputs: [

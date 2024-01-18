@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Patch,
+	Post,
+	Query
+} from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import {
 	NodeCreateDto,
@@ -7,7 +16,10 @@ import {
 	NodeResultsDto,
 	NodeUpdateDto
 } from "~/lib/common/app/node/dtos";
-import { NodeEndpoint, NODES_ENDPOINT_PREFIX } from "~/lib/common/app/node/endpoints";
+import {
+	NodeEndpoint,
+	NODES_ENDPOINT_PREFIX
+} from "~/lib/common/app/node/endpoints";
 
 import { NodeEntity } from "./node.entity";
 import { NodeService } from "./node.service";

@@ -180,8 +180,15 @@ export const ONLY_NODES_SEED = {
 
 				__categories: [],
 
-				behavior: { __node_input: 4, type: NodeBehaviorType.PARAMETER_IN },
-				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
+				behavior: {
+					__node_input: 4,
+					type: NodeBehaviorType.PARAMETER_IN
+				},
+				kind: {
+					__graph: 1,
+					position: { x: 0, y: 0 },
+					type: NodeKindType.VERTEX
+				},
 				name: "PARAMETER_IN",
 
 				inputs: [],
@@ -207,8 +214,15 @@ export const ONLY_NODES_SEED = {
 
 				__categories: [],
 
-				behavior: { __node_output: 4, type: NodeBehaviorType.PARAMETER_OUT },
-				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
+				behavior: {
+					__node_output: 4,
+					type: NodeBehaviorType.PARAMETER_OUT
+				},
+				kind: {
+					__graph: 1,
+					position: { x: 0, y: 0 },
+					type: NodeKindType.VERTEX
+				},
 				name: "PARAMETER_OUT",
 
 				inputs: [
@@ -235,7 +249,11 @@ export const ONLY_NODES_SEED = {
 				__categories: [],
 
 				behavior: { __node: 2, type: NodeBehaviorType.REFERENCE },
-				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
+				kind: {
+					__graph: 1,
+					position: { x: 0, y: 0 },
+					type: NodeKindType.VERTEX
+				},
 				name: "REFERENCE",
 
 				inputs: [

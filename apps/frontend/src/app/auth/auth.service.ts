@@ -14,7 +14,8 @@ export type AuthLogin = Omit<AuthLoginDto, "cookie">;
 /**
  * When the user of the {@link AuthService} is connected
  */
-export interface AuthUserStateConnected extends Pick<AuthSuccessDto, "expires_at"> {
+export interface AuthUserStateConnected
+	extends Pick<AuthSuccessDto, "expires_at"> {
 	/**
 	 * The connected user
 	 */
@@ -46,7 +47,9 @@ export class AuthService {
 	 *
 	 * // FIXME
 	 */
-	private static readonly userState = new BehaviorSubject<AuthUserState>({ type: "unconnected" });
+	private static readonly userState = new BehaviorSubject<AuthUserState>({
+		type: "unconnected"
+	});
 
 	/**
 	 * Creates a URLTree for the LoginView
@@ -67,8 +70,13 @@ export class AuthService {
 	 * @param error the error to test
 	 * @returns if the error is an HTTP Unauthorized
 	 */
-	public static isAnUnauthorizedError(error: unknown): error is HttpErrorResponse {
-		return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
+	public static isAnUnauthorizedError(
+		error: unknown
+	): error is HttpErrorResponse {
+		return (
+			error instanceof HttpErrorResponse &&
+			error.status === HttpStatusCode.Unauthorized
+		);
 	}
 
 	/**
@@ -146,7 +154,10 @@ export class AuthService {
 	 */
 	private onAuthSuccess(success: AuthSuccessDto) {
 		return this.apiService.getProfile().then(user => {
-			const state: AuthUserStateConnected = { expires_at: success.expires_at, user };
+			const state: AuthUserStateConnected = {
+				expires_at: success.expires_at,
+				user
+			};
 			this.userState.next({ ...state, type: "connected" });
 			return state;
 		});

@@ -1,5 +1,9 @@
 <div class="relative">
-	<ui-http-error-card *ngIf="showError as error" [class]="classErrorCard" [error]="error">
+	<ui-http-error-card
+		*ngIf="showError as error"
+		[class]="classErrorCard"
+		[error]="error"
+	>
 		<ng-content *ngIf="!isLoading" [select]="errorActions" />
 	</ui-http-error-card>
 

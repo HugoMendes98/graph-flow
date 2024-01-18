@@ -23,14 +23,22 @@ describe("object-fns `pick`", () => {
 
 			// The number of keys should be different
 			expect(picked).toHaveLength(toPick.length);
-			expect(toPick.every(key => picked.includes(key))).toBeTrue();
+			expect(toPick.every(key => picked.includes(key))).toBe(true);
 		}
 	});
 
 	it("should be ok with optional (and unknown) keys", () => {
 		const ref: Struct = { p1: 0, p2: 0, p3: 0 };
-		expect(pick(ref, ["p1", "p2", "p3"])).toStrictEqual({ p1: 0, p2: 0, p3: 0 });
-		expect(pick(ref, ["p1", "p2", "p3", "p4", "p5"])).toStrictEqual({ p1: 0, p2: 0, p3: 0 });
+		expect(pick(ref, ["p1", "p2", "p3"])).toStrictEqual({
+			p1: 0,
+			p2: 0,
+			p3: 0
+		});
+		expect(pick(ref, ["p1", "p2", "p3", "p4", "p5"])).toStrictEqual({
+			p1: 0,
+			p2: 0,
+			p3: 0
+		});
 		expect(pick(ref, ["p3", "p4", "p5"])).toStrictEqual({ p3: 0 });
 		expect(pick(ref, ["p1", "p0" as Key])).toStrictEqual({ p1: 0 });
 	});

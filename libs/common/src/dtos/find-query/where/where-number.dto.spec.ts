@@ -34,7 +34,9 @@ describe("WhereNumberDto", () => {
 			];
 
 			for (const where of wheres) {
-				const errors = validate(plainToInstance(WhereNumberNullableDto, where));
+				const errors = validate(
+					plainToInstance(WhereNumberNullableDto, where)
+				);
 				expect(errors).toHaveLength(0);
 			}
 		});
@@ -44,9 +46,22 @@ describe("WhereNumberDto", () => {
 				[{ $eq: "a" as unknown as number }, 1],
 				[{ $eq: null as unknown as number }, 1],
 				// In an array the string will be cast to number
-				[{ $exists: 2 as unknown as boolean, $in: [4, "3" as unknown as number] }, 1],
-				// eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- For test
-				[{ $ne: new Date().toISOString() as unknown as number, a: 2 } as WhereNumberDto, 2]
+				[
+					{
+						$exists: 2 as unknown as boolean,
+						$in: [4, "3" as unknown as number]
+					},
+					1
+				],
+
+				[
+					{
+						$ne: new Date().toISOString() as unknown as number,
+						// @ts-expect-error -- Want an additional property for testing
+						a: 2
+					},
+					2
+				]
 			];
 
 			for (const [where, expectedNError] of toFails) {

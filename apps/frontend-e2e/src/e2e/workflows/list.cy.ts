@@ -22,26 +22,26 @@ describe("Workflows list", () => {
 			const max = Math.max(...ids).toString();
 
 			/* ==== Generated with Cypress Studio ==== */
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center > span").click();
-			cy.get(".mdc-data-table__content > :nth-child(1) > .cdk-column-_id").should(
-				"have.text",
-				min
-			);
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center .mat-icon").should(
-				"be.visible"
-			);
+			cy.get(
+				".cdk-column-_id > ui-list-table-header > .align-i-center > span"
+			).click();
+			cy.get(
+				".mdc-data-table__content > :nth-child(1) > .cdk-column-_id"
+			).should("have.text", min);
+			cy.get(
+				".cdk-column-_id > ui-list-table-header > .align-i-center .mat-icon"
+			).should("be.visible");
 			cy.get(".align-i-center > .ng-star-inserted > .mat-icon").click();
-			cy.get(".mdc-data-table__content > :nth-child(1) > .cdk-column-_id").should(
-				"have.text",
-				max
-			);
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center .mat-icon").should(
-				"be.visible"
-			);
+			cy.get(
+				".mdc-data-table__content > :nth-child(1) > .cdk-column-_id"
+			).should("have.text", max);
+			cy.get(
+				".cdk-column-_id > ui-list-table-header > .align-i-center .mat-icon"
+			).should("be.visible");
 			cy.get(".align-i-center > .ng-star-inserted").click();
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center .mat-icon").should(
-				"not.exist"
-			);
+			cy.get(
+				".cdk-column-_id > ui-list-table-header > .align-i-center .mat-icon"
+			).should("not.exist");
 			/* ==== End Cypress Studio ==== */
 		});
 
@@ -51,15 +51,20 @@ describe("Workflows list", () => {
 			const max = Math.max(...ids).toString();
 
 			/* ==== Generated with Cypress Studio ==== */
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center").click();
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center").click();
+			cy.get(
+				".cdk-column-_id > ui-list-table-header > .align-i-center"
+			).click();
+			cy.get(
+				".cdk-column-_id > ui-list-table-header > .align-i-center"
+			).click();
 			// Makes wait for the query parameters
 			cy.location("search").should("contains", `_id=desc`);
-			cy.get(".mdc-data-table__content > :nth-child(1) > .cdk-column-_id").should(
-				"have.text",
-				max
-			);
-			cy.get(".cdk-column-name > ui-list-table-header > .align-i-center").click();
+			cy.get(
+				".mdc-data-table__content > :nth-child(1) > .cdk-column-_id"
+			).should("have.text", max);
+			cy.get(
+				".cdk-column-name > ui-list-table-header > .align-i-center"
+			).click();
 			/* ==== End Cypress Studio ==== */
 
 			// Makes wait for the query parameters
@@ -67,16 +72,15 @@ describe("Workflows list", () => {
 			cy.reload();
 
 			/* ==== Generated with Cypress Studio ==== */
-			cy.get(".mdc-data-table__content > :nth-child(1) > .cdk-column-_id").should(
-				"have.text",
-				max
-			);
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center .mat-icon").should(
-				"be.visible"
-			);
-			cy.get(".cdk-column-name > ui-list-table-header > .align-i-center .mat-icon").should(
-				"be.visible"
-			);
+			cy.get(
+				".mdc-data-table__content > :nth-child(1) > .cdk-column-_id"
+			).should("have.text", max);
+			cy.get(
+				".cdk-column-_id > ui-list-table-header > .align-i-center .mat-icon"
+			).should("be.visible");
+			cy.get(
+				".cdk-column-name > ui-list-table-header > .align-i-center .mat-icon"
+			).should("be.visible");
 			/* ==== End Cypress Studio ==== */
 		});
 	});
@@ -88,7 +92,10 @@ describe("Workflows list", () => {
 		const { _id } = db.workflows[1];
 
 		/* ==== Generated with Cypress Studio ==== */
-		cy.get(":nth-child(2) > .cdk-column-_id").should("have.text", _id.toString());
+		cy.get(":nth-child(2) > .cdk-column-_id").should(
+			"have.text",
+			_id.toString()
+		);
 		cy.get(":nth-child(2) > .cdk-column-_id").click();
 		/* ==== End Cypress Studio ==== */
 
@@ -101,7 +108,9 @@ describe("Workflows list", () => {
 
 			// Visit after dbRefresh to avoid a 500 error
 			cy.visit("/workflows");
-			cy.get("ng-component.ng-star-inserted > .flex-col > .flex-row > button").click();
+			cy.get(
+				"ng-component.ng-star-inserted > .flex-col > .flex-row > button"
+			).click();
 		});
 
 		it("should create a new workflow", () => {
@@ -112,28 +121,38 @@ describe("Workflows list", () => {
 
 			/* ==== Generated with Cypress Studio ==== */
 			cy.get(".mat-mdc-dialog-container #mat-input-0").type(newName);
-			cy.get(".mat-mdc-dialog-container form button[type=submit]").click();
+			cy.get(
+				".mat-mdc-dialog-container form button[type=submit]"
+			).click();
 			/* ==== End Cypress Studio ==== */
 
 			cy.location("pathname").should("eq", `/workflows/${newId}`);
 
 			/* ==== Generated with Cypress Studio ==== */
 			cy.get('.mat-toolbar [routerlink="/workflows"]').click();
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center > span").click();
-			cy.get(".cdk-column-_id > ui-list-table-header > .align-i-center > span").click();
-			cy.get('[ng-reflect-router-link="/workflows/4"] > .cdk-column-name').should(
-				"have.text",
-				newName
-			);
+			cy.get(
+				".cdk-column-_id > ui-list-table-header > .align-i-center > span"
+			).click();
+			cy.get(
+				".cdk-column-_id > ui-list-table-header > .align-i-center > span"
+			).click();
+			cy.get(
+				'[ng-reflect-router-link="/workflows/4"] > .cdk-column-name'
+			).should("have.text", newName);
 			/* ==== End Cypress Studio ==== */
 		});
 
 		it("should indicate that a name is already taken", () => {
 			const [workflow] = db.workflows;
 
-			cy.get(".mat-mdc-dialog-container #mat-input-0").type(workflow.name);
+			cy.get(".mat-mdc-dialog-container #mat-input-0").type(
+				workflow.name
+			);
 			/* ==== Generated with Cypress Studio ==== */
-			cy.get(".mat-mdc-dialog-container .gap-1 > .mat-warn").should("contain.text", "close");
+			cy.get(".mat-mdc-dialog-container .gap-1 > .mat-warn").should(
+				"contain.text",
+				"close"
+			);
 			/* ==== End Cypress Studio ==== */
 		});
 	});

@@ -1,6 +1,10 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 
-import { API_CLIENT_CONFIG_TOKEN, ApiClient, ApiClientConfig } from "./api.client";
+import {
+	API_CLIENT_CONFIG_TOKEN,
+	ApiClient,
+	ApiClientConfig
+} from "./api.client";
 import { AuthApiService } from "./auth-api";
 import { CategoryApiService } from "./category-api";
 import { GraphApiService } from "./graph-api";
@@ -27,10 +31,14 @@ export interface ApiModuleConfig {
 	]
 })
 export class ApiModule {
-	public static forRoot(config: ApiModuleConfig): ModuleWithProviders<ApiModule> {
+	public static forRoot(
+		config: ApiModuleConfig
+	): ModuleWithProviders<ApiModule> {
 		return {
 			ngModule: ApiModule,
-			providers: [{ provide: API_CLIENT_CONFIG_TOKEN, useValue: config.client }]
+			providers: [
+				{ provide: API_CLIENT_CONFIG_TOKEN, useValue: config.client }
+			]
 		};
 	}
 }

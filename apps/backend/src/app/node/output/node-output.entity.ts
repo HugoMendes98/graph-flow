@@ -1,4 +1,10 @@
-import { Entity, Enum, LoadStrategy, ManyToOne, Property } from "@mikro-orm/core";
+import {
+	Entity,
+	Enum,
+	LoadStrategy,
+	ManyToOne,
+	Property
+} from "@mikro-orm/core";
 import { NodeOutputDto } from "~/lib/common/app/node/dtos/output";
 import { NodeIoType } from "~/lib/common/app/node/io";
 import { EntityId } from "~/lib/common/dtos/entity";
@@ -21,7 +27,10 @@ const NodeProperty = ManyToOneFactory(() => NodeEntity, {
  * The entity for a `node-input`
  */
 @Entity({ customRepository: () => NodeOutputRepository })
-export class NodeOutputEntity extends EntityBase implements DtoToEntity<NodeOutputDto> {
+export class NodeOutputEntity
+	extends EntityBase
+	implements DtoToEntity<NodeOutputDto>
+{
 	/** @inheritDoc */
 	@NodeProperty({ foreign: false })
 	public __node!: number;

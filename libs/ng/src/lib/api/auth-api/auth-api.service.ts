@@ -1,6 +1,14 @@
 import { Injectable } from "@angular/core";
-import { AuthLoginDto, AuthRefreshDto, AuthSuccessDto } from "~/lib/common/app/auth/dtos";
-import { AUTH_ENDPOINT_PREFIX, AuthEndpoint, AuthEndpoints } from "~/lib/common/app/auth/endpoints";
+import {
+	AuthLoginDto,
+	AuthRefreshDto,
+	AuthSuccessDto
+} from "~/lib/common/app/auth/dtos";
+import {
+	AUTH_ENDPOINT_PREFIX,
+	AuthEndpoint,
+	AuthEndpoints
+} from "~/lib/common/app/auth/endpoints";
 import { UserDto } from "~/lib/common/app/user/dtos";
 
 import { ApiClient } from "../api.client";
@@ -29,7 +37,10 @@ export class AuthApiService implements AuthEndpoint {
 
 	/** @inheritDoc */
 	public login(body: AuthLoginDto): Promise<AuthSuccessDto> {
-		return this.client.post(`${this.entrypoint}/${AuthEndpoints.LOGIN}`, body);
+		return this.client.post(
+			`${this.entrypoint}/${AuthEndpoints.LOGIN}`,
+			body
+		);
 	}
 
 	/** @inheritDoc */
@@ -39,6 +50,9 @@ export class AuthApiService implements AuthEndpoint {
 
 	/** @inheritDoc */
 	public refresh(body: AuthRefreshDto): Promise<AuthSuccessDto> {
-		return this.client.post(`${this.entrypoint}/${AuthEndpoints.REFRESH}`, body);
+		return this.client.post(
+			`${this.entrypoint}/${AuthEndpoints.REFRESH}`,
+			body
+		);
 	}
 }
