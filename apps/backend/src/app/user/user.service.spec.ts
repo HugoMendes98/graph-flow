@@ -175,9 +175,9 @@ describe("UserService", () => {
 				// Check that the entity is really deleted
 				const { data: after } = await service.findAndCount();
 				expect(after).toHaveLength(before.length - 1);
-				expect(
-					after.some(({ _id }) => _id === deleted._id)
-				).toBe(false);
+				expect(after.some(({ _id }) => _id === deleted._id)).toBe(
+					false
+				);
 			});
 
 			it("should not delete an unknown id", async () => {

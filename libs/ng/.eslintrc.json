@@ -93,6 +93,7 @@
 				"prettier/prettier": [
 					"error",
 					{
+						"htmlWhitespaceSensitivity": "strict",
 						"parser": "angular"
 					}
 				],

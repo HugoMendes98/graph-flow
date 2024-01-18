@@ -7,7 +7,7 @@ import { GlobalThis } from "../global-this.type";
 
 export async function globalSetup(logger: LoggerTest) {
 	const docker = new Dockerode();
-	const imageTag = "postgres:15-alpine";
+	const imageTag = "postgres:16-alpine";
 	const { name, password, port, username } = configE2e.db;
 
 	const existing = await docker.listContainers().then(containers => {

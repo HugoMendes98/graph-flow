@@ -10,9 +10,9 @@
 				<span translate>entities.entity.id</span>
 			</ui-list-table-header>
 		</th>
-		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
-			{{ row._id }}
-		</td>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{
+			row._id
+		}}</td>
 	</ng-container>
 
 	<ng-container [matColumnDef]="COLUMNS_NODE[1]">
@@ -26,9 +26,9 @@
 				<span translate>entities.node.name</span>
 			</ui-list-table-header>
 		</th>
-		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
-			{{ row.name }}
-		</td>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{
+			row.name
+		}}</td>
 	</ng-container>
 
 	<ng-container [matColumnDef]="COLUMNS_NODE[2]">
@@ -42,9 +42,9 @@
 				<span translate>entities.node.behavior.__meta.singular</span>
 			</ui-list-table-header>
 		</th>
-		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
-			{{ row.behavior.type }}
-		</td>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{
+			row.behavior.type
+		}}</td>
 	</ng-container>
 
 	<ng-container [matColumnDef]="COLUMNS_NODE[3]">

@@ -36,7 +36,7 @@ jobs:
       - name: Check if prettier was changed as part of the latest commit on the PR
         id: prettier-package-check
         run: |
-          git diff HEAD~1 -G"prettier" --exit-code package.json && echo "prettier unchanged" || echo "::set-output name=was-changed::true"
+          git diff HEAD~1 -G"prettier" --exit-code package.json package-lock.json && echo "prettier unchanged" || echo "::set-output name=was-changed::true"
 
       - name: Run prettier formatting if prettier was changed and commit the results
         if: ${{ steps.prettier-package-check.outputs.was-changed == 'true' }}

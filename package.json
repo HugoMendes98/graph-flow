@@ -202,7 +202,7 @@
 		"build": "nx run-many --target=build --parallel=3",
 		"compodoc": "nx run-many --target=compodoc --output-style=stream",
 		"compodoc:build": "nx run-many --target=compodoc --configuration build",
-		"compodoc:coverage": "nx run-many --target=compodoc --configuration coverage",
+		"compodoc:coverage": "nx affected -t compodoc --configuration coverage",
 		"frontend:build": "nx build frontend",
 		"frontend:compodoc": "nx run frontend:compodoc",
 		"frontend:compodoc:build": "nx run frontend:compodoc:build",
@@ -238,7 +238,7 @@
 		"libs:ng:test": "nx run ng:test",
 		"libs:ng:test:watch": "npm run libs:ng:test -- --watch",
 		"lint": "npm run lint:code; C1=$?; npm run lint:style; C2=$?; npm run lint:other && [ $C1 -eq 0 ] && [ $C2 -eq 0 ]",
-		"lint:code": "nx run-many --all --target=lint",
+		"lint:code": "nx affected -t lint",
 		"lint:code:fix": "npm run lint:code -- --fix",
 		"lint:fix": "npm run lint:code:fix; npm run lint:style:fix; npm run lint:other:fix",
 		"lint:other": "npx eslint . --ignore-pattern apps/ --ignore-pattern libs/",
@@ -246,9 +246,9 @@
 		"lint:style": "npm run frontend:lint:style",
 		"lint:style:fix": "npm run frontend:lint:style:fix",
 		"postinstall": "ts-node tools/npm/postinstall.ts",
-		"test": "nx run-many --target=test --parallel=4 --runInBand --coverage",
+		"test": "nx affected -t test --parallel=4",
 		"test:ci": "nx run-many --target=test --configuration ci --ci --parallel=4 --runInBand",
-		"test:e2e": "nx run-many --target=e2e --parallel=false --runInBand"
+		"test:e2e": "nx affected -t e2e --parallel=false"
 	},
 	"version": "0.6.4"
 }
