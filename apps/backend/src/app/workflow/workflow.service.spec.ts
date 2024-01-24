@@ -6,7 +6,10 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
-import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
+import {
+	WorkflowCreateDto,
+	WorkflowUpdateDto
+} from "~/lib/common/app/workflow/dtos";
 import { BASE_SEED } from "~/lib/common/seeds";
 
 import { WorkflowNoTriggerException } from "./exceptions";
@@ -72,11 +75,20 @@ describe("WorkflowService", () => {
 			});
 
 			await nodeService.create({
-				behavior: { __node: base._id, type: NodeBehaviorType.REFERENCE },
-				kind: { __graph, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
+				behavior: {
+					__node: base._id,
+					type: NodeBehaviorType.REFERENCE
+				},
+				kind: {
+					__graph,
+					position: { x: 0, y: 0 },
+					type: NodeKindType.VERTEX
+				},
 				name: "ref"
 			});
-			await expect(service.update(_id, { active: true })).resolves.toBeDefined();
+			await expect(
+				service.update(_id, { active: true })
+			).resolves.toBeDefined();
 		});
 	});
 
