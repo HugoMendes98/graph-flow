@@ -29,7 +29,10 @@ const { workflows } = db;
 
 const getRequestState = (
 	state: RequestState<EntityFindResult<WorkflowJSON>>
-): RequestStateWithSnapshot<EntityFindResult<WorkflowJSON>, HttpErrorResponse> => {
+): RequestStateWithSnapshot<
+	EntityFindResult<WorkflowJSON>,
+	HttpErrorResponse
+> => {
 	return { ...state, snapshot: getRequestStateSnapshot(state) };
 };
 
@@ -61,4 +64,6 @@ export const Primary: Story = {
 };
 export const Clean: Story = { args: { state$ } };
 
-export const ChangeColumns: Story = { args: { columns: ["name", "active", "_id"], state$ } };
+export const ChangeColumns: Story = {
+	args: { columns: ["name", "active", "_id"], state$ }
+};

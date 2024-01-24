@@ -1,4 +1,7 @@
-import { WorkflowJSON, WORKFLOWS_ENDPOINT_PREFIX } from "~/lib/common/app/workflow/endpoints";
+import {
+	WorkflowJSON,
+	WORKFLOWS_ENDPOINT_PREFIX
+} from "~/lib/common/app/workflow/endpoints";
 
 import { EntityHttpClient } from "./_lib/entity.http-client";
 

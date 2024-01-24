@@ -10,7 +10,10 @@ import { GraphArcCreateDto, GraphArcDto, GraphArcUpdateDto } from "../dtos/arc";
  * Endpoint path parts for [arcs]{@link GraphArcDto} (without global prefix).
  * The parameter goes in the middle starting with a `/`.
  */
-export const GRAPH_ARCS_ENDPOINT_PARTS = [GRAPHS_ENDPOINT_PREFIX, "/arcs"] as const;
+export const GRAPH_ARCS_ENDPOINT_PARTS = [
+	GRAPHS_ENDPOINT_PREFIX,
+	"/arcs"
+] as const;
 
 /**
  * Generates the endpoint for `graph-arc`s for a graph.
@@ -24,5 +27,6 @@ export function generateGraphArcsEndpoint(graphId: EntityId) {
 }
 
 export type GraphArcJSON = Jsonify<GraphArcDto>;
-export type GraphArcEndpoint<T extends DtoToEntity<GraphArcDto> | GraphArcJSON = GraphArcJSON> =
-	EntityEndpoint<T, GraphArcCreateDto, GraphArcUpdateDto>;
+export type GraphArcEndpoint<
+	T extends DtoToEntity<GraphArcDto> | GraphArcJSON = GraphArcJSON
+> = EntityEndpoint<T, GraphArcCreateDto, GraphArcUpdateDto>;

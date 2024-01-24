@@ -6,7 +6,9 @@ import { NodeBehaviorType } from "../../dtos/behaviors/node-behavior.type";
  * @param behavior of the node to test
  * @returns if the outputs of the node with the given behavior are readonly
  */
-export function areNodeOutputsReadonlyOnUpdate(behavior: NodeBehaviorType): boolean {
+export function areNodeOutputsReadonlyOnUpdate(
+	behavior: NodeBehaviorType
+): boolean {
 	switch (behavior) {
 		case NodeBehaviorType.CODE:
 		case NodeBehaviorType.PARAMETER_IN:

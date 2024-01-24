@@ -2,10 +2,10 @@ version: "3.4"
 
 services:
   db:
-    image: postgres:15-alpine
-    "environment":
+    image: postgres:16-alpine
+    environment:
       POSTGRES_DB: "nna"
       POSTGRES_USER: "nna"
       POSTGRES_PASSWORD: M1fmx9Tef2dq5UXN
-    "ports":
+    ports:
       - "127.0.0.1:5432:5432"

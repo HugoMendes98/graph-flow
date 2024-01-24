@@ -8,7 +8,10 @@ import { CanBeNull } from "../../../utils/validations";
 /**
  * Validation class for nullable `number` properties.
  */
-export class WhereNumberNullableDto extends WhereBaseDto implements EntityFilterValue<number> {
+export class WhereNumberNullableDto
+	extends WhereBaseDto
+	implements EntityFilterValue<number>
+{
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */

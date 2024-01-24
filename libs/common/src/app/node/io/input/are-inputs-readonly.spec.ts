@@ -16,13 +16,15 @@ describe("areNodeOutputsReadonly", () => {
 				NodeBehaviorType.REFERENCE,
 				NodeBehaviorType.VARIABLE
 			] satisfies NodeBehaviorType[]) {
-				expect(areNodeInputsReadonlyOnCreate(behavior)).toBeTrue();
+				expect(areNodeInputsReadonlyOnCreate(behavior)).toBe(true);
 			}
 		});
 
 		it("should not be readonly", () => {
-			for (const behavior of [NodeBehaviorType.CODE] satisfies NodeBehaviorType[]) {
-				expect(areNodeInputsReadonlyOnCreate(behavior)).toBeFalse();
+			for (const behavior of [
+				NodeBehaviorType.CODE
+			] satisfies NodeBehaviorType[]) {
+				expect(areNodeInputsReadonlyOnCreate(behavior)).toBe(false);
 			}
 		});
 	});
@@ -36,7 +38,7 @@ describe("areNodeOutputsReadonly", () => {
 				NodeBehaviorType.REFERENCE,
 				NodeBehaviorType.VARIABLE
 			] satisfies NodeBehaviorType[]) {
-				expect(areNodeInputsReadonlyOnUpdate(behavior)).toBeTrue();
+				expect(areNodeInputsReadonlyOnUpdate(behavior)).toBe(true);
 			}
 		});
 
@@ -45,7 +47,7 @@ describe("areNodeOutputsReadonly", () => {
 				NodeBehaviorType.CODE,
 				NodeBehaviorType.PARAMETER_OUT
 			] satisfies NodeBehaviorType[]) {
-				expect(areNodeInputsReadonlyOnUpdate(behavior)).toBeFalse();
+				expect(areNodeInputsReadonlyOnUpdate(behavior)).toBe(false);
 			}
 		});
 	});
@@ -60,13 +62,15 @@ describe("areNodeOutputsReadonly", () => {
 				NodeBehaviorType.REFERENCE,
 				NodeBehaviorType.VARIABLE
 			] satisfies NodeBehaviorType[]) {
-				expect(areNodeInputsReadonlyOnDelete(behavior)).toBeTrue();
+				expect(areNodeInputsReadonlyOnDelete(behavior)).toBe(true);
 			}
 		});
 
 		it("should not be readonly", () => {
-			for (const behavior of [NodeBehaviorType.CODE] satisfies NodeBehaviorType[]) {
-				expect(areNodeInputsReadonlyOnDelete(behavior)).toBeFalse();
+			for (const behavior of [
+				NodeBehaviorType.CODE
+			] satisfies NodeBehaviorType[]) {
+				expect(areNodeInputsReadonlyOnDelete(behavior)).toBe(false);
 			}
 		});
 	});

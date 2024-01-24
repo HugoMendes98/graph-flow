@@ -7,7 +7,7 @@ import { GlobalThis } from "../global-this.type";
 
 export async function globalSetup(logger: LoggerTest) {
 	const docker = new Dockerode();
-	const imageTag = "postgres:15-alpine";
+	const imageTag = "postgres:16-alpine";
 	const { name, password, port, username } = configE2e.db;
 
 	const existing = await docker.listContainers().then(containers => {
@@ -32,7 +32,9 @@ export async function globalSetup(logger: LoggerTest) {
 		);
 		logger.log(`  It will use the existing one`);
 
-		(globalThis as unknown as GlobalThis).jest_config = { container: "existing" };
+		(globalThis as unknown as GlobalThis).jest_config = {
+			container: "existing"
+		};
 		return;
 	}
 
@@ -54,7 +56,11 @@ export async function globalSetup(logger: LoggerTest) {
 	logger.log(`Creating container`);
 
 	const container = await docker.createContainer({
-		Env: [`POSTGRES_DB=${name}`, `POSTGRES_USER=${username}`, `POSTGRES_PASSWORD=${password}`],
+		Env: [
+			`POSTGRES_DB=${name}`,
+			`POSTGRES_USER=${username}`,
+			`POSTGRES_PASSWORD=${password}`
+		],
 		HostConfig: {
 			PortBindings: {
 				"5432/tcp": [
@@ -75,7 +81,9 @@ export async function globalSetup(logger: LoggerTest) {
 		const timeout = 5000;
 		const timeoutId = setTimeout(() => {
 			reject(
-				new Error(`Did not succeed to determine if psql is ready in less than ${timeout}ms`)
+				new Error(
+					`Did not succeed to determine if psql is ready in less than ${timeout}ms`
+				)
 			);
 		}, timeout);
 
@@ -106,7 +114,9 @@ export async function globalSetup(logger: LoggerTest) {
 
 export default async function (config: Config) {
 	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- One or the other
-	const logger = LoggerTest(config.watch || config.watchAll)("[global-setup]");
+	const logger = LoggerTest(config.watch || config.watchAll)(
+		"[global-setup]"
+	);
 
 	logger.emptyLine();
 	await globalSetup(logger);

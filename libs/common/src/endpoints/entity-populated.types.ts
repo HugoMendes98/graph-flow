@@ -39,7 +39,10 @@ export type EntitiesToPopulate<T extends EntityDto> = {
 /**
  * The entity with its loaded nested entities
  */
-export type EntityPopulated<T extends EntityDto, P extends EntitiesToPopulate<T> = never> = T & {
+export type EntityPopulated<
+	T extends EntityDto,
+	P extends EntitiesToPopulate<T> = never
+> = T & {
 	[K in keyof P & keyof T]: P[K] extends true
 		? Required<T>[K]
 		: // Nested entities (can still be `null` for nullable relations)
@@ -49,9 +52,17 @@ export type EntityPopulated<T extends EntityDto, P extends EntitiesToPopulate<T>
 			: U
 		: // Mikro-orm Collection
 		NonNullable<T[K]> extends Collection<infer U extends EntityDto>
-		? Collection<P[K] extends EntitiesToPopulate<U> ? EntityPopulated<U, P[K]> & U : U>
+		? Collection<
+				P[K] extends EntitiesToPopulate<U>
+					? EntityPopulated<U, P[K]> & U
+					: U
+		  >
 		: // DTO arrays
 		NonNullable<T[K]> extends Array<infer U extends EntityDto>
-		? Array<P[K] extends EntitiesToPopulate<U> ? EntityPopulated<U, P[K]> & U : U>
+		? Array<
+				P[K] extends EntitiesToPopulate<U>
+					? EntityPopulated<U, P[K]> & U
+					: U
+		  >
 		: never;
 };

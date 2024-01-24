@@ -1,17 +1,57 @@
 {
+	"auto-close-tag.activationOnLanguage": [
+		"HTML (EEx)",
+		"HTML (Eex)",
+		"ejs",
+		"markdown",
+		"xml"
+	],
 	"editor.codeActionsOnSave": {
-		"source.fixAll": true
+		"source.fixAll": "explicit"
 	},
-	"emeraldwalk.runonsave": {
-		"commands": [
-			{
-				"cmd": "npx eslint --fix ${file}",
-				"match": ".*\\.[ts|js|json|md|html|yml|sql]"
-			},
-			{
-				"cmd": "npx stylelint --fix ${file}",
-				"match": ".*\\.[css|scss]"
-			}
-		]
-	}
+	"eslint.onIgnoredFiles": "warn",
+	"eslint.validate": [
+		"html",
+		"javascript",
+		"javascriptreact",
+		"json",
+		"markdown",
+		"typescript",
+		"typescriptreact",
+		"vue",
+		"yaml"
+	],
+	"files.associations": {
+		// Supposition: some files are ignored (e.g.: tsconfig.json) in the eslint plugin
+		// Doing this, "force" them to be considered
+		"*.json": "json",
+		"*.yaml": "yaml",
+		"*.yml": "yaml"
+	},
+	"sqltools.autoOpenSessionFiles": false,
+	"sqltools.connections": [
+		{
+			"database": "nna",
+			"driver": "PostgreSQL",
+			"name": "DB",
+			"password": "M1fmx9Tef2dq5UXN",
+			"port": 5432,
+			"previewLimit": 50,
+			"server": "localhost",
+			"username": "nna"
+		},
+		{
+			"database": "_db-test",
+			"driver": "PostgreSQL",
+			"name": "DB test",
+			"password": "_db-test",
+			"port": 32321,
+			"previewLimit": 50,
+			"server": "localhost",
+			"username": "_db-test"
+		}
+	],
+	"stylelint.enable": true,
+	"stylelint.snippet": ["css", "scss"],
+	"stylelint.validate": ["css", "scss"]
 }

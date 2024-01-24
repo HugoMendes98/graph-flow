@@ -10,7 +10,11 @@ describe("LoginView", () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [LoginView, NoopAnimationsModule, TranslateTestingModule.withTranslations({})]
+			imports: [
+				LoginView,
+				NoopAnimationsModule,
+				TranslateTestingModule.withTranslations({})
+			]
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(LoginView);

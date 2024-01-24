@@ -37,7 +37,10 @@ describe("NodeListComponent", () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [NodeListComponent, TranslateTestingModule.withTranslations({})]
+			imports: [
+				NodeListComponent,
+				TranslateTestingModule.withTranslations({})
+			]
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(NodeListComponent);

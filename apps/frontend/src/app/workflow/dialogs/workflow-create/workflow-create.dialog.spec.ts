@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
-import { WorkflowCreateDialog, WorkflowCreateDialogData } from "./workflow-create.dialog";
+import {
+	WorkflowCreateDialog,
+	WorkflowCreateDialogData
+} from "./workflow-create.dialog";
 
 describe("WorkflowCreateDialog", () => {
 	let component: WorkflowCreateDialog;
@@ -11,7 +14,9 @@ describe("WorkflowCreateDialog", () => {
 		await TestBed.configureTestingModule({
 			imports: [WorkflowCreateDialog]
 		})
-			.overrideProvider(MAT_DIALOG_DATA, { useValue: {} satisfies WorkflowCreateDialogData })
+			.overrideProvider(MAT_DIALOG_DATA, {
+				useValue: {} satisfies WorkflowCreateDialogData
+			})
 			.overrideProvider(MatDialogRef, { useValue: {} })
 			.compileComponents();
 

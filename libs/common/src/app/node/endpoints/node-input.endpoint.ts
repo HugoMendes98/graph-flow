@@ -2,13 +2,20 @@ import { NodeJSON, NODES_ENDPOINT_PREFIX } from "./node.endpoint";
 import { EntityId } from "../../../dtos/entity";
 import { DtoToEntity } from "../../../dtos/entity/entity.types";
 import { EntityEndpoint } from "../../../endpoints";
-import { NodeInputCreateDto, NodeInputDto, NodeInputUpdateDto } from "../dtos/input";
+import {
+	NodeInputCreateDto,
+	NodeInputDto,
+	NodeInputUpdateDto
+} from "../dtos/input";
 
 /**
  * Endpoint path parts for [nodes]{@link NodeInputDto} (without global prefix).
  * The parameter goes in the middle starting with a `/`.
  */
-export const NODE_INPUTS_ENDPOINT_PARTS = [NODES_ENDPOINT_PREFIX, "/inputs"] as const;
+export const NODE_INPUTS_ENDPOINT_PARTS = [
+	NODES_ENDPOINT_PREFIX,
+	"/inputs"
+] as const;
 
 /**
  * Generates the endpoint for `node-input`s for a node.
@@ -22,5 +29,9 @@ export function generateNodeInputsEndpoint(nodeId: EntityId) {
 }
 
 export type NodeInputJSON = NodeJSON["inputs"][number];
-export type NodeInputEndpoint<T extends DtoToEntity<NodeInputDto> | NodeInputJSON = NodeInputJSON> =
-	Pick<EntityEndpoint<T, NodeInputCreateDto, NodeInputUpdateDto>, "create" | "delete" | "update">;
+export type NodeInputEndpoint<
+	T extends DtoToEntity<NodeInputDto> | NodeInputJSON = NodeInputJSON
+> = Pick<
+	EntityEndpoint<T, NodeInputCreateDto, NodeInputUpdateDto>,
+	"create" | "delete" | "update"
+>;

@@ -1,7 +1,11 @@
 import { AxiosError, HttpStatusCode } from "axios";
 import { Jsonify } from "type-fest";
 import { UserHttpClient } from "~/app/backend/e2e/http/clients";
-import { UserDto, UserQueryDto, UserUpdateDto } from "~/lib/common/app/user/dtos";
+import {
+	UserDto,
+	UserQueryDto,
+	UserUpdateDto
+} from "~/lib/common/app/user/dtos";
 import { USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpoints";
 import { EntityOrder } from "~/lib/common/endpoints";
 import { omit } from "~/lib/common/utils/object-fns";
@@ -12,7 +16,9 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 	const client = new UserHttpClient();
 
 	const dbHelper = DbE2eHelper.getHelper("base");
-	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<typeof dbHelper.db>;
+	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<
+		typeof dbHelper.db
+	>;
 	const { users } = db;
 	const [user] = users;
 
@@ -48,7 +54,9 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 				const {
 					data,
 					pagination: { total }
-				} = await client.findMany({ params: { limit: 0 } satisfies UserQueryDto });
+				} = await client.findMany({
+					params: { limit: 0 } satisfies UserQueryDto
+				});
 
 				expect(data).toHaveLength(0);
 				expect(total).toBe(sorted.length);
@@ -130,7 +138,9 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 				const { data: ordered1 } = await client.findMany({
 					params: { order: [{ _id: "asc" }] } satisfies UserQueryDto
 				});
-				expect(ordered1).toStrictEqual(sorted.map(user => omit(user, ["password"])));
+				expect(ordered1).toStrictEqual(
+					sorted.map(user => omit(user, ["password"]))
+				);
 
 				const { data: ordered2 } = await client.findMany({
 					params: { order: [{ _id: "desc" }] } satisfies UserQueryDto
@@ -165,7 +175,9 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 					} satisfies UserQueryDto
 				});
 
-				expect(actual).toStrictEqual(expected.map(user => omit(user, ["password"])));
+				expect(actual).toStrictEqual(
+					expected.map(user => omit(user, ["password"]))
+				);
 			});
 
 			it("should filter with `$or`", async () => {
@@ -173,16 +185,21 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 				const filterEmail = sorted[1].email;
 
 				const expected = sorted.filter(
-					({ _id, email }) => _id === filterId || email === filterEmail
+					({ _id, email }) =>
+						_id === filterId || email === filterEmail
 				);
 				const { data: actual } = await client.findMany({
 					params: {
 						order: [{ _id: "asc" }],
-						where: { $or: [{ _id: filterId }, { email: filterEmail }] }
+						where: {
+							$or: [{ _id: filterId }, { email: filterEmail }]
+						}
 					} satisfies UserQueryDto
 				});
 
-				expect(actual).toStrictEqual(expected.map(user => omit(user, ["password"])));
+				expect(actual).toStrictEqual(
+					expected.map(user => omit(user, ["password"]))
+				);
 			});
 		});
 	});
@@ -193,10 +210,12 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 				pagination: { total: beforeTotal }
 			} = await client.findMany();
 
-			const toUpdate: UserUpdateDto = { firstname: `${user.firstname || "abc"}.123` };
+			const toUpdate: UserUpdateDto = {
+				firstname: `${user.firstname || "abc"}.123`
+			};
 			const updated = await client.update(user._id, toUpdate);
 			expect(updated.firstname).toBe(toUpdate.firstname);
-			expect(updated._updated_at > user._updated_at).toBeTrue();
+			expect(user._updated_at < updated._updated_at).toBe(true);
 
 			const {
 				data: after,
@@ -210,7 +229,10 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 		});
 
 		it("should not be able to update a user's email", async () => {
-			const toUpdate = { email: `abc.${user.email}` } satisfies Pick<UserDto, "email">;
+			const toUpdate = { email: `abc.${user.email}` } satisfies Pick<
+				UserDto,
+				"email"
+			>;
 			const updated = await client.update(user._id, toUpdate);
 
 			expect(updated.email).toBe(user.email);
@@ -221,7 +243,9 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 			const { _id } = users.find(({ _id }) => _id !== user._id)!;
 
 			const response = await client
-				.updateResponse(_id, { firstname: "abc123" } satisfies UserUpdateDto)
+				.updateResponse(_id, {
+					firstname: "abc123"
+				} satisfies UserUpdateDto)
 				.catch(({ response }: AxiosError) => response!);
 			expect(response.status).toBe(404);
 		});
@@ -249,7 +273,7 @@ describe(`Backend HTTP ${USERS_ENDPOINT_PREFIX}`, () => {
 				pagination: { total: afterTotal }
 			} = await client.findMany();
 			expect(afterTotal).toBe(beforeTotal - 1);
-			expect(after.some(({ _id }) => _id === deleted._id)).toBeFalse();
+			expect(after.some(({ _id }) => _id === deleted._id)).toBe(false);
 		});
 
 		it("should not be able to delete another user (404)", async () => {

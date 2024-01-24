@@ -28,7 +28,9 @@ export function IsCron(validationOptions?: ValidationOptions) {
 		{
 			name: IS_CRON,
 			validator: {
-				defaultMessage: buildMessage(prefix => `${prefix}$property must be a valid cron`),
+				defaultMessage: buildMessage(
+					prefix => `${prefix}$property must be a valid cron`
+				),
 				validate: isCron
 			}
 		},

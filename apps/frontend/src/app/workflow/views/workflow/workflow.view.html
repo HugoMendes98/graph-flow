@@ -1,18 +1,33 @@
-<mat-tab-group backgroundColor="primary" class="flex flex-1" headerPosition="below">
+<mat-tab-group
+	backgroundColor="primary"
+	class="flex flex-1"
+	headerPosition="below"
+>
 	<mat-tab bodyClass="flex-1">
 		<ng-template matTabLabel>
-			<ng-container *ngIf="requestState().snapshot.data as workflow; else noWorkflow">
+			<ng-container
+				*ngIf="
+					requestState().snapshot.data as workflow;
+					else noWorkflow
+				"
+			>
 				<span class="font-italic">{{ workflow.name }}</span>
 			</ng-container>
 
 			<ng-template #noWorkflow>
-				<ng-container *ngIf="requestState().state === 'failed'; else loading">
+				<ng-container
+					*ngIf="requestState().state === 'failed'; else loading"
+				>
 					<mat-icon>error</mat-icon>
 					<span class="ml-2" translate>errors.occurred</span>
 				</ng-container>
 
 				<ng-template #loading>
-					<mat-progress-spinner color="accent" diameter="24" mode="indeterminate" />
+					<mat-progress-spinner
+						color="accent"
+						diameter="24"
+						mode="indeterminate"
+					/>
 				</ng-template>
 			</ng-template>
 		</ng-template>
@@ -24,7 +39,9 @@
 			>
 				<app-workflow-update-card
 					[error]="(requestUpdateState$ | async)?.snapshot?.error"
-					[loading]="(requestUpdateState$ | async)?.snapshot?.isLoading"
+					[loading]="
+						(requestUpdateState$ | async)?.snapshot?.isLoading
+					"
 					[workflow]="workflow"
 					(update)="requestUpdateState$.request(workflow, $event)"
 				/>
@@ -51,9 +68,17 @@
 	</mat-tab>
 </mat-tab-group>
 
-<ui-request-state-wrapper class="absolute absolute-centered" [requestState]="requestState()">
+<ui-request-state-wrapper
+	class="absolute absolute-centered"
+	[requestState]="requestState()"
+>
 	<mat-card-actions *ngIf="requestState().snapshot.error?.status === 404">
-		<button color="primary" mat-flat-button routerLink="/workflows" type="button">
+		<button
+			color="primary"
+			mat-flat-button
+			routerLink="/workflows"
+			type="button"
+		>
 			<mat-icon>arrow_back</mat-icon>
 			<span translate>actions.back</span>
 		</button>

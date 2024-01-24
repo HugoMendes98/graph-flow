@@ -14,7 +14,10 @@ describe("NodeSelectorComponent", () => {
 
 		fixture = TestBed.createComponent(NodeSelectorComponent);
 		component = fixture.componentInstance;
-		component.nodes$ = of({ snapshot: { isLoading: false }, state: "init" });
+		component.nodes$ = of({
+			snapshot: { isLoading: false },
+			state: "init"
+		});
 		fixture.detectChanges();
 	});
 

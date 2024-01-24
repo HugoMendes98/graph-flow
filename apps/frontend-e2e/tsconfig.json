@@ -5,8 +5,13 @@
 		"outDir": "../../dist/out-tsc",
 		"sourceMap": false,
 		"target": "ES6",
-		"types": ["cypress", "node", "@4tw/cypress-drag-drop", "@testing-library/cypress"]
+		"types": [
+			"@4tw/cypress-drag-drop",
+			"@testing-library/cypress",
+			"cypress",
+			"node"
+		]
 	},
 	"extends": "../../tsconfig.e2e.json",
-	"include": ["src/**/*.ts", "src/**/*.js", "cypress.config.ts"]
+	"include": ["cypress.config.ts", "src/**/*.js", "src/**/*.ts"]
 }

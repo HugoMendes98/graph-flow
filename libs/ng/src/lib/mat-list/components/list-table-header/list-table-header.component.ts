@@ -1,8 +1,18 @@
 import { CommonModule } from "@angular/common";
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Output } from "@angular/core";
+import {
+	Component,
+	ContentChild,
+	ElementRef,
+	EventEmitter,
+	Input,
+	Output
+} from "@angular/core";
 import { OrderValue } from "~/lib/common/endpoints";
 
-import { ListSortColumns, ListSortOrderValueDefault } from "../../list-sort.columns";
+import {
+	ListSortColumns,
+	ListSortOrderValueDefault
+} from "../../list-sort.columns";
 import { ListSortIconComponent } from "../list-sort-icon/list-sort-icon.component";
 
 @Component({
@@ -13,7 +23,10 @@ import { ListSortIconComponent } from "../list-sort-icon/list-sort-icon.componen
 
 	imports: [CommonModule, ListSortIconComponent]
 })
-export class ListTableHeaderComponent<COLUMN extends number | string, ORDER extends OrderValue> {
+export class ListTableHeaderComponent<
+	COLUMN extends number | string,
+	ORDER extends OrderValue
+> {
 	/**
 	 * Creates a {@link ListSortColumns}'s update
 	 *

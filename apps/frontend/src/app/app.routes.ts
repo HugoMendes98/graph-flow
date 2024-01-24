@@ -5,19 +5,25 @@ import { authGuard } from "./auth/auth.guard";
 export const APP_ROUTES: Routes = [
 	{
 		loadChildren: () =>
-			import("./auth/views/auth-routing.module").then(m => m.AuthRoutingModule),
+			import("./auth/views/auth-routing.module").then(
+				m => m.AuthRoutingModule
+			),
 		path: "auth"
 	},
 	{
 		canActivate: [authGuard],
 		loadChildren: () =>
-			import("./node/views/node-routing.module").then(m => m.NodeRoutingModule),
+			import("./node/views/node-routing.module").then(
+				m => m.NodeRoutingModule
+			),
 		path: "nodes"
 	},
 	{
 		canActivate: [authGuard],
 		loadChildren: () =>
-			import("./workflow/views/workflow-routing.module").then(m => m.WorkflowRoutingModule),
+			import("./workflow/views/workflow-routing.module").then(
+				m => m.WorkflowRoutingModule
+			),
 		path: "workflows"
 	},
 	{
@@ -29,7 +35,10 @@ export const APP_ROUTES: Routes = [
 		redirectTo: "workflows"
 	},
 	{
-		loadComponent: () => import("./_views/not-found/not-found.view").then(m => m.NotFoundView),
+		loadComponent: () =>
+			import("./_views/not-found/not-found.view").then(
+				m => m.NotFoundView
+			),
 		path: "**"
 	}
 ];

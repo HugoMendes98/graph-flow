@@ -18,6 +18,8 @@ import "reflect-metadata";
  * @param validationOptions The additional options for the validation
  * @returns The decorator
  */
-export function CanBeNull(validationOptions?: ValidationOptions): PropertyDecorator {
+export function CanBeNull(
+	validationOptions?: ValidationOptions
+): PropertyDecorator {
 	return ValidateIf((_, value) => value !== null, validationOptions);
 }

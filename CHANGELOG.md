@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.6.4](https://github.com/HugoMendes98/graph-flow/compare/v0.6.3...v0.6.4) (2024-01-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @mikro-orm/nestjs to v5.2.3 ([#70](https://github.com/HugoMendes98/graph-flow/issues/70)) ([2fdf719](https://github.com/HugoMendes98/graph-flow/commit/2fdf719a7d9145be6512e3f07752ec1f87d253f1))
+
+## [0.6.3](https://github.com/HugoMendes98/graph-flow/compare/v0.6.2...v0.6.3) (2024-01-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @nestjs/swagger to v7.1.17 ([#58](https://github.com/HugoMendes98/graph-flow/issues/58)) ([e80ee65](https://github.com/HugoMendes98/graph-flow/commit/e80ee65bfc4e9130b81755bb1b89a4b0314ac171))
+
+## [0.6.2](https://github.com/HugoMendes98/graph-flow/compare/v0.6.1...v0.6.2) (2024-01-13)
+
+
+### Bug Fixes
+
+* **deps:** update angularmaterial monorepo to v16.2.12 ([#56](https://github.com/HugoMendes98/graph-flow/issues/56)) ([284e061](https://github.com/HugoMendes98/graph-flow/commit/284e061020f45e9b5ffdebf38178653ac6021181))
+
+## [0.6.1](https://github.com/HugoMendes98/graph-flow/compare/v0.6.0...v0.6.1) (2024-01-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v1.6.0 [security] ([#60](https://github.com/HugoMendes98/graph-flow/issues/60)) ([f6da630](https://github.com/HugoMendes98/graph-flow/commit/f6da630811a19a869a6fe562c57c0200ed69b8dd))
+
 ## [0.6.0](https://github.com/HugoMendes98/graph-flow/compare/v0.5.10...v0.6.0) (2023-10-29)
 
 

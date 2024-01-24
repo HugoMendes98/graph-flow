@@ -15,7 +15,10 @@ import { entityToPopulateToRelationsKeys } from "./entity-to-populate.coverter";
 /**
  * Some options when finding entities
  */
-export interface EntityServiceFindOptions<T extends EntityBase, P extends EntitiesToPopulate<T>> {
+export interface EntityServiceFindOptions<
+	T extends EntityBase,
+	P extends EntitiesToPopulate<T>
+> {
 	/**
 	 * Populate the given relations
 	 */
@@ -25,7 +28,10 @@ export interface EntityServiceFindOptions<T extends EntityBase, P extends Entiti
 /**
  * The options when creating an entity
  */
-export interface EntityServiceCreateOptions<T extends EntityBase, P extends EntitiesToPopulate<T>> {
+export interface EntityServiceCreateOptions<
+	T extends EntityBase,
+	P extends EntitiesToPopulate<T>
+> {
 	/**
 	 * The options when returning the data
 	 */
@@ -93,7 +99,10 @@ export abstract class EntityService<
 			})
 			.then(([data, total]) => ({
 				data: data as Array<EntityLoaded<T, P>>,
-				pagination: { range: { end: offset + data.length, start: offset }, total }
+				pagination: {
+					range: { end: offset + data.length, start: offset },
+					total
+				}
 			}));
 	}
 
@@ -104,7 +113,9 @@ export abstract class EntityService<
 	 * @returns The count of the entities found
 	 */
 	public count(where: EntityFilter<T> = {}) {
-		return this.findAndCount(where, { limit: 0 }).then(({ pagination: { total } }) => total);
+		return this.findAndCount(where, { limit: 0 }).then(
+			({ pagination: { total } }) => total
+		);
 	}
 
 	/**
@@ -121,7 +132,8 @@ export abstract class EntityService<
 	) {
 		return this.repository.findOneOrFail(where as never, {
 			populate:
-				options?.populate && (entityToPopulateToRelationsKeys(options.populate) as never)
+				options?.populate &&
+				(entityToPopulateToRelationsKeys(options.populate) as never)
 		}) as Promise<EntityLoaded<T, P>>;
 	}
 
@@ -156,7 +168,9 @@ export abstract class EntityService<
 	) {
 		// Why as never? Mikro-orm detect optional props by `?`
 		//	But it does take account of SQL default value
-		const created = this.repository.create(toCreate as never, { persist: true });
+		const created = this.repository.create(toCreate as never, {
+			persist: true
+		});
 
 		await this.repository.getEntityManager().flush();
 
@@ -203,7 +217,9 @@ export abstract class EntityService<
 	 * @returns The deleted entity (before deletion)
 	 */
 	public delete(id: EntityId): Promise<T> {
-		return this.findById(id).then(async entity => this.deleteEntity(entity));
+		return this.findById(id).then(async entity =>
+			this.deleteEntity(entity)
+		);
 	}
 
 	/**

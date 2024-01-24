@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { GraphJSON } from "~/lib/common/app/graph/endpoints";
-import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
+import {
+	WorkflowCreateDto,
+	WorkflowUpdateDto
+} from "~/lib/common/app/workflow/dtos";
 import {
 	WorkflowJSON,
 	WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT,
@@ -25,6 +28,8 @@ export class WorkflowApiService
 
 	/** @inheritDoc */
 	public lookForGraph(id: EntityId): Promise<GraphJSON> {
-		return this.client.get(`${this.getEntrypoint()}/${id}${WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT}`);
+		return this.client.get(
+			`${this.getEntrypoint()}/${id}${WORKFLOW_LOOK_FOR_GRAPH_ENDPOINT}`
+		);
 	}
 }

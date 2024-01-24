@@ -1,4 +1,7 @@
-import { NotFoundError, UniqueConstraintViolationException } from "@mikro-orm/core";
+import {
+	NotFoundError,
+	UniqueConstraintViolationException
+} from "@mikro-orm/core";
 import { Test, TestingModule } from "@nestjs/testing";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
@@ -45,7 +48,9 @@ describe("WorkflowService", () => {
 
 		it("should activate a workflow", async () => {
 			const [{ _id }] = db.workflows;
-			await expect(service.update(_id, { active: true })).resolves.toBeDefined();
+			await expect(
+				service.update(_id, { active: true })
+			).resolves.toBeDefined();
 		});
 
 		it("should not activate a workflow where there is no trigger", async () => {
@@ -80,11 +85,14 @@ describe("WorkflowService", () => {
 
 		it("should have a graph linked when a workflow is created", async () => {
 			const workflow = await service.create({ name: "A new workflow" });
-			expect(workflow.__graph).toBeNumber();
+			expect(typeof workflow.__graph === "number").toBe(true);
 
 			const {
 				pagination: { total }
-			} = await graphService.findAndCount({ _id: workflow.__graph }, { limit: 0 });
+			} = await graphService.findAndCount(
+				{ _id: workflow.__graph },
+				{ limit: 0 }
+			);
 			expect(total).toBe(1);
 		});
 
@@ -93,14 +101,20 @@ describe("WorkflowService", () => {
 
 			const {
 				pagination: { total: before }
-			} = await graphService.findAndCount({ _id: workflow.__graph }, { limit: 0 });
+			} = await graphService.findAndCount(
+				{ _id: workflow.__graph },
+				{ limit: 0 }
+			);
 			expect(before).toBe(1);
 
 			await service.delete(workflow._id);
 
 			const {
 				pagination: { total: after }
-			} = await graphService.findAndCount({ _id: workflow.__graph }, { limit: 0 });
+			} = await graphService.findAndCount(
+				{ _id: workflow.__graph },
+				{ limit: 0 }
+			);
 			expect(after).toBe(0);
 		});
 	});
@@ -118,7 +132,9 @@ describe("WorkflowService", () => {
 
 			it("should fail when getting one by an unknown id", async () => {
 				const id = Math.max(...db.workflows.map(({ _id }) => _id)) + 1;
-				await expect(service.findById(id)).rejects.toThrow(NotFoundError);
+				await expect(service.findById(id)).rejects.toThrow(
+					NotFoundError
+				);
 			});
 
 			describe("Find many", () => {
@@ -166,7 +182,9 @@ describe("WorkflowService", () => {
 			});
 
 			it("should fail when a uniqueness constraint is not respected", async () => {
-				const toCreate: WorkflowCreateDto = { name: db.workflows[0].name };
+				const toCreate: WorkflowCreateDto = {
+					name: db.workflows[0].name
+				};
 				await expect(service.create(toCreate)).rejects.toThrow(
 					UniqueConstraintViolationException
 				);
@@ -182,7 +200,9 @@ describe("WorkflowService", () => {
 
 				// Update an entity and check its content
 				const [workflow] = db.workflows;
-				const toUpdate: WorkflowUpdateDto = { name: `${workflow.name}-${workflow.name}` };
+				const toUpdate: WorkflowUpdateDto = {
+					name: `${workflow.name}-${workflow.name}`
+				};
 				const updated = await service.update(workflow._id, toUpdate);
 				expect(updated.name).toBe(toUpdate.name);
 
@@ -200,9 +220,9 @@ describe("WorkflowService", () => {
 				const [workflow1, workflow2] = db.workflows;
 
 				const toUpdate: WorkflowUpdateDto = { name: workflow1.name };
-				await expect(service.update(workflow2._id, toUpdate)).rejects.toThrow(
-					UniqueConstraintViolationException
-				);
+				await expect(
+					service.update(workflow2._id, toUpdate)
+				).rejects.toThrow(UniqueConstraintViolationException);
 			});
 		});
 
@@ -221,7 +241,9 @@ describe("WorkflowService", () => {
 				// Check that the entity is really deleted
 				const { data: after } = await service.findAndCount();
 				expect(after).toHaveLength(before.length - 1);
-				expect(after.some(({ _id }) => _id === deleted._id)).toBeFalse();
+				expect(after.some(({ _id }) => _id === deleted._id)).toBe(
+					false
+				);
 			});
 
 			it("should not delete an unknown id", async () => {

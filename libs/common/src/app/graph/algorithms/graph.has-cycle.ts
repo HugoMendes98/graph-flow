@@ -37,7 +37,9 @@ export function graphHasCycle(graph: AdjacencyList): boolean {
 				filter: node => roots.has(node),
 				getChildren: node => {
 					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Will thrown an error if the data is invalid
-					const children = graph.get(node)!.adjacentTo.map(({ to: { node } }) => node);
+					const children = graph
+						.get(node)!
+						.adjacentTo.map(({ to: { node } }) => node);
 
 					for (const child of children) {
 						// The node has already been visited, there's a cycle

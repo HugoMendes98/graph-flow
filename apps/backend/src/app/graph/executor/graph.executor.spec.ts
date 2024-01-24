@@ -52,7 +52,10 @@ describe("GraphExecutor", () => {
 				[node.inputs[1]._id, 3]
 			]),
 			startAt: nodes
-				.filter(({ behavior: { type } }) => type === NodeBehaviorType.PARAMETER_IN)
+				.filter(
+					({ behavior: { type } }) =>
+						type === NodeBehaviorType.PARAMETER_IN
+				)
 				.map(({ _id }) => _id)
 		});
 
@@ -61,7 +64,9 @@ describe("GraphExecutor", () => {
 		expect(states).toHaveLength(nodes.length * 4);
 		for (const { _id } of nodes) {
 			// Each node is called 4 times (resolution + propagation)
-			expect(states.filter(({ node }) => node._id === _id)).toHaveLength(4);
+			expect(states.filter(({ node }) => node._id === _id)).toHaveLength(
+				4
+			);
 		}
 	});
 
@@ -77,7 +82,11 @@ describe("GraphExecutor", () => {
 
 		const nodeUnconnected = await nodeService.create({
 			behavior: { type: NodeBehaviorType.VARIABLE, value: 0 },
-			kind: { __graph: graph._id, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
+			kind: {
+				__graph: graph._id,
+				position: { x: 0, y: 0 },
+				type: NodeKindType.VERTEX
+			},
 			name: "unconnected"
 		});
 
@@ -91,7 +100,9 @@ describe("GraphExecutor", () => {
 		});
 
 		const states = await lastValueFrom(state$.pipe(toArray()));
-		expect(states.some(({ node }) => node._id === nodeUnconnected._id)).toBeFalse();
+		expect(
+			states.some(({ node }) => node._id === nodeUnconnected._id)
+		).toBe(false);
 	});
 
 	describe("Errors", () => {

@@ -2,7 +2,9 @@
 	<!-- TODO: more description -->
 
 	<mat-card-header class="m-2 mb-4">
-		<mat-card-title class="mb-1 text-3xl" translate>cards.http-error.title</mat-card-title>
+		<mat-card-title class="mb-1 text-3xl" translate
+			>cards.http-error.title</mat-card-title
+		>
 		<mat-card-subtitle translate>
 			<span>{{ error.status | translateHttpError }}</span>
 		</mat-card-subtitle>
@@ -15,17 +17,23 @@
 		>
 			<ng-container *ngSwitchCase="400">
 				<mat-icon color="warn">front_hand</mat-icon>
-				<p class="flex-1 text-right" translate>cards.http-error.errors.400.description</p>
+				<p class="flex-1 text-right" translate>
+					cards.http-error.errors.400.description
+				</p>
 			</ng-container>
 
 			<ng-container *ngSwitchCase="404">
 				<mat-icon color="warn">visibility_off</mat-icon>
-				<p class="flex-1 text-right" translate>cards.http-error.errors.404.description</p>
+				<p class="flex-1 text-right" translate>
+					cards.http-error.errors.404.description
+				</p>
 			</ng-container>
 
 			<ng-container *ngSwitchCase="500">
 				<mat-icon color="warn">storage</mat-icon>
-				<p class="flex-1 text-right" translate>cards.http-error.errors.500.description</p>
+				<p class="flex-1 text-right" translate>
+					cards.http-error.errors.500.description
+				</p>
 			</ng-container>
 
 			<ng-container *ngSwitchDefault>

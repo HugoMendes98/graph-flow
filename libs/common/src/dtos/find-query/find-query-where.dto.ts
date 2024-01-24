@@ -40,7 +40,10 @@ interface Options {
 
 // Gets the "base" DTO for a given type
 /** @internal */
-function getWhereDtoType(type: DtoType, options: DtoPropertyOptions<object> = {}) {
+function getWhereDtoType(
+	type: DtoType,
+	options: DtoPropertyOptions<object> = {}
+) {
 	const { nullable } = options;
 
 	switch (type) {
@@ -54,7 +57,6 @@ function getWhereDtoType(type: DtoType, options: DtoPropertyOptions<object> = {}
 			return nullable ? WhereStringNullableDto : WhereStringDto;
 	}
 
-	// eslint-disable-next-line no-use-before-define -- created below
 	return generateWhereType(type, class NestedWhereDto {});
 }
 
@@ -74,7 +76,11 @@ function transformWhereDto<T extends object>(
 	// For "Primitive" types
 	switch (
 		!isObject(value) &&
-		(sourceType as unknown as typeof Boolean | typeof Date | typeof Number | typeof String)
+		(sourceType as unknown as
+			| typeof Boolean
+			| typeof Date
+			| typeof Number
+			| typeof String)
 	) {
 		// Get back to this function with an object (for transformation)
 		case Boolean:
@@ -87,14 +93,18 @@ function transformWhereDto<T extends object>(
 			return transformWhereDto(
 				typeSingleton,
 				{
-					$eq: isDateString(value) ? new Date(value as string) : (value as never)
+					$eq: isDateString(value)
+						? new Date(value as string)
+						: (value as never)
 				} satisfies WhereDateDto,
 				options
 			);
 		case Number:
 			return transformWhereDto(
 				typeSingleton,
-				{ $eq: value === null ? null : +value } satisfies WhereNumberNullableDto,
+				{
+					$eq: value === null ? null : +value
+				} satisfies WhereNumberNullableDto,
 				options
 			);
 		case String:
@@ -119,17 +129,31 @@ function transformWhereDto<T extends object>(
 		const propertyType = typeof discriminatedProperty;
 
 		// Only narrow type if the discriminator is "usable"
-		if (propertyType === "boolean" || propertyType === "number" || propertyType === "string") {
-			const subType = subTypes.find(({ name }) => name === discriminatedProperty);
+		if (
+			propertyType === "boolean" ||
+			propertyType === "number" ||
+			propertyType === "string"
+		) {
+			const subType = subTypes.find(
+				({ name }) => name === discriminatedProperty
+			);
 			if (subType) {
-				return plainToInstance(getWhereDtoType(subType.value), value, transformer);
+				return plainToInstance(
+					getWhereDtoType(subType.value),
+					value,
+					transformer
+				);
 			}
 
 			return UNKNOWN_DISCRIMINATED_TYPE;
 		}
 	}
 
-	return plainToInstance(getWhereDtoType(sourceType, dto), value, transformer);
+	return plainToInstance(
+		getWhereDtoType(sourceType, dto),
+		value,
+		transformer
+	);
 }
 
 /** @internal */
@@ -138,17 +162,24 @@ function generateWhereType(source: DtoType, target: Type<unknown>) {
 		const type = new Singleton(() =>
 			dtoStorage.getPropertyType(source.prototype as Type<unknown>, key)
 		);
-		const dtoOptions = dtoStorage.getPropertyOptions(source.prototype as Type<unknown>, key);
+		const dtoOptions = dtoStorage.getPropertyOptions(
+			source.prototype as Type<unknown>,
+			key
+		);
 
 		Reflect.decorate(
 			[
 				Expose(),
 				IsOptional(),
 				Transform(({ key, obj, options }) =>
-					transformWhereDto(type, (obj as Record<string, unknown>)[key], {
-						dto: dtoOptions,
-						transformer: options
-					})
+					transformWhereDto(
+						type,
+						(obj as Record<string, unknown>)[key],
+						{
+							dto: dtoOptions,
+							transformer: options
+						}
+					)
 				),
 				NotEquals(UNKNOWN_DISCRIMINATED_TYPE, {
 					message: "The discriminated type was not determined"
@@ -170,7 +201,9 @@ function generateWhereType(source: DtoType, target: Type<unknown>) {
  * @param dto The class used to determine the transformation and validations
  * @returns The generated class
  */
-export function FindQueryWhereDtoOf<T extends object>(dto: Type<T>): Type<EntityFilter<T>> {
+export function FindQueryWhereDtoOf<T extends object>(
+	dto: Type<T>
+): Type<EntityFilter<T>> {
 	class WhereDto implements EntityFilterLogicalOperators<T> {
 		@Expose()
 		@IsArray()
@@ -193,6 +226,8 @@ export function FindQueryWhereDtoOf<T extends object>(dto: Type<T>): Type<Entity
 		public $or?;
 	}
 
-	Object.defineProperty(WhereDto, "name", { value: `${WhereDto.name}${dto.name}` });
+	Object.defineProperty(WhereDto, "name", {
+		value: `${WhereDto.name}${dto.name}`
+	});
 	return generateWhereType(dto, WhereDto) as never;
 }

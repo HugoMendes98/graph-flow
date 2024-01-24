@@ -2,7 +2,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import type { Meta, StoryObj } from "@storybook/angular";
 import { moduleMetadata } from "@storybook/angular";
 
-import { WorkflowCreateDialog, WorkflowCreateDialogData } from "./workflow-create.dialog";
+import {
+	WorkflowCreateDialog,
+	WorkflowCreateDialogData
+} from "./workflow-create.dialog";
 
 const meta: Meta<WorkflowCreateDialog> = {
 	component: WorkflowCreateDialog,
@@ -16,7 +19,10 @@ export const Primary: Story = {
 	decorators: [
 		moduleMetadata({
 			providers: [
-				{ provide: MAT_DIALOG_DATA, useValue: {} satisfies WorkflowCreateDialogData },
+				{
+					provide: MAT_DIALOG_DATA,
+					useValue: {} satisfies WorkflowCreateDialogData
+				},
 				{ provide: MatDialogRef, useValue: {} }
 			]
 		})

@@ -10,6 +10,8 @@ export type UnshiftParameters<FN, PARAMS extends unknown[]> = FN extends (
 /**
  * Change a function type by adding parameters at the end of the exiting ones
  */
-export type PushParameters<FN, PARAMS extends unknown[]> = FN extends (...args: infer P) => infer R
+export type PushParameters<FN, PARAMS extends unknown[]> = FN extends (
+	...args: infer P
+) => infer R
 	? (...args: [...P, ...PARAMS]) => R
 	: never;

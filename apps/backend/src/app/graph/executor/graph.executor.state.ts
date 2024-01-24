@@ -15,7 +15,8 @@ interface GraphExecuteStateDiscriminated<T extends string> {
 /**
  * When a node starts its resolution
  */
-export type GraphExecuteResolutionStartState = GraphExecuteStateDiscriminated<"resolution-start">;
+export type GraphExecuteResolutionStartState =
+	GraphExecuteStateDiscriminated<"resolution-start">;
 
 /**
  * When a node ends its resolution (after being executed)
@@ -32,12 +33,14 @@ export interface GraphExecuteResolutionEndState
  * When a node enters the flow propagation process.
  * After it has been resolved, before propagation
  */
-export type GraphExecutePropagationEnterState = GraphExecuteStateDiscriminated<"propagation-enter">;
+export type GraphExecutePropagationEnterState =
+	GraphExecuteStateDiscriminated<"propagation-enter">;
 /**
  * When a node leave the flow propagation process.
  * After it has been resolved, after propagation
  */
-export type GraphExecutePropagationLeaveState = GraphExecuteStateDiscriminated<"propagation-leave">;
+export type GraphExecutePropagationLeaveState =
+	GraphExecuteStateDiscriminated<"propagation-leave">;
 
 export type GraphExecuteState =
 	| GraphExecutePropagationEnterState

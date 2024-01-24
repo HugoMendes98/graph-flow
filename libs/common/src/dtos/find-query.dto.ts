@@ -1,6 +1,12 @@
 import type { Type } from "@nestjs/common";
 import { Expose, Type as TypeTransformer } from "class-transformer";
-import { IsArray, IsNumber, IsOptional, Min, ValidateNested } from "class-validator";
+import {
+	IsArray,
+	IsNumber,
+	IsOptional,
+	Min,
+	ValidateNested
+} from "class-validator";
 
 import { FindQueryOrderDtoOf } from "./find-query/find-query-order.dto";
 import { FindQueryWhereDtoOf } from "./find-query/find-query-where.dto";
@@ -41,7 +47,9 @@ export abstract class FindQueryDto<T> implements EntityFindQuery<T> {
  * @param dto The class used to determine the transformation and validations
  * @returns The generated class
  */
-export function FindQueryDtoOf<T extends object>(dto: Type<T>): Type<EntityFindQuery<T>> {
+export function FindQueryDtoOf<T extends object>(
+	dto: Type<T>
+): Type<EntityFindQuery<T>> {
 	const OrderDto = FindQueryOrderDtoOf(dto);
 	const WhereDto = FindQueryWhereDtoOf(dto);
 

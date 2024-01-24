@@ -7,15 +7,21 @@ describe("HTTP methods", () => {
 			methods.push(...methods.map(method => method.toLowerCase()));
 
 			for (const method of methods) {
-				expect(isAHttpMethod(method)).toBeTrue();
+				expect(isAHttpMethod(method)).toBe(true);
 			}
 		});
 
 		it("should return that a string is not a HTTP method", () => {
-			const methods: string[] = ["UPDATE", "got", "Post", "REMOVE", "create"];
+			const methods: string[] = [
+				"UPDATE",
+				"got",
+				"Post",
+				"REMOVE",
+				"create"
+			];
 
 			for (const method of methods) {
-				expect(isAHttpMethod(method)).toBeFalse();
+				expect(isAHttpMethod(method)).toBe(false);
 			}
 		});
 	});

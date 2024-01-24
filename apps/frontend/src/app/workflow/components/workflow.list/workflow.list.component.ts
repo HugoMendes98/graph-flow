@@ -1,6 +1,13 @@
 import { CommonModule } from "@angular/common";
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import {
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	Output,
+	SimpleChanges
+} from "@angular/core";
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
@@ -60,10 +67,16 @@ export interface WorkflowListQuery {
 	]
 })
 export class WorkflowListComponent implements OnChanges {
-	public static listQueryToApiQuery(query: WorkflowListQuery): EntityFindQuery<WorkflowJSON> {
+	public static listQueryToApiQuery(
+		query: WorkflowListQuery
+	): EntityFindQuery<WorkflowJSON> {
 		const { sort = new ListSortColumns() } = query;
 
-		return { order: sort.columns.map(({ column, direction }) => ({ [column]: direction })) };
+		return {
+			order: sort.columns.map(({ column, direction }) => ({
+				[column]: direction
+			}))
+		};
 	}
 
 	// TODO: loading/error state
@@ -73,7 +86,10 @@ export class WorkflowListComponent implements OnChanges {
 	 */
 	@Input({ required: true })
 	public state$!: Observable<
-		RequestStateWithSnapshot<EntityFindResult<WorkflowJSON>, HttpErrorResponse>
+		RequestStateWithSnapshot<
+			EntityFindResult<WorkflowJSON>,
+			HttpErrorResponse
+		>
 	>;
 
 	/**
@@ -82,7 +98,8 @@ export class WorkflowListComponent implements OnChanges {
 	 * @default All columns
 	 */
 	@Input()
-	public columns: readonly WorkflowListColumn[] = WORKFLOW_LIST_COLUMNS.slice();
+	public columns: readonly WorkflowListColumn[] =
+		WORKFLOW_LIST_COLUMNS.slice();
 
 	@Input()
 	public rowUrl?: (workflow: WorkflowJSON) => string;
@@ -118,12 +135,15 @@ export class WorkflowListComponent implements OnChanges {
 	/**
 	 * Updates a table header direction
 	 */
-	protected readonly nextDirection = ListTableHeaderComponent.DEFAULT_NEXT_DIRECTION();
+	protected readonly nextDirection =
+		ListTableHeaderComponent.DEFAULT_NEXT_DIRECTION();
 
 	/** @inheritDoc */
 	public ngOnChanges(changes: SimpleChanges) {
 		if (("state$" satisfies keyof this) in changes) {
-			this.dataSource$ = this.state$.pipe(map(({ snapshot: { data } }) => data?.data ?? []));
+			this.dataSource$ = this.state$.pipe(
+				map(({ snapshot: { data } }) => data?.data ?? [])
+			);
 		}
 	}
 

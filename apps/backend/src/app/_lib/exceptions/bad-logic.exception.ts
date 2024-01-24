@@ -15,6 +15,9 @@ export class BadLogicException extends UnprocessableEntityException {
 	 * @param cause that created this exception
 	 */
 	public constructor(description: object, cause?: unknown) {
-		super("Unprocessable Entity", { cause, description: description as unknown as string });
+		super("Unprocessable Entity", {
+			cause,
+			description: description as unknown as string
+		});
 	}
 }

@@ -6,16 +6,17 @@ import { ENTITY_BASE_KEYS } from "../../../dtos/entity";
 /**
  * The mandatory keys to create a [workflow]{@link WorkflowDto}.
  */
-export const WORKFLOW_CREATE_KEYS_MANDATORY = ["name"] as const satisfies ReadonlyArray<
-	keyof WorkflowDto
->;
+export const WORKFLOW_CREATE_KEYS_MANDATORY = [
+	"name"
+] as const satisfies ReadonlyArray<keyof WorkflowDto>;
 
 /**
  * The keys that can not be set
  */
-export const WORKFLOW_KEYS_READONLY = ["__graph", "graph"] as const satisfies ReadonlyArray<
-	keyof WorkflowDto
->;
+export const WORKFLOW_KEYS_READONLY = [
+	"__graph",
+	"graph"
+] as const satisfies ReadonlyArray<keyof WorkflowDto>;
 
 /**
  * DTO used to create [workflow]{@link WorkflowDto}

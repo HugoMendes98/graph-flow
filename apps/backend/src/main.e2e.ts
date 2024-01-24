@@ -4,7 +4,10 @@ import { HttpServer } from "@nestjs/common/interfaces/http/http-server.interface
 import { Request, Response } from "express";
 
 import { bootstrap } from "./bootstrap";
-import { E2E_ENDPOINT_DB_SEEDING, E2eEndpointDbSeedingBody } from "./config.e2e";
+import {
+	E2E_ENDPOINT_DB_SEEDING,
+	E2eEndpointDbSeedingBody
+} from "./config.e2e";
 import { getConfiguration } from "./configuration";
 import { DbTestHelper, isDbTestSampleValid } from "../test/db-test";
 
@@ -14,7 +17,10 @@ bootstrap()
 	.then(async app => {
 		const { host } = getConfiguration();
 
-		const httpAdapter = app.getHttpAdapter() as HttpServer<Request, Response>;
+		const httpAdapter = app.getHttpAdapter() as HttpServer<
+			Request,
+			Response
+		>;
 		const orm = app.get(MikroORM);
 
 		httpAdapter.get(E2E_ENDPOINT_DB_SEEDING, (req, res) => {
@@ -23,7 +29,9 @@ bootstrap()
 				res.json({ ok: false });
 			};
 
-			const { sample } = req.query as Partial<Record<keyof E2eEndpointDbSeedingBody, string>>;
+			const { sample } = req.query as Partial<
+				Record<keyof E2eEndpointDbSeedingBody, string>
+			>;
 
 			if (!sample || !isDbTestSampleValid(sample)) {
 				sendKo(400);
@@ -42,7 +50,11 @@ bootstrap()
 			new DbTestHelper(app, { sample: "base" }).refresh()
 		);
 		await app.listen(host.port, host.name);
-		Logger.log(`🚀 Application is running on: ${await app.getUrl()}/${host.globalPrefix}`);
+		Logger.log(
+			`🚀 Application is running on: ${await app.getUrl()}/${
+				host.globalPrefix
+			}`
+		);
 	})
 	.catch((error: unknown) => {
 		// eslint-disable-next-line no-console -- bootstrap of the application

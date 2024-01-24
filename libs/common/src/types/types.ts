@@ -5,7 +5,9 @@ import { Primitive as RealPrimitive } from "type-fest";
  *
  * @see https://stackoverflow.com/a/63029283
  */
-export type DropFirst<T extends unknown[]> = T extends [unknown, ...infer U] ? U : never;
+export type DropFirst<T extends unknown[]> = T extends [unknown, ...infer U]
+	? U
+	: never;
 
 /**
  * The primitives, by this project point of view.

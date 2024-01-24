@@ -54,12 +54,13 @@ describe("Profile", () => {
 			cy.get("#mat-input-1").type(toUpdate.firstname);
 			cy.get("#mat-input-2").clear();
 			cy.get("#mat-input-2").type(`${toUpdate.lastname}{enter}`);
-			cy.get(".mat-mdc-dialog-actions > .mdc-button > .mdc-button__label").click();
+			cy.get(
+				".mat-mdc-dialog-actions > .mdc-button > .mdc-button__label"
+			).click();
 			cy.get(".mat-toolbar .mat-mdc-button-touch-target").click();
-			cy.get(".mat-mdc-menu-item > span.mat-mdc-menu-item-text:nth-child(1)").should(
-				"have.text",
-				`${toUpdate.firstname} ${toUpdate.lastname}`
-			);
+			cy.get(
+				".mat-mdc-menu-item > span.mat-mdc-menu-item-text:nth-child(1)"
+			).should("have.text", `${toUpdate.firstname} ${toUpdate.lastname}`);
 			/* ==== End Cypress Studio ==== */
 		});
 	});

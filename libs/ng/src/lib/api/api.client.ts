@@ -99,7 +99,11 @@ export class ApiClient {
 	 * @param options options of the request like headers, body, etc.
 	 * @returns the response of the request
 	 */
-	public post<T, U = unknown>(endpoint: string, body?: U, options?: RequestOptions): Promise<T> {
+	public post<T, U = unknown>(
+		endpoint: string,
+		body?: U,
+		options?: RequestOptions
+	): Promise<T> {
 		return this.request<T>("POST", endpoint, { ...options, body });
 	}
 
@@ -111,7 +115,11 @@ export class ApiClient {
 	 * @param options options of the request like headers, body, etc.
 	 * @returns the response of the request
 	 */
-	public patch<T, U = unknown>(endpoint: string, body?: U, options?: RequestOptions): Promise<T> {
+	public patch<T, U = unknown>(
+		endpoint: string,
+		body?: U,
+		options?: RequestOptions
+	): Promise<T> {
 		return this.request<T>("PATCH", endpoint, { ...options, body });
 	}
 
@@ -123,7 +131,11 @@ export class ApiClient {
 	 * @param options options of the request like headers, body, etc.
 	 * @returns the response of the request
 	 */
-	public put<T, U = unknown>(endpoint: string, body?: U, options?: RequestOptions): Promise<T> {
+	public put<T, U = unknown>(
+		endpoint: string,
+		body?: U,
+		options?: RequestOptions
+	): Promise<T> {
 		return this.request<T>("PUT", endpoint, { ...options, body });
 	}
 
@@ -160,7 +172,9 @@ export class ApiClient {
 
 		if (observeEvent) {
 			// No need to subscribe as `lastValueForm` already does it
-			request = request.pipe<HttpEvent<T>>(tap(value => observeEvent(value)));
+			request = request.pipe<HttpEvent<T>>(
+				tap(value => observeEvent(value))
+			);
 		}
 
 		return lastValueFrom(request).then(last =>

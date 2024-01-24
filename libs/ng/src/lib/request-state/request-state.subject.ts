@@ -2,18 +2,28 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
 
 import { RequestState } from "./request-state";
-import { getRequestStateSnapshot, RequestStateWithSnapshot } from "./request-state.snapshot";
+import {
+	getRequestStateSnapshot,
+	RequestStateWithSnapshot
+} from "./request-state.snapshot";
 
 /**
  * An observable of the state of any async request.
  *
  * It splits the error into a field to be more easily used in template
  */
-export class RequestStateSubject<T, E = HttpErrorResponse, ARGS extends readonly unknown[] = never>
+export class RequestStateSubject<
+		T,
+		E = HttpErrorResponse,
+		ARGS extends readonly unknown[] = never
+	>
 	extends Observable<RequestStateWithSnapshot<T, E>>
-	implements Pick<BehaviorSubject<RequestStateWithSnapshot<T, E>>, "getValue">
+	implements
+		Pick<BehaviorSubject<RequestStateWithSnapshot<T, E>>, "getValue">
 {
-	private readonly subject = new BehaviorSubject<RequestStateWithSnapshot<T, E>>(
+	private readonly subject = new BehaviorSubject<
+		RequestStateWithSnapshot<T, E>
+	>(
 		this.getRequestWithSnapshot({
 			state: "init"
 		})
@@ -27,7 +37,6 @@ export class RequestStateSubject<T, E = HttpErrorResponse, ARGS extends readonly
 	public constructor(private readonly fn: (...args: ARGS) => Promise<T> | T) {
 		super();
 
-		// eslint-disable-next-line etc/no-deprecated -- FIXME: implement correctly
 		this.source = this.subject;
 	}
 
@@ -60,7 +69,9 @@ export class RequestStateSubject<T, E = HttpErrorResponse, ARGS extends readonly
 		return this.subject.getValue();
 	}
 
-	private getRequestWithSnapshot(state: RequestState<T, E>): RequestStateWithSnapshot<T, E> {
+	private getRequestWithSnapshot(
+		state: RequestState<T, E>
+	): RequestStateWithSnapshot<T, E> {
 		return { ...state, snapshot: getRequestStateSnapshot(state) };
 	}
 	private next(state: RequestState<T, E>) {

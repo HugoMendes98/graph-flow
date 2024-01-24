@@ -32,9 +32,10 @@ describe("getAdjacencyList", () => {
 		expect(list).toHaveLength(graph.nodes.length);
 		expect(
 			list.every(
-				({ adjacentBy, adjacentTo }) => adjacentBy.length === 0 && adjacentTo.length === 0
+				({ adjacentBy, adjacentTo }) =>
+					adjacentBy.length === 0 && adjacentTo.length === 0
 			)
-		).toBeTrue();
+		).toBe(true);
 	});
 
 	it("should return an adjacency list (simple)", () => {
@@ -67,7 +68,10 @@ describe("getAdjacencyList", () => {
 				// Node B
 				{ inputs: [{ _id: 20 }], outputs: [{ _id: 20 }, { _id: 21 }] },
 				// Node C
-				{ inputs: [{ _id: 30 }, { _id: 31 }], outputs: [{ _id: 30 }, { _id: 31 }] },
+				{
+					inputs: [{ _id: 30 }, { _id: 31 }],
+					outputs: [{ _id: 30 }, { _id: 31 }]
+				},
 				// Node D
 				{ inputs: [{ _id: 40 }], outputs: [{ _id: 40 }] },
 				// Node E
@@ -98,8 +102,10 @@ describe("getAdjacencyList", () => {
 		const [nodeA, nodeB, nodeC, nodeD, nodeE] = nodes;
 
 		// As the order is not guaranteed
-		const sortAdjacency = ({ arc: a }: AdjacencyListLink, { arc: b }: AdjacencyListLink) =>
-			a.__from === b.__from ? a.__to - b.__to : a.__from - b.__from;
+		const sortAdjacency = (
+			{ arc: a }: AdjacencyListLink,
+			{ arc: b }: AdjacencyListLink
+		) => (a.__from === b.__from ? a.__to - b.__to : a.__from - b.__from);
 
 		{
 			// NodeA Adjacency
@@ -181,7 +187,9 @@ describe("getAdjacencyList", () => {
 			expect(adjacentBy).toHaveLength(4);
 			expect(adjacentTo).toHaveLength(1);
 
-			const [byC1, byC2, byD, byE] = adjacentBy.slice().sort(sortAdjacency);
+			const [byC1, byC2, byD, byE] = adjacentBy
+				.slice()
+				.sort(sortAdjacency);
 			expect(byC1.arc).toBe(arcs[5]);
 			expect(byC1.from.node).toBe(nodes[2]);
 			expect(byC2.arc).toBe(arcs[6]);
@@ -198,9 +206,9 @@ describe("getAdjacencyList", () => {
 	});
 
 	it("should fail when an arc does not connect 2 nodes", () => {
-		expect(() => getAdjacencyList({ arcs: [{ __from: 2, __to: 1 }], nodes: [] })).toThrow(
-			AdjacencyListUnlinkedArcException
-		);
+		expect(() =>
+			getAdjacencyList({ arcs: [{ __from: 2, __to: 1 }], nodes: [] })
+		).toThrow(AdjacencyListUnlinkedArcException);
 
 		expect(() =>
 			getAdjacencyList({
@@ -211,7 +219,12 @@ describe("getAdjacencyList", () => {
 					{ __from: 1, __to: 1 },
 					{ __from: 2, __to: 2 }
 				],
-				nodes: [{ inputs: [{ _id: 1 }, { _id: 2 }], outputs: [{ _id: 1 }, { _id: 2 }] }]
+				nodes: [
+					{
+						inputs: [{ _id: 1 }, { _id: 2 }],
+						outputs: [{ _id: 1 }, { _id: 2 }]
+					}
+				]
 			})
 		).toThrow(AdjacencyListUnlinkedArcException);
 	});

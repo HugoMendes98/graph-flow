@@ -17,7 +17,10 @@ import {
 	UserResultsDto,
 	UserUpdateDto
 } from "~/lib/common/app/user/dtos";
-import { UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpoints";
+import {
+	UserEndpoint,
+	USERS_ENDPOINT_PREFIX
+} from "~/lib/common/app/user/endpoints";
 
 import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";

@@ -44,7 +44,10 @@
 		[emit]="emit"
 	></div>
 
-	<div *ngIf="!input.value?.control || !input.value?.showControl" class="input-title">
+	<div
+		*ngIf="!input.value?.control || !input.value?.showControl"
+		class="input-title"
+	>
 		{{ input.value?.label }}
 	</div>
 
@@ -53,6 +56,8 @@
 		refComponent
 		[data]="{ type: 'control', payload: input.value?.control }"
 		[emit]="emit"
-		[style.display]="input.value?.control && input.value?.showControl ? '' : 'none'"
+		[style.display]="
+			input.value?.control && input.value?.showControl ? '' : 'none'
+		"
 	></div>
 </div>

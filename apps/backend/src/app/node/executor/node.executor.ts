@@ -2,7 +2,12 @@ import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { filter, lastValueFrom, toArray } from "rxjs";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
-import { castNodeIoValueTo, NODE_IO_VOID, NodeIoType, NodeIoValue } from "~/lib/common/app/node/io";
+import {
+	castNodeIoValueTo,
+	NODE_IO_VOID,
+	NodeIoType,
+	NodeIoValue
+} from "~/lib/common/app/node/io";
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import { NodeExecutorMissingInputException } from "./exceptions";
@@ -95,7 +100,9 @@ export class NodeExecutor {
 	 * @param params The parameters to execute a node
 	 * @returns All the {@link NodeOutputEntity} affected with their value
 	 */
-	public async execute(params: NodeExecuteParameters): Promise<NodeOutputAndValue[]> {
+	public async execute(
+		params: NodeExecuteParameters
+	): Promise<NodeOutputAndValue[]> {
 		const { node, valuedInputs } = params;
 		const { behavior, inputs, outputs } = node;
 
@@ -130,7 +137,9 @@ export class NodeExecutor {
 				}
 
 				const [output] = outputs;
-				return [{ output, value: castNodeIoValueTo(output.type, value) }];
+				return [
+					{ output, value: castNodeIoValueTo(output.type, value) }
+				];
 			}
 
 			case NodeBehaviorType.FUNCTION:
@@ -140,7 +149,12 @@ export class NodeExecutor {
 				return this.executeTrigger(behavior, node);
 
 			case NodeBehaviorType.VARIABLE:
-				return [{ output: outputs[0], value: this.executeVariable(behavior) }];
+				return [
+					{
+						output: outputs[0],
+						value: this.executeVariable(behavior)
+					}
+				];
 
 			case NodeBehaviorType.REFERENCE:
 				return this.executeReference(behavior, node, getValues());
@@ -170,7 +184,10 @@ export class NodeExecutor {
 		}
 	}
 
-	private executeCode(behavior: NodeBehaviorCode, inputs: readonly NodeIoValue[]) {
+	private executeCode(
+		behavior: NodeBehaviorCode,
+		inputs: readonly NodeIoValue[]
+	) {
 		// TODO: better
 		type Fn = (...inputs: NodeIoValue[]) => Promise<NodeIoValue>;
 		return (eval(behavior.code) as Fn)(...inputs);
@@ -181,17 +198,24 @@ export class NodeExecutor {
 		node: NodeEntity,
 		inputs: NodeInputAndValues
 	): Promise<NodeOutputAndValue[]> {
-		const { data: parametersIn } = await this.service.findByGraph(behavior.__graph, {
-			$or: [
-				{ behavior: { type: NodeBehaviorType.PARAMETER_IN } },
-				{
-					behavior: {
-						node: { behavior: { type: NodeBehaviorType.PARAMETER_IN } },
-						type: NodeBehaviorType.REFERENCE
+		const { data: parametersIn } = await this.service.findByGraph(
+			behavior.__graph,
+			{
+				$or: [
+					{ behavior: { type: NodeBehaviorType.PARAMETER_IN } },
+					{
+						behavior: {
+							node: {
+								behavior: {
+									type: NodeBehaviorType.PARAMETER_IN
+								}
+							},
+							type: NodeBehaviorType.REFERENCE
+						}
 					}
-				}
-			]
-		});
+				]
+			}
+		);
 
 		// TODO: a way to access the observable from the outside?
 		// Get the state observable
@@ -209,8 +233,11 @@ export class NodeExecutor {
 		return lastValueFrom(
 			executeState$.pipe(
 				filter(
-					(state: GraphExecuteState): state is GraphExecuteResolutionEndState =>
-						state.type === "resolution-end" && outputIds.includes(state.node._id)
+					(
+						state: GraphExecuteState
+					): state is GraphExecuteResolutionEndState =>
+						state.type === "resolution-end" &&
+						outputIds.includes(state.node._id)
 				),
 				toArray()
 			)
@@ -224,30 +251,36 @@ export class NodeExecutor {
 	): Promise<NodeOutputAndValue[]> {
 		return this.execute({
 			node: await this.service.findById(behavior.__node),
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- An error will be thrown if there is a missing input
-			valuedInputs: new Map(valuedInputs.map(({ input, value }) => [input.__ref!, value]))
+
+			valuedInputs: new Map(
+				valuedInputs.map(({ input, value }) => [input.__ref!, value])
+			)
 		}).then(outputs => {
 			const values = new Map(
 				outputs.map(({ output, value }) => [output._id, value] as const)
 			);
 
-			return (
-				node.outputs
-					.getItems()
-					.filter(({ __ref }) => __ref && values.has(__ref))
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Ok thanks from `filter`
-					.map(output => ({ output, value: values.get(output.__ref!)! }))
-			);
+			return node.outputs
+				.getItems()
+				.filter(({ __ref }) => __ref && values.has(__ref))
+
+				.map(output => ({
+					output,
+					value: values.get(output.__ref!)!
+				}));
 		});
 	}
 
-	private executeTrigger(behavior: NodeBehaviorTrigger, node: NodeEntity): NodeOutputAndValue[] {
+	private executeTrigger(
+		behavior: NodeBehaviorTrigger,
+		node: NodeEntity
+	): NodeOutputAndValue[] {
 		const { trigger } = behavior;
 		const { outputs } = node;
 
 		switch (trigger.type) {
 			case NodeTriggerType.CRON:
-				return [{ output: outputs[0], value: new Date().getTime() }];
+				return [{ output: outputs[0], value: Date.now() }];
 		}
 	}
 

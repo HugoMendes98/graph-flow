@@ -7,7 +7,9 @@ import { omit } from "../../../../utils/object-fns";
 /**
  * Base behavior of any node
  */
-export abstract class NodeBehaviorBaseDto<T extends NodeBehaviorType = NodeBehaviorType> {
+export abstract class NodeBehaviorBaseDto<
+	T extends NodeBehaviorType = NodeBehaviorType
+> {
 	/**
 	 * A unique identifier that determines the behavior.
 	 *
@@ -21,7 +23,10 @@ export abstract class NodeBehaviorBaseDto<T extends NodeBehaviorType = NodeBehav
 /**
  * The discriminator for the node behaviors
  */
-export type NodeBehaviorDiscriminatorKey = keyof Pick<NodeBehaviorBaseDto, "type">;
+export type NodeBehaviorDiscriminatorKey = keyof Pick<
+	NodeBehaviorBaseDto,
+	"type"
+>;
 /**
  * The discriminator key for the node kind
  */

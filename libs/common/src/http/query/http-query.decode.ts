@@ -66,7 +66,7 @@ export function httpQueryDecode<T>(
 ) {
 	if (typeof query === "string") {
 		// The real value if it has a prefix
-		const value = query.substring(1);
+		const value = query.slice(1);
 
 		switch (query.charAt(0) as QueryPrefixIdentifier) {
 			case QueryPrefixIdentifier.DATE:

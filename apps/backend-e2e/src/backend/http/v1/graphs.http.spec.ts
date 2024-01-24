@@ -10,7 +10,9 @@ describe("Backend HTTP Graphs", () => {
 	const client = new GraphHttpClient();
 
 	const dbHelper = DbE2eHelper.getHelper("base");
-	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<typeof BASE_SEED>;
+	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<
+		typeof BASE_SEED
+	>;
 
 	const { graphs } = db.graph;
 
@@ -32,7 +34,10 @@ describe("Backend HTTP Graphs", () => {
 				data,
 				pagination: { total }
 			} = await client.findMany({
-				params: { limit, order: [{ _id: "asc" }] } satisfies GraphQueryDto
+				params: {
+					limit,
+					order: [{ _id: "asc" }]
+				} satisfies GraphQueryDto
 			});
 
 			expect(data).toHaveLength(limit);

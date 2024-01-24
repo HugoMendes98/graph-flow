@@ -1,5 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { UserCreateDto, UserDto, UserUpdateDto } from "~/lib/common/app/user/dtos";
+import {
+	UserCreateDto,
+	UserDto,
+	UserUpdateDto
+} from "~/lib/common/app/user/dtos";
 
 import { UserEntity } from "./user.entity";
 import { UserRepository } from "./user.repository";
@@ -8,13 +12,19 @@ import { EntityService } from "../_lib/entity";
 /**
  * Update of an user from the service
  */
-export interface UserUpdateEntity extends UserUpdateDto, Pick<Partial<UserDto>, "email"> {}
+export interface UserUpdateEntity
+	extends UserUpdateDto,
+		Pick<Partial<UserDto>, "email"> {}
 
 /**
  * Service to manages [users]{@link UserEntity}.
  */
 @Injectable()
-export class UserService extends EntityService<UserEntity, UserCreateDto, UserUpdateEntity> {
+export class UserService extends EntityService<
+	UserEntity,
+	UserCreateDto,
+	UserUpdateEntity
+> {
 	/**
 	 * Constructor with "dependency injection"
 	 *
@@ -31,6 +41,9 @@ export class UserService extends EntityService<UserEntity, UserCreateDto, UserUp
 	 * @returns the user with the given credentials
 	 */
 	public findByCredentials(email: string) {
-		return this.repository.findOneOrFail({ email }, { populate: ["password"] });
+		return this.repository.findOneOrFail(
+			{ email },
+			{ populate: ["password"] }
+		);
 	}
 }

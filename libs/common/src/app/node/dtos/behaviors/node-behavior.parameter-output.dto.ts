@@ -18,6 +18,7 @@ export class NodeBehaviorParameterOutputDto extends NodeBehaviorBaseDto<NodeBeha
 /**
  * Dto to create node of `parameter-out` behavior
  */
-export class NodeBehaviorParameterOutputCreateDto extends OmitType(NodeBehaviorParameterOutputDto, [
-	"__node_output"
-]) {}
+export class NodeBehaviorParameterOutputCreateDto extends OmitType(
+	NodeBehaviorParameterOutputDto,
+	["__node_output"]
+) {}

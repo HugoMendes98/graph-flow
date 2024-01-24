@@ -3,7 +3,10 @@ import stringify from "qs/lib/stringify";
 import { Jsonify } from "type-fest";
 import { EntityDto, EntityId } from "~/lib/common/dtos/entity";
 import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
-import { EntityFindQuery, EntityFindResult } from "~/lib/common/endpoints/entity-find.interfaces";
+import {
+	EntityFindQuery,
+	EntityFindResult
+} from "~/lib/common/endpoints/entity-find.interfaces";
 import { EntityEndpoint } from "~/lib/common/endpoints/entity.endpoint";
 
 import { ApiClient } from "../../api.client";
@@ -55,7 +58,10 @@ export abstract class EntityApiService<
 	 * @returns The results of the request
 	 */
 	public findAndCount(query?: Q): Promise<EntityFindResult<T>> {
-		return this.findAndCountFromParams({ uri: this.getEntrypoint() }, query);
+		return this.findAndCountFromParams(
+			{ uri: this.getEntrypoint() },
+			query
+		);
 	}
 
 	/**
@@ -109,10 +115,10 @@ export abstract class EntityApiService<
 	 * @param query to request
 	 * @returns the data found and its total
 	 */
-	protected findAndCountFromParams<T2 = T, Q2 extends EntityFindQuery<T2> = EntityFindQuery<T2>>(
-		params: FindAndCountParams,
-		query?: Q2
-	): Promise<EntityFindResult<T2>> {
+	protected findAndCountFromParams<
+		T2 = T,
+		Q2 extends EntityFindQuery<T2> = EntityFindQuery<T2>
+	>(params: FindAndCountParams, query?: Q2): Promise<EntityFindResult<T2>> {
 		let { uri } = params;
 
 		if (query) {

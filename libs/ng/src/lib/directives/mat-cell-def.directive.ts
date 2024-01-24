@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
  */
 @Directive({
 	// same selector as MatCellDef
-	// eslint-disable-next-line no-use-before-define -- needed
+
 	providers: [{ provide: CdkCellDef, useExisting: MatCellDefDirective }],
 	// eslint-disable-next-line @angular-eslint/directive-selector -- Need to be the same
 	selector: "[matCellDef]",

@@ -13,7 +13,10 @@ function bootstrap() {
 	// Copy the config template for the backend
 	const configPath = path.join(pathBack, "src/config.ts");
 	if (!fs.existsSync(configPath)) {
-		const configTemplate = path.join(pathBack, "src/configuration/config.template");
+		const configTemplate = path.join(
+			pathBack,
+			"src/configuration/config.template"
+		);
 		fs.copyFileSync(configTemplate, configPath);
 	}
 

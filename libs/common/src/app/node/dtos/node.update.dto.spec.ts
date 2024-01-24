@@ -1,6 +1,9 @@
 import { plainToInstance } from "class-transformer";
 
-import { NodeBehaviorTriggerUpdateDto, NodeBehaviorVariableUpdateDto } from "./behaviors";
+import {
+	NodeBehaviorTriggerUpdateDto,
+	NodeBehaviorVariableUpdateDto
+} from "./behaviors";
 import { NodeBehaviorType } from "./behaviors/node-behavior.type";
 import { NodeTriggerCronDto, NodeTriggerType } from "./behaviors/triggers";
 import { NodeKindType } from "./kind/node-kind.type";
@@ -15,11 +18,19 @@ describe("NodeUpdateDto", () => {
 				name: "a node"
 			} as const satisfies NodeUpdateDto;
 
-			const transformed = plainToInstance(NodeUpdateDto, toTransform, transformOptions);
+			const transformed = plainToInstance(
+				NodeUpdateDto,
+				toTransform,
+				transformOptions
+			);
 
-			expect(transformed.behavior).toBeInstanceOf(NodeBehaviorVariableUpdateDto);
+			expect(transformed.behavior).toBeInstanceOf(
+				NodeBehaviorVariableUpdateDto
+			);
 			expect(transformed.behavior!.type).toBe(toTransform.behavior.type);
-			expect((transformed.behavior! as NodeBehaviorVariableUpdateDto).value).toBeUndefined();
+			expect(
+				(transformed.behavior! as NodeBehaviorVariableUpdateDto).value
+			).toBeUndefined();
 		});
 
 		it("should transform `behavior=TRIGGER` correctly (with nested trigger content)", () => {
@@ -37,12 +48,20 @@ describe("NodeUpdateDto", () => {
 				transformOptions
 			) as typeof toTransform;
 
-			expect(transformed.behavior).toBeInstanceOf(NodeBehaviorTriggerUpdateDto);
-			expect(transformed.behavior.trigger).toBeInstanceOf(NodeTriggerCronDto);
+			expect(transformed.behavior).toBeInstanceOf(
+				NodeBehaviorTriggerUpdateDto
+			);
+			expect(transformed.behavior.trigger).toBeInstanceOf(
+				NodeTriggerCronDto
+			);
 
 			expect(transformed.behavior.type).toBe(toTransform.behavior.type);
-			expect(transformed.behavior.trigger.type).toBe(toTransform.behavior.trigger.type);
-			expect(transformed.behavior.trigger.cron).toBe(toTransform.behavior.trigger.cron);
+			expect(transformed.behavior.trigger.type).toBe(
+				toTransform.behavior.trigger.type
+			);
+			expect(transformed.behavior.trigger.cron).toBe(
+				toTransform.behavior.trigger.cron
+			);
 		});
 	});
 
@@ -60,8 +79,12 @@ describe("NodeUpdateDto", () => {
 			) as typeof toTransform;
 
 			expect(transformed.kind.type).toBe(toTransform.kind.type);
-			expect(transformed.kind.position.x).toBe(toTransform.kind.position.x);
-			expect(transformed.kind.position.y).toBe(toTransform.kind.position.y);
+			expect(transformed.kind.position.x).toBe(
+				toTransform.kind.position.x
+			);
+			expect(transformed.kind.position.y).toBe(
+				toTransform.kind.position.y
+			);
 
 			// -----------------
 

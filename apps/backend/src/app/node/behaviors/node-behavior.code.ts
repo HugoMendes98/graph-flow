@@ -7,7 +7,10 @@ import { NodeBehaviorBase } from "./node-behavior.base";
 const type = NodeBehaviorType.CODE;
 
 @Entity({ discriminatorValue: type })
-export class NodeBehaviorCode extends NodeBehaviorBase<typeof type> implements DTO {
+export class NodeBehaviorCode
+	extends NodeBehaviorBase<typeof type>
+	implements DTO
+{
 	@Property({ type: types.text })
 	public code!: string;
 }

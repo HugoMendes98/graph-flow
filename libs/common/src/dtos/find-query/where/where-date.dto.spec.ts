@@ -15,7 +15,14 @@ describe("WhereDateDto", () => {
 
 		it("should be valid", () => {
 			const wheres: WhereDateDto[] = [
-				{ $eq: date, $gt: date, $gte: date, $lt: date, $lte: date, $ne: date },
+				{
+					$eq: date,
+					$gt: date,
+					$gte: date,
+					$lt: date,
+					$lte: date,
+					$ne: date
+				},
 				{ $in: [date, date], $nin: [date, date] },
 				{ $exists: true, $nin: [] },
 				{ $exists: false }
@@ -29,13 +36,22 @@ describe("WhereDateDto", () => {
 
 		it("should be valid (with nullable)", () => {
 			const wheres: WhereDateNullableDto[] = [
-				{ $eq: null, $gt: date, $gte: date, $lt: date, $lte: date, $ne: date },
+				{
+					$eq: null,
+					$gt: date,
+					$gte: date,
+					$lt: date,
+					$lte: date,
+					$ne: date
+				},
 				{ $in: [date, date], $ne: null },
 				{ $exists: false }
 			];
 
 			for (const where of wheres) {
-				const errors = validate(plainToInstance(WhereDateNullableDto, where));
+				const errors = validate(
+					plainToInstance(WhereDateNullableDto, where)
+				);
 				expect(errors).toHaveLength(0);
 			}
 		});
@@ -43,7 +59,13 @@ describe("WhereDateDto", () => {
 		it("should not be valid", () => {
 			const toFails: Array<[WhereDateDto, number]> = [
 				[{ $eq: "a" as unknown as Date }, 1],
-				[{ $exists: 2 as unknown as boolean, $in: [date, "qff" as unknown as Date] }, 2],
+				[
+					{
+						$exists: 2 as unknown as boolean,
+						$in: [date, "qff" as unknown as Date]
+					},
+					2
+				],
 				// eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- For test
 				[{ $ne: 2 as unknown as Date, a: 2 } as WhereDateDto, 2]
 			];

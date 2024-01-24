@@ -6,14 +6,17 @@ import { ENTITY_BASE_KEYS } from "../../../../dtos/entity";
 /**
  * The mandatory keys to create a [graph-arcs]{@link GraphArcDto}.
  */
-export const GRAPH_ARC_KEYS_MANDATORY = [] as const satisfies ReadonlyArray<keyof GraphArcDto>;
+export const GRAPH_ARC_KEYS_MANDATORY = [] as const satisfies ReadonlyArray<
+	keyof GraphArcDto
+>;
 
 /**
  * The readonly keys of a [graph-arcs]{@link GraphArcDto}.
  */
-export const GRAPH_ARC_KEYS_READONLY = ["from", "to"] as const satisfies ReadonlyArray<
-	keyof GraphArcDto
->;
+export const GRAPH_ARC_KEYS_READONLY = [
+	"from",
+	"to"
+] as const satisfies ReadonlyArray<keyof GraphArcDto>;
 
 /**
  * DTO used to create [graph-arcs]{@link GraphArcDto}.

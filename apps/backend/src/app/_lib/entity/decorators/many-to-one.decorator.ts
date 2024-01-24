@@ -28,7 +28,8 @@ export interface ManyToOneParams {
 	foreign: boolean;
 }
 
-export type ManyToOnePropertyOptions<T, O> = ManyToOneFactoryOptions<T, O> & ManyToOneParams;
+export type ManyToOnePropertyOptions<T, O> = ManyToOneFactoryOptions<T, O> &
+	ManyToOneParams;
 
 /**
  * Decorator for relations. It manages two properties for the same fieldName.

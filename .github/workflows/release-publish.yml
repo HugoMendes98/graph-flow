@@ -7,6 +7,9 @@ on:
 
 jobs:
   job:
+    # Ignore dependencies updates
+    if: ${{ !(github.actor == 'renovate[bot]') }}
+
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -18,7 +21,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: "npm"
           node-version: 18.x
@@ -27,6 +30,7 @@ jobs:
         run: npm ci
 
       - name: Generate code coverage summary
+        timeout-minutes: 15
         run: npm run test:ci
 
       - name: Generating `common` lib coverage badges
