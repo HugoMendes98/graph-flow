@@ -59,7 +59,9 @@ export class HeaderComponent {
 	 * @returns Promise
 	 */
 	protected handleLogout() {
-		return this.authService.logout().then(() => this.router.navigateByUrl("/auth/login"));
+		return this.authService
+			.logout()
+			.then(() => this.router.navigateByUrl("/auth/login"));
 	}
 
 	/**
@@ -68,7 +70,9 @@ export class HeaderComponent {
 	 * @param user the connected user
 	 */
 	protected async openProfile(user: UserDto) {
-		const { ProfileDialog } = await import("../../auth/dialogs/profile/profile.dialog");
+		const { ProfileDialog } = await import(
+			"../../auth/dialogs/profile/profile.dialog"
+		);
 
 		ProfileDialog.open(this.matDialog, { user });
 	}

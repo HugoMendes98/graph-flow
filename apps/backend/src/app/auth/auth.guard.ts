@@ -16,5 +16,9 @@ export class AuthGuard extends PassportGuard(STRATEGY_JWT_NAME) {}
  * @returns The decorator applying Api decorators and guard
  */
 export function UseAuth() {
-	return applyDecorators(ApiBearerAuth(), ApiCookieAuth(), UseGuards(AuthGuard));
+	return applyDecorators(
+		ApiBearerAuth(),
+		ApiCookieAuth(),
+		UseGuards(AuthGuard)
+	);
 }

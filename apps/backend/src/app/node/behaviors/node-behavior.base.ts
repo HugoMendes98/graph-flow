@@ -13,15 +13,15 @@ import { NodeEntity } from "../node.entity";
 export const NODE_BEHAVIOR_ENTITY_OPTIONS = {
 	discriminatorColumn: "type" satisfies NodeBehaviorDiscriminatorKey,
 	tableName: "node_behavior"
-	// eslint-disable-next-line no-use-before-define -- Defined just after
 } as const satisfies EntityOptions<NodeBehaviorBase>;
 
 @Entity({
 	...NODE_BEHAVIOR_ENTITY_OPTIONS,
 	abstract: true
 })
-export abstract class NodeBehaviorBase<Type extends NodeBehaviorType = NodeBehaviorType>
-	implements NodeBehaviorBaseDto
+export abstract class NodeBehaviorBase<
+	Type extends NodeBehaviorType = NodeBehaviorType
+> implements NodeBehaviorBaseDto
 {
 	/** @inheritDoc */
 	@Enum({ items: () => NodeBehaviorType, type: () => NodeBehaviorType })

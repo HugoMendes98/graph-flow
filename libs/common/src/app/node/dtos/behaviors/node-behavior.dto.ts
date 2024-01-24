@@ -15,7 +15,10 @@ import {
 	NodeBehaviorParameterOutputDto
 } from "./node-behavior.parameter-output.dto";
 import { NodeBehaviorReferenceDto } from "./node-behavior.reference.dto";
-import { NodeBehaviorTriggerDto, NodeBehaviorTriggerUpdateDto } from "./node-behavior.trigger.dto";
+import {
+	NodeBehaviorTriggerDto,
+	NodeBehaviorTriggerUpdateDto
+} from "./node-behavior.trigger.dto";
 import { NodeBehaviorType } from "./node-behavior.type";
 import {
 	NodeBehaviorVariableDto,
@@ -29,34 +32,54 @@ import { DiscriminatedType } from "../../../../types";
 export const NODE_BEHAVIOR_DTOS = [
 	{ name: NodeBehaviorType.CODE, value: NodeBehaviorCodeDto },
 	{ name: NodeBehaviorType.FUNCTION, value: NodeBehaviorFunctionDto },
-	{ name: NodeBehaviorType.PARAMETER_IN, value: NodeBehaviorParameterInputDto },
-	{ name: NodeBehaviorType.PARAMETER_OUT, value: NodeBehaviorParameterOutputDto },
+	{
+		name: NodeBehaviorType.PARAMETER_IN,
+		value: NodeBehaviorParameterInputDto
+	},
+	{
+		name: NodeBehaviorType.PARAMETER_OUT,
+		value: NodeBehaviorParameterOutputDto
+	},
 	{ name: NodeBehaviorType.REFERENCE, value: NodeBehaviorReferenceDto },
 	{ name: NodeBehaviorType.TRIGGER, value: NodeBehaviorTriggerDto },
 	{ name: NodeBehaviorType.VARIABLE, value: NodeBehaviorVariableDto }
-] as const satisfies ReadonlyArray<DiscriminatedType<Type<NodeBehaviorBaseDto>, NodeBehaviorType>>;
+] as const satisfies ReadonlyArray<
+	DiscriminatedType<Type<NodeBehaviorBaseDto>, NodeBehaviorType>
+>;
 
 export const NODE_BEHAVIOR_CREATE_DTOS = [
 	{ name: NodeBehaviorType.CODE, value: NodeBehaviorCodeDto },
 	{ name: NodeBehaviorType.FUNCTION, value: NodeBehaviorFunctionCreateDto },
-	{ name: NodeBehaviorType.PARAMETER_IN, value: NodeBehaviorParameterInputCreateDto },
-	{ name: NodeBehaviorType.PARAMETER_OUT, value: NodeBehaviorParameterOutputCreateDto },
+	{
+		name: NodeBehaviorType.PARAMETER_IN,
+		value: NodeBehaviorParameterInputCreateDto
+	},
+	{
+		name: NodeBehaviorType.PARAMETER_OUT,
+		value: NodeBehaviorParameterOutputCreateDto
+	},
 	{ name: NodeBehaviorType.REFERENCE, value: NodeBehaviorReferenceDto },
 	{ name: NodeBehaviorType.TRIGGER, value: NodeBehaviorTriggerDto },
 	{ name: NodeBehaviorType.VARIABLE, value: NodeBehaviorVariableDto }
-] as const satisfies ReadonlyArray<DiscriminatedType<Type<NodeBehaviorBaseDto>, NodeBehaviorType>>;
+] as const satisfies ReadonlyArray<
+	DiscriminatedType<Type<NodeBehaviorBaseDto>, NodeBehaviorType>
+>;
 
 export const NODE_BEHAVIOR_UPDATE_DTOS = [
 	// input/output parameters, references can not be changed
 	{ name: NodeBehaviorType.TRIGGER, value: NodeBehaviorTriggerUpdateDto },
 	{ name: NodeBehaviorType.VARIABLE, value: NodeBehaviorVariableUpdateDto }
 	// TODO: more (Code, Function)
-] as const satisfies ReadonlyArray<DiscriminatedType<Type<NodeBehaviorBaseDto>, NodeBehaviorType>>;
+] as const satisfies ReadonlyArray<
+	DiscriminatedType<Type<NodeBehaviorBaseDto>, NodeBehaviorType>
+>;
 
 /**
  * The union type of all node behaviors
  */
-export type NodeBehaviorDto = InstanceType<(typeof NODE_BEHAVIOR_DTOS)[number]["value"]>;
+export type NodeBehaviorDto = InstanceType<
+	(typeof NODE_BEHAVIOR_DTOS)[number]["value"]
+>;
 
 /**
  * The union type of all "create-behavior"s

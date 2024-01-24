@@ -12,7 +12,11 @@ import {
 	GraphEditorComponent,
 	GraphEditorNodeToAdd
 } from "../../components/editor/graph-editor.component";
-import { GraphActions, GraphData, NodeMoved } from "../../components/graph/graph.component";
+import {
+	GraphActions,
+	GraphData,
+	NodeMoved
+} from "../../components/graph/graph.component";
 
 /**
  * "Standalone" component for the [graph-editor]{@link GraphEditorComponent}.
@@ -38,8 +42,12 @@ export class GraphEditorView implements OnInit {
 	/** The data of the graph */
 	protected readonly data$ = new RequestStateSubject(async () => {
 		const graph = await this.graphApi.findById(this.graphId);
-		const { data: arcs } = await this.graphApi.forArcs(graph._id).findAndCount();
-		const { data: nodes } = await this.graphApi.forNodes(graph._id).findAndCount();
+		const { data: arcs } = await this.graphApi
+			.forArcs(graph._id)
+			.findAndCount();
+		const { data: nodes } = await this.graphApi
+			.forNodes(graph._id)
+			.findAndCount();
 
 		return { arcs, nodes } satisfies GraphData;
 	});
@@ -54,7 +62,8 @@ export class GraphEditorView implements OnInit {
 	protected readonly graphActions = {
 		arc: {
 			create: arc => this.graphApi.forArcs(this.graphId).create(arc),
-			remove: arc => this.graphApi.forArcs(this.graphId).delete(arc._id).then()
+			remove: arc =>
+				this.graphApi.forArcs(this.graphId).delete(arc._id).then()
 		}
 	} as const satisfies GraphActions;
 
@@ -90,7 +99,10 @@ export class GraphEditorView implements OnInit {
 			this.graphApi
 				.forNodes(this.graphId)
 				.create({
-					behavior: { __node: node._id, type: NodeBehaviorType.REFERENCE },
+					behavior: {
+						__node: node._id,
+						type: NodeBehaviorType.REFERENCE
+					},
 					kind: { position },
 					name: `${node.name} (reference)`
 				})

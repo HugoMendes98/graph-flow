@@ -19,4 +19,7 @@ export class NodeBehaviorFunctionDto extends NodeBehaviorBaseDto<NodeBehaviorTyp
 /**
  * Dto to create node of `function` behavior
  */
-export class NodeBehaviorFunctionCreateDto extends OmitType(NodeBehaviorFunctionDto, ["__graph"]) {}
+export class NodeBehaviorFunctionCreateDto extends OmitType(
+	NodeBehaviorFunctionDto,
+	["__graph"]
+) {}

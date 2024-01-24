@@ -60,7 +60,9 @@ export class AuthService {
 		} satisfies JWTPayload);
 
 		// To get the real time of the JWT
-		const { exp } = this.jwtService.decode(access_token) as JWTPayload & { exp: number };
+		const { exp } = this.jwtService.decode(access_token) as JWTPayload & {
+			exp: number;
+		};
 		return {
 			access_token,
 			expires_at: exp * 1000,

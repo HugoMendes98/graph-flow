@@ -23,13 +23,17 @@ describe("IsCron", () => {
 			{ cron: "1 2 3 4 5" },
 			{ cron: "* 10/12 * * *" }
 		] satisfies TestRef[]) {
-			expect(validate(test)).toBeTrue();
+			expect(validate(test)).toBe(true);
 		}
 	});
 
 	it("should not be valid", () => {
-		for (const test of [{ cron: 1 }, { cron: "* * * *" }, { cron: null }] satisfies TestRef[]) {
-			expect(validate(test)).toBeFalse();
+		for (const test of [
+			{ cron: 1 },
+			{ cron: "* * * *" },
+			{ cron: null }
+		] satisfies TestRef[]) {
+			expect(validate(test)).toBe(false);
 		}
 	});
 });

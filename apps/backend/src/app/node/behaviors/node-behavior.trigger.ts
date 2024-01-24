@@ -8,7 +8,10 @@ import { NODE_TRIGGER_ENTITIES, NodeTriggerEntity } from "./triggers";
 const type = NodeBehaviorType.TRIGGER;
 
 @Entity({ discriminatorValue: type })
-export class NodeBehaviorTrigger extends NodeBehaviorBase<typeof type> implements DTO {
+export class NodeBehaviorTrigger
+	extends NodeBehaviorBase<typeof type>
+	implements DTO
+{
 	/** @inheritDoc */
 	@Embedded(() => NODE_TRIGGER_ENTITIES, { object: true })
 	public readonly trigger!: NodeTriggerEntity;

@@ -17,7 +17,7 @@ export class CastNodeIoValueToException extends Error {
 		cause?: unknown
 	) {
 		let sValue = String(value);
-		if (sValue.length > 10) {
+		if (10 < sValue.length) {
 			sValue = `${sValue.slice(0, 10)}...`;
 		}
 
@@ -56,7 +56,8 @@ export function castNodeIoValueTo<T extends NodeIoType>(
 		}
 
 		case NodeIoType.NUMBER: {
-			const casted: NodeIoValueFromType<NodeIoType.NUMBER> = Number(value);
+			const casted: NodeIoValueFromType<NodeIoType.NUMBER> =
+				Number(value);
 			if (Number.isNaN(casted)) {
 				break;
 			}

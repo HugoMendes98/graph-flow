@@ -48,7 +48,9 @@ export function getRequestStateSnapshot<T, E>(
 				...pick(state, ["data"]),
 				isLoading: true
 			};
-			return state.error === false ? snapshot : { ...snapshot, error: state.error };
+			return state.error === false
+				? snapshot
+				: { ...snapshot, error: state.error };
 		}
 		case "success":
 			return { data: state.data, isLoading: false };

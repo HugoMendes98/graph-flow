@@ -47,9 +47,9 @@ describe("NodeExecutor", () => {
 			// Division
 			const node = await service.findById(db.graph.nodes[5]._id);
 			expect(node.behavior.type).toBe(NodeBehaviorType.CODE);
-			await expect(() => executor.execute({ node, valuedInputs: new Map() })).rejects.toThrow(
-				NodeExecutorMissingInputException
-			);
+			await expect(() =>
+				executor.execute({ node, valuedInputs: new Map() })
+			).rejects.toThrow(NodeExecutorMissingInputException);
 		});
 	});
 
@@ -97,12 +97,18 @@ describe("NodeExecutor", () => {
 			expect(quotientOutputs).toHaveLength(1);
 			expect(remainderOutputs).toHaveLength(1);
 
-			const [{ output: quotientOutput, value: quotient }] = quotientOutputs;
-			const [{ output: remainderOutput, value: remainder }] = remainderOutputs;
+			const [{ output: quotientOutput, value: quotient }] =
+				quotientOutputs;
+			const [{ output: remainderOutput, value: remainder }] =
+				remainderOutputs;
 
 			// The values are correct
-			expect(quotient).toBe(divisor === 0 ? 0 : Math.floor(dividend / divisor));
-			expect(remainder).toBe(divisor === 0 ? dividend : dividend % divisor);
+			expect(quotient).toBe(
+				divisor === 0 ? 0 : Math.floor(dividend / divisor)
+			);
+			expect(remainder).toBe(
+				divisor === 0 ? dividend : dividend % divisor
+			);
 
 			// The outputs of the nodes are correct
 			expect(quotientOutput).toStrictEqual(codeQuotientOutput);
@@ -143,8 +149,12 @@ describe("NodeExecutor", () => {
 			)!;
 
 			// The values are correct
-			expect(quotient).toBe(divisor === 0 ? 0 : Math.floor(dividend / divisor));
-			expect(remainder).toBe(divisor === 0 ? dividend : dividend % divisor);
+			expect(quotient).toBe(
+				divisor === 0 ? 0 : Math.floor(dividend / divisor)
+			);
+			expect(remainder).toBe(
+				divisor === 0 ? dividend : dividend % divisor
+			);
 
 			// The outputs of the nodes are correct
 			expect(quotientOutput).toStrictEqual(fnQuotient);
@@ -196,10 +206,15 @@ describe("NodeExecutor", () => {
 		it("should execute a `node-trigger` (CRON)", async () => {
 			const node = await service.findById(db.graph.nodes[12]._id);
 			expect(node.behavior.type).toBe(NodeBehaviorType.TRIGGER);
-			expect((node.behavior as NodeBehaviorTrigger).trigger.type).toBe(NodeTriggerType.CRON);
+			expect((node.behavior as NodeBehaviorTrigger).trigger.type).toBe(
+				NodeTriggerType.CRON
+			);
 
-			const now = new Date().getTime();
-			const outputs = await executor.execute({ node: node, valuedInputs: new Map() });
+			const now = Date.now();
+			const outputs = await executor.execute({
+				node: node,
+				valuedInputs: new Map()
+			});
 			expect(outputs).toHaveLength(1);
 
 			const [{ output, value }] = outputs;
@@ -215,7 +230,10 @@ describe("NodeExecutor", () => {
 			const node = await service.findById(_id);
 			expect(node.behavior.type).toBe(NodeBehaviorType.VARIABLE);
 
-			const outputValues = await executor.execute({ node: node, valuedInputs: new Map() });
+			const outputValues = await executor.execute({
+				node: node,
+				valuedInputs: new Map()
+			});
 			expect(outputValues).toHaveLength(1);
 
 			const [{ output: outputValue, value }] = outputValues;
@@ -251,8 +269,15 @@ describe("NodeExecutor", () => {
 
 		it("should execute a `node-function` reference ('Integer division')", async () => {
 			const node = await service.create({
-				behavior: { __node: db.graph.nodes[7]._id, type: NodeBehaviorType.REFERENCE },
-				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
+				behavior: {
+					__node: db.graph.nodes[7]._id,
+					type: NodeBehaviorType.REFERENCE
+				},
+				kind: {
+					__graph: 1,
+					position: { x: 0, y: 0 },
+					type: NodeKindType.VERTEX
+				},
 				name: "fn ref"
 			});
 			expect(node.behavior.type).toBe(NodeBehaviorType.REFERENCE);
@@ -275,7 +300,9 @@ describe("NodeExecutor", () => {
 			});
 
 			// The values are correct
-			expect(quotient).toBe(divisor === 0 ? 0 : Math.floor(dividend / divisor));
+			expect(quotient).toBe(
+				divisor === 0 ? 0 : Math.floor(dividend / divisor)
+			);
 			expect(remainder).toBe(dividend % divisor);
 
 			// The outputs of the nodes are correct
@@ -286,15 +313,27 @@ describe("NodeExecutor", () => {
 		it("should execute a `node-variable` reference (~= global variable)", async () => {
 			const nodeRef = await service.findById(db.graph.nodes[0]._id);
 			const node = await service.create({
-				behavior: { __node: nodeRef._id, type: NodeBehaviorType.REFERENCE },
-				kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
+				behavior: {
+					__node: nodeRef._id,
+					type: NodeBehaviorType.REFERENCE
+				},
+				kind: {
+					__graph: 1,
+					position: { x: 0, y: 0 },
+					type: NodeKindType.VERTEX
+				},
 				name: "var ref"
 			});
 			expect(nodeRef.behavior.type).toBe(NodeBehaviorType.VARIABLE);
 			expect(node.behavior.type).toBe(NodeBehaviorType.REFERENCE);
 
-			const [{ output, value }] = await executor.execute({ node, valuedInputs: new Map() });
-			expect(value).toBe((nodeRef.behavior as NodeBehaviorVariable).value);
+			const [{ output, value }] = await executor.execute({
+				node,
+				valuedInputs: new Map()
+			});
+			expect(value).toBe(
+				(nodeRef.behavior as NodeBehaviorVariable).value
+			);
 			expect(output).toStrictEqual(node.outputs[0]);
 		});
 	});

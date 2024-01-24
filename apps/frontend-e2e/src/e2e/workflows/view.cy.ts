@@ -25,10 +25,9 @@ describe("Workflow view", () => {
 		const text = " 123";
 
 		/* ==== Generated with Cypress Studio ==== */
-		cy.get("mat-tab-header #mat-tab-label-0-0 > .mdc-tab__content > span span").should(
-			"contain",
-			workflowActionable.name
-		);
+		cy.get(
+			"mat-tab-header #mat-tab-label-0-0 > .mdc-tab__content > span span"
+		).should("contain", workflowActionable.name);
 
 		// Update
 		cy.get("app-workflow-update-card #mat-input-0").type(text);
@@ -61,10 +60,9 @@ describe("Workflow view", () => {
 		cy.wait("@getWorkflow");
 
 		/* ==== Generated with Cypress Studio ==== */
-		cy.get("mat-tab-header #mat-tab-label-0-0 > .mdc-tab__content > span span").should(
-			"contain",
-			"An error occurred"
-		);
+		cy.get(
+			"mat-tab-header #mat-tab-label-0-0 > .mdc-tab__content > span span"
+		).should("contain", "An error occurred");
 		cy.get("ui-http-error-card mat-card-subtitle > span").should(
 			"have.text",
 			"The resource was not found."

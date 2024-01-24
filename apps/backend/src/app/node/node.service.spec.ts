@@ -7,7 +7,10 @@ import { NodeTriggerType } from "~/lib/common/app/node/dtos/behaviors/triggers";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { BASE_SEED } from "~/lib/common/seeds";
 
-import { NodeNoTemplateParameterException, NodeReadonlyKindTypeException } from "./exceptions";
+import {
+	NodeNoTemplateParameterException,
+	NodeReadonlyKindTypeException
+} from "./exceptions";
 import { NodeInputRepository } from "./input/node-input.repository";
 import { NodeKindVertexEntity } from "./kind";
 import { NodeModule } from "./node.module";
@@ -83,12 +86,16 @@ describe("NodeService", () => {
 			return {
 				categories: await Promise.all(
 					[category1, category2].map(({ _id }) =>
-						categoryService.findById(_id, { populate: { nodes: true } })
+						categoryService.findById(_id, {
+							populate: { nodes: true }
+						})
 					)
 				),
 				nodes: await Promise.all(
 					[node1, node2].map(({ _id }) =>
-						service.findById(_id, { populate: { categories: true } })
+						service.findById(_id, {
+							populate: { categories: true }
+						})
 					)
 				)
 			};
@@ -138,8 +145,12 @@ describe("NodeService", () => {
 
 			expect(node1.categories.getItems()[0]._id).toBe(catA._id);
 
-			const cat1 = await categoryService.findById(catA._id, { populate: { nodes: true } });
-			const cat2 = await categoryService.findById(catB._id, { populate: { nodes: true } });
+			const cat1 = await categoryService.findById(catA._id, {
+				populate: { nodes: true }
+			});
+			const cat2 = await categoryService.findById(catB._id, {
+				populate: { nodes: true }
+			});
 			expect(cat1.nodes).toHaveLength(1);
 			expect(cat2.nodes).toHaveLength(0);
 
@@ -154,8 +165,12 @@ describe("NodeService", () => {
 
 			await categoryService.delete(catA._id);
 
-			const node1 = await service.findById(nodeA._id, { populate: { categories: true } });
-			const node2 = await service.findById(nodeB._id, { populate: { categories: true } });
+			const node1 = await service.findById(nodeA._id, {
+				populate: { categories: true }
+			});
+			const node2 = await service.findById(nodeB._id, {
+				populate: { categories: true }
+			});
 			expect(node1.categories).toHaveLength(1);
 			expect(node2.categories).toHaveLength(0);
 
@@ -170,8 +185,12 @@ describe("NodeService", () => {
 
 			await service.delete(nodeA._id);
 
-			const cat1 = await categoryService.findById(catA._id, { populate: { nodes: true } });
-			const cat2 = await categoryService.findById(catB._id, { populate: { nodes: true } });
+			const cat1 = await categoryService.findById(catA._id, {
+				populate: { nodes: true }
+			});
+			const cat2 = await categoryService.findById(catB._id, {
+				populate: { nodes: true }
+			});
 			expect(cat1.nodes).toHaveLength(1);
 			expect(cat2.nodes).toHaveLength(0);
 
@@ -189,7 +208,10 @@ describe("NodeService", () => {
 			await expect(() =>
 				service.create({
 					behavior: {
-						trigger: { cron: "* * * * *", type: NodeTriggerType.CRON },
+						trigger: {
+							cron: "* * * * *",
+							type: NodeTriggerType.CRON
+						},
 						type: NodeBehaviorType.TRIGGER
 					},
 					kind: {
@@ -209,7 +231,10 @@ describe("NodeService", () => {
 			await expect(() =>
 				service.create({
 					behavior: {
-						trigger: { cron: "* * * * *", type: NodeTriggerType.CRON },
+						trigger: {
+							cron: "* * * * *",
+							type: NodeTriggerType.CRON
+						},
 						type: NodeBehaviorType.TRIGGER
 					},
 					kind: {
@@ -243,7 +268,10 @@ describe("NodeService", () => {
 
 			const { inputs, outputs } = node;
 			const { data: arcs } = await graphArcService.findAndCount({
-				$or: [{ from: { node: { _id: node._id } } }, { to: { node: { _id: node._id } } }]
+				$or: [
+					{ from: { node: { _id: node._id } } },
+					{ to: { node: { _id: node._id } } }
+				]
 			});
 
 			// Need to have some data before
@@ -256,7 +284,9 @@ describe("NodeService", () => {
 			// search by ids so that is not linked with the foreign keys
 			const {
 				pagination: { total: totalArcs }
-			} = await graphArcService.findAndCount({ _id: { $in: arcs.map(({ _id }) => _id) } });
+			} = await graphArcService.findAndCount({
+				_id: { $in: arcs.map(({ _id }) => _id) }
+			});
 			expect(totalArcs).toBe(0);
 
 			for (const [repository, entities] of [
@@ -301,7 +331,9 @@ describe("NodeService", () => {
 			expect(node.kind.type).toBe(NodeKindType.VERTEX);
 
 			await expect(() =>
-				service.update(node._id, { kind: { active: true, type: NodeKindType.TEMPLATE } })
+				service.update(node._id, {
+					kind: { active: true, type: NodeKindType.TEMPLATE }
+				})
 			).rejects.toThrow(NodeReadonlyKindTypeException);
 		});
 	});
@@ -311,16 +343,20 @@ describe("NodeService", () => {
 			beforeEach(() => dbTest.refresh());
 
 			it("should get one", async () => {
-				// eslint-disable-next-line unused-imports/no-unused-vars -- to remove from object
-				for (const { __categories: _, ...node } of dbTest.db.graph.nodes) {
+				for (const { __categories: _, ...node } of dbTest.db.graph
+					.nodes) {
 					const row = await service.findById(node._id);
 					expect(row.toJSON()).toStrictEqual(node);
 				}
 			});
 
 			it("should fail when getting one by an unknown id", async () => {
-				const id = Math.max(...dbTest.db.graph.nodes.map(({ _id }) => _id)) + 1;
-				await expect(service.findById(id)).rejects.toThrow(NotFoundError);
+				const id =
+					Math.max(...dbTest.db.graph.nodes.map(({ _id }) => _id)) +
+					1;
+				await expect(service.findById(id)).rejects.toThrow(
+					NotFoundError
+				);
 			});
 		});
 
@@ -359,7 +395,9 @@ describe("NodeService", () => {
 
 				// Update an entity and check its content
 				const [node] = dbTest.db.graph.nodes;
-				const toUpdate: NodeUpdateDto = { name: `${node.name}-${node.name}` };
+				const toUpdate: NodeUpdateDto = {
+					name: `${node.name}-${node.name}`
+				};
 				const updated = await service.update(node._id, toUpdate);
 				expect(updated.name).toBe(toUpdate.name);
 
@@ -387,8 +425,12 @@ describe("NodeService", () => {
 					kind: { position, type: NodeKindType.VERTEX }
 				});
 
-				expect((updated as unknown as GraphNodeJSON).kind.position.x).toBe(position.x);
-				expect((updated as unknown as GraphNodeJSON).kind.position.y).toBe(position.y);
+				expect(
+					(updated as unknown as GraphNodeJSON).kind.position.x
+				).toBe(position.x);
+				expect(
+					(updated as unknown as GraphNodeJSON).kind.position.y
+				).toBe(position.y);
 			});
 		});
 
@@ -414,7 +456,9 @@ describe("NodeService", () => {
 			});
 
 			it("should not delete an unknown id", async () => {
-				const id = Math.max(...dbTest.db.graph.nodes.map(({ _id }) => _id)) + 1;
+				const id =
+					Math.max(...dbTest.db.graph.nodes.map(({ _id }) => _id)) +
+					1;
 				await expect(service.delete(id)).rejects.toThrow(NotFoundError);
 			});
 		});

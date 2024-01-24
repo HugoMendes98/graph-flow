@@ -33,12 +33,18 @@ import {
 	take,
 	tap
 } from "rxjs";
-import type { WORKFLOW_NAME_MIN_LENGTH, WorkflowCreateDto } from "~/lib/common/app/workflow/dtos";
+import type {
+	WORKFLOW_NAME_MIN_LENGTH,
+	WorkflowCreateDto
+} from "~/lib/common/app/workflow/dtos";
 import { WorkflowJSON } from "~/lib/common/app/workflow/endpoints";
 import { ApiModule } from "~/lib/ng/lib/api";
 import { WorkflowApiService } from "~/lib/ng/lib/api/workflow-api";
 import { FormControlsFrom } from "~/lib/ng/lib/forms";
-import { RequestStateSubject, RequestStateWithSnapshot } from "~/lib/ng/lib/request-state";
+import {
+	RequestStateSubject,
+	RequestStateWithSnapshot
+} from "~/lib/ng/lib/request-state";
 import { TranslationModule } from "~/lib/ng/lib/translation";
 
 /**
@@ -60,16 +66,22 @@ export interface WorkflowCreateDialogResult {
 	created: WorkflowJSON;
 }
 
-interface WorkflowUniqueStateBase<T extends "ignore" | "verified" | "verifying"> {
+interface WorkflowUniqueStateBase<
+	T extends "ignore" | "verified" | "verifying"
+> {
 	type: T;
 }
-interface WorkflowUniqueStatePreload extends WorkflowUniqueStateBase<"ignore" | "verifying"> {
+interface WorkflowUniqueStatePreload
+	extends WorkflowUniqueStateBase<"ignore" | "verifying"> {
 	input: string;
 }
-interface WorkflowUniqueStateVerified extends WorkflowUniqueStateBase<"verified"> {
+interface WorkflowUniqueStateVerified
+	extends WorkflowUniqueStateBase<"verified"> {
 	state: RequestStateWithSnapshot<boolean, HttpErrorResponse>;
 }
-type WorkflowUniqueState = WorkflowUniqueStatePreload | WorkflowUniqueStateVerified;
+type WorkflowUniqueState =
+	| WorkflowUniqueStatePreload
+	| WorkflowUniqueStateVerified;
 
 @Component({
 	standalone: true,
@@ -119,15 +131,16 @@ export class WorkflowCreateDialog {
 		});
 	}
 
-	protected readonly requestCreate$ = new RequestStateSubject((body: WorkflowCreateDto) =>
-		this.workflowApi.create(body)
+	protected readonly requestCreate$ = new RequestStateSubject(
+		(body: WorkflowCreateDto) => this.workflowApi.create(body)
 	);
 
 	/** Creating form */
 	protected readonly form: FormGroup<FormControlsFrom<WorkflowCreateDto>>;
 	protected readonly unique$: Observable<WorkflowUniqueState>;
 
-	private readonly NAME_MIN_LENGTH = 2 satisfies typeof WORKFLOW_NAME_MIN_LENGTH;
+	private readonly NAME_MIN_LENGTH =
+		2 satisfies typeof WORKFLOW_NAME_MIN_LENGTH;
 
 	/**
 	 * Constructor with "dependency injection"
@@ -137,7 +150,8 @@ export class WorkflowCreateDialog {
 	 * @param workflowApi injected
 	 */
 	public constructor(
-		@Inject(MAT_DIALOG_DATA) dialogData: WorkflowCreateDialogData | undefined,
+		@Inject(MAT_DIALOG_DATA)
+		dialogData: WorkflowCreateDialogData | undefined,
 		private readonly matDialogRef: MatDialogRef<
 			WorkflowCreateDialog,
 			WorkflowCreateDialogResult
@@ -158,7 +172,8 @@ export class WorkflowCreateDialog {
 							take(1),
 							map(({ state }) => {
 								if (
-									(state.state === "success" && !state.data) ||
+									(state.state === "success" &&
+										!state.data) ||
 									state.state === "failed"
 								) {
 									return {
@@ -171,7 +186,10 @@ export class WorkflowCreateDialog {
 						)
 				],
 				nonNullable: true,
-				validators: [Validators.required, Validators.minLength(this.NAME_MIN_LENGTH)]
+				validators: [
+					Validators.required,
+					Validators.minLength(this.NAME_MIN_LENGTH)
+				]
 			})
 		});
 
@@ -187,7 +205,10 @@ export class WorkflowCreateDialog {
 				input =>
 					({
 						input,
-						type: input.length > this.NAME_MIN_LENGTH ? "verifying" : "ignore"
+						type:
+							this.NAME_MIN_LENGTH < input.length
+								? "verifying"
+								: "ignore"
 					}) satisfies WorkflowUniqueStatePreload
 			)
 		);
@@ -197,11 +218,20 @@ export class WorkflowCreateDialog {
 			debounceTime(500),
 			tap(({ input }) => void requestState$.request(input)),
 			switchMap(() => requestState$),
-			map(state => ({ state, type: "verified" }) satisfies WorkflowUniqueStateVerified)
+			map(
+				state =>
+					({
+						state,
+						type: "verified"
+					}) satisfies WorkflowUniqueStateVerified
+			)
 		);
 
 		this.unique$ = merge(
-			of({ input: "", type: "ignore" } satisfies WorkflowUniqueStatePreload),
+			of({
+				input: "",
+				type: "ignore"
+			} satisfies WorkflowUniqueStatePreload),
 			name$,
 			request$
 		).pipe(distinctUntilChanged());

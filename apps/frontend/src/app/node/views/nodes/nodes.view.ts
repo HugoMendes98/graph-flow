@@ -47,10 +47,15 @@ type NodesViewQueryParam = NodesViewQueryParamSort;
 })
 export class NodesView implements OnInit, OnDestroy {
 	protected readonly nodesState$ = new RequestStateSubject(
-		({ where = {}, ...query }: Parameters<NodeApiService["findAndCount"]>[0] = {}) =>
+		({
+			where = {},
+			...query
+		}: Parameters<NodeApiService["findAndCount"]>[0] = {}) =>
 			this.nodeApi.findAndCount({
 				...query,
-				where: { $and: [{ kind: { type: NodeKindType.TEMPLATE } }, where] }
+				where: {
+					$and: [{ kind: { type: NodeKindType.TEMPLATE } }, where]
+				}
 			})
 	);
 
@@ -91,7 +96,10 @@ export class NodesView implements OnInit, OnDestroy {
 								this.INTERNAL_NAVIGATION
 					)
 				)
-				.subscribe(params => void this.doRequest(this.queryParamsToListQuery(params)))
+				.subscribe(
+					params =>
+						void this.doRequest(this.queryParamsToListQuery(params))
+				)
 		);
 	}
 
@@ -106,12 +114,16 @@ export class NodesView implements OnInit, OnDestroy {
 	}
 
 	protected async openCreateDialog() {
-		const { NodeCreateDialog } = await import("../../dialogs/node-create/node-create.dialog");
+		const { NodeCreateDialog } = await import(
+			"../../dialogs/node-create/node-create.dialog"
+		);
 
 		await lastValueFrom(
 			NodeCreateDialog.open(this.matDialog, {
 				behaviorTypes: NodeCreateDialog.NODE_TEMPLATE_BEHAVIOR_TYPES,
-				initialData: { kind: { active: false, type: NodeKindType.TEMPLATE } }
+				initialData: {
+					kind: { active: false, type: NodeKindType.TEMPLATE }
+				}
 			}).afterClosed()
 		).then(result => {
 			if (!result) {
@@ -147,21 +159,35 @@ export class NodesView implements OnInit, OnDestroy {
 	}
 
 	// TODO: remove it from this component (lib?)
-	private queryParamsToListQuery(queryParams: NodesViewQueryParam): NodeListQuery {
+	private queryParamsToListQuery(
+		queryParams: NodesViewQueryParam
+	): NodeListQuery {
 		// TODO: use a lib (dot-object like)
 		const sortQP = Object.entries(queryParams)
-			.filter(([key, value]) => key.startsWith(SORT_PARAM_SUFFIX) && isOrderValue(value))
+			.filter(
+				([key, value]) =>
+					key.startsWith(SORT_PARAM_SUFFIX) && isOrderValue(value)
+			)
 			.map(([key, value]) => [key.slice(SORT_PARAM_SUFFIX.length), value])
-			.filter((element): element is [NodeListColumnSortable, ListSortOrderValueDefault] =>
-				NODE_LIST_COLUMNS_SORTABLE.includes(element[0] as never)
+			.filter(
+				(
+					element
+				): element is [
+					NodeListColumnSortable,
+					ListSortOrderValueDefault
+				] => NODE_LIST_COLUMNS_SORTABLE.includes(element[0] as never)
 			);
 
 		return {
-			sort: new ListSortColumns(sortQP.map(([column, direction]) => ({ column, direction })))
+			sort: new ListSortColumns(
+				sortQP.map(([column, direction]) => ({ column, direction }))
+			)
 		};
 	}
 
-	private listQueryToQueryParams(listQuery: NodeListQuery): NodesViewQueryParam {
+	private listQueryToQueryParams(
+		listQuery: NodeListQuery
+	): NodesViewQueryParam {
 		// TODO: use a lib (dot-object like)
 		const { sort = new ListSortColumns() } = listQuery;
 

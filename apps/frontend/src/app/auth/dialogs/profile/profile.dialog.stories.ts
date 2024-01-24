@@ -19,7 +19,9 @@ export const Primary: Story = {
 			providers: [
 				{
 					provide: MAT_DIALOG_DATA,
-					useValue: { user: BASE_SEED.users[0] } satisfies ProfileDialogData
+					useValue: {
+						user: BASE_SEED.users[0]
+					} satisfies ProfileDialogData
 				}
 			]
 		})

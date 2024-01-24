@@ -19,7 +19,13 @@ import { TranslationModule } from "../../../translation";
 	styleUrls: ["./http-error.card.scss"],
 	templateUrl: "./http-error.card.html",
 
-	imports: [CommonModule, MatCardModule, TranslateModule, MatIconModule, TranslationModule]
+	imports: [
+		CommonModule,
+		MatCardModule,
+		TranslateModule,
+		MatIconModule,
+		TranslationModule
+	]
 })
 export class HttpErrorCard {
 	/**

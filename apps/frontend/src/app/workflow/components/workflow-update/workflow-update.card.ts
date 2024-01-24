@@ -54,9 +54,14 @@ export class WorkflowUpdateCard {
 	public readonly update = new EventEmitter<WorkflowUpdateDto>();
 
 	/** Form to update a workflow */
-	protected readonly form = new FormGroup<FormControlsFrom<WorkflowUpdateDto>>({
+	protected readonly form = new FormGroup<
+		FormControlsFrom<WorkflowUpdateDto>
+	>({
 		active: new FormControl(false, { nonNullable: true }),
-		name: new FormControl("", { nonNullable: true, validators: [Validators.required] })
+		name: new FormControl("", {
+			nonNullable: true,
+			validators: [Validators.required]
+		})
 	});
 
 	/** The workflow to manage in this card */

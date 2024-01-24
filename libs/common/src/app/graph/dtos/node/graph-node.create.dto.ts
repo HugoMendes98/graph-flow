@@ -14,7 +14,9 @@ import { NodeKindVertexDto } from "../../../node/dtos/kind";
 /**
  * DTO to use when creating a `node-kind` to a `node` linked to a `graph`
  */
-export class GraphNodeKindCreateDto extends PickType(NodeKindVertexDto, ["position"]) {}
+export class GraphNodeKindCreateDto extends PickType(NodeKindVertexDto, [
+	"position"
+]) {}
 
 /**
  * DTO to use when creating a `node` linked to a `graph`

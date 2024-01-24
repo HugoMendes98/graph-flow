@@ -1,4 +1,9 @@
-import { IntersectionType, OmitType, PartialType, PickType } from "@nestjs/mapped-types";
+import {
+	IntersectionType,
+	OmitType,
+	PartialType,
+	PickType
+} from "@nestjs/mapped-types";
 import { IsDefined } from "class-validator";
 
 import { NodeBehaviorBaseDto } from "./node-behavior.base.dto";
@@ -22,5 +27,7 @@ export class NodeBehaviorVariableDto extends NodeBehaviorBaseDto<NodeBehaviorTyp
  */
 export class NodeBehaviorVariableUpdateDto extends IntersectionType(
 	PickType(NodeBehaviorVariableDto, [NODE_KIND_DISCRIMINATOR_KEY]),
-	PartialType(OmitType(NodeBehaviorVariableDto, [NODE_KIND_DISCRIMINATOR_KEY]))
+	PartialType(
+		OmitType(NodeBehaviorVariableDto, [NODE_KIND_DISCRIMINATOR_KEY])
+	)
 ) {}

@@ -52,14 +52,16 @@ export interface WorkflowViewRouteData {
 })
 export class WorkflowView implements OnInit, OnDestroy {
 	/** RSS for the loading workflow */
-	protected readonly requestState$ = new RequestStateSubject((workflowId: EntityId) =>
-		this.workflowApi.findById(workflowId)
+	protected readonly requestState$ = new RequestStateSubject(
+		(workflowId: EntityId) => this.workflowApi.findById(workflowId)
 	);
 
 	/** RSS for the update workflow */
 	protected readonly requestUpdateState$ = new RequestStateSubject(
 		({ _id }: WorkflowJSON, body: WorkflowUpdateDto) =>
-			this.workflowApi.update(_id, body).then(({ _id }) => this.requestState$.request(_id))
+			this.workflowApi
+				.update(_id, body)
+				.then(({ _id }) => this.requestState$.request(_id))
 	);
 
 	protected readonly requestState = toSignal(
@@ -106,7 +108,10 @@ export class WorkflowView implements OnInit, OnDestroy {
 	public ngOnInit() {
 		this.subscription.add(
 			this.activatedRoute.data.subscribe(data => {
-				this.matTab.selectedIndex = (data as WorkflowViewRouteData).graph ? 1 : 0;
+				this.matTab.selectedIndex = (data as WorkflowViewRouteData)
+					.graph
+					? 1
+					: 0;
 			})
 		);
 

@@ -13,17 +13,35 @@ describe("NodeQueryDto", () => {
 			where: { behavior: { type: NodeBehaviorType.TRIGGER } }
 		} as const satisfies NodeQueryDto;
 
-		const transformed1 = plainToInstance(NodeQueryDto, toTransform1, transformOptions);
+		const transformed1 = plainToInstance(
+			NodeQueryDto,
+			toTransform1,
+			transformOptions
+		);
 		expect(
-			(transformed1.where?.behavior?.type as EntityFilterValue<unknown> | undefined)?.$eq
+			(
+				transformed1.where?.behavior?.type as
+					| EntityFilterValue<unknown>
+					| undefined
+			)?.$eq
 		).toBe(toTransform1.where.behavior.type);
 
 		const toTransform2 = {
-			where: { kind: { active: { $ne: false }, type: NodeKindType.TEMPLATE } }
+			where: {
+				kind: { active: { $ne: false }, type: NodeKindType.TEMPLATE }
+			}
 		} as const satisfies NodeQueryDto;
-		const transformed2 = plainToInstance(NodeQueryDto, toTransform2, transformOptions);
+		const transformed2 = plainToInstance(
+			NodeQueryDto,
+			toTransform2,
+			transformOptions
+		);
 		expect(
-			(transformed2.where?.kind?.type as EntityFilterValue<unknown> | undefined)?.$eq
+			(
+				transformed2.where?.kind?.type as
+					| EntityFilterValue<unknown>
+					| undefined
+			)?.$eq
 		).toBe(toTransform2.where.kind.type);
 
 		expect(validateSync(transformed2, validatorOptions)).toHaveLength(0);
@@ -34,7 +52,13 @@ describe("NodeQueryDto", () => {
 			order: [{ behavior: { type: "asc" } }]
 		} as const satisfies NodeQueryDto;
 
-		const transformed1 = plainToInstance(NodeQueryDto, toTransform1, transformOptions);
-		expect(transformed1.order?.[0]?.behavior?.type).toBe(toTransform1.order[0].behavior.type);
+		const transformed1 = plainToInstance(
+			NodeQueryDto,
+			toTransform1,
+			transformOptions
+		);
+		expect(transformed1.order?.[0]?.behavior?.type).toBe(
+			toTransform1.order[0].behavior.type
+		);
 	});
 });

@@ -6,4 +6,6 @@ import { UserCreateDto } from "./user.create.dto";
  * DTO used to update [users]{@link UserDto}
  * in its {@link UserEndpoint endpoint}.
  */
-export class UserUpdateDto extends PartialType(OmitType(UserCreateDto, ["email"])) {}
+export class UserUpdateDto extends PartialType(
+	OmitType(UserCreateDto, ["email"])
+) {}

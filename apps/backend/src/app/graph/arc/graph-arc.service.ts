@@ -12,7 +12,11 @@ import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
 import { getAdjacencyList } from "~/lib/common/app/graph/transformations";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { EntityId } from "~/lib/common/dtos/entity";
-import { EntitiesToPopulate, EntityFilter, EntityFindParams } from "~/lib/common/endpoints";
+import {
+	EntitiesToPopulate,
+	EntityFilter,
+	EntityFindParams
+} from "~/lib/common/endpoints";
 
 import { GraphArcDifferentGraphException } from "./exceptions";
 import { GraphArcEntity } from "./graph-arc.entity";
@@ -26,7 +30,11 @@ import { GraphCyclicException } from "../exceptions";
  */
 @Injectable()
 export class GraphArcService
-	extends EntityService<GraphArcEntity, GraphArcCreateDto, Record<string, never>>
+	extends EntityService<
+		GraphArcEntity,
+		GraphArcCreateDto,
+		Record<string, never>
+	>
 	implements EventSubscriber<GraphArcEntity>
 {
 	/**
@@ -37,11 +45,15 @@ export class GraphArcService
 	 */
 	public constructor(
 		repository: GraphArcRepository,
-		@Inject(forwardRef(() => NodeService)) private readonly nodeService: NodeService
+		@Inject(forwardRef(() => NodeService))
+		private readonly nodeService: NodeService
 	) {
 		super(repository);
 
-		repository.getEntityManager().getEventManager().registerSubscriber(this);
+		repository
+			.getEntityManager()
+			.getEventManager()
+			.registerSubscriber(this);
 	}
 
 	/** @inheritDoc */
@@ -58,11 +70,17 @@ export class GraphArcService
 		const {
 			data: [nodeA],
 			pagination: { total: totalA }
-		} = await this.nodeService.findAndCount({ inputs: { _id: __to } }, { limit: 1 });
+		} = await this.nodeService.findAndCount(
+			{ inputs: { _id: __to } },
+			{ limit: 1 }
+		);
 		const {
 			data: [nodeB],
 			pagination: { total: totalB }
-		} = await this.nodeService.findAndCount({ outputs: { _id: __from } }, { limit: 1 });
+		} = await this.nodeService.findAndCount(
+			{ outputs: { _id: __from } },
+			{ limit: 1 }
+		);
 
 		if (totalA + totalB <= 1) {
 			// Let the FK error be triggered
@@ -72,7 +90,10 @@ export class GraphArcService
 		const { kind: nodeAKind } = nodeA;
 		const { kind: nodeBKind } = nodeB;
 
-		if (nodeAKind.type !== NodeKindType.VERTEX || nodeBKind.type !== NodeKindType.VERTEX) {
+		if (
+			nodeAKind.type !== NodeKindType.VERTEX ||
+			nodeBKind.type !== NodeKindType.VERTEX
+		) {
 			throw new NotImplementedException();
 		}
 
@@ -115,8 +136,26 @@ export class GraphArcService
 			{
 				$and: [where],
 				$or: [
-					{ from: { node: { kind: { __graph: graphId, type: NodeKindType.VERTEX } } } },
-					{ to: { node: { kind: { __graph: graphId, type: NodeKindType.VERTEX } } } }
+					{
+						from: {
+							node: {
+								kind: {
+									__graph: graphId,
+									type: NodeKindType.VERTEX
+								}
+							}
+						}
+					},
+					{
+						to: {
+							node: {
+								kind: {
+									__graph: graphId,
+									type: NodeKindType.VERTEX
+								}
+							}
+						}
+					}
 				]
 			},
 			params,
@@ -132,6 +171,8 @@ export class GraphArcService
 	 * @returns a Promise that rejects
 	 */
 	public override update(_id: EntityId, _toUpdate: Record<string, never>) {
-		return Promise.reject(new MethodNotAllowedException("An arc can not be updated"));
+		return Promise.reject(
+			new MethodNotAllowedException("An arc can not be updated")
+		);
 	}
 }

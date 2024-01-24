@@ -20,7 +20,9 @@ export const Primary: Story = {
 				{
 					provide: MAT_DIALOG_DATA,
 					useValue: {
-						initialData: { kind: { active: false, type: NodeKindType.TEMPLATE } }
+						initialData: {
+							kind: { active: false, type: NodeKindType.TEMPLATE }
+						}
 					} satisfies NodeCreateDialogData
 				},
 				{ provide: MatDialogRef, useValue: {} }

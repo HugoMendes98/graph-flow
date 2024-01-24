@@ -23,7 +23,8 @@ export abstract class MockedDbSeeder extends Seeder {
 	 * @returns The mocked DB of this Seeder
 	 */
 	public static GetMockedDb() {
-		const db = new (this.prototype.constructor as new () => MockedDbSeeder)().db;
+		const db = new (this.prototype
+			.constructor as new () => MockedDbSeeder)().db;
 
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Could happen
 		if (!db) {
@@ -49,7 +50,9 @@ export abstract class MockedDbSeeder extends Seeder {
 
 		// FIXME: Remove this (with another order or inserts ?)
 		// Disable FK checks
-		await em.getConnection().execute("SET session_replication_role = 'replica';");
+		await em
+			.getConnection()
+			.execute("SET session_replication_role = 'replica';");
 
 		const {
 			categories,
@@ -96,13 +99,19 @@ export abstract class MockedDbSeeder extends Seeder {
 		await em.flush();
 
 		// Enable FK checks
-		await em.getConnection().execute("SET session_replication_role = 'origin';");
+		await em
+			.getConnection()
+			.execute("SET session_replication_role = 'origin';");
 
 		for (const { __categories, _id } of nodes) {
-			const node = await em.findOneOrFail(NodeEntity, _id, { populate: ["categories"] });
+			const node = await em.findOneOrFail(NodeEntity, _id, {
+				populate: ["categories"]
+			});
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Does exist with the `populate` option
 			node.categories!.add(
-				__categories.map(id => Reference.createFromPK(CategoryEntity, id))
+				__categories.map(id =>
+					Reference.createFromPK(CategoryEntity, id)
+				)
 			);
 		}
 
@@ -113,7 +122,9 @@ export abstract class MockedDbSeeder extends Seeder {
 		// Need to update the sequence when entities are added manually
 		const primaryKey: keyof EntityBase = "_id";
 		// // TODO: better (if the table name is set manually)
-		const tblName = em.config.getNamingStrategy().classToTableName(entity.name);
+		const tblName = em.config
+			.getNamingStrategy()
+			.classToTableName(entity.name);
 		return em
 			.getConnection()
 			.execute(

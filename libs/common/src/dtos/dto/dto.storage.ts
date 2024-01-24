@@ -118,17 +118,23 @@ class DtoStorage {
 			// TODO: a way to get from the class-transformer directly or use the DtoDecorator to set class-transformer
 			const forwardType = options.type();
 			if (forwardType === null) {
-				throw new DtoError("Can do nothing with a `null` only type or unknown type.");
+				throw new DtoError(
+					"Can do nothing with a `null` only type or unknown type."
+				);
 			}
 
 			return forwardType;
 		}
 
-		const metadataType = Reflect.getMetadata("design:type", source, propertyKey) as
-			| Type<unknown>
-			| undefined;
+		const metadataType = Reflect.getMetadata(
+			"design:type",
+			source,
+			propertyKey
+		) as Type<unknown> | undefined;
 		if (metadataType === undefined) {
-			throw new DtoError("Can do nothing with a `null` only type or unknown type.");
+			throw new DtoError(
+				"Can do nothing with a `null` only type or unknown type."
+			);
 		}
 
 		return metadataType as DtoType<T>;
@@ -139,10 +145,10 @@ class DtoStorage {
 	 * @param propertyKey The key of the property to search
 	 * @returns The Option, if found,
 	 */
-	public getPropertyOptions<T = never, P extends Extract<keyof T, string> = never>(
-		source: Type<unknown>,
-		propertyKey: DtoPropertyKey
-	) {
+	public getPropertyOptions<
+		T = never,
+		P extends Extract<keyof T, string> = never
+	>(source: Type<unknown>, propertyKey: DtoPropertyKey) {
 		return Reflect.getMetadata(this.META_INFO, source, propertyKey) as
 			| DtoPropertyOptions<T, P>
 			| undefined;

@@ -1,5 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { NodeOutputCreateDto, NodeOutputUpdateDto } from "~/lib/common/app/node/dtos/output";
+import {
+	NodeOutputCreateDto,
+	NodeOutputUpdateDto
+} from "~/lib/common/app/node/dtos/output";
 import { NodeErrorCode } from "~/lib/common/app/node/error-codes";
 import { areNodeOutputsReadonlyOnUpdate } from "~/lib/common/app/node/io/output";
 import { EntityId } from "~/lib/common/dtos/entity";
@@ -58,7 +61,10 @@ export class NodeOutputService {
 		outputId: number,
 		options?: EntityServiceFindOptions<NodeOutputEntity, P>
 	) {
-		return this.entityService.findOne({ __node: nodeId, _id: outputId }, options);
+		return this.entityService.findOne(
+			{ __node: nodeId, _id: outputId },
+			options
+		);
 	}
 
 	/**
@@ -79,7 +85,10 @@ export class NodeOutputService {
 
 		const type = node.behavior.type;
 		if (areNodeOutputsReadonlyOnUpdate(type)) {
-			throw new NodeOutputReadonlyException(NodeErrorCode.OUTPUTS_READONLY_UPDATE, type);
+			throw new NodeOutputReadonlyException(
+				NodeErrorCode.OUTPUTS_READONLY_UPDATE,
+				type
+			);
 		}
 
 		return this.entityService.update(id, toUpdate);

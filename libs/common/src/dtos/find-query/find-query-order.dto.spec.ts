@@ -7,7 +7,11 @@ import { DtoProperty } from "../dto";
 
 describe("FindQueryOrderDto", () => {
 	const validate = (value: object) =>
-		validateSync(value, { ...validatorOptions, forbidNonWhitelisted: true, whitelist: true });
+		validateSync(value, {
+			...validatorOptions,
+			forbidNonWhitelisted: true,
+			whitelist: true
+		});
 
 	describe("Validation on a flat DTO", () => {
 		class FlatDto {
@@ -177,9 +181,9 @@ describe("FindQueryOrderDto", () => {
 				expect(errors).toHaveLength(0);
 			}
 
-			const toTransform = { nested: { a: "asc" } } as const satisfies InstanceType<
-				typeof NestedOrderDto
-			>;
+			const toTransform = {
+				nested: { a: "asc" }
+			} as const satisfies InstanceType<typeof NestedOrderDto>;
 			const transformed = transform(toTransform) as typeof toTransform;
 			expect(transformed.nested.a).toBe(toTransform.nested.a);
 		});

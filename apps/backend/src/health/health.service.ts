@@ -49,7 +49,11 @@ export class HealthService {
 	public check(): Promise<HealthCheckResult> {
 		return this.heath.check([
 			() => this.db.pingCheck("database"),
-			() => this.memory.checkHeap("memory_heap", this.THRESHOLDS.MEMORY.HEAP),
+			() =>
+				this.memory.checkHeap(
+					"memory_heap",
+					this.THRESHOLDS.MEMORY.HEAP
+				),
 			() => this.memory.checkRSS("memory_rss", this.THRESHOLDS.MEMORY.RSS)
 		]);
 	}

@@ -18,6 +18,7 @@ export class NodeBehaviorParameterInputDto extends NodeBehaviorBaseDto<NodeBehav
 /**
  * Dto to create node of `parameter-in` behavior
  */
-export class NodeBehaviorParameterInputCreateDto extends OmitType(NodeBehaviorParameterInputDto, [
-	"__node_input"
-]) {}
+export class NodeBehaviorParameterInputCreateDto extends OmitType(
+	NodeBehaviorParameterInputDto,
+	["__node_input"]
+) {}

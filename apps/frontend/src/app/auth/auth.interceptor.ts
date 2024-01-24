@@ -1,4 +1,9 @@
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from "@angular/common/http";
+import {
+	HttpRequest,
+	HttpHandler,
+	HttpEvent,
+	HttpInterceptor
+} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
@@ -17,7 +22,9 @@ export class AuthInterceptor implements HttpInterceptor {
 	/**
 	 * The basic path to the login component
 	 */
-	private readonly pathLogin = AuthService.createLoginUrlTree(this.router).toString();
+	private readonly pathLogin = AuthService.createLoginUrlTree(
+		this.router
+	).toString();
 
 	/**
 	 * Constructor with "dependency injection"
@@ -62,7 +69,10 @@ export class AuthInterceptor implements HttpInterceptor {
 					this.service.disconnectUser();
 				}
 
-				if (this.protected && AuthService.isAnUnauthorizedError(error)) {
+				if (
+					this.protected &&
+					AuthService.isAnUnauthorizedError(error)
+				) {
 					const { url } = this.router.routerState.snapshot;
 					// TODO: better?
 					if (!url.startsWith(this.pathLogin)) {
@@ -86,13 +96,21 @@ export class AuthInterceptor implements HttpInterceptor {
 		this.snackBar.open(
 			(await lastValueFrom(
 				type === "connected"
-					? this.translateService.get("interceptors.auth.redirect.connected")
-					: this.translateService.get("interceptors.auth.redirect.unconnected")
+					? this.translateService.get(
+							"interceptors.auth.redirect.connected"
+					  )
+					: this.translateService.get(
+							"interceptors.auth.redirect.unconnected"
+					  )
 			)) as string,
-			(await lastValueFrom(this.translateService.get("actions.ok"))) as string,
+			(await lastValueFrom(
+				this.translateService.get("actions.ok")
+			)) as string,
 			{ duration: 5000, horizontalPosition: "end" }
 		);
 
-		await this.router.navigateByUrl(AuthService.createLoginUrlTree(this.router, redirect));
+		await this.router.navigateByUrl(
+			AuthService.createLoginUrlTree(this.router, redirect)
+		);
 	}
 }

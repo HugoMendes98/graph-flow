@@ -27,7 +27,7 @@ describe("object-fns `omit`", () => {
 			expect(kept).toHaveLength(all.length - toRemove.length);
 			expect(kept).toHaveLength(mustBeKept.length);
 
-			expect(mustBeKept.every(key => kept.includes(key))).toBeTrue();
+			expect(mustBeKept.every(key => kept.includes(key))).toBe(true);
 		}
 	});
 
@@ -36,6 +36,8 @@ describe("object-fns `omit`", () => {
 		expect(omit(ref, ["p1", "p2", "p3"])).toStrictEqual({});
 		expect(omit(ref, ["p1", "p2", "p3", "p4", "p5"])).toStrictEqual({});
 		expect(omit(ref, ["p3", "p4", "p5"])).toStrictEqual({ p1: 0, p2: 0 });
-		expect(omit(ref, ["p1", "p2", "p3", "p4", "p0" as Key])).toStrictEqual({});
+		expect(omit(ref, ["p1", "p2", "p3", "p4", "p0" as Key])).toStrictEqual(
+			{}
+		);
 	});
 });

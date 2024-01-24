@@ -1,6 +1,10 @@
 import { Injectable } from "@angular/core";
 import { UserCreateDto, UserUpdateDto } from "~/lib/common/app/user/dtos";
-import { UserJSON, UserEndpoint, USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpoints";
+import {
+	UserJSON,
+	UserEndpoint,
+	USERS_ENDPOINT_PREFIX
+} from "~/lib/common/app/user/endpoints";
 
 import { EntityApiService } from "../_lib/entity-api";
 

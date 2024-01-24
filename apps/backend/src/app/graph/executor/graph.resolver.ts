@@ -1,6 +1,15 @@
-import { lastValueFrom, Observable, ReplaySubject, Subscription, takeWhile } from "rxjs";
+import {
+	lastValueFrom,
+	Observable,
+	ReplaySubject,
+	Subscription,
+	takeWhile
+} from "rxjs";
 import { match, P } from "ts-pattern";
-import { AdjacencyListArc, AdjacencyListItem } from "~/lib/common/app/graph/transformations";
+import {
+	AdjacencyListArc,
+	AdjacencyListItem
+} from "~/lib/common/app/graph/transformations";
 import { NodeDto } from "~/lib/common/app/node/dtos";
 import { NodeIoValue } from "~/lib/common/app/node/io";
 import { EntityId } from "~/lib/common/dtos/entity";
@@ -25,7 +34,10 @@ export interface GraphResolverNode extends NodeDto {
  * The initials nodes for the resolver.
  * They are supposed to come from an AdjacencyList Object.
  */
-export type GraphResolverRoot = AdjacencyListItem<AdjacencyListArc, GraphResolverNode>;
+export type GraphResolverRoot = AdjacencyListItem<
+	AdjacencyListArc,
+	GraphResolverNode
+>;
 
 /**
  * Internal for the {@link GraphExecutor}.
@@ -68,9 +80,16 @@ export class GraphResolver {
 
 		this.subscription = this.state$.subscribe(state =>
 			match(state)
-				.with({ type: "resolution-start" }, ({ node }) => this.resolved.add(node))
-				.with({ type: "propagation-enter" }, ({ node }) => this.propagated.add(node))
-				.with({ type: P.union("propagation-leave", "resolution-end") }, () => void 0)
+				.with({ type: "resolution-start" }, ({ node }) =>
+					this.resolved.add(node)
+				)
+				.with({ type: "propagation-enter" }, ({ node }) =>
+					this.propagated.add(node)
+				)
+				.with(
+					{ type: P.union("propagation-leave", "resolution-end") },
+					() => void 0
+				)
 				.exhaustive()
 		);
 	}
@@ -155,7 +174,8 @@ export class GraphResolver {
 		return lastValueFrom(
 			this.state$.pipe(
 				takeWhile(
-					({ node: { _id }, type }) => !(type === "resolution-end" && _id === node._id)
+					({ node: { _id }, type }) =>
+						!(type === "resolution-end" && _id === node._id)
 				)
 			)
 		).then();

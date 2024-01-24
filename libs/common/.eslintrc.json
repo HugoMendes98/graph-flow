@@ -17,7 +17,11 @@
 						"patterns": [
 							{
 								"allowTypeImports": true,
-								"group": ["@angular/*", "@nestjs/*", "!@nestjs/mapped-types"],
+								"group": [
+									"@angular/*",
+									"@nestjs/*",
+									"!@nestjs/mapped-types"
+								],
 								"message": "Avoid import `backend` or `frontend` package."
 							}
 						]

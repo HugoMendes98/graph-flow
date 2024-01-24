@@ -18,9 +18,15 @@ export class GraphEntity extends EntityBase implements DtoToEntity<GraphDto> {
 	 * The reverse relation of a NodeBehavior.
 	 * Currently only for `node-function`s
 	 */
-	@OneToOne(() => NodeBehaviorFunction, ({ graph }) => graph, { hidden: true, owner: false })
+	@OneToOne(() => NodeBehaviorFunction, ({ graph }) => graph, {
+		hidden: true,
+		owner: false
+	})
 	public readonly nodeBehavior?: NodeBehaviorFunction | null;
 
-	@OneToOne(() => WorkflowEntity, ({ graph }) => graph, { hidden: true, owner: false })
+	@OneToOne(() => WorkflowEntity, ({ graph }) => graph, {
+		hidden: true,
+		owner: false
+	})
 	public readonly workflow?: WorkflowEntity | null;
 }

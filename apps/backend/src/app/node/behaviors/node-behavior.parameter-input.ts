@@ -13,9 +13,16 @@ const type = NodeBehaviorType.PARAMETER_IN;
  * Node behavior of `PARAMETER_IN` type
  */
 @Entity({ discriminatorValue: type })
-export class NodeBehaviorParameterInput extends NodeBehaviorBase<typeof type> implements DTO {
+export class NodeBehaviorParameterInput
+	extends NodeBehaviorBase<typeof type>
+	implements DTO
+{
 	/** @inheritDoc */
-	@Property({ fieldName, formula: alias => `${alias}.${fieldName}`, persist: false })
+	@Property({
+		fieldName,
+		formula: alias => `${alias}.${fieldName}`,
+		persist: false
+	})
 	public readonly __node_input!: number;
 
 	/** @inheritDoc */

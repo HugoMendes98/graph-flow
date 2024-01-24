@@ -7,7 +7,10 @@ import { EntityId } from "~/lib/common/dtos/entity";
 import { GraphExecutorStartingNodeException } from "./exceptions";
 import { GraphExecuteState } from "./graph.executor.state";
 import { GraphResolver, GraphResolverNode } from "./graph.resolver";
-import { NodeExecutor, NodeInputAndValues } from "../../node/executor/node.executor";
+import {
+	NodeExecutor,
+	NodeInputAndValues
+} from "../../node/executor/node.executor";
 import { NodeService } from "../../node/node.service";
 import { GraphArcService } from "../arc/graph-arc.service";
 
@@ -73,12 +76,14 @@ export class GraphExecutor {
 		const { graphId, inputs, startAt } = params;
 
 		const { data: arcs } = await this.arcService.findByGraph(graphId);
-		const nodes = await this.nodeService.findByGraph(graphId).then(({ data }) =>
-			data.map<GraphResolverNode>(node => ({
-				...(node.toJSON() as NodeDto),
-				entity: node
-			}))
-		);
+		const nodes = await this.nodeService
+			.findByGraph(graphId)
+			.then(({ data }) =>
+				data.map<GraphResolverNode>(node => ({
+					...(node.toJSON() as NodeDto),
+					entity: node
+				}))
+			);
 
 		const roots = nodes.filter(({ _id }) => startAt.includes(_id));
 		if (startAt.length === 0 || roots.length !== startAt.length) {

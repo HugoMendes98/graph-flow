@@ -22,9 +22,15 @@ describe("UserService", () => {
 		} = BASE_SEED;
 
 		expect(service.displayName(user1)).toBe(user1.email);
-		expect(service.displayName(user2)).toBe(`${user2.firstname} ${user2.lastname}`);
+		expect(service.displayName(user2)).toBe(
+			`${user2.firstname} ${user2.lastname}`
+		);
 
-		expect(service.displayName({ ...user2, lastname: null })).toBe(user2.firstname);
-		expect(service.displayName({ ...user2, firstname: null })).toBe(user2.lastname);
+		expect(service.displayName({ ...user2, lastname: null })).toBe(
+			user2.firstname
+		);
+		expect(service.displayName({ ...user2, firstname: null })).toBe(
+			user2.lastname
+		);
 	});
 });

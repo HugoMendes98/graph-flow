@@ -34,7 +34,10 @@ describe("WorkflowListComponent", () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [WorkflowListComponent, TranslateTestingModule.withTranslations({})]
+			imports: [
+				WorkflowListComponent,
+				TranslateTestingModule.withTranslations({})
+			]
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(WorkflowListComponent);

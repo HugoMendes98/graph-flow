@@ -6,7 +6,9 @@ import { NodeBehaviorType } from "../../dtos/behaviors/node-behavior.type";
  * @param behavior of the node to test
  * @returns if the inputs of the node with the given behavior are readonly
  */
-export function areNodeInputsReadonlyOnCreate(behavior: NodeBehaviorType): boolean {
+export function areNodeInputsReadonlyOnCreate(
+	behavior: NodeBehaviorType
+): boolean {
 	switch (behavior) {
 		case NodeBehaviorType.CODE:
 			return false;
@@ -26,7 +28,9 @@ export function areNodeInputsReadonlyOnCreate(behavior: NodeBehaviorType): boole
  * @param behavior of the node to test
  * @returns if the inputs of the node with the given behavior are readonly
  */
-export function areNodeInputsReadonlyOnUpdate(behavior: NodeBehaviorType): boolean {
+export function areNodeInputsReadonlyOnUpdate(
+	behavior: NodeBehaviorType
+): boolean {
 	switch (behavior) {
 		case NodeBehaviorType.CODE:
 		case NodeBehaviorType.PARAMETER_OUT:
@@ -46,7 +50,9 @@ export function areNodeInputsReadonlyOnUpdate(behavior: NodeBehaviorType): boole
  * @param behavior of the node to test
  * @returns if the inputs of the node with the given behavior are readonly
  */
-export function areNodeInputsReadonlyOnDelete(behavior: NodeBehaviorType): boolean {
+export function areNodeInputsReadonlyOnDelete(
+	behavior: NodeBehaviorType
+): boolean {
 	switch (behavior) {
 		case NodeBehaviorType.CODE:
 			return false;

@@ -1,1 +1,1 @@
-.eslintignore
+# Ignored: Prettier is called from eslint

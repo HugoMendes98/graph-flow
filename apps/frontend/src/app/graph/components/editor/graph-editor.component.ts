@@ -1,11 +1,25 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import {
+	Component,
+	EventEmitter,
+	Input,
+	Output,
+	ViewChild
+} from "@angular/core";
 import { Observable } from "rxjs";
 import { PositionDto } from "~/lib/common/app/node/dtos/position.dto";
 import { NodeJSON } from "~/lib/common/app/node/endpoints";
 
-import { NodeSelectorComponent, NodeSelectorNodes } from "./node-selector/node-selector.component";
-import { GraphActions, GraphComponent, GraphData, NodeMoved } from "../graph/graph.component";
+import {
+	NodeSelectorComponent,
+	NodeSelectorNodes
+} from "./node-selector/node-selector.component";
+import {
+	GraphActions,
+	GraphComponent,
+	GraphData,
+	NodeMoved
+} from "../graph/graph.component";
 
 export interface GraphEditorNodeToAdd {
 	/** Node-template to add */
@@ -56,6 +70,9 @@ export class GraphEditorComponent {
 	 * @param node that was selected
 	 */
 	protected handleNodeSelected(node: NodeJSON) {
-		this.nodeToAdd.emit({ node, position: this.graphComponent.getCurrentViewPort().middle });
+		this.nodeToAdd.emit({
+			node,
+			position: this.graphComponent.getCurrentViewPort().middle
+		});
 	}
 }

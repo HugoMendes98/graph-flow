@@ -9,12 +9,19 @@ import { BaseExceptionFilter } from "@nestjs/core";
 @Catch(UniqueConstraintViolationException)
 export class UniqueConstraintFilter extends BaseExceptionFilter {
 	/** @inheritDoc */
-	public override catch(exception: UniqueConstraintViolationException, host: ArgumentsHost) {
+	public override catch(
+		exception: UniqueConstraintViolationException,
+		host: ArgumentsHost
+	) {
 		super.catch(
-			new ConflictException("A uniqueness constraint has not been respected.", {
-				cause: exception,
-				description: (exception as unknown as { detail: string }).detail
-			}),
+			new ConflictException(
+				"A uniqueness constraint has not been respected.",
+				{
+					cause: exception,
+					description: (exception as unknown as { detail: string })
+						.detail
+				}
+			),
 			host
 		);
 	}

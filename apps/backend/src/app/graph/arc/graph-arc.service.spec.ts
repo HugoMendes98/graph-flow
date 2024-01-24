@@ -50,7 +50,10 @@ describe("GraphArcService", () => {
 
 			const variable1 = await nodeService.create(
 				{
-					behavior: { __node: var1._id, type: NodeBehaviorType.REFERENCE },
+					behavior: {
+						__node: var1._id,
+						type: NodeBehaviorType.REFERENCE
+					},
 					kind: {
 						__graph: graph._id,
 						position: { x: 0, y: 0 },
@@ -62,7 +65,10 @@ describe("GraphArcService", () => {
 			);
 			const variable2 = await nodeService.create(
 				{
-					behavior: { __node: var2._id, type: NodeBehaviorType.REFERENCE },
+					behavior: {
+						__node: var2._id,
+						type: NodeBehaviorType.REFERENCE
+					},
 					kind: {
 						__graph: graph._id,
 						position: { x: 0, y: 0 },
@@ -74,7 +80,10 @@ describe("GraphArcService", () => {
 			);
 			const code = await nodeService.create(
 				{
-					behavior: { __node: nCode._id, type: NodeBehaviorType.REFERENCE },
+					behavior: {
+						__node: nCode._id,
+						type: NodeBehaviorType.REFERENCE
+					},
 					kind: {
 						__graph: graph._id,
 						position: { x: 0, y: 0 },
@@ -102,13 +111,13 @@ describe("GraphArcService", () => {
 
 			const __to =
 				Math.max(
-					...(db.nodes as MockSeed["graph"]["nodes"]).flatMap(({ inputs }) =>
-						inputs.map(({ _id }) => _id)
+					...(db.nodes as MockSeed["graph"]["nodes"]).flatMap(
+						({ inputs }) => inputs.map(({ _id }) => _id)
 					)
 				) * 2;
-			await expect(() => service.create({ __from: output._id, __to })).rejects.toThrow(
-				ForeignKeyConstraintViolationException
-			);
+			await expect(() =>
+				service.create({ __from: output._id, __to })
+			).rejects.toThrow(ForeignKeyConstraintViolationException);
 		});
 
 		it("should fail when the output is unknown", async () => {
@@ -120,13 +129,13 @@ describe("GraphArcService", () => {
 
 			const __from =
 				Math.max(
-					...(db.nodes as MockSeed["graph"]["nodes"]).flatMap(({ outputs }) =>
-						outputs.map(({ _id }) => _id)
+					...(db.nodes as MockSeed["graph"]["nodes"]).flatMap(
+						({ outputs }) => outputs.map(({ _id }) => _id)
 					)
 				) * 2;
-			await expect(() => service.create({ __from, __to: input._id })).rejects.toThrow(
-				ForeignKeyConstraintViolationException
-			);
+			await expect(() =>
+				service.create({ __from, __to: input._id })
+			).rejects.toThrow(ForeignKeyConstraintViolationException);
 		});
 
 		it("should fail when the input is already used", async () => {
@@ -243,7 +252,9 @@ describe("GraphArcService", () => {
 
 			it("should fail when getting one by an unknown id", async () => {
 				const id = Math.max(...graphArcs.map(({ _id }) => _id)) + 1;
-				await expect(service.findById(id)).rejects.toThrow(NotFoundError);
+				await expect(service.findById(id)).rejects.toThrow(
+					NotFoundError
+				);
 			});
 		});
 
@@ -272,17 +283,17 @@ describe("GraphArcService", () => {
 			it("should fail when a uniqueness constraint is not respected", async () => {
 				const [{ __to }] = graphArcs;
 
-				await expect(() => service.create({ __from: 123123, __to })).rejects.toThrow(
-					UniqueConstraintViolationException
-				);
+				await expect(() =>
+					service.create({ __from: 123123, __to })
+				).rejects.toThrow(UniqueConstraintViolationException);
 			});
 		});
 
 		describe("Update", () => {
 			it("should fail when updated a graph-arc", async () => {
-				await expect(() => service.update(graphArcs[0]._id, {})).rejects.toThrow(
-					MethodNotAllowedException
-				);
+				await expect(() =>
+					service.update(graphArcs[0]._id, {})
+				).rejects.toThrow(MethodNotAllowedException);
 			});
 		});
 

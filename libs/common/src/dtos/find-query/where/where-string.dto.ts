@@ -8,7 +8,10 @@ import { CanBeNull } from "../../../utils/validations";
 /**
  * Validation class for nullable `string` properties.
  */
-export class WhereStringNullableDto extends WhereBaseDto implements EntityFilterValue<string> {
+export class WhereStringNullableDto
+	extends WhereBaseDto
+	implements EntityFilterValue<string>
+{
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */

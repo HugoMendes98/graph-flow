@@ -31,9 +31,9 @@ export class JwtStrategy
 			jwtFromRequest: ExtractJwt.fromExtractors([
 				ExtractJwt.fromAuthHeaderAsBearerToken(),
 				req =>
-					// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- In case it's falsy
-					(req.cookies as Partial<Record<string, string>>)[authOptions.cookies.name] ||
-					null
+					(req.cookies as Partial<Record<string, string>>)[
+						authOptions.cookies.name
+					] || null
 			]),
 			secretOrKey: getConfiguration().authentication.secret
 		});

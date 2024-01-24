@@ -7,4 +7,6 @@ import { NodeOutputDto } from "./node-output.dto";
  *
  * Only to change the type of `variable`, `parameter-in`, `code` node-behaviors
  */
-export class NodeOutputUpdateDto extends PartialType(PickType(NodeOutputDto, ["name", "type"])) {}
+export class NodeOutputUpdateDto extends PartialType(
+	PickType(NodeOutputDto, ["name", "type"])
+) {}

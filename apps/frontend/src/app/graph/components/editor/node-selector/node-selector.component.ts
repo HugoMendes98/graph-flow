@@ -36,8 +36,12 @@ export class NodeSelectorComponent {
 	public readonly nodeSelected = new EventEmitter<NodeJSON>();
 
 	/** Columns to show in the selector */
-	protected readonly NODE_COLUMNS: readonly NodeListColumn[] = ["name", "actions.expansion"];
+	protected readonly NODE_COLUMNS: readonly NodeListColumn[] = [
+		"name",
+		"actions.expansion"
+	];
 
 	/** @internal */
-	protected handleNodeRowClick = (node: NodeJSON) => this.nodeSelected.emit(node);
+	protected handleNodeRowClick = (node: NodeJSON) =>
+		this.nodeSelected.emit(node);
 }

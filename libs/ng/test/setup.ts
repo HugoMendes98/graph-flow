@@ -8,6 +8,10 @@ import { ApiTestingModule } from "../src/lib/api/testing/api-testing.module";
 TestBed.configureTestingModule({
 	errorOnUnknownElements: true,
 	errorOnUnknownProperties: true,
-	imports: [ApiTestingModule, TranslateTestingModule.withTranslations({}), NoopAnimationsModule],
+	imports: [
+		ApiTestingModule,
+		TranslateTestingModule.withTranslations({}),
+		NoopAnimationsModule
+	],
 	teardown: { destroyAfterEach: true }
 });

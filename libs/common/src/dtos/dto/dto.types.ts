@@ -11,7 +11,10 @@ export type DtoType<T = unknown> = AbstractClass<T> | Class<T>;
  * Discriminator object containing the type information to select a proper type
  * during transformation when a discriminator property is provided.
  */
-export interface DtoDiscriminator<T extends object, P extends Extract<keyof T, string>> {
+export interface DtoDiscriminator<
+	T extends object,
+	P extends Extract<keyof T, string>
+> {
 	/**
 	 * The name of the property which holds the type information in the received object.
 	 */
@@ -36,7 +39,10 @@ export interface DtoDiscriminator<T extends object, P extends Extract<keyof T, s
 /**
  * Options to store metadata property options
  */
-export interface DtoPropertyOptions<T = never, P extends Extract<keyof T, string> = never> {
+export interface DtoPropertyOptions<
+	T = never,
+	P extends Extract<keyof T, string> = never
+> {
 	/**
 	 * Does currently nothing
 	 *

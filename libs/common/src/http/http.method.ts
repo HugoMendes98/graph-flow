@@ -11,7 +11,11 @@ export type HttpMethod = HttpMethodUpperCase | Lowercase<HttpMethodUpperCase>;
 const allMethods: readonly HttpMethod[] = (
 	["DELETE", "GET", "PATCH", "POST", "PUT"] satisfies HttpMethod[]
 ).reduce<HttpMethod[]>(
-	(methods, method) => [...methods, method, method.toLowerCase() as HttpMethod],
+	(methods, method) => [
+		...methods,
+		method,
+		method.toLowerCase() as HttpMethod
+	],
 	[]
 );
 

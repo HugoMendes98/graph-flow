@@ -34,10 +34,21 @@
 
 		inset: (-$size-h * 50) (-$size-w * 50);
 
-		background-image: linear-gradient($color-major $line-width, transparent $line-width),
-			linear-gradient(90deg, $color-major $line-width, transparent $line-width),
+		background-image: linear-gradient(
+				$color-major $line-width,
+				transparent $line-width
+			),
+			linear-gradient(
+				90deg,
+				$color-major $line-width,
+				transparent $line-width
+			),
 			linear-gradient($color-minor $line-width, transparent $line-width),
-			linear-gradient(90deg, $color-minor $line-width, transparent $line-width);
+			linear-gradient(
+				90deg,
+				$color-minor $line-width,
+				transparent $line-width
+			);
 		background-position:
 			0 0,
 			$line-offset $line-offset;

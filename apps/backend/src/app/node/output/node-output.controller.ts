@@ -1,7 +1,19 @@
-import { Body, Controller, Param, Patch, UseInterceptors } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Param,
+	Patch,
+	UseInterceptors
+} from "@nestjs/common";
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
-import { NodeOutputDto, NodeOutputUpdateDto } from "~/lib/common/app/node/dtos/output";
-import { generateNodeOutputsEndpoint, NodeOutputEndpoint } from "~/lib/common/app/node/endpoints";
+import {
+	NodeOutputDto,
+	NodeOutputUpdateDto
+} from "~/lib/common/app/node/dtos/output";
+import {
+	generateNodeOutputsEndpoint,
+	NodeOutputEndpoint
+} from "~/lib/common/app/node/endpoints";
 import { EntityId } from "~/lib/common/dtos/entity";
 import { UnshiftParameters } from "~/lib/common/types";
 
@@ -9,7 +21,11 @@ import { NodeOutputEntity } from "./node-output.entity";
 import { NodeOutputService } from "./node-output.service";
 import { UseAuth } from "../../auth/auth.guard";
 import { NodeEntity } from "../node.entity";
-import { ApiNodeParam, NodeInterceptedParam, NodeInterceptor } from "../node.interceptor";
+import {
+	ApiNodeParam,
+	NodeInterceptedParam,
+	NodeInterceptor
+} from "../node.interceptor";
 
 /** @internal */
 type EndpointBase = NodeOutputEndpoint<NodeOutputEntity>;
@@ -23,7 +39,11 @@ type EndpointTransformed = {
  * {@link NodeOutputEntity} controller
  */
 @ApiTags("Node outputs")
-@Controller(generateNodeOutputsEndpoint(`:${NodeInterceptor.PATH_PARAM}` as unknown as EntityId))
+@Controller(
+	generateNodeOutputsEndpoint(
+		`:${NodeInterceptor.PATH_PARAM}` as unknown as EntityId
+	)
+)
 @UseAuth()
 @UseInterceptors(NodeInterceptor)
 export class NodeOutputController implements EndpointTransformed {

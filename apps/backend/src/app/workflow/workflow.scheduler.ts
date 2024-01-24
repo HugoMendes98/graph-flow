@@ -37,7 +37,9 @@ export class WorkflowScheduler {
 	 * @returns if the workflow is already registered
 	 */
 	public isRegistered(workflow: WorkflowEntity) {
-		return this.scheduler.getCronJobs().has(this.getCronJobName(workflow._id));
+		return this.scheduler
+			.getCronJobs()
+			.has(this.getCronJobName(workflow._id));
 	}
 
 	/**

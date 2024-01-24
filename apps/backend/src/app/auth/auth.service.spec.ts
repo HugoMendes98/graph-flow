@@ -42,7 +42,7 @@ describe("AuthService", () => {
 			expect(hash).not.toBe(password);
 
 			const same = await AuthService.compare(password, hash);
-			expect(same).toBeTrue();
+			expect(same).toBe(true);
 		});
 
 		it("should return false when comparing hashes", async () => {
@@ -53,7 +53,7 @@ describe("AuthService", () => {
 				expect(clear).not.toBe(password);
 
 				const same = await AuthService.compare(clear, hash);
-				expect(same).toBeFalse();
+				expect(same).toBe(false);
 			}
 		});
 	});
@@ -66,10 +66,10 @@ describe("AuthService", () => {
 
 		const user = await userService.findById(db.users[0]._id);
 
-		const now = new Date().getTime();
+		const now = Date.now();
 		const { access_token, expires_at } = await service.login(user);
 
-		expect(access_token).toBeString();
+		expect(typeof access_token === "string").toBe(true);
 		expect(expires_at).toBeGreaterThanOrEqual(now + timeoutMs - 1500);
 		expect(expires_at).toBeLessThanOrEqual(now + timeoutMs + 1500);
 	});
@@ -103,7 +103,11 @@ describe("AuthService", () => {
 		it("should be ok", async () => {
 			const [{ _id, email }] = db.users;
 
-			const user = await service.validateJWT({ _id, email, method: "local" });
+			const user = await service.validateJWT({
+				_id,
+				email,
+				method: "local"
+			});
 			expect(user._id).toBe(_id);
 			expect(user.email).toBe(email);
 		});
@@ -121,7 +125,11 @@ describe("AuthService", () => {
 		it("should be not ok with invalid email", async () => {
 			const [{ _id, email }] = db.users;
 			await expect(() =>
-				service.validateJWT({ _id, email: `${email}${email}`, method: "local" })
+				service.validateJWT({
+					_id,
+					email: `${email}${email}`,
+					method: "local"
+				})
 			).rejects.toThrow(UnauthorizedException);
 		});
 	});

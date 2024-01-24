@@ -11,13 +11,17 @@
 			"matchPackageNames": ["cypress"]
 		},
 		{
-			"extends": ["packages:eslint", "packages:stylelint"],
+			"groupName": "Passport",
+			"matchPackageNames": ["@nestjs/passport"],
+			"matchPackagePrefixes": ["passport"]
+		},
+		{
+			"extends": ["packages:eslint"],
 			"groupName": "Linting packages",
 			"groupSlug": "linting",
 			"matchPackageNames": [
 				"@cspell/eslint-plugin",
-				"@darraghor/eslint-plugin-nestjs-typed",
-				"@shopify/eslint-plugin"
+				"@darraghor/eslint-plugin-nestjs-typed"
 			]
 		},
 		{

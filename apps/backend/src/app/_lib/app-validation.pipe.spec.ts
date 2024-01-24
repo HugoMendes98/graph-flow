@@ -21,10 +21,13 @@ describe("AppValidationPipe", () => {
 	describe("Implicit conversion", () => {
 		it("should not convert when the value is a body", async () => {
 			await expect(
-				pipe.transform({ limit: "5" as unknown as number } satisfies FindQueryDto, {
-					metatype: FindQueryDto,
-					type: "body"
-				})
+				pipe.transform(
+					{ limit: "5" as unknown as number } satisfies FindQueryDto,
+					{
+						metatype: FindQueryDto,
+						type: "body"
+					}
+				)
 			).rejects.toThrow(BadRequestException);
 		});
 

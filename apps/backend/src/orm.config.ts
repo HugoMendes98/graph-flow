@@ -30,7 +30,9 @@ class NamingStrategy extends UnderscoreNamingStrategy {
 		const tableName = super.classToTableName(entityName);
 
 		const suffix = "_entity";
-		return tableName.endsWith(suffix) ? tableName.slice(0, -suffix.length) : tableName;
+		return tableName.endsWith(suffix)
+			? tableName.slice(0, -suffix.length)
+			: tableName;
 	}
 }
 
@@ -49,7 +51,13 @@ const ormConfig = defineConfig({
 
 	// For app code
 	discovery: { disableDynamicFileAccess: true },
-	entities: [CategoryEntity, ...GRAPH_ENTITIES, ...NODE_ENTITIES, UserEntity, WorkflowEntity],
+	entities: [
+		CategoryEntity,
+		...GRAPH_ENTITIES,
+		...NODE_ENTITIES,
+		UserEntity,
+		WorkflowEntity
+	],
 	forceUndefined: false,
 	metadataProvider: TsMorphMetadataProvider,
 	namingStrategy: NamingStrategy,
@@ -69,7 +77,9 @@ const ormConfig = defineConfig({
 	seeder: {
 		emit: "ts",
 		fileName: className =>
-			`${kebabCase(className).slice(0, -suffixes.seeder.length - 1)}.${suffixes.seeder}`,
+			`${kebabCase(className).slice(0, -suffixes.seeder.length - 1)}.${
+				suffixes.seeder
+			}`,
 		pathTs: path.join(ormPath, "seeders")
 	}
 });

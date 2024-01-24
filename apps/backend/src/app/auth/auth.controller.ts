@@ -4,7 +4,11 @@ import { Response } from "express";
 import { CookieOptions } from "express-serve-static-core";
 import { AuthLoginDto, AuthRefreshDto } from "~/lib/common/app/auth/dtos";
 import { AuthSuccessDto } from "~/lib/common/app/auth/dtos/auth.success.dto";
-import { AUTH_ENDPOINT_PREFIX, AuthEndpoint, AuthEndpoints } from "~/lib/common/app/auth/endpoints";
+import {
+	AUTH_ENDPOINT_PREFIX,
+	AuthEndpoint,
+	AuthEndpoints
+} from "~/lib/common/app/auth/endpoints";
 import { UserDto } from "~/lib/common/app/user/dtos";
 import { authOptions } from "~/lib/common/options";
 
@@ -80,7 +84,11 @@ export class AuthController implements AuthEndpoint {
 		return this.loginOrRefresh(user!, body, res!);
 	}
 
-	private loginOrRefresh(user: UserEntity, body: AuthRefreshDto, res: Response) {
+	private loginOrRefresh(
+		user: UserEntity,
+		body: AuthRefreshDto,
+		res: Response
+	) {
 		return this.service.login(user).then(token => {
 			if (body.cookie) {
 				res.cookie(authOptions.cookies.name, token.access_token, {

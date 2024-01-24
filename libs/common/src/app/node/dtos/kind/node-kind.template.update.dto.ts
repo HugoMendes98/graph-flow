@@ -1,4 +1,9 @@
-import { IntersectionType, OmitType, PartialType, PickType } from "@nestjs/mapped-types";
+import {
+	IntersectionType,
+	OmitType,
+	PartialType,
+	PickType
+} from "@nestjs/mapped-types";
 
 import { NODE_KIND_DISCRIMINATOR_KEY } from "./node-kind.base.dto";
 import { NodeKindTemplateDto } from "./node-kind.template.dto";

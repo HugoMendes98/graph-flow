@@ -13,7 +13,9 @@ describe("Backend HTTP Auth", () => {
 	const client = new AuthHttpClient();
 
 	const dbHelper = DbE2eHelper.getHelper("base");
-	const { users } = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<typeof BASE_SEED>;
+	const { users } = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<
+		typeof BASE_SEED
+	>;
 
 	beforeAll(() => dbHelper.refresh());
 
@@ -22,21 +24,23 @@ describe("Backend HTTP Auth", () => {
 			const timeoutMs = configE2e.authentication.timeout * 1000;
 
 			for (const user of users) {
-				const now = new Date().getTime();
+				const now = Date.now();
 				const { access_token, expires_at } = await client.login({
 					email: user.email,
 					password: user.password
 				} satisfies AuthLoginDto);
 
-				expect(access_token).toBeString();
-				expect(expires_at).toBeGreaterThanOrEqual(now + timeoutMs - 1500);
+				expect(typeof access_token === "string").toBe(true);
+				expect(expires_at).toBeGreaterThanOrEqual(
+					now + timeoutMs - 1500
+				);
 				expect(expires_at).toBeLessThanOrEqual(now + timeoutMs + 1500);
 			}
 		});
 
 		it("should return a `Set-Cookie` header when logging with the cookie option", async () => {
 			const [{ email, password }] = users;
-			const now = new Date().getTime();
+			const now = Date.now();
 
 			const {
 				data: { access_token },
@@ -54,7 +58,6 @@ describe("Backend HTTP Auth", () => {
 			expect(cookie[authOptions.cookies.name]).toBe(access_token);
 
 			expect(cookie).toHaveProperty("Expires");
-			expect(cookie.Expires).toBeDateString();
 
 			const expires_at = new Date(cookie.Expires).getTime();
 			const timeoutMs = configE2e.authentication.timeout * 1000;
@@ -77,14 +80,20 @@ describe("Backend HTTP Auth", () => {
 
 			it("should fail when the email is missing", async () => {
 				const { status } = await client
-					.loginResponse({ password: "password" } satisfies Omit<AuthLoginDto, "email">)
+					.loginResponse({ password: "password" } satisfies Omit<
+						AuthLoginDto,
+						"email"
+					>)
 					.catch(({ response }: AxiosError) => response!);
 				expect(status).toBe(HttpStatusCode.BadRequest);
 			});
 
 			it("should fail when the password is missing", async () => {
 				const { status } = await client
-					.loginResponse({ email: "a@b.cd" } satisfies Omit<AuthLoginDto, "password">)
+					.loginResponse({ email: "a@b.cd" } satisfies Omit<
+						AuthLoginDto,
+						"password"
+					>)
 					.catch(({ response }: AxiosError) => response!);
 				expect(status).toBe(HttpStatusCode.BadRequest);
 			});
@@ -112,26 +121,31 @@ describe("Backend HTTP Auth", () => {
 		});
 
 		it("should refresh with authentication set in header", async () => {
-			const { access_token: token, expires_at: expires_before } = await client.login(
-				users[0] satisfies AuthLoginDto
-			);
+			const { access_token: token, expires_at: expires_before } =
+				await client.login(users[0] satisfies AuthLoginDto);
 
 			// So the expires_at time is not the same
 			await sleep();
 
-			const { access_token, expires_at } = await client.refresh(undefined, {
-				headers: new AxiosHeaders().setAuthorization(`Bearer ${token}`)
-			});
+			const { access_token, expires_at } = await client.refresh(
+				undefined,
+				{
+					headers: new AxiosHeaders().setAuthorization(
+						`Bearer ${token}`
+					)
+				}
+			);
 
 			expect(access_token).not.toBe(token);
 			expect(expires_at).toBeGreaterThan(expires_before);
 		});
 
 		it("should refresh with authentication set in cookie", async () => {
-			const { access_token: token, expires_at: expires_before } = await client.login({
-				...users[0],
-				cookie: true
-			} satisfies AuthLoginDto);
+			const { access_token: token, expires_at: expires_before } =
+				await client.login({
+					...users[0],
+					cookie: true
+				} satisfies AuthLoginDto);
 
 			// So the expires_at time is not the same
 			await sleep();
@@ -164,17 +178,21 @@ describe("Backend HTTP Auth", () => {
 
 			const cookie = cookieParser(headers["set-cookie"]![0]);
 			expect(cookie).toHaveProperty(authOptions.cookies.name);
-			expect(cookie[authOptions.cookies.name]).toBeEmpty();
+			expect(cookie[authOptions.cookies.name]).toBe("");
 		});
 	});
 
 	describe("GetProfile", () => {
 		it("should get profile of connected user", async () => {
 			for (const user of users) {
-				const { access_token } = await client.login(user satisfies AuthLoginDto);
+				const { access_token } = await client.login(
+					user satisfies AuthLoginDto
+				);
 
 				const profile = await client.getProfile({
-					headers: new AxiosHeaders().setAuthorization(`Bearer ${access_token}`)
+					headers: new AxiosHeaders().setAuthorization(
+						`Bearer ${access_token}`
+					)
 				});
 				expect(profile).toStrictEqual(omit(user, ["password"]));
 			}

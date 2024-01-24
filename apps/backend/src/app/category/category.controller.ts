@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Patch,
+	Post,
+	Query
+} from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import {
 	CategoryCreateDto,
@@ -7,7 +16,10 @@ import {
 	CategoryResultsDto,
 	CategoryUpdateDto
 } from "~/lib/common/app/category/dtos";
-import { CATEGORIES_ENDPOINT_PREFIX, CategoryEndpoint } from "~/lib/common/app/category/endpoints";
+import {
+	CATEGORIES_ENDPOINT_PREFIX,
+	CategoryEndpoint
+} from "~/lib/common/app/category/endpoints";
 
 import { CategoryEntity } from "./category.entity";
 import { CategoryService } from "./category.service";
