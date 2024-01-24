@@ -10,6 +10,9 @@ export class NodeReadonlyKindTypeException extends NodeException {
 	 * Creates the exception
 	 */
 	public constructor() {
-		super(NodeErrorCode.KIND_TYPE_READONLY, "The kind-type of a node can not be changed");
+		super(
+			NodeErrorCode.KIND_TYPE_READONLY,
+			"The kind-type of a node can not be changed"
+		);
 	}
 }

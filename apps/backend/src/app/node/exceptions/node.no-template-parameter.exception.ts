@@ -10,6 +10,9 @@ export class NodeNoTemplateParameterException extends NodeException {
 	 * Creates the exception
 	 */
 	public constructor() {
-		super(NodeErrorCode.NO_TEMPLATE_PARAMETER, "Parameter nodes can not be templates");
+		super(
+			NodeErrorCode.NO_TEMPLATE_PARAMETER,
+			"Parameter nodes can not be templates"
+		);
 	}
 }

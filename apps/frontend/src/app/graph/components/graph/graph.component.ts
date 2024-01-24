@@ -11,9 +11,16 @@ import {
 	ViewChild
 } from "@angular/core";
 import { GetSchemes, NodeEditor, Root } from "rete";
-import { AngularArea2D, AngularPlugin, Presets as AngularPresets } from "rete-angular-plugin/16";
+import {
+	AngularArea2D,
+	AngularPlugin,
+	Presets as AngularPresets
+} from "rete-angular-plugin/16";
 import { Area2D, AreaExtensions, AreaPlugin } from "rete-area-plugin";
-import { ConnectionPlugin, Presets as ConnectionPresets } from "rete-connection-plugin";
+import {
+	ConnectionPlugin,
+	Presets as ConnectionPresets
+} from "rete-connection-plugin";
 import { ReadonlyPlugin } from "rete-readonly-plugin";
 import { bufferToggle, filter, map, Observable, Subject } from "rxjs";
 import { GraphArcCreateDto } from "~/lib/common/app/graph/dtos/arc";
@@ -21,7 +28,12 @@ import { GraphArcJSON, GraphNodeJSON } from "~/lib/common/app/graph/endpoints";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
 import { PositionDto } from "~/lib/common/app/node/dtos/position.dto";
 import { NodeJSON } from "~/lib/common/app/node/endpoints";
-import { ReteConnection, ReteInput, ReteNode, ReteOutput } from "~/lib/ng/lib/rete";
+import {
+	ReteConnection,
+	ReteInput,
+	ReteNode,
+	ReteOutput
+} from "~/lib/ng/lib/rete";
 
 import { ReteConnectionComponent } from "../../rete/connection/rete.connection.component";
 import { ReteNodeComponent } from "../../rete/node/rete.node.component";
@@ -152,22 +164,30 @@ export class GraphComponent implements OnDestroy, OnChanges {
 	 * Observable on the area events.
 	 * To pipe and use only what is needed
 	 */
-	private readonly area$ = new Subject<Area2D<Schemes> | AreaExtra | Root<Schemes>>();
+	private readonly area$ = new Subject<
+		Area2D<Schemes> | AreaExtra | Root<Schemes>
+	>();
 
 	private destroyed = false;
 
 	public constructor(private readonly injector: Injector) {
 		this.nodeMoved = this.area$.pipe(
 			// Only want the translation and when the node is dragged
-			filter(({ type }) => type === "nodetranslated" || type === "nodedragged"),
+			filter(
+				({ type }) =>
+					type === "nodetranslated" || type === "nodedragged"
+			),
 			bufferToggle(
 				// Start buffering when the node is picked
 				this.area$.pipe(filter(({ type }) => type === "nodepicked")),
 				// And stop when it is dragged
-				() => this.area$.pipe(filter(({ type }) => type === "nodedragged"))
+				() =>
+					this.area$.pipe(
+						filter(({ type }) => type === "nodedragged")
+					)
 			),
 			// Ignore when there is not enough emits
-			filter(buffer => buffer.length >= 3),
+			filter(buffer => 3 <= buffer.length),
 			map(([previous, ...rest]) => {
 				const [node, current] = rest.slice().reverse();
 
@@ -187,7 +207,10 @@ export class GraphComponent implements OnDestroy, OnChanges {
 				throw new Error("Should not happen");
 			}),
 			// Ignore if the node is just clicked or been moved to the same place
-			filter(({ current, previous }) => previous.x !== current.x || previous.y !== current.y)
+			filter(
+				({ current, previous }) =>
+					previous.x !== current.x || previous.y !== current.y
+			)
 		);
 	}
 
@@ -238,8 +261,13 @@ export class GraphComponent implements OnDestroy, OnChanges {
 		} = area;
 
 		const [posX, posY] = [x, y].map(v => Math.round(-v));
-		const [height, width] = [offsetHeight, offsetWidth].map(v => Math.round(v / zoom));
-		const [midX, midY] = [Math.round(posX + width / 2), Math.round(posY + height / 2)];
+		const [height, width] = [offsetHeight, offsetWidth].map(v =>
+			Math.round(v / zoom)
+		);
+		const [midX, midY] = [
+			Math.round(posX + width / 2),
+			Math.round(posY + height / 2)
+		];
 		return {
 			height,
 			middle: { x: midX, y: midY },
@@ -253,7 +281,9 @@ export class GraphComponent implements OnDestroy, OnChanges {
 	private async initRete() {
 		this.destroyed = false;
 
-		const area = new AreaPlugin<Schemes, AreaExtra>(this.container.nativeElement);
+		const area = new AreaPlugin<Schemes, AreaExtra>(
+			this.container.nativeElement
+		);
 		const connection = new ConnectionPlugin<Schemes, AreaExtra>();
 		const editor = new NodeEditor<Schemes>();
 		const readonlyPlugin = new ReadonlyPlugin<Schemes>();
@@ -261,7 +291,9 @@ export class GraphComponent implements OnDestroy, OnChanges {
 		this.rete = { area, editor, readonly: readonlyPlugin };
 
 		// Set editor
-		const render = new AngularPlugin<Schemes, AreaExtra>({ injector: this.injector });
+		const render = new AngularPlugin<Schemes, AreaExtra>({
+			injector: this.injector
+		});
 
 		render.addPreset(
 			AngularPresets.classic.setup({
@@ -305,7 +337,9 @@ export class GraphComponent implements OnDestroy, OnChanges {
 				inputsMap.set(input.input._id, input);
 			}
 
-			for (const output of Object.values(reteNode.outputs) as ReteOutput[]) {
+			for (const output of Object.values(
+				reteNode.outputs
+			) as ReteOutput[]) {
 				outputsMap.set(output.output._id, output);
 			}
 
@@ -320,7 +354,9 @@ export class GraphComponent implements OnDestroy, OnChanges {
 			const input = inputsMap.get(__to);
 
 			if (input && output) {
-				await editor.addConnection(new ReteConnection(arc, output, input));
+				await editor.addConnection(
+					new ReteConnection(arc, output, input)
+				);
 			}
 		}
 
@@ -381,11 +417,18 @@ export class GraphComponent implements OnDestroy, OnChanges {
 				// TODO: Test cyclic here, before continuing
 				return (
 					actions.arc
-						.create({ __from: sourceOutput.output._id, __to: targetInput.input._id })
+						.create({
+							__from: sourceOutput.output._id,
+							__to: targetInput.input._id
+						})
 						.then(async arc => {
 							// FIXME: return a modified context (library does not keep the custom `ReteConnection`)
 							await this.rete?.editor.addConnection(
-								new ReteConnection(arc, sourceOutput, targetInput)
+								new ReteConnection(
+									arc,
+									sourceOutput,
+									targetInput
+								)
 							);
 
 							return undefined;

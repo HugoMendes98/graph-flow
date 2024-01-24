@@ -3,7 +3,10 @@
 <div mat-dialog-content>
 	<h4>{{ user | userDisplayName }}</h4>
 
-	<form class="flex flex-col gap-2" (ngSubmit)="requestStateUpdate$.request(form.value)">
+	<form
+		class="flex flex-col gap-2"
+		(ngSubmit)="requestStateUpdate$.request(form.value)"
+	>
 		<mat-form-field>
 			<mat-label translate>entities.user.email</mat-label>
 			<input matInput readonly [value]="user.email" />
@@ -22,7 +25,12 @@
 		</div>
 
 		<div class="flex justify-c-end px-4">
-			<button class="px-8" color="primary" mat-raised-button type="submit">
+			<button
+				class="px-8"
+				color="primary"
+				mat-raised-button
+				type="submit"
+			>
 				{{ "actions.update" | translate }}
 			</button>
 		</div>
@@ -38,5 +46,7 @@
 </div>
 
 <div mat-dialog-actions>
-	<button mat-button mat-dialog-close type="button">{{ "actions.close" | translate }}</button>
+	<button mat-button mat-dialog-close type="button">
+		{{ "actions.close" | translate }}
+	</button>
 </div>

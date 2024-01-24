@@ -10,7 +10,9 @@ describe("Backend HTTP Graphs", () => {
 	const client = new WorkflowHttpClient();
 
 	const dbHelper = DbE2eHelper.getHelper("base");
-	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<typeof BASE_SEED>;
+	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<
+		typeof BASE_SEED
+	>;
 
 	beforeAll(async () => {
 		const [{ email, password }] = db.users;
@@ -25,7 +27,9 @@ describe("Backend HTTP Graphs", () => {
 		it("should order by boolean properties", async () => {
 			const response = await client
 				.findManyResponse({
-					params: { order: [{ active: "desc" }] } satisfies WorkflowQueryDto
+					params: {
+						order: [{ active: "desc" }]
+					} satisfies WorkflowQueryDto
 				})
 				.catch(({ response }: AxiosError) => response!);
 

@@ -14,9 +14,9 @@ import { Request } from "express";
 import { NodeEntity } from "./node.entity";
 import { NodeService } from "./node.service";
 
-// eslint-disable-next-line no-use-before-define -- Only for typing
-type RequestParams = Partial<Record<typeof NodeInterceptor.NODE_TOKEN, NodeEntity>> &
-	// eslint-disable-next-line no-use-before-define -- Only for typing
+type RequestParams = Partial<
+	Record<typeof NodeInterceptor.NODE_TOKEN, NodeEntity>
+> &
 	Record<typeof NodeInterceptor.PATH_PARAM, string>;
 
 @Injectable()
@@ -39,7 +39,9 @@ export class NodeInterceptor implements NestInterceptor {
 
 	/** @inheritDoc */
 	public intercept(context: ExecutionContext, next: CallHandler) {
-		const request = context.switchToHttp().getRequest<Request<RequestParams>>();
+		const request = context
+			.switchToHttp()
+			.getRequest<Request<RequestParams>>();
 		const nodeId = request.params[NodeInterceptor.PATH_PARAM];
 
 		const id = +nodeId;
@@ -59,7 +61,10 @@ export class NodeInterceptor implements NestInterceptor {
 /**
  * Injects the intercepted Node from the {@link NodeInterceptor} into a parameter.
  */
-export const NodeInterceptedParam = createParamDecorator<never, ExecutionContext>(
+export const NodeInterceptedParam = createParamDecorator<
+	never,
+	ExecutionContext
+>(
 	(_, context) =>
 		context.switchToHttp().getRequest<Request<RequestParams>>().params[
 			NodeInterceptor.NODE_TOKEN
@@ -73,7 +78,9 @@ export const NodeInterceptedParam = createParamDecorator<never, ExecutionContext
  * @param options Some additional options
  * @returns The decorator that adds the swagger field
  */
-export const ApiNodeParam = (options: Pick<ParameterObject, "description" | "example"> = {}) =>
+export const ApiNodeParam = (
+	options: Pick<ParameterObject, "description" | "example"> = {}
+) =>
 	ApiParam({
 		...options,
 		name: NodeInterceptor.PATH_PARAM,

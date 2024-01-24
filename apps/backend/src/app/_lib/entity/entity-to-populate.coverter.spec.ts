@@ -24,10 +24,20 @@ describe("entityToPopulateToRelationsKeys", () => {
 			[{ b: true }, ["b"]],
 			[{ b: {} }, ["b"]],
 			[{ b: true, bs: {} }, ["b", "bs"]],
-			[{ b: { cs: true }, bs: { cs: true }, cs: { cs: {} } }, ["b.cs", "bs.cs", "cs.cs"]],
+			[
+				{ b: { cs: true }, bs: { cs: true }, cs: { cs: {} } },
+				["b.cs", "bs.cs", "cs.cs"]
+			],
 			[{ d: { cs: true } }, ["d.cs"]]
-		] satisfies Array<[EntitiesToPopulate<EntityA>, Array<EntityRelationKeysDeep<EntityA>>]>) {
-			expect(entityToPopulateToRelationsKeys(toPopulate)).toStrictEqual(keys);
+		] satisfies Array<
+			[
+				EntitiesToPopulate<EntityA>,
+				Array<EntityRelationKeysDeep<EntityA>>
+			]
+		>) {
+			expect(entityToPopulateToRelationsKeys(toPopulate)).toStrictEqual(
+				keys
+			);
 		}
 	});
 });

@@ -17,7 +17,10 @@ import { GraphModule } from "../graph/graph.module";
 @Module({
 	controllers: [NodeController, NodeInputController, NodeOutputController],
 	exports: [NodeExecutor, NodeService],
-	imports: [forwardRef(() => GraphModule), MikroOrmModule.forFeature(NODE_ENTITIES)],
+	imports: [
+		forwardRef(() => GraphModule),
+		MikroOrmModule.forFeature(NODE_ENTITIES)
+	],
 	providers: [NodeExecutor, NodeInputService, NodeOutputService, NodeService]
 })
 export class NodeModule {}

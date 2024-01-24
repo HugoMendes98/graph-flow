@@ -22,7 +22,9 @@ import { NodeCreateDto } from "./node.create.dto";
  *
  * Can not change the type of `kind`
  */
-export class NodeUpdateDto extends PartialType(OmitType(NodeCreateDto, ["behavior", "kind"])) {
+export class NodeUpdateDto extends PartialType(
+	OmitType(NodeCreateDto, ["behavior", "kind"])
+) {
 	@Expose()
 	@IsOptional()
 	@TypeTransformer(() => NodeBehaviorBaseDto, {

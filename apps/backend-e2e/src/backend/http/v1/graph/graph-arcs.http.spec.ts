@@ -11,7 +11,9 @@ describe("Backend HTTP GraphArcs", () => {
 	const graphClient = new GraphHttpClient();
 
 	const dbHelper = DbE2eHelper.getHelper("base");
-	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<typeof BASE_SEED>;
+	const db = JSON.parse(JSON.stringify(dbHelper.db)) as Jsonify<
+		typeof BASE_SEED
+	>;
 
 	const { arcs, graphs, nodes } = db.graph;
 	const [graphRef] = graphs;
@@ -44,7 +46,10 @@ describe("Backend HTTP GraphArcs", () => {
 				data,
 				pagination: { total }
 			} = await client.findMany({
-				params: { limit, order: [{ _id: "asc" }] } satisfies GraphArcQueryDto
+				params: {
+					limit,
+					order: [{ _id: "asc" }]
+				} satisfies GraphArcQueryDto
 			});
 
 			expect(data).toHaveLength(limit);

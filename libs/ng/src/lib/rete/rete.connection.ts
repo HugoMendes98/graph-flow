@@ -13,7 +13,12 @@ export class ReteConnection extends ClassicPreset.Connection<
 		output: ReteOutput,
 		input: ReteInput
 	) {
-		super(output.node, output.output._id.toString(), input.node, input.input._id.toString());
+		super(
+			output.node,
+			output.output._id.toString(),
+			input.node,
+			input.input._id.toString()
+		);
 	}
 
 	// TODO?

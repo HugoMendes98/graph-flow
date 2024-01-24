@@ -48,7 +48,10 @@ describe("Auth", () => {
 			cy.get("#mat-input-1").type(password);
 
 			cy.get(".mdc-button").click();
-			cy.get(".mat-mdc-card-title").should("contain.text", `Hello ${email}!`);
+			cy.get(".mat-mdc-card-title").should(
+				"contain.text",
+				`Hello ${email}!`
+			);
 			// /* ==== End Cypress Studio ==== */
 
 			cy.location("pathname").should("eq", "/workflows");
@@ -62,7 +65,10 @@ describe("Auth", () => {
 			cy.visit(pathProtected);
 
 			cy.location("pathname").should("eq", pathLogin);
-			cy.location("search").should("eq", `?redirectUrl=${encodeURIComponent(pathProtected)}`);
+			cy.location("search").should(
+				"eq",
+				`?redirectUrl=${encodeURIComponent(pathProtected)}`
+			);
 
 			cy.get("#mat-input-0").type(email);
 			cy.get("#mat-input-1").type(password);
@@ -86,17 +92,24 @@ describe("Auth", () => {
 			cy.authConnectAs(email, password);
 			cy.visit(pathProtected);
 
-			cy.get("ng-component.ng-star-inserted > .flex-col > .flex-row > button").click();
+			cy.get(
+				"ng-component.ng-star-inserted > .flex-col > .flex-row > button"
+			).click();
 			cy.get(".mat-mdc-dialog-container #mat-input-0").type("newName");
 
 			cy.authDisconnect();
-			cy.get(".mat-mdc-dialog-container form button[type=submit]").click();
+			cy.get(
+				".mat-mdc-dialog-container form button[type=submit]"
+			).click();
 
 			// eslint-disable-next-line cypress/no-unnecessary-waiting -- Wait if there is a "redirection loop"
 			cy.wait(125);
 
 			cy.location("pathname").should("eq", pathLogin);
-			cy.location("search").should("eq", `?redirectUrl=${encodeURIComponent(pathProtected)}`);
+			cy.location("search").should(
+				"eq",
+				`?redirectUrl=${encodeURIComponent(pathProtected)}`
+			);
 
 			/* ==== Generated with Cypress Studio ==== */
 			cy.get(".mat-mdc-simple-snack-bar").should("be.visible");

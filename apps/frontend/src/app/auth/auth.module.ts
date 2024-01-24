@@ -12,7 +12,11 @@ import { AuthService } from "./auth.service";
 	providers: [
 		AuthInterceptor,
 		AuthService,
-		{ multi: true, provide: HTTP_INTERCEPTORS, useExisting: AuthInterceptor }
+		{
+			multi: true,
+			provide: HTTP_INTERCEPTORS,
+			useExisting: AuthInterceptor
+		}
 	]
 })
 export class AuthModule {}

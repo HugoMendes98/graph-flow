@@ -42,15 +42,24 @@ describe("NodeOutputService", () => {
 
 			expect(nodeVar.behavior.type).toBe(NodeBehaviorType.VARIABLE);
 			expect(nodeCode.behavior.type).toBe(NodeBehaviorType.CODE);
-			expect(nodeParameterIn.behavior.type).toBe(NodeBehaviorType.PARAMETER_IN);
+			expect(nodeParameterIn.behavior.type).toBe(
+				NodeBehaviorType.PARAMETER_IN
+			);
 			expect(nodeVar.outputs).not.toHaveLength(0);
 			expect(nodeCode.outputs).not.toHaveLength(0);
 			expect(nodeParameterIn.outputs).not.toHaveLength(0);
 
-			const toUpdate: NodeOutputUpdateDto = { name: "1", type: NodeIoType.STRING };
+			const toUpdate: NodeOutputUpdateDto = {
+				name: "1",
+				type: NodeIoType.STRING
+			};
 			for (const node of [nodeVar, nodeCode, nodeParameterIn]) {
 				const [output] = node.outputs.getItems();
-				const updated = await service.updateFromNode(node, output._id, toUpdate);
+				const updated = await service.updateFromNode(
+					node,
+					output._id,
+					toUpdate
+				);
 
 				expect(updated.name).toBe(toUpdate.name);
 				expect(updated.type).toBe(toUpdate.type);
@@ -64,12 +73,17 @@ describe("NodeOutputService", () => {
 
 			expect(nodeTrigger.behavior.type).toBe(NodeBehaviorType.TRIGGER);
 			expect(nodeFunction.behavior.type).toBe(NodeBehaviorType.FUNCTION);
-			expect(nodeReference.behavior.type).toBe(NodeBehaviorType.REFERENCE);
+			expect(nodeReference.behavior.type).toBe(
+				NodeBehaviorType.REFERENCE
+			);
 			expect(nodeTrigger.outputs).not.toHaveLength(0);
 			expect(nodeFunction.outputs).not.toHaveLength(0);
 			expect(nodeReference.outputs).not.toHaveLength(0);
 
-			const toUpdate: NodeOutputUpdateDto = { name: "1", type: NodeIoType.STRING };
+			const toUpdate: NodeOutputUpdateDto = {
+				name: "1",
+				type: NodeIoType.STRING
+			};
 			for (const node of [nodeTrigger, nodeFunction, nodeReference]) {
 				const [output] = node.outputs.getItems();
 				await expect(() =>

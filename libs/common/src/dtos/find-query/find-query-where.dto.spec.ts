@@ -33,11 +33,20 @@ describe("FindQueryWhereDto", () => {
 
 		class FlatWhereDto extends FindQueryWhereDtoOf(FlatDto) {}
 		const transform = (object: object) =>
-			plainToInstance(FlatWhereDto, object, omit(transformOptions, ["strategy"]));
+			plainToInstance(
+				FlatWhereDto,
+				object,
+				omit(transformOptions, ["strategy"])
+			);
 
 		it("should be valid (without logical)", () => {
 			const wheres: FlatWhereDto[] = [
-				{ a: { $gt: 3, $lt: 9 }, b: "ok", c: null, f: { $like: "abc" } },
+				{
+					a: { $gt: 3, $lt: 9 },
+					b: "ok",
+					c: null,
+					f: { $like: "abc" }
+				},
 				{ a: 0, b: { $gt: "abc" }, d: { $lt: new Date() }, f: null },
 				{}
 			];
@@ -52,8 +61,18 @@ describe("FindQueryWhereDto", () => {
 			const wheres: Array<InstanceType<typeof FlatWhereDto>> = [
 				{
 					$and: [
-						{ a: { $gt: 3, $lt: 9 }, b: "ok", c: null, f: { $like: "abc" } },
-						{ a: 0, b: { $gt: "abc" }, d: { $lt: new Date() }, f: null },
+						{
+							a: { $gt: 3, $lt: 9 },
+							b: "ok",
+							c: null,
+							f: { $like: "abc" }
+						},
+						{
+							a: 0,
+							b: { $gt: "abc" },
+							d: { $lt: new Date() },
+							f: null
+						},
 						{}
 					]
 				},
@@ -82,16 +101,20 @@ describe("FindQueryWhereDto", () => {
 			expect(errors).toHaveLength(4);
 
 			const errA = errors.find(
-				({ property }) => property === ("a" satisfies keyof FlatWhereDto)
+				({ property }) =>
+					property === ("a" satisfies keyof FlatWhereDto)
 			);
 			const errD = errors.find(
-				({ property }) => property === ("d" satisfies keyof FlatWhereDto)
+				({ property }) =>
+					property === ("d" satisfies keyof FlatWhereDto)
 			);
 			const errE = errors.find(
-				({ property }) => property === ("e" satisfies keyof FlatWhereDto)
+				({ property }) =>
+					property === ("e" satisfies keyof FlatWhereDto)
 			);
 			const errF = errors.find(
-				({ property }) => property === ("f" satisfies keyof FlatWhereDto)
+				({ property }) =>
+					property === ("f" satisfies keyof FlatWhereDto)
 			);
 			expect(errA).toBeDefined();
 			expect(errD).toBeDefined();
@@ -100,7 +123,9 @@ describe("FindQueryWhereDto", () => {
 
 			expect(errA?.children?.[0].constraints).toHaveProperty(IS_NUMBER);
 			expect(errD?.children?.[0].constraints).toHaveProperty(IS_DATE);
-			expect(errE?.children?.[0].constraints).toHaveProperty("whitelistValidation");
+			expect(errE?.children?.[0].constraints).toHaveProperty(
+				"whitelistValidation"
+			);
 			expect(errF?.children?.[0].constraints).toHaveProperty(IS_STRING);
 		});
 	});
@@ -177,7 +202,11 @@ describe("FindQueryWhereDto", () => {
 
 		class NestedWhereDto extends FindQueryWhereDtoOf(Dto) {}
 		const transform = (object: object) =>
-			plainToInstance(NestedWhereDto, object, omit(transformOptions, ["strategy"]));
+			plainToInstance(
+				NestedWhereDto,
+				object,
+				omit(transformOptions, ["strategy"])
+			);
 
 		it("should be valid", () => {
 			const wheres: NestedWhereDto[] = [

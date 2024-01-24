@@ -7,4 +7,7 @@ import { NodeInputDto } from "./node-input.dto";
  *
  * Only possible for `code` behaviors.
  */
-export class NodeInputCreateDto extends PickType(NodeInputDto, ["name", "type"]) {}
+export class NodeInputCreateDto extends PickType(NodeInputDto, [
+	"name",
+	"type"
+]) {}

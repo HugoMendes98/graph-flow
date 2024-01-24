@@ -1,4 +1,7 @@
-import { castNodeIoValueTo, CastNodeIoValueToException } from "./node-io.functions";
+import {
+	castNodeIoValueTo,
+	CastNodeIoValueToException
+} from "./node-io.functions";
 import { NODE_IO_VOID, NodeIoType, NodeIoValueFromType } from "./node-io.type";
 
 describe("castNodeIoValueTo", () => {
@@ -32,7 +35,9 @@ describe("castNodeIoValueTo", () => {
 				{ a: {}, b: null }
 			]
 		] satisfies Array<[unknown, NodeIoValueFromType<NodeIoType.JSON>]>) {
-			expect(castNodeIoValueTo(NodeIoType.JSON, value)).toStrictEqual(expected);
+			expect(castNodeIoValueTo(NodeIoType.JSON, value)).toStrictEqual(
+				expected
+			);
 		}
 	});
 
@@ -45,7 +50,9 @@ describe("castNodeIoValueTo", () => {
 			false,
 			{ a: 1, b: true }
 		] satisfies Array<NodeIoValueFromType<NodeIoType.ANY>>) {
-			expect(castNodeIoValueTo(NodeIoType.ANY, value)).toStrictEqual(value);
+			expect(castNodeIoValueTo(NodeIoType.ANY, value)).toStrictEqual(
+				value
+			);
 		}
 	});
 
@@ -58,7 +65,9 @@ describe("castNodeIoValueTo", () => {
 			false,
 			{ a: 1, b: true }
 		] satisfies unknown[]) {
-			expect(castNodeIoValueTo(NodeIoType.VOID, value)).toStrictEqual(NODE_IO_VOID);
+			expect(castNodeIoValueTo(NodeIoType.VOID, value)).toStrictEqual(
+				NODE_IO_VOID
+			);
 		}
 	});
 

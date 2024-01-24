@@ -1,7 +1,14 @@
 import { animate, style, transition, trigger } from "@angular/animations";
 import { CommonModule } from "@angular/common";
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import {
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	Output,
+	SimpleChanges
+} from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
@@ -9,7 +16,11 @@ import { RouterLink } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { map, Observable } from "rxjs";
 import { NodeJSON } from "~/lib/common/app/node/endpoints";
-import { EntityFindQuery, EntityFindResult, EntityOrder } from "~/lib/common/endpoints";
+import {
+	EntityFindQuery,
+	EntityFindResult,
+	EntityOrder
+} from "~/lib/common/endpoints";
 import { DotPath } from "~/lib/common/types";
 import { MatCellDefDirective } from "~/lib/ng/lib/directives";
 import { ListTableHeaderComponent } from "~/lib/ng/lib/mat-list/components/list-table-header/list-table-header.component";
@@ -46,7 +57,8 @@ export const NODE_LIST_COLUMNS = [
 
 /** Type of the node-list columns */
 export type NodeListColumn = (typeof NODE_LIST_COLUMNS)[number];
-export type NodeListColumnSortable = (typeof NODE_LIST_COLUMNS_SORTABLE)[number];
+export type NodeListColumnSortable =
+	(typeof NODE_LIST_COLUMNS_SORTABLE)[number];
 
 /** The sort type for a NodeList  */
 export type NodeListSort = ListSortColumns<NodeListColumnSortable>;
@@ -65,7 +77,10 @@ const getAnimation = () => {
 	const closed = style({ height: 0, opacity: 0 });
 	const timing = "150ms";
 	return trigger("previewExpansion", [
-		transition(":enter", [closed, animate(timing, style({ height: "*", opacity: 1 }))]),
+		transition(":enter", [
+			closed,
+			animate(timing, style({ height: "*", opacity: 1 }))
+		]),
 		transition(":leave", [animate(timing, closed)])
 	]);
 };
@@ -90,20 +105,24 @@ const getAnimation = () => {
 	]
 })
 export class NodeListComponent implements OnChanges {
-	public static listQueryToApiQuery(query: NodeListQuery): EntityFindQuery<NodeJSON> {
+	public static listQueryToApiQuery(
+		query: NodeListQuery
+	): EntityFindQuery<NodeJSON> {
 		const { sort = new ListSortColumns() } = query;
 
 		return {
-			order: sort.columns.map<EntityOrder<NodeJSON>>(({ column, direction }) => {
-				switch (column) {
-					case "behavior.type":
-						return { behavior: { type: direction } };
-					case "kind.active":
-						return { kind: { active: direction } };
-				}
+			order: sort.columns.map<EntityOrder<NodeJSON>>(
+				({ column, direction }) => {
+					switch (column) {
+						case "behavior.type":
+							return { behavior: { type: direction } };
+						case "kind.active":
+							return { kind: { active: direction } };
+					}
 
-				return { [column]: direction };
-			})
+					return { [column]: direction };
+				}
+			)
 		};
 	}
 	// TODO: loading/error state
@@ -183,7 +202,8 @@ export class NodeListComponent implements OnChanges {
 	/**
 	 * Updates a table header direction
 	 */
-	protected readonly nextDirection = ListTableHeaderComponent.DEFAULT_NEXT_DIRECTION();
+	protected readonly nextDirection =
+		ListTableHeaderComponent.DEFAULT_NEXT_DIRECTION();
 
 	/**
 	 * The dataSource for the table
@@ -195,14 +215,17 @@ export class NodeListComponent implements OnChanges {
 	 */
 	protected get isExpansionEnabled() {
 		return (
-			this.COLUMNS_ADDITIONAL.includes("actions.expansion") || this.onRowClick === "expansion"
+			this.COLUMNS_ADDITIONAL.includes("actions.expansion") ||
+			this.onRowClick === "expansion"
 		);
 	}
 
 	/** @inheritDoc */
 	public ngOnChanges(changes: SimpleChanges) {
 		if (("state$" satisfies keyof this) in changes) {
-			this.dataSource$ = this.state$.pipe(map(({ snapshot: { data } }) => data?.data ?? []));
+			this.dataSource$ = this.state$.pipe(
+				map(({ snapshot: { data } }) => data?.data ?? [])
+			);
 		}
 	}
 

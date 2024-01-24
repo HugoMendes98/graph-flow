@@ -112,8 +112,12 @@ describe("HTTP Query transformer", () => {
 
 			const encodedComplex = httpQueryEncode(complex);
 			expect(encodedComplex.flatArray[0]).not.toBe(complex.flatArray[0]);
-			expect(encodedComplex.nested.nestedA.a).not.toBe(complex.nested.nestedA.a);
-			expect(encodedComplex.nested.nestedB.b).not.toBe(complex.nested.nestedB.b);
+			expect(encodedComplex.nested.nestedA.a).not.toBe(
+				complex.nested.nestedA.a
+			);
+			expect(encodedComplex.nested.nestedB.b).not.toBe(
+				complex.nested.nestedB.b
+			);
 			expect(encodedComplex.nestedArray.nestedA[1].b).not.toBe(
 				complex.nestedArray.nestedA[1].b
 			);
@@ -122,7 +126,9 @@ describe("HTTP Query transformer", () => {
 			);
 			expect(encodedComplex.value).not.toBe(complex.value);
 
-			expect(encodedComplex.nestedArray.nestedA[0]).toBe(complex.nestedArray.nestedA[0]);
+			expect(encodedComplex.nestedArray.nestedA[0]).toBe(
+				complex.nestedArray.nestedA[0]
+			);
 		});
 	});
 });

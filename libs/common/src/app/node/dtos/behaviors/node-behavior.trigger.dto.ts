@@ -1,4 +1,9 @@
-import { IntersectionType, OmitType, PartialType, PickType } from "@nestjs/mapped-types";
+import {
+	IntersectionType,
+	OmitType,
+	PartialType,
+	PickType
+} from "@nestjs/mapped-types";
 import { ValidateNested } from "class-validator";
 
 import { NodeBehaviorBaseDto } from "./node-behavior.base.dto";

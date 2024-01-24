@@ -14,7 +14,9 @@ import { DiscriminatedType } from "../../../../types";
 export const NODE_KIND_DTOS = [
 	{ name: NodeKindType.VERTEX, value: NodeKindVertexDto },
 	{ name: NodeKindType.TEMPLATE, value: NodeKindTemplateDto }
-] as const satisfies ReadonlyArray<DiscriminatedType<Type<NodeKindBaseDto>, NodeKindType>>;
+] as const satisfies ReadonlyArray<
+	DiscriminatedType<Type<NodeKindBaseDto>, NodeKindType>
+>;
 
 /**
  * All the possible node kinds for update
@@ -22,13 +24,19 @@ export const NODE_KIND_DTOS = [
 export const NODE_KIND_UPDATE_DTOS = [
 	{ name: NodeKindType.VERTEX, value: NodeKindVertexUpdateDto },
 	{ name: NodeKindType.TEMPLATE, value: NodeKindTemplateUpdateDto }
-] as const satisfies ReadonlyArray<DiscriminatedType<Type<NodeKindBaseDto>, NodeKindType>>;
+] as const satisfies ReadonlyArray<
+	DiscriminatedType<Type<NodeKindBaseDto>, NodeKindType>
+>;
 
 /**
  * The union type of all kinds
  */
-export type NodeKindDto = InstanceType<(typeof NODE_KIND_DTOS)[number]["value"]>;
+export type NodeKindDto = InstanceType<
+	(typeof NODE_KIND_DTOS)[number]["value"]
+>;
 /**
  * The union type of all "update-kind"s
  */
-export type NodeKindUpdateDto = InstanceType<(typeof NODE_KIND_UPDATE_DTOS)[number]["value"]>;
+export type NodeKindUpdateDto = InstanceType<
+	(typeof NODE_KIND_UPDATE_DTOS)[number]["value"]
+>;

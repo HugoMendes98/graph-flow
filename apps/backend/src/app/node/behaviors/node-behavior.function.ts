@@ -10,9 +10,16 @@ const fieldName = "__graph" satisfies keyof DTO;
 const type = NodeBehaviorType.FUNCTION;
 
 @Entity({ discriminatorValue: type })
-export class NodeBehaviorFunction extends NodeBehaviorBase<typeof type> implements DTO {
+export class NodeBehaviorFunction
+	extends NodeBehaviorBase<typeof type>
+	implements DTO
+{
 	/** @inheritDoc */
-	@Property({ fieldName, formula: alias => `${alias}.${fieldName}`, persist: false })
+	@Property({
+		fieldName,
+		formula: alias => `${alias}.${fieldName}`,
+		persist: false
+	})
 	public readonly __graph!: number;
 
 	@OneToOne(() => GraphEntity, {

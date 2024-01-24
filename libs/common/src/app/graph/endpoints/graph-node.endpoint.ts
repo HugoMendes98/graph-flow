@@ -11,7 +11,10 @@ import { GraphNodeCreateDto } from "../dtos/node/graph-node.create.dto";
  * Endpoint path parts for [nodes]{@link NodeDto} (without global prefix).
  * The parameter goes in the middle starting with a `/`.
  */
-export const GRAPH_NODES_ENDPOINT_PARTS = [GRAPHS_ENDPOINT_PREFIX, "/nodes"] as const;
+export const GRAPH_NODES_ENDPOINT_PARTS = [
+	GRAPHS_ENDPOINT_PREFIX,
+	"/nodes"
+] as const;
 
 /**
  * Generates the endpoint for `graph-node`s for a graph.
@@ -25,5 +28,6 @@ export function generateGraphNodesEndpoint(graphId: EntityId) {
 }
 
 export type GraphNodeJSON = Jsonify<GraphNodeDto>;
-export type GraphNodeEndpoint<T extends DtoToEntity<GraphNodeDto> | GraphNodeJSON = GraphNodeJSON> =
-	EntityEndpoint<T, GraphNodeCreateDto, GraphNodeUpdateDto>;
+export type GraphNodeEndpoint<
+	T extends DtoToEntity<GraphNodeDto> | GraphNodeJSON = GraphNodeJSON
+> = EntityEndpoint<T, GraphNodeCreateDto, GraphNodeUpdateDto>;

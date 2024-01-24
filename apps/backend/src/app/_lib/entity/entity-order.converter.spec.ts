@@ -51,7 +51,9 @@ describe("entityOrderToQueryOrder", () => {
 		];
 
 		for (const encoded of tests) {
-			expect(() => entityOrderToQueryOrder(encoded)).toThrow(BadRequestException);
+			expect(() => entityOrderToQueryOrder(encoded)).toThrow(
+				BadRequestException
+			);
 		}
 	});
 });

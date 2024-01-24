@@ -1,4 +1,7 @@
-import { UserJSON, USERS_ENDPOINT_PREFIX } from "~/lib/common/app/user/endpoints";
+import {
+	UserJSON,
+	USERS_ENDPOINT_PREFIX
+} from "~/lib/common/app/user/endpoints";
 
 import { EntityHttpClient } from "./_lib/entity.http-client";
 

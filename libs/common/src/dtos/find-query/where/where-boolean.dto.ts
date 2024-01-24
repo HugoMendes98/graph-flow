@@ -44,7 +44,10 @@ const TransformBoolean = (nullable: boolean) =>
 /**
  * Validation class for nullable `boolean` properties.
  */
-export class WhereBooleanNullableDto extends WhereBaseDto implements EntityFilterValue<boolean> {
+export class WhereBooleanNullableDto
+	extends WhereBaseDto
+	implements EntityFilterValue<boolean>
+{
 	/**
 	 * Search for records whose value is equal to the given one.
 	 */

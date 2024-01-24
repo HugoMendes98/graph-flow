@@ -10,7 +10,9 @@
 				<span translate>entities.entity.id</span>
 			</ui-list-table-header>
 		</th>
-		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{ row._id }}</td>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{
+			row._id
+		}}</td>
 	</ng-container>
 
 	<ng-container [matColumnDef]="COLUMNS_NODE[1]">
@@ -24,7 +26,9 @@
 				<span translate>entities.node.name</span>
 			</ui-list-table-header>
 		</th>
-		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{ row.name }}</td>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{
+			row.name
+		}}</td>
 	</ng-container>
 
 	<ng-container [matColumnDef]="COLUMNS_NODE[2]">
@@ -38,7 +42,9 @@
 				<span translate>entities.node.behavior.__meta.singular</span>
 			</ui-list-table-header>
 		</th>
-		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{ row.behavior.type }}</td>
+		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>{{
+			row.behavior.type
+		}}</td>
 	</ng-container>
 
 	<ng-container [matColumnDef]="COLUMNS_NODE[3]">
@@ -53,7 +59,11 @@
 			</ui-list-table-header>
 		</th>
 		<td *matCellDef="let row; dataSource: dataSource$" mat-cell>
-			<ng-container [ngSwitch]="row.kind.type === 'template' ? row.kind.active : null">
+			<ng-container
+				[ngSwitch]="
+					row.kind.type === 'template' ? row.kind.active : null
+				"
+			>
 				<mat-icon *ngSwitchCase="true" color="accent">check</mat-icon>
 				<mat-icon *ngSwitchCase="false" color="warn">cancel</mat-icon>
 			</ng-container>
@@ -97,7 +107,9 @@
 				type="button"
 				(click)="$event.stopPropagation(); handleExpansion(row)"
 			>
-				<mat-icon [class.expanded]="expanded === row._id">expand_more</mat-icon>
+				<mat-icon [class.expanded]="expanded === row._id"
+					>expand_more</mat-icon
+				>
 			</button>
 		</td>
 	</ng-container>
@@ -106,7 +118,9 @@
 	<tr
 		*matRowDef="let row; columns: columns"
 		mat-row
-		[ngClass]="{ 'cursor-pointer hover:bg-on-app-background': onRowClick !== null }"
+		[ngClass]="{
+			'cursor-pointer hover:bg-on-app-background': onRowClick !== null
+		}"
 		(click)="handleRowClick(row)"
 	></tr>
 

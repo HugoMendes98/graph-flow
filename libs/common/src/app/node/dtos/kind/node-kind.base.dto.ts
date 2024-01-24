@@ -19,4 +19,5 @@ export type NodeKindDiscriminatorKey = keyof Pick<NodeKindBaseDto, "type">;
 /**
  * The discriminator key for the node kind
  */
-export const NODE_KIND_DISCRIMINATOR_KEY = "type" as const satisfies NodeKindDiscriminatorKey;
+export const NODE_KIND_DISCRIMINATOR_KEY =
+	"type" as const satisfies NodeKindDiscriminatorKey;

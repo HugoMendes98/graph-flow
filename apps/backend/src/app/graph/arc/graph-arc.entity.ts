@@ -5,7 +5,10 @@ import { DtoToEntity } from "~/lib/common/dtos/entity/entity.types";
 
 import { GraphArcRepository } from "./graph-arc.repository";
 import { EntityBase } from "../../_lib/entity";
-import { ManyToOneFactory, ManyToOneParams } from "../../_lib/entity/decorators";
+import {
+	ManyToOneFactory,
+	ManyToOneParams
+} from "../../_lib/entity/decorators";
 import { NodeInputEntity } from "../../node/input/node-input.entity";
 import { NodeOutputEntity } from "../../node/output/node-output.entity";
 
@@ -44,7 +47,10 @@ function ToProperty(params: Pick<ManyToOneParams, "foreign">) {
 }
 
 @Entity({ customRepository: () => GraphArcRepository })
-export class GraphArcEntity extends EntityBase implements DtoToEntity<GraphArcDto> {
+export class GraphArcEntity
+	extends EntityBase
+	implements DtoToEntity<GraphArcDto>
+{
 	/** @inheritDoc */
 	@FromProperty({ foreign: false })
 	public readonly __from!: number;

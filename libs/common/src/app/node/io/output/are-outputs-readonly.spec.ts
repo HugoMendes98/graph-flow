@@ -10,7 +10,7 @@ describe("areNodeOutputsReadonly", () => {
 				NodeBehaviorType.TRIGGER,
 				NodeBehaviorType.REFERENCE
 			] satisfies NodeBehaviorType[]) {
-				expect(areNodeOutputsReadonlyOnUpdate(behavior)).toBeTrue();
+				expect(areNodeOutputsReadonlyOnUpdate(behavior)).toBe(true);
 			}
 		});
 
@@ -20,7 +20,7 @@ describe("areNodeOutputsReadonly", () => {
 				NodeBehaviorType.PARAMETER_IN,
 				NodeBehaviorType.VARIABLE
 			] satisfies NodeBehaviorType[]) {
-				expect(areNodeOutputsReadonlyOnUpdate(behavior)).toBeFalse();
+				expect(areNodeOutputsReadonlyOnUpdate(behavior)).toBe(false);
 			}
 		});
 	});

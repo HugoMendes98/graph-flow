@@ -1,0 +1,65 @@
+{
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Angular.ng-template",
+				"EditorConfig.EditorConfig",
+				"GitHub.vscode-pull-request-github",
+				"Gruntfuggly.todo-tree",
+				"dbaeumer.vscode-eslint",
+				"exiasr.hadolint",
+				"firsttris.vscode-jest-runner",
+				"formulahendry.auto-close-tag",
+				"formulahendry.auto-rename-tag",
+				"github.vscode-github-actions",
+				"hediet.vscode-drawio",
+				"king2021.vnc-extension",
+				"mhutchie.git-graph",
+				"ms-azuretools.vscode-docker",
+				"mtxr.sqltools",
+				"mtxr.sqltools-driver-pg",
+				"nrwl.angular-console",
+				"redhat.vscode-yaml",
+				"stylelint.vscode-stylelint",
+				"vivaxy.vscode-conventional-commits",
+				"waderyan.gitblame",
+				"yoavbls.pretty-ts-errors"
+			],
+			"settings": {
+				// Ensure correct node version
+				"eslint.runtime": "/usr/local/bin/node"
+			}
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"configureZshAsDefaultShell": true
+		},
+		"ghcr.io/devcontainers/features/desktop-lite:1": {
+			"password": "vscode",
+			"vncPort": 5903
+		},
+		// TODO: determine better options and configure
+		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/dhoeric/features/hadolint:1": {}
+	},
+	"forwardPorts": [5903, 6080],
+	"name": "Dev environment",
+	// Be sure to install the node_modules in and for the container before starting it, as some plugins might rely on it (e.g. eslint)
+	//"onCreateCommand": "rm -rf node_modules; npm install",
+	"portsAttributes": {
+		"5903": {
+			"label": "desktop VNC"
+		},
+		"6080": {
+			"label": "desktop web"
+		}
+	},
+	"postCreateCommand": "echo \"PATH=\"${PATH}:${PWD}/node_modules/.bin\"\" >> ~/.zshrc",
+	// docker is not nice :(. It cleans the `/tmp` dir which contains the vnc password, so it is "restarted"
+	"postStartCommand": "npx nx reset; killall tigervncserver"
+}

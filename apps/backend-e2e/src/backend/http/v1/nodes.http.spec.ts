@@ -1,6 +1,10 @@
 import { DbE2eHelper } from "~/app/backend/e2e/db-e2e/db-e2e.helper";
 import { NodeHttpClient } from "~/app/backend/e2e/http/clients/node.http-client";
-import { NodeCreateDto, NodeQueryDto, NodeUpdateDto } from "~/lib/common/app/node/dtos";
+import {
+	NodeCreateDto,
+	NodeQueryDto,
+	NodeUpdateDto
+} from "~/lib/common/app/node/dtos";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeKindVertexDto } from "~/lib/common/app/node/dtos/kind";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
@@ -23,7 +27,9 @@ describe("Backend HTTP Nodes", () => {
 	describe("GET", () => {
 		it("should filter by kind type", async () => {
 			const type = NodeKindType.TEMPLATE;
-			const expected = db.graph.nodes.filter(({ kind }) => kind.type === type);
+			const expected = db.graph.nodes.filter(
+				({ kind }) => kind.type === type
+			);
 
 			const { data, pagination } = await client.findMany({
 				params: { where: { kind: { type } } } satisfies NodeQueryDto
@@ -37,7 +43,7 @@ describe("Backend HTTP Nodes", () => {
 		});
 
 		it("should filter by number property", async () => {
-			const expected = db.graph.nodes.filter(({ _id }) => _id >= 10);
+			const expected = db.graph.nodes.filter(({ _id }) => 10 <= _id);
 
 			const { data } = await client.findMany({
 				params: { where: { _id: { $gte: 10 } } } satisfies NodeQueryDto
@@ -51,7 +57,9 @@ describe("Backend HTTP Nodes", () => {
 
 		it("should filter by boolean property", async () => {
 			const type = NodeKindType.TEMPLATE;
-			const expected = db.graph.nodes.filter(({ kind }) => kind.type === type && kind.active);
+			const expected = db.graph.nodes.filter(
+				({ kind }) => kind.type === type && kind.active
+			);
 
 			const { data } = await client.findMany({
 				params: {
@@ -73,7 +81,11 @@ describe("Backend HTTP Nodes", () => {
 			for (const toCreate of [
 				{
 					behavior: { type: NodeBehaviorType.VARIABLE, value: 1 },
-					kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
+					kind: {
+						__graph: 1,
+						position: { x: 0, y: 0 },
+						type: NodeKindType.VERTEX
+					},
 					name: "-new node1"
 				},
 				{
@@ -98,7 +110,10 @@ describe("Backend HTTP Nodes", () => {
 			const node = db.graph.nodes[0];
 
 			const toUpdate = {
-				kind: { position: { x: 250, y: 250 }, type: NodeKindType.VERTEX }
+				kind: {
+					position: { x: 250, y: 250 },
+					type: NodeKindType.VERTEX
+				}
 			} as const satisfies NodeUpdateDto;
 			const updated = await client.update(node._id, toUpdate);
 

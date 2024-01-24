@@ -45,21 +45,25 @@ describe("GraphService", () => {
 
 			it("should fail when getting one by an unknown id", async () => {
 				const id = Math.max(...graphs.map(({ _id }) => _id)) + 1;
-				await expect(service.findById(id)).rejects.toThrow(NotFoundError);
+				await expect(service.findById(id)).rejects.toThrow(
+					NotFoundError
+				);
 			});
 		});
 
 		describe("Create", () => {
 			it("should fail when creating a graph directly", async () => {
-				await expect(() => service.create({})).rejects.toThrow(MethodNotAllowedException);
+				await expect(() => service.create({})).rejects.toThrow(
+					MethodNotAllowedException
+				);
 			});
 		});
 
 		describe("Delete", () => {
 			it("should fail when deleting a graph directly", async () => {
-				await expect(() => service.delete(graphs[0]._id)).rejects.toThrow(
-					MethodNotAllowedException
-				);
+				await expect(() =>
+					service.delete(graphs[0]._id)
+				).rejects.toThrow(MethodNotAllowedException);
 			});
 		});
 	});

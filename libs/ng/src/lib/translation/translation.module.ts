@@ -22,12 +22,18 @@ export interface TranslationModuleConfig {
 
 @NgModule({
 	declarations: [TranslationControlErrorPipe, TranslationHttpErrorPipe],
-	exports: [TranslateModule, TranslationControlErrorPipe, TranslationHttpErrorPipe],
+	exports: [
+		TranslateModule,
+		TranslationControlErrorPipe,
+		TranslationHttpErrorPipe
+	],
 	imports: [TranslateModule],
 	providers: [TranslationService]
 })
 export class TranslationModule {
-	public static forRoot(config: TranslationModuleConfig): ModuleWithProviders<TranslateModule> {
+	public static forRoot(
+		config: TranslationModuleConfig
+	): ModuleWithProviders<TranslateModule> {
 		const module = TranslateModule.forRoot({
 			defaultLanguage: "en" satisfies TranslationLanguage,
 			isolate: false,

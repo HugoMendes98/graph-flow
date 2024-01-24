@@ -10,7 +10,10 @@ describe("GraphController", () => {
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			controllers: [GraphController],
-			providers: [{ provide: GraphRepository, useValue: {} }, GraphService]
+			providers: [
+				{ provide: GraphRepository, useValue: {} },
+				GraphService
+			]
 		}).compile();
 
 		controller = module.get<GraphController>(GraphController);

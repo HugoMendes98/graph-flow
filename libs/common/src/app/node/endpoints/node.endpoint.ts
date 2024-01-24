@@ -10,8 +10,5 @@ import { NodeCreateDto, NodeDto, NodeUpdateDto } from "../dtos";
 export const NODES_ENDPOINT_PREFIX = "/v1/nodes";
 
 export type NodeJSON = Jsonify<NodeDto>;
-export type NodeEndpoint<T extends DtoToEntity<NodeDto> | NodeJSON = NodeJSON> = EntityEndpoint<
-	T,
-	NodeCreateDto,
-	NodeUpdateDto
->;
+export type NodeEndpoint<T extends DtoToEntity<NodeDto> | NodeJSON = NodeJSON> =
+	EntityEndpoint<T, NodeCreateDto, NodeUpdateDto>;

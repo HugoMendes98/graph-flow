@@ -1,5 +1,8 @@
 import { Injectable } from "@angular/core";
-import { CategoryCreateDto, CategoryUpdateDto } from "~/lib/common/app/category/dtos";
+import {
+	CategoryCreateDto,
+	CategoryUpdateDto
+} from "~/lib/common/app/category/dtos";
 import {
 	CATEGORIES_ENDPOINT_PREFIX,
 	CategoryJSON,

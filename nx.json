@@ -1,5 +1,8 @@
 {
 	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"affected": {
+		"defaultBase": "master"
+	},
 	"defaultBase": "master",
 	"generators": {
 		"@nx/angular:application": {
@@ -17,18 +20,18 @@
 		}
 	},
 	"namedInputs": {
-		"default": ["{projectRoot}/**/*", "sharedGlobals"],
+		"default": ["sharedGlobals", "{projectRoot}/**/*"],
 		"production": [
-			"default",
+			"!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
 			"!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-			"!{projectRoot}/tsconfig.spec.json",
-			"!{projectRoot}/jest.config.[jt]s",
 			"!{projectRoot}/.eslintrc.json",
 			"!{projectRoot}/.storybook/**/*",
-			"!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
 			"!{projectRoot}/.stylelintrc(.(json|yml|yaml|js))?",
+			"!{projectRoot}/jest.config.[jt]s",
 			"!{projectRoot}/src/test-setup.[jt]s",
-			"!{projectRoot}/tsconfig.storybook.json"
+			"!{projectRoot}/tsconfig.spec.json",
+			"!{projectRoot}/tsconfig.storybook.json",
+			"default"
 		],
 		"sharedGlobals": []
 	},
@@ -36,10 +39,13 @@
 	"targetDefaults": {
 		"build": {
 			"dependsOn": ["^build"],
-			"inputs": ["production", "^production"]
+			"inputs": ["^production", "production"]
 		},
 		"e2e": {
-			"inputs": ["default", "^production"]
+			"inputs": ["^production", "default"],
+			"options": {
+				"runInBand": true
+			}
 		},
 		"lint": {
 			"inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
@@ -49,17 +55,30 @@
 		},
 		"storybook-build": {
 			"inputs": [
-				"default",
-				"^production",
 				"!{projectRoot}/.storybook/**/*",
+				"^production",
+				"default",
 				"{projectRoot}/tsconfig.storybook.json"
 			]
 		},
 		"stylelint": {
-			"inputs": ["default", "{workspaceRoot}/.stylelintrc(.(json|yml|yaml|js))?"]
+			"inputs": [
+				"default",
+				"{workspaceRoot}/.stylelintrc(.(json|yml|yaml|js))?"
+			]
 		},
 		"test": {
-			"inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
+			"configurations": {
+				"ci": {
+					"ci": true,
+					"codeCoverage": true
+				}
+			},
+			"inputs": [
+				"^production",
+				"default",
+				"{workspaceRoot}/jest.preset.js"
+			]
 		}
 	},
 	"tasksRunnerOptions": {

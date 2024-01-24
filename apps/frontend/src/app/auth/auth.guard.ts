@@ -20,7 +20,9 @@ export const authGuard: CanActivateChildFn & CanActivateFn = (route, state) => {
 
 	return service.userState$.pipe(
 		map(({ type }) =>
-			type === "connected" ? true : AuthService.createLoginUrlTree(router, state.url)
+			type === "connected"
+				? true
+				: AuthService.createLoginUrlTree(router, state.url)
 		)
 	);
 };

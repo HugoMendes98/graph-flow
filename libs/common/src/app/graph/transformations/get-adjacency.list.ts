@@ -40,7 +40,6 @@ export interface AdjacencyListTransformationParams<
 	nodes: readonly Node[];
 }
 
-/* eslint-disable no-use-before-define -- recursive type */
 /**
  * The link between two nodes with its arc.
  *
@@ -63,12 +62,14 @@ export interface AdjacencyListLink<
 	 */
 	to: AdjacencyListItem<Arc, Node>;
 }
-/* eslint-enable */
 
 /**
  * An item contains the nodes connected by and to the current node
  */
-export interface AdjacencyListItem<Arc extends AdjacencyListArc, Node extends AdjacencyListNode> {
+export interface AdjacencyListItem<
+	Arc extends AdjacencyListArc,
+	Node extends AdjacencyListNode
+> {
 	/**
 	 * The adjacency from other nodes leading to this one
 	 */
@@ -100,7 +101,10 @@ export type AdjacencyList<
  * @param params The parameters to retrieve the adjacency list
  * @returns The adjacency list in a {@link Map} form.
  */
-export function getAdjacencyList<Arc extends AdjacencyListArc, Node extends AdjacencyListNode>(
+export function getAdjacencyList<
+	Arc extends AdjacencyListArc,
+	Node extends AdjacencyListNode
+>(
 	params: AdjacencyListTransformationParams<Arc, Node>
 ): AdjacencyList<Arc, Node> {
 	const { arcs, nodes } = params;
@@ -117,10 +121,14 @@ export function getAdjacencyList<Arc extends AdjacencyListArc, Node extends Adja
 	const entries = Array.from(list.entries());
 	// The matrices of the inputs and outputs of node
 	const inputsToNode = new Map<EntityId, AdjacencyItem>(
-		entries.flatMap(([{ inputs }, item]) => inputs.map(({ _id }) => [_id, item]))
+		entries.flatMap(([{ inputs }, item]) =>
+			inputs.map(({ _id }) => [_id, item])
+		)
 	);
 	const outputsToNode = new Map<EntityId, AdjacencyItem>(
-		entries.flatMap(([{ outputs }, item]) => outputs.map(({ _id }) => [_id, item]))
+		entries.flatMap(([{ outputs }, item]) =>
+			outputs.map(({ _id }) => [_id, item])
+		)
 	);
 
 	for (const arc of arcs) {

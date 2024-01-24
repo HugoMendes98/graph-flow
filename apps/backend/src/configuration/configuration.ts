@@ -22,7 +22,9 @@ export function _setConfiguration(config: ConfigurationPartial) {
 		throw new Error("Configuration already set");
 	}
 
-	return (_conf = Object.freeze(deepmerge(configDefault, config) as ReadonlyDeep<Configuration>));
+	return (_conf = Object.freeze(
+		deepmerge(configDefault, config) as ReadonlyDeep<Configuration>
+	));
 }
 
 /**

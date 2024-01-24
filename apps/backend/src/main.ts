@@ -8,7 +8,11 @@ bootstrap()
 		const { host } = getConfiguration();
 
 		await app.listen(host.port, host.name);
-		Logger.log(`🚀 Application is running on: ${await app.getUrl()}/${host.globalPrefix}`);
+		Logger.log(
+			`🚀 Application is running on: ${await app.getUrl()}/${
+				host.globalPrefix
+			}`
+		);
 	})
 	.catch((error: unknown) => {
 		// eslint-disable-next-line no-console -- bootstrap of the application

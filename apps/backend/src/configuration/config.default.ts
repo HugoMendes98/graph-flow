@@ -19,9 +19,9 @@ export const configDefault: Configuration = {
 	host: {
 		cors: {
 			origin: [
-				/\/\/127.0.0.[0-9]{1,3}/,
-				/\/\/192.168.[0-9]{1,3}.[0-9]{1,3}/,
-				/\/\/localhost(:[0-9]{1,5})+/
+				/\/\/127.0.0.\d{1,3}/,
+				/\/{2}192.168(?:.\d{1,3}){2}/,
+				/\/\/localhost(:\d{1,5})+/
 			]
 		},
 		globalPrefix: "api",

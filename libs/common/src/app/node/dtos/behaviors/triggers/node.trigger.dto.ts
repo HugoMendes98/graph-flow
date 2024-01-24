@@ -10,9 +10,13 @@ import { DiscriminatedType } from "../../../../../types";
  */
 export const NODE_TRIGGER_DTOS = [
 	{ name: NodeTriggerType.CRON, value: NodeTriggerCronDto }
-] as const satisfies ReadonlyArray<DiscriminatedType<Type<NodeTriggerBaseDto>, NodeTriggerType>>;
+] as const satisfies ReadonlyArray<
+	DiscriminatedType<Type<NodeTriggerBaseDto>, NodeTriggerType>
+>;
 
 /**
  * The union type of all node triggers
  */
-export type NodeTriggerDto = InstanceType<(typeof NODE_TRIGGER_DTOS)[number]["value"]>;
+export type NodeTriggerDto = InstanceType<
+	(typeof NODE_TRIGGER_DTOS)[number]["value"]
+>;

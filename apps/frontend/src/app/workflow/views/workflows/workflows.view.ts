@@ -85,7 +85,10 @@ export class WorkflowsView implements OnInit, OnDestroy {
 								this.INTERNAL_NAVIGATION
 					)
 				)
-				.subscribe(params => void this.doRequest(this.queryParamsToListQuery(params)))
+				.subscribe(
+					params =>
+						void this.doRequest(this.queryParamsToListQuery(params))
+				)
 		);
 	}
 
@@ -107,15 +110,15 @@ export class WorkflowsView implements OnInit, OnDestroy {
 			"../../dialogs/workflow-create/workflow-create.dialog"
 		);
 
-		await lastValueFrom(WorkflowCreateDialog.open(this.matDialog).afterClosed()).then(
-			result => {
-				if (!result) {
-					return;
-				}
-
-				void this.router.navigateByUrl(this.workflowUrl(result.created));
+		await lastValueFrom(
+			WorkflowCreateDialog.open(this.matDialog).afterClosed()
+		).then(result => {
+			if (!result) {
+				return;
 			}
-		);
+
+			void this.router.navigateByUrl(this.workflowUrl(result.created));
+		});
 	}
 
 	/**
@@ -144,21 +147,33 @@ export class WorkflowsView implements OnInit, OnDestroy {
 	}
 
 	// TODO: remove it from this component (lib?)
-	private queryParamsToListQuery(queryParams: WorkflowsViewQueryParam): WorkflowListQuery {
+	private queryParamsToListQuery(
+		queryParams: WorkflowsViewQueryParam
+	): WorkflowListQuery {
 		// TODO: use a lib (dot-object like)
 		const sortQP = Object.entries(queryParams)
-			.filter(([key, value]) => key.startsWith(SORT_PARAM_SUFFIX) && isOrderValue(value))
+			.filter(
+				([key, value]) =>
+					key.startsWith(SORT_PARAM_SUFFIX) && isOrderValue(value)
+			)
 			.map(([key, value]) => [key.slice(SORT_PARAM_SUFFIX.length), value])
-			.filter((element): element is [WorkflowListColumn, ListSortOrderValueDefault] =>
-				WORKFLOW_LIST_COLUMNS.includes(element[0] as never)
+			.filter(
+				(
+					element
+				): element is [WorkflowListColumn, ListSortOrderValueDefault] =>
+					WORKFLOW_LIST_COLUMNS.includes(element[0] as never)
 			);
 
 		return {
-			sort: new ListSortColumns(sortQP.map(([column, direction]) => ({ column, direction })))
+			sort: new ListSortColumns(
+				sortQP.map(([column, direction]) => ({ column, direction }))
+			)
 		};
 	}
 
-	private listQueryToQueryParams(listQuery: WorkflowListQuery): WorkflowsViewQueryParam {
+	private listQueryToQueryParams(
+		listQuery: WorkflowListQuery
+	): WorkflowsViewQueryParam {
 		// TODO: use a lib (dot-object like)
 		const { sort = new ListSortColumns() } = listQuery;
 

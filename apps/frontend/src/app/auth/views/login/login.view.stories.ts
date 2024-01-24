@@ -7,7 +7,8 @@ const meta: Meta<LoginView> = {
 	component: LoginView,
 	decorators: [
 		componentWrapperDecorator(
-			story => `<div class="flex flex-1 flex-col" style="min-height: 500px">${story}</div>`
+			story =>
+				`<div class="flex flex-1 flex-col" style="min-height: 500px">${story}</div>`
 		)
 	],
 	title: "Auth/views/Login"

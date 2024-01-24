@@ -10,8 +10,5 @@ import { UserCreateDto, UserDto, UserUpdateDto } from "../dtos";
 export const USERS_ENDPOINT_PREFIX = "/v1/users";
 
 export type UserJSON = Jsonify<UserDto>;
-export type UserEndpoint<T extends DtoToEntity<UserDto> | UserJSON = UserJSON> = EntityEndpoint<
-	T,
-	UserCreateDto,
-	UserUpdateDto
->;
+export type UserEndpoint<T extends DtoToEntity<UserDto> | UserJSON = UserJSON> =
+	EntityEndpoint<T, UserCreateDto, UserUpdateDto>;

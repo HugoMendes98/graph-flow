@@ -21,7 +21,10 @@
 			}
 		},
 		{
-			"files": ["./test/support/global/setup.ts", "./test/support/global/teardown.ts"],
+			"files": [
+				"./test/support/global/setup.ts",
+				"./test/support/global/teardown.ts"
+			],
 			"rules": {
 				"import/no-default-export": "off",
 				"jsdoc/require-jsdoc": "off"

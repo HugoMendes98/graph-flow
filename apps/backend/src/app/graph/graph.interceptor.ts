@@ -14,9 +14,9 @@ import { Request } from "express";
 import { GraphEntity } from "./graph.entity";
 import { GraphService } from "./graph.service";
 
-// eslint-disable-next-line no-use-before-define -- Only for typing
-type RequestParams = Partial<Record<typeof GraphInterceptor.GRAPH_TOKEN, GraphEntity>> &
-	// eslint-disable-next-line no-use-before-define -- Only for typing
+type RequestParams = Partial<
+	Record<typeof GraphInterceptor.GRAPH_TOKEN, GraphEntity>
+> &
 	Record<typeof GraphInterceptor.PATH_PARAM, string>;
 
 /**
@@ -47,7 +47,9 @@ export class GraphInterceptor implements NestInterceptor {
 
 	/** @inheritDoc */
 	public intercept(context: ExecutionContext, next: CallHandler) {
-		const request = context.switchToHttp().getRequest<Request<RequestParams>>();
+		const request = context
+			.switchToHttp()
+			.getRequest<Request<RequestParams>>();
 		const graphId = request.params[GraphInterceptor.PATH_PARAM];
 
 		const id = +graphId;
@@ -67,7 +69,10 @@ export class GraphInterceptor implements NestInterceptor {
 /**
  * Injects the intercepted Graph from the {@link GraphInterceptor} into a parameter.
  */
-export const GraphInterceptedParam = createParamDecorator<never, ExecutionContext>(
+export const GraphInterceptedParam = createParamDecorator<
+	never,
+	ExecutionContext
+>(
 	(_, context) =>
 		context.switchToHttp().getRequest<Request<RequestParams>>().params[
 			GraphInterceptor.GRAPH_TOKEN
@@ -81,7 +86,9 @@ export const GraphInterceptedParam = createParamDecorator<never, ExecutionContex
  * @param options Some additional options
  * @returns The decorator that adds the swagger field
  */
-export const ApiGraphParam = (options: Pick<ParameterObject, "description" | "example"> = {}) =>
+export const ApiGraphParam = (
+	options: Pick<ParameterObject, "description" | "example"> = {}
+) =>
 	ApiParam({
 		...options,
 		name: GraphInterceptor.PATH_PARAM,

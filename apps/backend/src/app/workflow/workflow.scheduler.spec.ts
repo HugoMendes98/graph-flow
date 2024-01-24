@@ -49,7 +49,9 @@ describe("WorkflowScheduler", () => {
 	const getCode = () => {
 		const { db } = getConfiguration();
 		const rawContent = fs
-			.readFileSync(path.resolve("libs/common/src/seeds/codes/create-graph.js"))
+			.readFileSync(
+				path.resolve("libs/common/src/seeds/codes/create-graph.js")
+			)
 			.toString();
 
 		const value = 1000 + Math.floor(10e5 * Math.random());
@@ -119,7 +121,7 @@ describe("WorkflowScheduler", () => {
 		// ----- Tests
 
 		await scheduler.register(workflow);
-		expect(scheduler.isRegistered(workflow)).toBeTrue();
+		expect(scheduler.isRegistered(workflow)).toBe(true);
 
 		// The workflow could not be called when sleeping for 1 seconds or less
 		// And it could be executed twice for more time
@@ -141,16 +143,21 @@ describe("WorkflowScheduler", () => {
 				}
 			}
 
-			throw new Error(`No new graph detected from the workflow in less than ${timeMax}ms.`);
+			throw new Error(
+				`No new graph detected from the workflow in less than ${timeMax}ms.`
+			);
 		})();
 
 		await scheduler.unregister(workflow);
-		expect(scheduler.isRegistered(workflow)).toBeFalse();
+		expect(scheduler.isRegistered(workflow)).toBe(false);
 
 		const {
 			data: [graphTest],
 			pagination: { total: totalAfter }
-		} = await graphService.findAndCount({}, { limit: 1, order: [{ _id: "desc" }] });
+		} = await graphService.findAndCount(
+			{},
+			{ limit: 1, order: [{ _id: "desc" }] }
+		);
 
 		expect(totalAfter).toBe(totalBefore + 1);
 		expect(graphTest._id).toBe(value);
@@ -159,12 +166,12 @@ describe("WorkflowScheduler", () => {
 	it("should register and unregister by (de)activating a workflow", async () => {
 		const { workflow } = await seed(CronExpression.EVERY_YEAR);
 
-		expect(scheduler.isRegistered(workflow)).toBeFalse();
+		expect(scheduler.isRegistered(workflow)).toBe(false);
 
 		await service.update(workflow._id, { active: true });
-		expect(scheduler.isRegistered(workflow)).toBeTrue();
+		expect(scheduler.isRegistered(workflow)).toBe(true);
 
 		await service.update(workflow._id, { active: false });
-		expect(scheduler.isRegistered(workflow)).toBeFalse();
+		expect(scheduler.isRegistered(workflow)).toBe(false);
 	});
 });

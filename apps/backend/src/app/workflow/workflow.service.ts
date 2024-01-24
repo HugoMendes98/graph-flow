@@ -1,8 +1,22 @@
-import { CreateRequestContext, EventArgs, EventSubscriber, MikroORM } from "@mikro-orm/core";
-import { forwardRef, Inject, Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
+import {
+	CreateRequestContext,
+	EventArgs,
+	EventSubscriber,
+	MikroORM
+} from "@mikro-orm/core";
+import {
+	forwardRef,
+	Inject,
+	Injectable,
+	NotFoundException,
+	OnModuleInit
+} from "@nestjs/common";
 import { NodeBehaviorType } from "~/lib/common/app/node/dtos/behaviors/node-behavior.type";
 import { NodeKindType } from "~/lib/common/app/node/dtos/kind/node-kind.type";
-import { WorkflowCreateDto, WorkflowUpdateDto } from "~/lib/common/app/workflow/dtos";
+import {
+	WorkflowCreateDto,
+	WorkflowUpdateDto
+} from "~/lib/common/app/workflow/dtos";
 import { EntityId } from "~/lib/common/dtos/entity";
 
 import { WorkflowNoTriggerException } from "./exceptions";
@@ -42,7 +56,10 @@ export class WorkflowService
 	) {
 		super(repository);
 
-		repository.getEntityManager().getEventManager().registerSubscriber(this);
+		repository
+			.getEntityManager()
+			.getEventManager()
+			.registerSubscriber(this);
 	}
 
 	/** @inheritDoc */
@@ -90,17 +107,21 @@ export class WorkflowService
 	public async onModuleInit() {
 		const { data: workflows } = await this.findAndCount({ active: true });
 
-		await Promise.all(workflows.map(workflow => this.workflowScheduler.register(workflow)));
+		await Promise.all(
+			workflows.map(workflow => this.workflowScheduler.register(workflow))
+		);
 	}
 
 	/** @inheritDoc */
 	public override delete(id: EntityId): Promise<WorkflowEntity> {
-		return this.findById(id, { populate: { graph: true } }).then(async entity => {
-			// Cascade integrity -> deleting the graph deletes the workflow
-			// TODO: Reverse the relation ? Remove the cascade and delete manually
-			await this.graphService._deleteFromParent(entity.graph);
-			return entity;
-		});
+		return this.findById(id, { populate: { graph: true } }).then(
+			async entity => {
+				// Cascade integrity -> deleting the graph deletes the workflow
+				// TODO: Reverse the relation ? Remove the cascade and delete manually
+				await this.graphService._deleteFromParent(entity.graph);
+				return entity;
+			}
+		);
 	}
 
 	/**
@@ -132,7 +153,9 @@ export class WorkflowService
 		);
 
 		if (data.length !== 1) {
-			throw new NotFoundException(`No trigger found for the workflow ${_id}`);
+			throw new NotFoundException(
+				`No trigger found for the workflow ${_id}`
+			);
 		}
 
 		const [node] = data;

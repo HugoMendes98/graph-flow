@@ -10,7 +10,9 @@ export const WORKFLOW_ROUTES: Routes = [
 	{
 		// This component is bigger
 		loadChildren: () =>
-			import("./workflow/workflow.view.routing").then(m => m.WorkflowViewRouting),
+			import("./workflow/workflow.view.routing").then(
+				m => m.WorkflowViewRouting
+			),
 		path: ":workflowId"
 	}
 ];

@@ -64,7 +64,11 @@ export function httpQueryEncode<T>(
 	query: ReadonlyDeep<T>,
 	options?: ReadonlyDeep<HttpQueryEncodeOptions>
 ): QueryEncoded<QueryValue | object | []> {
-	if (([true, false, null, undefined] satisfies QueryPrimitiveValue[]).includes(query as never)) {
+	if (
+		(
+			[true, false, null, undefined] satisfies QueryPrimitiveValue[]
+		).includes(query as never)
+	) {
 		return `${QueryPrefixIdentifier.PRIMITIVE}${query as string}`;
 	}
 	if (typeof query === "number") {
@@ -74,7 +78,9 @@ export function httpQueryEncode<T>(
 		return `${QueryPrefixIdentifier.DATE}${query.toISOString()}`;
 	}
 	if (query instanceof RegExp) {
-		return `${QueryPrefixIdentifier.REG_EXP}${query.toString().slice(1, -1)}`;
+		return `${QueryPrefixIdentifier.REG_EXP}${query
+			.toString()
+			.slice(1, -1)}`;
 	}
 
 	if (typeof query === "string") {

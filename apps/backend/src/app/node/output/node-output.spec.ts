@@ -102,10 +102,19 @@ describe("NodeOutput", () => {
 				.then(async () => {
 					const db = dbTestBase.db as typeof BASE_SEED;
 
-					const reference = await nodeService.findById(db.graph.nodes[0]._id);
+					const reference = await nodeService.findById(
+						db.graph.nodes[0]._id
+					);
 					const { outputs } = await nodeService.create({
-						behavior: { __node: reference._id, type: NodeBehaviorType.REFERENCE },
-						kind: { __graph: 1, position: { x: 0, y: 0 }, type: NodeKindType.VERTEX },
+						behavior: {
+							__node: reference._id,
+							type: NodeBehaviorType.REFERENCE
+						},
+						kind: {
+							__graph: 1,
+							position: { x: 0, y: 0 },
+							type: NodeKindType.VERTEX
+						},
 						name: `*${reference.name}`
 					});
 
@@ -115,7 +124,9 @@ describe("NodeOutput", () => {
 						const outputRef = reference.outputs[i];
 						expect(output.__ref).toBe(outputRef._id);
 						expect(output.type).toBe(outputRef.type);
-						expect(output._created_at).not.toStrictEqual(outputRef._created_at);
+						expect(output._created_at).not.toStrictEqual(
+							outputRef._created_at
+						);
 					}
 				})
 				.then(() => dbTestBase.close())

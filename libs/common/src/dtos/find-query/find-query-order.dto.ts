@@ -1,7 +1,12 @@
 import { Singleton } from "@heap-code/singleton";
 import type { Type } from "@nestjs/common";
 import { IntersectionType } from "@nestjs/mapped-types";
-import { Expose, plainToInstance, Transform, Type as TypeTransformer } from "class-transformer";
+import {
+	Expose,
+	plainToInstance,
+	Transform,
+	Type as TypeTransformer
+} from "class-transformer";
 import { IsIn, IsOptional, ValidateNested } from "class-validator";
 
 import { EntityOrder, OrderValues } from "../../endpoints";
@@ -14,12 +19,16 @@ function getPropertyDecorators<T extends object>(
 ): PropertyDecorator[] {
 	// We suppose that Object is a union or a "bad" type definition
 	// undefined for null
-	if ([Boolean, String, Date, Number, Object, undefined].includes(type as never)) {
+	if (
+		[Boolean, String, Date, Number, Object, undefined].includes(
+			type as never
+		)
+	) {
 		return [IsIn(OrderValues)];
 	}
 
 	// Due to its laziness, calculated only once and when needed (and avoid circular calls)
-	// eslint-disable-next-line no-use-before-define -- Created below
+
 	const baseType = new Singleton(() => FindQueryOrderDtoOf(type as never));
 	const { discriminator } = options;
 
@@ -31,8 +40,9 @@ function getPropertyDecorators<T extends object>(
 	const discriminatedType = new Singleton(() =>
 		discriminator.subTypes.reduce(
 			// TODO: remove `IntersectionType` and do it "manually"
-			// eslint-disable-next-line no-use-before-define -- Created below
-			(intersected, { value }) => IntersectionType(intersected, FindQueryOrderDtoOf(value)),
+
+			(intersected, { value }) =>
+				IntersectionType(intersected, FindQueryOrderDtoOf(value)),
 			baseType.get()
 		)
 	);
@@ -54,13 +64,21 @@ function getPropertyDecorators<T extends object>(
  * @param source The class used to determine the transformation and validations
  * @returns The generated class
  */
-export function FindQueryOrderDtoOf<T extends object>(source: DtoType<T>): Type<EntityOrder<T>> {
+export function FindQueryOrderDtoOf<T extends object>(
+	source: DtoType<T>
+): Type<EntityOrder<T>> {
 	// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- The class is constructed below
 	class OrderDto {}
 
 	for (const key of dtoStorage.getPropertyKeys(source)) {
-		const type = dtoStorage.getPropertyType(source.prototype as Type<unknown>, key);
-		const options = dtoStorage.getPropertyOptions<object>(source.prototype as never, key);
+		const type = dtoStorage.getPropertyType(
+			source.prototype as Type<unknown>,
+			key
+		);
+		const options = dtoStorage.getPropertyOptions<object>(
+			source.prototype as never,
+			key
+		);
 
 		Reflect.decorate(
 			[Expose(), IsOptional(), ...getPropertyDecorators(type, options)],
@@ -69,6 +87,8 @@ export function FindQueryOrderDtoOf<T extends object>(source: DtoType<T>): Type<
 		);
 	}
 
-	Object.defineProperty(OrderDto, "name", { value: `${OrderDto.name}${source.name}` });
+	Object.defineProperty(OrderDto, "name", {
+		value: `${OrderDto.name}${source.name}`
+	});
 	return OrderDto;
 }

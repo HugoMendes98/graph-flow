@@ -12,14 +12,16 @@ import { EntityRelationKeysDeep } from "./entity.types";
 export function entityToPopulateToRelationsKeys<T extends EntityBase>(
 	toPopulate: EntitiesToPopulate<T>
 ): Array<EntityRelationKeysDeep<T>> {
-	return Object.entries<NonNullable<EntitiesToPopulate<T>[keyof EntitiesToPopulate<T>]> | true>(
-		toPopulate as never
-	).flatMap(([key, value]) => {
+	return Object.entries<
+		NonNullable<EntitiesToPopulate<T>[keyof EntitiesToPopulate<T>]> | true
+	>(toPopulate as never).flatMap(([key, value]) => {
 		if (value === true) {
 			return [key] as never;
 		}
 
 		const keys: string[] = entityToPopulateToRelationsKeys(value);
-		return (keys.length ? keys.map(nested => `${key}.${nested}`) : [key]) as never;
+		return (
+			keys.length ? keys.map(nested => `${key}.${nested}`) : [key]
+		) as never;
 	});
 }

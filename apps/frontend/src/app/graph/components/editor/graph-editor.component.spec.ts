@@ -14,7 +14,10 @@ describe("GraphEditorComponent", () => {
 
 		fixture = TestBed.createComponent(GraphEditorComponent);
 		component = fixture.componentInstance;
-		component.nodes$ = of({ snapshot: { isLoading: false }, state: "init" });
+		component.nodes$ = of({
+			snapshot: { isLoading: false },
+			state: "init"
+		});
 		fixture.detectChanges();
 	});
 
