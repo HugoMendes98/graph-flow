@@ -19,11 +19,12 @@ export type OrderValueDesc = (typeof OrderValuesDesc)[number];
 export type OrderValue = (typeof OrderValues)[number];
 
 // For array and Mikro-orm compatible
-export type EntityFlat<T> = T extends ReadonlyArray<infer U>
-	? U
-	: T extends Collection<infer U>
-	? U
-	: T;
+export type EntityFlat<T> =
+	T extends ReadonlyArray<infer U>
+		? U
+		: T extends Collection<infer U>
+			? U
+			: T;
 
 export type EntityOrder<T> = {
 	[K in keyof T as ExcludeFunctions<T, K>]?: T[K] extends Date | Primitive

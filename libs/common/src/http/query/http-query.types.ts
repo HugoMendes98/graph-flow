@@ -31,20 +31,20 @@ export type QueryValue = Date | Primitive | RegExp;
 export type QueryDecodedString<T extends string> = T extends QueryEncodedDate
 	? Date
 	: T extends QueryEncodedNumber
-	? number
-	: T extends QueryEncodedPrimitive
-	? QueryPrimitiveValue
-	: T extends QueryEncodedRegExp
-	? RegExp
-	: string;
+		? number
+		: T extends QueryEncodedPrimitive
+			? QueryPrimitiveValue
+			: T extends QueryEncodedRegExp
+				? RegExp
+				: string;
 /**
  * Decoded query to its value.
  */
 export type QueryDecoded<T> = T extends string
 	? QueryDecodedString<T>
 	: T extends Array<infer U>
-	? Array<QueryDecoded<U>>
-	: { [P in keyof T]: QueryDecoded<T[P]> };
+		? Array<QueryDecoded<U>>
+		: { [P in keyof T]: QueryDecoded<T[P]> };
 
 /**
  * Encoded query string from a query value.
@@ -52,20 +52,20 @@ export type QueryDecoded<T> = T extends string
 export type QueryEncodedValue<T extends QueryValue> = T extends Date
 	? QueryEncodedDate
 	: T extends number
-	? QueryEncodedNumber
-	: T extends QueryPrimitiveValue
-	? QueryEncodedPrimitive
-	: T extends RegExp
-	? QueryEncodedRegExp
-	: string;
+		? QueryEncodedNumber
+		: T extends QueryPrimitiveValue
+			? QueryEncodedPrimitive
+			: T extends RegExp
+				? QueryEncodedRegExp
+				: string;
 /**
  * Encoded query object from an object.
  */
 export type QueryEncoded<T> = T extends QueryValue
 	? QueryEncodedValue<T>
 	: T extends Array<infer U>
-	? Array<QueryEncoded<U>>
-	: { [P in keyof T]: QueryEncoded<T[P]> };
+		? Array<QueryEncoded<U>>
+		: { [P in keyof T]: QueryEncoded<T[P]> };
 
 /**
  * An object that is encoded.

@@ -34,11 +34,11 @@ export type NodeIoValue = NodeIoValueJSON | NodeIoValueVoid | number | string;
 export type NodeIoValueFromType<T extends NodeIoType> = T extends NodeIoType.ANY
 	? NodeIoValue
 	: T extends NodeIoType.JSON
-	? NodeIoValueJSON
-	: T extends NodeIoType.NUMBER
-	? number
-	: T extends NodeIoType.STRING
-	? string
-	: T extends NodeIoType.VOID
-	? NodeIoValueVoid
-	: never;
+		? NodeIoValueJSON
+		: T extends NodeIoType.NUMBER
+			? number
+			: T extends NodeIoType.STRING
+				? string
+				: T extends NodeIoType.VOID
+					? NodeIoValueVoid
+					: never;

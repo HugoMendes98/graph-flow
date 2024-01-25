@@ -194,7 +194,7 @@ export class NodeCreateDialog {
 										"invalid-type": {
 											type: control.value as never
 										}
-								  }
+									}
 					]
 				}
 			),
