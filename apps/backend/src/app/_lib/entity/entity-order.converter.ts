@@ -21,7 +21,7 @@ export type EntityQueryOrderMap<T> = {
 		? EntityQueryOrder
 		: EntityQueryOrderMap<
 				NonNullable<T[K] extends Array<infer U> ? U : T[K]>
-		  >;
+			>;
 };
 
 function entityOrder2QueryOrder(value: string): EntityQueryOrder;

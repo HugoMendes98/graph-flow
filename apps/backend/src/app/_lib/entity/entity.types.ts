@@ -35,12 +35,12 @@ export type EntityRelationKeysDeep<
 					> extends infer U extends EntityBase
 						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
 						: NonNullable<T[K]> extends Collection<
-								infer U extends EntityBase
-						  >
-						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
-						: NonNullable<T[K]> extends Array<
-								infer U extends EntityBase
-						  >
-						? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
-						: never;
-			  }[EntityRelationKeys<T>]);
+									infer U extends EntityBase
+							  >
+							? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
+							: NonNullable<T[K]> extends Array<
+										infer U extends EntityBase
+								  >
+								? `${K}.${EntityRelationKeysDeep<U, Depth[D]>}`
+								: never;
+				}[EntityRelationKeys<T>]);

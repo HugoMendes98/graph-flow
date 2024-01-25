@@ -11,6 +11,6 @@ export type DtoToEntity<T> = {
 	>
 		? Collection<DtoToEntity<U>>
 		: NonNullable<T[K]> extends EntityDto
-		? DtoToEntity<NonNullable<T[K]>> | Extract<T[K], null>
-		: T[K];
+			? DtoToEntity<NonNullable<T[K]>> | Extract<T[K], null>
+			: T[K];
 };

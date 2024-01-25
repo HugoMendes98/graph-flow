@@ -98,10 +98,10 @@ export class AuthInterceptor implements HttpInterceptor {
 				type === "connected"
 					? this.translateService.get(
 							"interceptors.auth.redirect.connected"
-					  )
+						)
 					: this.translateService.get(
 							"interceptors.auth.redirect.unconnected"
-					  )
+						)
 			)) as string,
 			(await lastValueFrom(
 				this.translateService.get("actions.ok")

@@ -10,14 +10,14 @@ export type EntityFilterObject<T> = {
 	[P in keyof T as ExcludeFunctions<T, P>]?: T[P] extends Date
 		? EntityFilterValue<T[P]> | T[P]
 		: // Nest array of objects
-		NonNullable<T[P]> extends ReadonlyArray<infer U>
-		? EntityFilterObject<U>
-		: // Compatibility for backend (Mikro-orm Collection)
-		NonNullable<T[P]> extends Collection<infer U>
-		? EntityFilterObject<U>
-		: NonNullable<T[P]> extends object
-		? EntityFilterObject<T[P]>
-		: EntityFilterValue<T[P]> | T[P];
+			NonNullable<T[P]> extends ReadonlyArray<infer U>
+			? EntityFilterObject<U>
+			: // Compatibility for backend (Mikro-orm Collection)
+				NonNullable<T[P]> extends Collection<infer U>
+				? EntityFilterObject<U>
+				: NonNullable<T[P]> extends object
+					? EntityFilterObject<T[P]>
+					: EntityFilterValue<T[P]> | T[P];
 };
 
 /**

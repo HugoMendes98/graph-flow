@@ -26,7 +26,7 @@ export class NodeRepository extends EntityRepository<NodeEntity> {
 				: this.getEntityManager().create(
 						GraphEntity,
 						{} as unknown as never
-				  );
+					);
 
 			return super.create(
 				// @ts-expect-error -- TS2589: Excessive type from the repository base code

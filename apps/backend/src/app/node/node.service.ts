@@ -386,7 +386,7 @@ export class NodeService
 								NodeInputEntity,
 								ioToCreate as NodeInputEntity
 							)
-					  } satisfies NodeBehaviorParameterInputCreateDto &
+						} satisfies NodeBehaviorParameterInputCreateDto &
 							Pick<NodeBehaviorParameterInput, "nodeInput">)
 					: ({
 							...behavior,
@@ -394,7 +394,7 @@ export class NodeService
 								NodeOutputEntity,
 								ioToCreate as NodeOutputEntity
 							)
-					  } satisfies NodeBehaviorParameterOutputCreateDto &
+						} satisfies NodeBehaviorParameterOutputCreateDto &
 							Pick<NodeBehaviorParameterOutput, "nodeOutput">);
 
 			return {

@@ -28,12 +28,16 @@ export type EntitiesToPopulate<T extends EntityDto> = {
 		| (Required<T>[K] extends infer U extends EntityDto | null
 				? EntitiesToPopulate<NonNullable<U>>
 				: // Mikro-orm Collection
-				NonNullable<T[K]> extends Collection<infer U extends EntityDto>
-				? EntitiesToPopulate<U>
-				: // DTO arrays
-				NonNullable<T[K]> extends Array<infer U extends EntityDto>
-				? EntitiesToPopulate<U>
-				: never);
+					NonNullable<T[K]> extends Collection<
+							infer U extends EntityDto
+					  >
+					? EntitiesToPopulate<U>
+					: // DTO arrays
+						NonNullable<T[K]> extends Array<
+								infer U extends EntityDto
+						  >
+						? EntitiesToPopulate<U>
+						: never);
 };
 
 /**
@@ -46,23 +50,23 @@ export type EntityPopulated<
 	[K in keyof P & keyof T]: P[K] extends true
 		? Required<T>[K]
 		: // Nested entities (can still be `null` for nullable relations)
-		NonNullable<T[K]> extends infer U extends EntityDto
-		? P[K] extends EntitiesToPopulate<U>
-			? EntityPopulated<U, P[K]> & Required<T[K]>
-			: U
-		: // Mikro-orm Collection
-		NonNullable<T[K]> extends Collection<infer U extends EntityDto>
-		? Collection<
-				P[K] extends EntitiesToPopulate<U>
-					? EntityPopulated<U, P[K]> & U
-					: U
-		  >
-		: // DTO arrays
-		NonNullable<T[K]> extends Array<infer U extends EntityDto>
-		? Array<
-				P[K] extends EntitiesToPopulate<U>
-					? EntityPopulated<U, P[K]> & U
-					: U
-		  >
-		: never;
+			NonNullable<T[K]> extends infer U extends EntityDto
+			? P[K] extends EntitiesToPopulate<U>
+				? EntityPopulated<U, P[K]> & Required<T[K]>
+				: U
+			: // Mikro-orm Collection
+				NonNullable<T[K]> extends Collection<infer U extends EntityDto>
+				? Collection<
+						P[K] extends EntitiesToPopulate<U>
+							? EntityPopulated<U, P[K]> & U
+							: U
+					>
+				: // DTO arrays
+					NonNullable<T[K]> extends Array<infer U extends EntityDto>
+					? Array<
+							P[K] extends EntitiesToPopulate<U>
+								? EntityPopulated<U, P[K]> & U
+								: U
+						>
+					: never;
 };
