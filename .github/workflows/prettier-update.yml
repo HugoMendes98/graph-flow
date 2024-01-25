@@ -23,11 +23,12 @@ jobs:
     if: contains('["renovate[bot]"]', github.actor) == true
     name: Run prettier formatting if required
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -44,12 +45,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm run lint:fix
+          npm ci
+          npx nx run-many --target=lint --fix
+          npx nx run-many --target=stylelint --fix
 
           # Commit all the changes to the PR (see note on not being able to use secrets.GITHUB_TOKEN for this)
-          git config user.name "heap-code[bot]"
-          git config user.email "${{ vars.HC_BOT }}@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
           # If the status is empty, there are no uncommitted changes
           if [[ -z $(git status --porcelain) ]]; then

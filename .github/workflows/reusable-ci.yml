@@ -123,10 +123,3 @@ jobs:
           name: cypress-logs
           path: dist/cypress/apps/frontend-e2e/
           retention-days: 7
-
-  # to put everything together
-  checks:
-    runs-on: ubuntu-latest
-    needs: [check_simple, check_lint, check_build, check_tests, check_tests_e2e]
-    steps:
-      - run: echo OK
