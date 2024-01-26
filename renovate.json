@@ -4,6 +4,7 @@
 	"automergeStrategy": "squash",
 	"extends": ["config:recommended", "group:definitelyTyped"],
 	"labels": ["dependencies", "renovate"],
+	"osvVulnerabilityAlerts": true,
 	"packageRules": [
 		{
 			"extends": ["packages:jsUnitTest"],
@@ -25,6 +26,12 @@
 			]
 		},
 		{
+			"extends": ["packages:stylelint"],
+			"groupName": "Stylelinting packages",
+			"groupSlug": "stylelinting",
+			"matchPackageNames": ["nx-stylelint"]
+		},
+		{
 			"groupName": "Release it",
 			"groupSlug": "release-it",
 			"matchPackageNames": ["release-it"],
@@ -39,5 +46,9 @@
 	],
 	"rebaseWhen": "behind-base-branch",
 	"stabilityDays": 3,
-	"unicodeEmoji": true
+	"unicodeEmoji": true,
+	"vulnerabilityAlerts": {
+		"addLabels": ["security"],
+		"enabled": true
+	}
 }
