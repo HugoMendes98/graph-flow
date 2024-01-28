@@ -108,7 +108,7 @@
 		"@types/cookie-parser": "^1.4.3",
 		"@types/dockerode": "^3.3.14",
 		"@types/jest": "^29.5.1",
-		"@types/node": "18.19.8",
+		"@types/node": "18.19.9",
 		"@types/passport-jwt": "^3.0.9",
 		"@types/passport-local": "^1.0.35",
 		"@types/treeverse": "^3.0.1",
