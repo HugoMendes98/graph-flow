@@ -115,7 +115,7 @@
 		"@types/webpack-node-externals": "^3.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.62.0",
 		"@typescript-eslint/parser": "^5.62.0",
-		"@vendure/ngx-translate-extract": "^8.2.2",
+		"@vendure/ngx-translate-extract": "^9.0.0",
 		"comment-json": "^4.2.3",
 		"cypress": "^13.0.0",
 		"cz-conventional-changelog": "^3.3.0",
