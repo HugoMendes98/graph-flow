@@ -57,7 +57,7 @@
 		"treeverse": "^3.0.0",
 		"ts-pattern": "^5.0.5",
 		"tslib": "^2.6.2",
-		"zone.js": "~0.13.0"
+		"zone.js": "~0.15.0"
 	},
 	"devDependencies": {
 		"@4tw/cypress-drag-drop": "^2.2.4",
