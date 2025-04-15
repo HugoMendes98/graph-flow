@@ -47,7 +47,7 @@
 		"passport-jwt": "^4.0.1",
 		"passport-local": "^1.0.0",
 		"qs": "^6.11.0",
-		"reflect-metadata": "^0.1.13",
+		"reflect-metadata": "^0.2.0",
 		"rete": "^2.0.2",
 		"rete-angular-plugin": "^2.0.2",
 		"rete-area-plugin": "^2.0.0",
