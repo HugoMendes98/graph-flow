@@ -165,7 +165,7 @@
 		"stylelint-prettier": "^5.0.0",
 		"ts-jest": "^29.1.0",
 		"ts-node": "^10.9.1",
-		"type-fest": "^3.13.1",
+		"type-fest": "^4.0.0",
 		"typescript": "5.1.6",
 		"wait-port": "^1.1.0",
 		"webpack": "^5.88.2"
