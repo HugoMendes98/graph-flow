@@ -17,7 +17,7 @@
 		"@angular/material": "^16.2.2",
 		"@angular/platform-browser": "^16.2.3",
 		"@angular/platform-browser-dynamic": "^16.2.3",
-		"@angular/router": "^16.2.3",
+		"@angular/router": "^20.0.0",
 		"@colsen1991/ngx-translate-extract-marker": "^2.0.8",
 		"@heap-code/singleton": "^1.1.1",
 		"@mikro-orm/cli": "^5.7.14",
