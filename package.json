@@ -150,7 +150,7 @@
 		"jest-watch-typeahead": "^2.2.2",
 		"jsonc-eslint-parser": "^2.1.0",
 		"ngx-translate-testing": "^7.0.0",
-		"nx": "16.10.0",
+		"nx": "22.7.10",
 		"nx-cloud": "16.5.2",
 		"nx-stylelint": "^17.0.0",
 		"prettier": "^3.0.3",
